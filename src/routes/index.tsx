@@ -106,7 +106,9 @@ function Desplegable({
 }
 
 function SimuladorMineria() {
+  const esMovil = useIsMobile();
   const [dificultad, setDificultad] = useState(3);
+
   const [prev, setPrev] = useState(HASH_ANTERIOR);
   const [merkle, setMerkle] = useState(MERKLE);
   const [marca, setMarca] = useState("");
