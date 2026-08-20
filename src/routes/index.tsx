@@ -242,7 +242,7 @@ function SimuladorMineria() {
           <section>
             <div className="index-label">002 / el bloque</div>
             <div className="mt-3 border border-border lg:border-0">
-              <details open className="lg:open">
+              <details open={!esMovil} key={String(esMovil)}>
                 <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between px-4 py-3 text-[15px] marker:hidden lg:hidden">
                   <span>Ver el contenido del bloque</span>
                   <span className="index-label">abrir / cerrar</span>
