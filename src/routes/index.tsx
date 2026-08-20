@@ -327,7 +327,7 @@ function SimuladorMineria() {
           <div className="mt-6 border border-border p-4">
             <div className="index-label">hash actual</div>
             <p
-              className={`hash-text mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
+              className={`hash-text hash-break mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
                 encontrado ? "text-primary" : "text-foreground"
               }`}
             >
@@ -358,7 +358,7 @@ function SimuladorMineria() {
               {historial.map((h, i) => (
                 <li
                   key={`${h}-${i}`}
-                  className="hash-text text-[11px] text-muted-foreground sm:text-[12px]"
+                  className="hash-text hash-break text-[11px] text-muted-foreground sm:text-[12px]"
                   style={{ opacity: 1 - i * 0.12 }}
                 >
                   {h}
@@ -373,7 +373,7 @@ function SimuladorMineria() {
               <div className="index-label" style={{ color: "var(--instrument)" }}>
                 hash válido
               </div>
-              <p className="hash-text mt-2 text-[13px] text-primary sm:text-[15px]">
+              <p className="hash-text hash-break mt-2 text-[13px] text-primary sm:text-[15px]">
                 {encontrado.hash}
               </p>
               <p className="mt-3 text-[15px]">
@@ -403,7 +403,7 @@ function SimuladorMineria() {
           {!encontrado && !minando && mejor && intentos > 0 && (
             <div className="mt-4 border border-border p-4">
               <div className="index-label">mejor resultado hasta ahora</div>
-              <p className="hash-text mt-2 text-[13px] text-muted-foreground sm:text-[15px]">
+              <p className="hash-text hash-break mt-2 text-[13px] text-muted-foreground sm:text-[15px]">
                 {mejor.hash}
               </p>
               <p className="mt-3 text-[15px] text-muted-foreground">
@@ -446,7 +446,7 @@ function SimuladorMineria() {
               </Explica>
               <Explica titulo="Qué es un ASIC">
                 Es un ordenador construido con un único propósito: calcular hashes SHA-256
-                lo más rápido posible. A diferencia de tu portátil, no sirve para nada más
+                lo más rápido posible. A diferencia de tu ordenador, no sirve para nada más
                 — y por eso es miles de veces más rápido en esta tarea concreta.
               </Explica>
               <Explica titulo="Qué es un pool de minería">
@@ -518,13 +518,13 @@ function SimuladorMineria() {
             <Comparativa
               etiqueta="Antminer S21"
               valor="200 TH/s"
-              cifraCompleta="200.000.000.000.000 hashes por segundo"
+              cifraCompleta="Doscientos billones de hashes por segundo"
               nota="Un ASIC profesional habitual en la minería real."
             />
             <Comparativa
               etiqueta="1 PH/s"
               valor="1.000 TH/s"
-              cifraCompleta="1.000.000.000.000.000 hashes por segundo"
+              cifraCompleta="Mil billones de hashes por segundo"
               nota="Lo que hacen 5 equipos como este trabajando a la vez, sin parar."
             />
           </dl>
@@ -533,7 +533,7 @@ function SimuladorMineria() {
             className="mt-8 max-w-2xl text-[15px]"
             style={{ color: "var(--on-dark-muted)" }}
           >
-            Por eso nadie mina en solitario desde un portátil. La minería seria se hace con
+            Por eso nadie mina en solitario desde un ordenador. La minería seria se hace con
             máquinas dedicadas, en instalaciones con energía y refrigeración pensadas para
             ello.
           </p>

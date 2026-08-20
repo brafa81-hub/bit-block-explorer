@@ -114,5 +114,8 @@
 
 @utility hash-text {
   font-family: var(--font-mono);
+}
+
+@utility hash-break {
   word-break: break-all;
 }
