@@ -57,7 +57,7 @@ function generarTexturaHex(filas: number, cols: number): string {
   for (let r = 0; r < filas; r++) {
     let linea = "";
     for (let c = 0; c < cols; c++) {
-      linea += chars[bytes[r * cols + c] % 16];
+      linea += chars[(bytes[r * cols + c] ?? 0) % 16];
     }
     lineas.push(linea);
   }
