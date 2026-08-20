@@ -236,38 +236,40 @@ function SimuladorMineria() {
           {/* Bloque */}
           <section>
             <div className="index-label">002 / el bloque</div>
-            <div className="mt-3 lg:hidden">
-              <Desplegable titulo="Ver el contenido del bloque">
-                <CamposBloque
-                  prev={prev}
-                  setPrev={setPrev}
-                  merkle={merkle}
-                  setMerkle={setMerkle}
-                  marca={marca}
-                  nonce={nonce}
-                  inputClase={inputClase}
-                />
-              </Desplegable>
-            </div>
-            <div className="mt-3 hidden lg:block">
-              <CamposBloque
-                prev={prev}
-                setPrev={setPrev}
-                merkle={merkle}
-                setMerkle={setMerkle}
-                marca={marca}
-                nonce={nonce}
-                inputClase={inputClase}
-              />
+            <div className="mt-3 border border-border lg:border-0">
+              <details open className="lg:open">
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between px-4 py-3 text-[15px] marker:hidden lg:hidden">
+                  <span>Ver el contenido del bloque</span>
+                  <span className="index-label">abrir / cerrar</span>
+                </summary>
+                <div className="border-t border-border px-4 pb-5 pt-4 lg:border-0 lg:p-0">
+                  <CamposBloque
+                    prev={prev}
+                    setPrev={setPrev}
+                    merkle={merkle}
+                    setMerkle={setMerkle}
+                    marca={marca}
+                    nonce={nonce}
+                    inputClase={inputClase}
+                  />
+                </div>
+              </details>
             </div>
           </section>
+        </div>
 
+        {/* Simulación */}
+        <section className="space-y-8">
           {/* Dificultad */}
-          <section>
+          <div>
             <div className="index-label">003 / dificultad</div>
-            <label htmlFor="dif" className="mt-2 block text-[15px]">
-              Dificultad: ¿cuántos ceros debe tener el resultado al principio?
+            <label htmlFor="dif" className="mt-2 block text-[17px]">
+              Dificultad
             </label>
+            <p className="mt-1 text-[15px] text-muted-foreground">
+              Cuantos más ceros exijas al principio del resultado, más difícil es
+              acertar. Empieza en 3 y prueba a subirlo para ver cómo cambia el tiempo.
+            </p>
             <div className="mt-4 flex items-center gap-4">
               <input
                 id="dif"
@@ -284,12 +286,11 @@ function SimuladorMineria() {
             <p className="mt-1 text-[14px] text-muted-foreground">
               {DIFICULTAD_AVISO[dificultad]}
             </p>
-          </section>
-        </div>
+          </div>
 
-        {/* Simulación */}
-        <section>
+          <div>
           <div className="index-label">004 / simulación</div>
+
 
           <div className="mt-3 flex flex-wrap gap-3">
             <button
