@@ -46,7 +46,13 @@ const MERKLE = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
 function generarTexturaHex(filas: number, cols: number): string {
   const chars = "0123456789abcdef";
   const bytes = new Uint8Array(filas * cols);
-  globalThis.crypto.getRandomValues(bytes);
+  if (typeof globalThis.crypto !== "undefined") {
+    globalThis.crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = Math.floor(Math.random() * 256);
+    }
+  }
   const lineas: string[] = [];
   for (let r = 0; r < filas; r++) {
     let linea = "";
@@ -622,7 +628,7 @@ function Comparativa({
 }: {
   etiqueta: string;
   valor: string;
-  cifraCompleta?: string;
+  cifraCompleta?: string | undefined;
   nota: string;
 }) {
   return (
