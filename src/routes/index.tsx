@@ -52,12 +52,17 @@ function ascii(rows: number, cols: number) {
     return (seed >>> 0) / 4294967296;
   };
   for (let r = 0; r < rows; r++) {
-    let line = "";
-    for (let c = 0; c < cols; c++) {
-      line += chars[Math.floor(rand() * 16)];
+    const grupos: string[] = [];
+    for (let g = 0; g < 5; g++) {
+      let linea = "";
+      for (let c = 0; c < cols; c++) {
+        linea += chars[Math.floor(rand() * 16)];
+      }
+      grupos.push(linea);
     }
-    out.push(line);
+    out.push(grupos.join("  "));
   }
+
   return out.join("\n");
 }
 
