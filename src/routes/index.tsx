@@ -393,7 +393,9 @@ function SimuladorMineria() {
               </p>
             </div>
           )}
+          </div>
         </section>
+
       </div>
 
       {/* Qué está pasando */}
