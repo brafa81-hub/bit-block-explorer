@@ -43,29 +43,25 @@ const DIFICULTAD_AVISO: Record<number, string> = {
 const HASH_ANTERIOR = "00000000000000000002a7c4c1e48d76c5a37902165a270156b7a8d72728a054";
 const MERKLE = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b";
 
-function ascii(rows: number, cols: number) {
+function generarTexturaHex(filas: number, cols: number): string {
   const chars = "0123456789abcdef";
-  const out: string[] = [];
-  let seed = 987654321;
-  const rand = () => {
-    seed ^= seed << 13;
-    seed ^= seed >>> 17;
-    seed ^= seed << 5;
-    return (seed >>> 0) / 4294967296;
-  };
-  for (let r = 0; r < rows; r++) {
-    const grupos: string[] = [];
-    for (let g = 0; g < 5; g++) {
-      let linea = "";
-      for (let c = 0; c < cols; c++) {
-        linea += chars[Math.floor(rand() * 16)];
-      }
-      grupos.push(linea);
+  const bytes = new Uint8Array(filas * cols);
+  if (typeof globalThis.crypto !== "undefined") {
+    globalThis.crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = Math.floor(Math.random() * 256);
     }
-    out.push(grupos.join("  "));
   }
-
-  return out.join("\n");
+  const lineas: string[] = [];
+  for (let r = 0; r < filas; r++) {
+    let linea = "";
+    for (let c = 0; c < cols; c++) {
+      linea += chars[bytes[r * cols + c] % 16];
+    }
+    lineas.push(linea);
+  }
+  return lineas.join("\n");
 }
 
 function Campo({
@@ -222,7 +218,10 @@ function SimuladorMineria() {
 
   useEffect(() => () => void (corriendo.current = false), []);
 
-  const textura = useMemo(() => ascii(60, 64), []);
+  const [textura, setTextura] = useState("");
+  useEffect(() => {
+    setTextura(generarTexturaHex(60, 64));
+  }, []);
 
   const inputClase =
     "hash-text w-full border border-border bg-transparent px-3 py-3 text-[13px] outline-none focus:border-primary";
@@ -385,6 +384,18 @@ function SimuladorMineria() {
                 ha valido es el {formatInt(encontrado.nonce)}. Ninguna de las anteriores
                 servía.
               </p>
+              <p className="mt-3 text-[15px]">
+                Acabas de encontrar un resultado válido con la dificultad que tú has elegido.
+                En la red real la exigencia es incomparablemente mayor: cada diez minutos,
+                todas las máquinas del mundo compiten por dar con uno solo. Un ordenador
+                doméstico puede pasarse años sin encontrar ninguno.
+              </p>
+              <a
+                href="#escala-real"
+                className="mt-3 inline-block text-[14px] text-muted-foreground underline"
+              >
+                Ver la diferencia de escala
+              </a>
             </div>
           )}
 
@@ -433,6 +444,11 @@ function SimuladorMineria() {
                 el acierto unas dieciséis veces más raro, así que hacen falta muchos más
                 intentos de media.
               </Explica>
+              <Explica titulo="Qué es un ASIC">
+                Es un ordenador construido con un único propósito: calcular hashes SHA-256
+                lo más rápido posible. A diferencia de tu portátil, no sirve para nada más
+                — y por eso es miles de veces más rápido en esta tarea concreta.
+              </Explica>
               <Explica titulo="Qué es un pool de minería">
                 Muchos participantes prueban a la vez y reparten el resultado entre todos.
                 En solitario las probabilidades de acertar son mínimas, y podrías estar años
@@ -445,6 +461,7 @@ function SimuladorMineria() {
 
       {/* Cierre bitono */}
       <section
+        id="escala-real"
         className="relative mt-12 overflow-hidden lg:mt-20"
         style={{ backgroundColor: "var(--ink)" }}
       >
@@ -488,6 +505,9 @@ function SimuladorMineria() {
             <Comparativa
               etiqueta="Tu navegador"
               valor={hps > 0 ? `${formatInt(Math.round(hps))} h/s` : "—"}
+              cifraCompleta={
+                hps > 0 ? `${formatInt(Math.round(hps))} hashes por segundo` : undefined
+              }
               nota={
                 hps > 0
                   ? "Lo que acabas de medir aquí mismo."
@@ -496,14 +516,16 @@ function SimuladorMineria() {
             />
 
             <Comparativa
-              etiqueta="Un equipo ASIC moderno"
-              valor="100 TH/s"
-              nota="Cien billones por segundo. Un solo equipo hace en un segundo lo que tu navegador tardaría años."
+              etiqueta="Antminer S21"
+              valor="200 TH/s"
+              cifraCompleta="200.000.000.000.000 hashes por segundo"
+              nota="Un ASIC profesional habitual en la minería real."
             />
             <Comparativa
               etiqueta="1 PH/s"
               valor="1.000 TH/s"
-              nota="Mil veces ese equipo trabajando a la vez, sin parar."
+              cifraCompleta="1.000.000.000.000.000 hashes por segundo"
+              nota="Lo que hacen 5 equipos como este trabajando a la vez, sin parar."
             />
           </dl>
 
@@ -582,7 +604,7 @@ function CamposBloque({
         etiqueta="Nonce"
         ayuda="El único campo que el minero puede cambiar libremente. Es lo que se prueba una y otra vez."
       >
-        <p className="hash-text text-[15px] text-primary">{formatInt(nonce)}</p>
+        <p className="hash-text cursor-default text-[15px] text-primary">{formatInt(nonce)}</p>
       </Campo>
     </div>
 
@@ -601,10 +623,12 @@ function Metrica({ etiqueta, valor }: { etiqueta: string; valor: string }) {
 function Comparativa({
   etiqueta,
   valor,
+  cifraCompleta,
   nota,
 }: {
   etiqueta: string;
   valor: string;
+  cifraCompleta?: string | undefined;
   nota: string;
 }) {
   return (
@@ -618,6 +642,14 @@ function Comparativa({
       >
         {valor}
       </dd>
+      {cifraCompleta && (
+        <dd
+          className="hash-text mt-1 text-[13px]"
+          style={{ color: "var(--on-dark-muted)" }}
+        >
+          {cifraCompleta}
+        </dd>
+      )}
       <p className="mt-2 text-[14px]" style={{ color: "var(--on-dark-muted)" }}>
         {nota}
       </p>
