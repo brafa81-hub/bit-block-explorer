@@ -44,12 +44,17 @@ const MERKLE = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
 function ascii(rows: number, cols: number) {
   const chars = "0123456789abcdef";
   const out: string[] = [];
-  let seed = 7;
+  let seed = 987654321;
+  const rand = () => {
+    seed ^= seed << 13;
+    seed ^= seed >>> 17;
+    seed ^= seed << 5;
+    return (seed >>> 0) / 4294967296;
+  };
   for (let r = 0; r < rows; r++) {
     let line = "";
     for (let c = 0; c < cols; c++) {
-      seed = (seed * 1103515245 + 12345) % 2147483648;
-      line += chars[seed % 16];
+      line += chars[Math.floor(rand() * 16)];
     }
     out.push(line);
   }
@@ -57,25 +62,23 @@ function ascii(rows: number, cols: number) {
 }
 
 function Campo({
-  indice,
   etiqueta,
   ayuda,
   children,
 }: {
-  indice: string;
   etiqueta: string;
   ayuda: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="border-t border-border pt-4">
-      <div className="index-label">{indice}</div>
-      <label className="mt-1 block text-[15px]">{etiqueta}</label>
+      <label className="block text-[15px]">{etiqueta}</label>
       <p className="text-[13px] leading-relaxed text-muted-foreground">{ayuda}</p>
       <div className="mt-2">{children}</div>
     </div>
   );
 }
+
 
 function Desplegable({
   titulo,
