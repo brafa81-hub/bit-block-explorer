@@ -213,7 +213,7 @@ function SimuladorMineria() {
 
   useEffect(() => () => void (corriendo.current = false), []);
 
-  const textura = useMemo(() => ascii(40, 220), []);
+  const textura = useMemo(() => ascii(60, 64), []);
 
   const inputClase =
     "hash-text w-full border border-border bg-transparent px-3 py-3 text-[13px] outline-none focus:border-primary";
