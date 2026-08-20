@@ -446,7 +446,7 @@ function SimuladorMineria() {
             fontFamily: "var(--font-mono)",
             fontSize: "10px",
             lineHeight: "14px",
-            color: "rgba(240,237,228,0.07)",
+            color: "rgba(240,237,228,0.05)",
           }}
         >
           {textura}
@@ -457,8 +457,9 @@ function SimuladorMineria() {
             className="index-label"
             style={{ color: "var(--instrument-dark)" }}
           >
-            001 / escala real
+            006 / escala real
           </div>
+
           <h2
             className="mt-3 max-w-2xl text-2xl sm:text-3xl"
             style={{ color: "var(--on-dark)" }}
