@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 import {
   doubleSha256,
   formatDecimal,
@@ -44,38 +46,46 @@ const MERKLE = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
 function ascii(rows: number, cols: number) {
   const chars = "0123456789abcdef";
   const out: string[] = [];
-  let seed = 7;
+  let seed = 987654321;
+  const rand = () => {
+    seed ^= seed << 13;
+    seed ^= seed >>> 17;
+    seed ^= seed << 5;
+    return (seed >>> 0) / 4294967296;
+  };
   for (let r = 0; r < rows; r++) {
-    let line = "";
-    for (let c = 0; c < cols; c++) {
-      seed = (seed * 1103515245 + 12345) % 2147483648;
-      line += chars[seed % 16];
+    const grupos: string[] = [];
+    for (let g = 0; g < 5; g++) {
+      let linea = "";
+      for (let c = 0; c < cols; c++) {
+        linea += chars[Math.floor(rand() * 16)];
+      }
+      grupos.push(linea);
     }
-    out.push(line);
+    out.push(grupos.join("  "));
   }
+
   return out.join("\n");
 }
 
 function Campo({
-  indice,
   etiqueta,
   ayuda,
   children,
 }: {
-  indice: string;
   etiqueta: string;
   ayuda: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="border-t border-border pt-4">
-      <div className="index-label">{indice}</div>
-      <label className="mt-1 block text-[15px]">{etiqueta}</label>
+      <label className="block text-[15px]">{etiqueta}</label>
       <p className="text-[13px] leading-relaxed text-muted-foreground">{ayuda}</p>
       <div className="mt-2">{children}</div>
     </div>
   );
 }
+
 
 function Desplegable({
   titulo,
@@ -98,7 +108,9 @@ function Desplegable({
 }
 
 function SimuladorMineria() {
+  const esMovil = useIsMobile();
   const [dificultad, setDificultad] = useState(3);
+
   const [prev, setPrev] = useState(HASH_ANTERIOR);
   const [merkle, setMerkle] = useState(MERKLE);
   const [marca, setMarca] = useState("");
@@ -210,7 +222,7 @@ function SimuladorMineria() {
 
   useEffect(() => () => void (corriendo.current = false), []);
 
-  const textura = useMemo(() => ascii(40, 220), []);
+  const textura = useMemo(() => ascii(60, 64), []);
 
   const inputClase =
     "hash-text w-full border border-border bg-transparent px-3 py-3 text-[13px] outline-none focus:border-primary";
@@ -233,38 +245,40 @@ function SimuladorMineria() {
           {/* Bloque */}
           <section>
             <div className="index-label">002 / el bloque</div>
-            <div className="mt-3 lg:hidden">
-              <Desplegable titulo="Ver el contenido del bloque">
-                <CamposBloque
-                  prev={prev}
-                  setPrev={setPrev}
-                  merkle={merkle}
-                  setMerkle={setMerkle}
-                  marca={marca}
-                  nonce={nonce}
-                  inputClase={inputClase}
-                />
-              </Desplegable>
-            </div>
-            <div className="mt-3 hidden lg:block">
-              <CamposBloque
-                prev={prev}
-                setPrev={setPrev}
-                merkle={merkle}
-                setMerkle={setMerkle}
-                marca={marca}
-                nonce={nonce}
-                inputClase={inputClase}
-              />
+            <div className="mt-3 border border-border lg:border-0">
+              <details open={!esMovil} key={String(esMovil)}>
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between px-4 py-3 text-[15px] marker:hidden lg:hidden">
+                  <span>Ver el contenido del bloque</span>
+                  <span className="index-label">abrir / cerrar</span>
+                </summary>
+                <div className="border-t border-border px-4 pb-5 pt-4 lg:border-0 lg:p-0">
+                  <CamposBloque
+                    prev={prev}
+                    setPrev={setPrev}
+                    merkle={merkle}
+                    setMerkle={setMerkle}
+                    marca={marca}
+                    nonce={nonce}
+                    inputClase={inputClase}
+                  />
+                </div>
+              </details>
             </div>
           </section>
+        </div>
 
+        {/* Simulación */}
+        <section className="space-y-8">
           {/* Dificultad */}
-          <section>
+          <div>
             <div className="index-label">003 / dificultad</div>
-            <label htmlFor="dif" className="mt-2 block text-[15px]">
-              Dificultad: ¿cuántos ceros debe tener el resultado al principio?
+            <label htmlFor="dif" className="mt-2 block text-[17px]">
+              Dificultad
             </label>
+            <p className="mt-1 text-[15px] text-muted-foreground">
+              Cuantos más ceros exijas al principio del resultado, más difícil es
+              acertar. Empieza en 3 y prueba a subirlo para ver cómo cambia el tiempo.
+            </p>
             <div className="mt-4 flex items-center gap-4">
               <input
                 id="dif"
@@ -281,12 +295,11 @@ function SimuladorMineria() {
             <p className="mt-1 text-[14px] text-muted-foreground">
               {DIFICULTAD_AVISO[dificultad]}
             </p>
-          </section>
-        </div>
+          </div>
 
-        {/* Simulación */}
-        <section>
+          <div>
           <div className="index-label">004 / simulación</div>
+
 
           <div className="mt-3 flex flex-wrap gap-3">
             <button
@@ -389,7 +402,9 @@ function SimuladorMineria() {
               </p>
             </div>
           )}
+          </div>
         </section>
+
       </div>
 
       {/* Qué está pasando */}
@@ -440,7 +455,7 @@ function SimuladorMineria() {
             fontFamily: "var(--font-mono)",
             fontSize: "10px",
             lineHeight: "14px",
-            color: "rgba(240,237,228,0.07)",
+            color: "rgba(240,237,228,0.05)",
           }}
         >
           {textura}
@@ -451,8 +466,9 @@ function SimuladorMineria() {
             className="index-label"
             style={{ color: "var(--instrument-dark)" }}
           >
-            001 / escala real
+            006 / escala real
           </div>
+
           <h2
             className="mt-3 max-w-2xl text-2xl sm:text-3xl"
             style={{ color: "var(--on-dark)" }}
@@ -471,9 +487,14 @@ function SimuladorMineria() {
           <dl className="mt-10 grid gap-px sm:grid-cols-3" style={{ backgroundColor: "var(--on-dark-border)" }}>
             <Comparativa
               etiqueta="Tu navegador"
-              valor={`${formatInt(Math.round(hps))} h/s`}
-              nota="Lo que acabas de medir aquí mismo."
+              valor={hps > 0 ? `${formatInt(Math.round(hps))} h/s` : "—"}
+              nota={
+                hps > 0
+                  ? "Lo que acabas de medir aquí mismo."
+                  : "Ejecuta la simulación para medirlo."
+              }
             />
+
             <Comparativa
               etiqueta="Un equipo ASIC moderno"
               valor="100 TH/s"
@@ -533,7 +554,6 @@ function CamposBloque({
   return (
     <div className="space-y-4">
       <Campo
-        indice="001 /"
         etiqueta="Bloque anterior"
         ayuda="Cada bloque apunta al anterior. Así se forma la cadena."
       >
@@ -545,7 +565,6 @@ function CamposBloque({
         />
       </Campo>
       <Campo
-        indice="002 /"
         etiqueta="Raíz de transacciones (Merkle root)"
         ayuda="Un resumen de todas las transacciones que contiene el bloque."
       >
@@ -556,25 +575,17 @@ function CamposBloque({
           spellCheck={false}
         />
       </Campo>
-      <Campo
-        indice="003 /"
-        etiqueta="Marca de tiempo"
-        ayuda="Cuándo se creó el bloque."
-      >
-        <p className="hash-text border border-border px-3 py-3 text-[13px] text-muted-foreground">
-          {marca || "—"}
-        </p>
+      <Campo etiqueta="Marca de tiempo" ayuda="Cuándo se creó el bloque.">
+        <p className="hash-text text-[13px] text-muted-foreground">{marca || "—"}</p>
       </Campo>
       <Campo
-        indice="004 /"
         etiqueta="Nonce"
         ayuda="El único campo que el minero puede cambiar libremente. Es lo que se prueba una y otra vez."
       >
-        <p className="hash-text border border-border px-3 py-3 text-[13px] text-primary">
-          {formatInt(nonce)}
-        </p>
+        <p className="hash-text text-[15px] text-primary">{formatInt(nonce)}</p>
       </Campo>
     </div>
+
   );
 }
 
