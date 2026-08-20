@@ -478,9 +478,14 @@ function SimuladorMineria() {
           <dl className="mt-10 grid gap-px sm:grid-cols-3" style={{ backgroundColor: "var(--on-dark-border)" }}>
             <Comparativa
               etiqueta="Tu navegador"
-              valor={`${formatInt(Math.round(hps))} h/s`}
-              nota="Lo que acabas de medir aquí mismo."
+              valor={hps > 0 ? `${formatInt(Math.round(hps))} h/s` : "—"}
+              nota={
+                hps > 0
+                  ? "Lo que acabas de medir aquí mismo."
+                  : "Ejecuta la simulación para medirlo."
+              }
             />
+
             <Comparativa
               etiqueta="Un equipo ASIC moderno"
               valor="100 TH/s"
