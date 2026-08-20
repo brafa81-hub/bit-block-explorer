@@ -539,7 +539,6 @@ function CamposBloque({
   return (
     <div className="space-y-4">
       <Campo
-        indice="001 /"
         etiqueta="Bloque anterior"
         ayuda="Cada bloque apunta al anterior. Así se forma la cadena."
       >
@@ -551,7 +550,6 @@ function CamposBloque({
         />
       </Campo>
       <Campo
-        indice="002 /"
         etiqueta="Raíz de transacciones (Merkle root)"
         ayuda="Un resumen de todas las transacciones que contiene el bloque."
       >
@@ -562,25 +560,17 @@ function CamposBloque({
           spellCheck={false}
         />
       </Campo>
-      <Campo
-        indice="003 /"
-        etiqueta="Marca de tiempo"
-        ayuda="Cuándo se creó el bloque."
-      >
-        <p className="hash-text border border-border px-3 py-3 text-[13px] text-muted-foreground">
-          {marca || "—"}
-        </p>
+      <Campo etiqueta="Marca de tiempo" ayuda="Cuándo se creó el bloque.">
+        <p className="hash-text text-[13px] text-muted-foreground">{marca || "—"}</p>
       </Campo>
       <Campo
-        indice="004 /"
         etiqueta="Nonce"
         ayuda="El único campo que el minero puede cambiar libremente. Es lo que se prueba una y otra vez."
       >
-        <p className="hash-text border border-border px-3 py-3 text-[13px] text-primary">
-          {formatInt(nonce)}
-        </p>
+        <p className="hash-text text-[15px] text-primary">{formatInt(nonce)}</p>
       </Campo>
     </div>
+
   );
 }
 
