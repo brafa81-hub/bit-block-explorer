@@ -131,6 +131,8 @@ function SimuladorMineria() {
   const total = useRef(0);
   const nonceRef = useRef(0);
   const ultimaPintura = useRef(0);
+  const seccionEscalaRef = useRef<HTMLElement | null>(null);
+
 
   useEffect(() => {
     setMarca(
@@ -220,8 +222,29 @@ function SimuladorMineria() {
 
   const [textura, setTextura] = useState("");
   useEffect(() => {
-    setTextura(generarTexturaHex(60, 64));
+    const medirAnchoCaracter = () => {
+      if (typeof document === "undefined") return 6.5;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return 6.5;
+      ctx.font = '10px "IBM Plex Mono", ui-monospace, monospace';
+      return ctx.measureText("0").width;
+    };
+
+    const actualizarTextura = () => {
+      const el = seccionEscalaRef.current;
+      if (!el) return;
+      const ancho = el.getBoundingClientRect().width;
+      const anchoCaracter = medirAnchoCaracter();
+      const columnas = Math.ceil(ancho / anchoCaracter) + 4;
+      setTextura(generarTexturaHex(60, columnas));
+    };
+
+    actualizarTextura();
+    window.addEventListener("resize", actualizarTextura);
+    return () => window.removeEventListener("resize", actualizarTextura);
   }, []);
+
 
   const inputClase =
     "hash-text w-full border border-border bg-transparent px-3 py-3 text-[13px] outline-none focus:border-primary";
@@ -418,11 +441,12 @@ function SimuladorMineria() {
 
       </div>
 
-      {/* Qué está pasando */}
+      {/* Cómo funciona */}
       <section className="mt-12 lg:mt-16">
-        <div className="index-label">005 / ¿qué está pasando?</div>
+        <div className="index-label">005 / cómo funciona</div>
         <div className="mt-3">
-          <Desplegable titulo="¿Qué está pasando?">
+          <Desplegable titulo="Cómo funciona">
+
             <div className="max-w-3xl space-y-6">
               <Explica titulo="Qué es un hash">
                 Es una función que convierte cualquier dato en un código de longitud fija.
@@ -461,10 +485,12 @@ function SimuladorMineria() {
 
       {/* Cierre bitono */}
       <section
+        ref={seccionEscalaRef}
         id="escala-real"
         className="relative mt-12 overflow-hidden lg:mt-20"
         style={{ backgroundColor: "var(--ink)" }}
       >
+
         <pre
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 select-none whitespace-pre"
