@@ -4,7 +4,7 @@ function toHex(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
   let out = "";
   for (let i = 0; i < bytes.length; i++) {
-    out += bytes[i].toString(16).padStart(2, "0");
+    out += (bytes[i] ?? 0).toString(16).padStart(2, "0");
   }
   return out;
 }
