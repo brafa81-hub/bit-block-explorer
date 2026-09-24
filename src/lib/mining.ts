@@ -23,13 +23,14 @@ export function leadingZeros(hash: string): number {
 }
 
 export function formatInt(value: number): string {
-  return new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0, useGrouping: "always" }).format(value);
 }
 
 export function formatDecimal(value: number, digits = 1): string {
   return new Intl.NumberFormat("es-ES", {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
+    useGrouping: "always",
   }).format(value);
 }
 
