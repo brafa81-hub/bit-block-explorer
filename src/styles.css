@@ -119,3 +119,10 @@
 @utility hash-break {
   word-break: break-all;
 }
+
+@utility etiqueta {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--stone);
+}
