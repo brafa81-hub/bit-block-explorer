@@ -111,6 +111,7 @@ export function totalCentimos(producto: ProductoId, cantidad: number): number {
 const formateador = new Intl.NumberFormat("es-ES", {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
+  useGrouping: "always",
 });
 
 /** Formato español: coma decimal, punto de miles y el símbolo detrás. */
