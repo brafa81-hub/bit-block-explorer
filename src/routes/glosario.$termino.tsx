@@ -103,7 +103,7 @@ function Ficha() {
           <p className="mt-3 text-[16px]">{t.enLaPractica}</p>
           <Link
             to="/catalogo"
-            className="mt-5 inline-flex min-h-[44px] items-center bg-primary px-5 text-[15px] text-primary-foreground hover:opacity-90"
+            className="mt-5 inline-block text-[15px] text-primary underline underline-offset-4"
           >
             Apúntate a la lista de espera
           </Link>
