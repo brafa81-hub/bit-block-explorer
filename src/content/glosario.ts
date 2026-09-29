@@ -1,3 +1,5 @@
+import { SERVICIO } from "./servicio";
+
 export type CategoriaGlosario =
   | "Fundamentos"
   | "Prueba de trabajo"
@@ -356,7 +358,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     explicacion: [
       "Es como una peña de lotería. Cada uno pone su parte, juegan juntos y el premio se reparte.",
       "Un minero pequeño en solitario podría pasar muchísimo tiempo sin encontrar un bloque. En un pool recibe pagos pequeños y frecuentes.",
-      "En realidad, el pool no cambia la probabilidad total. Solo suaviza la suerte para que los ingresos sean más regulares.",
+      "En realidad, el pool no cambia la probabilidad total. Solo suaviza la suerte para que los pagos sean más regulares.",
     ],
     relacionados: ["share", "esquemas-de-pago", "stratum"],
     revisado: R,
@@ -368,7 +370,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     esencial: false,
     definicion: "Un hash que no vale para la red pero sí cumple una dificultad más baja. Sirve para demostrar al pool cuánto trabajas.",
     explicacion: [
-      "Es como fichar en el trabajo. No demuestra que hayas terminado el proyecto, pero sí que has estado currando.",
+      "Es como fichar en el trabajo. No demuestra que hayas terminado el proyecto, pero sí que has estado trabajando.",
       "El pool pide hashes más fáciles que el de la red. Contando cuántos le envías, calcula tu potencia real.",
       "En realidad, de vez en cuando una share también cumple la dificultad de la red. Ese es el bloque que el pool gana.",
     ],
@@ -474,8 +476,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Durante ese tiempo, la potencia apunta al pool que tú indiques y trabaja como la de cualquier minero.",
       "En realidad, alquilas cálculo, no bloques. Lo que ocurra depende de la suerte, la dificultad y las reglas del pool.",
     ],
-    enLaPractica:
-      "En HashFlow eliges un bloque de 1 PH/s durante 8 o 24 horas y la dirección de tu pool. Sin máquinas, sin ruido y sin conocimientos técnicos.",
+    enLaPractica: `En HashFlow eliges un bloque de ${SERVICIO.productos.jornada.potencia} durante ${SERVICIO.productos.jornada.horas} o ${SERVICIO.productos.dia.horas} horas y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga HashFlow. No es una inversión y ningún resultado está garantizado.`,
     relacionados: ["mercado-de-hashrate", "pool-de-destino", "orden"],
     revisado: R,
   },
@@ -504,8 +505,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Una orden define la potencia, la duración y los datos del pool de destino.",
       "En realidad, la potencia entregada puede oscilar un poco durante la orden. Lo normal es medirla como media del periodo.",
     ],
-    enLaPractica:
-      "En HashFlow la orden es sencilla: eliges la duración, pegas los datos de tu pool y listo. Por ahora, apúntate a la lista de espera.",
+    enLaPractica: `En HashFlow la orden es sencilla: eliges la duración y dejas la dirección de tu wallet; del resto se encarga HashFlow, y el pago se realiza ${SERVICIO.plazoPago}. Recuerda que ${SERVICIO.variacionPotencia} y que no es una inversión ni garantiza un resultado.`,
     relacionados: ["hashrate-alquilado", "pool-de-destino"],
     revisado: R,
   },
@@ -520,8 +520,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Para configurarlo necesitas la dirección stratum del pool y tu usuario en él.",
       "En realidad, las recompensas no las pagamos nosotros: las paga el pool según su esquema de pago.",
     ],
-    enLaPractica:
-      "En HashFlow solo tienes que indicar la dirección stratum y tu usuario del pool. El resto lo gestionamos por ti.",
+    enLaPractica: `Con HashFlow no configuras ningún pool: eliges la duración, dejas la dirección de tu wallet y HashFlow dirige la potencia por ti, de modo que los pagos llegan a tu wallet. No es una inversión y ningún resultado está garantizado.`,
     relacionados: ["pool", "stratum", "esquemas-de-pago"],
     revisado: R,
   },
@@ -550,10 +549,9 @@ export const GLOSARIO: TerminoGlosario[] = [
     explicacion: [
       "Es como reservar un bloque de habitaciones de hotel para un congreso en lugar de una sola noche.",
       "Pensada para empresas, formación o proyectos que quieren muchas jornadas de potencia a la vez.",
-      "En realidad, funciona igual que el alquiler individual. Solo cambia la cantidad y cómo se presupuesta.",
+      "En realidad, funciona igual que el alquiler individual. Solo cambia la cantidad.",
     ],
-    enLaPractica:
-      "En el catálogo de HashFlow puedes pedir presupuesto desde 10 unidades. Te contestamos cuando abramos.",
+    enLaPractica: `Para empresas, HashFlow vende códigos regalo: desde ${SERVICIO.tramosCorporate[0].min} unidades con un ${SERVICIO.tramosCorporate[0].descuentoPct} % de descuento y a partir de ${SERVICIO.tramosCorporate[1].min} con un ${SERVICIO.tramosCorporate[1].descuentoPct} %. Cada empleado canjea su código con su propia wallet. No es una inversión y ningún resultado está garantizado.`,
     relacionados: ["hashrate-alquilado", "orden"],
     revisado: R,
   },
