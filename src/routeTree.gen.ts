@@ -13,7 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as GlosarioIndexRouteImport } from './routes/glosario.index'
-import { Route as GlosarioTerminoRouteImport } from './routes/glosario.$termino'
+import { Route as GlosarioSlugRouteImport } from './routes/glosario.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +35,9 @@ const GlosarioIndexRoute = GlosarioIndexRouteImport.update({
   path: '/glosario/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GlosarioTerminoRoute = GlosarioTerminoRouteImport.update({
-  id: '/glosario/$termino',
-  path: '/glosario/$termino',
+const GlosarioSlugRoute = GlosarioSlugRouteImport.update({
+  id: '/glosario/$slug',
+  path: '/glosario/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,14 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/catalogo': typeof CatalogoRoute
   '/privacidad': typeof PrivacidadRoute
-  '/glosario/$termino': typeof GlosarioTerminoRoute
+  '/glosario/$slug': typeof GlosarioSlugRoute
   '/glosario/': typeof GlosarioIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/catalogo': typeof CatalogoRoute
   '/privacidad': typeof PrivacidadRoute
-  '/glosario/$termino': typeof GlosarioTerminoRoute
+  '/glosario/$slug': typeof GlosarioSlugRoute
   '/glosario': typeof GlosarioIndexRoute
 }
 export interface FileRoutesById {
@@ -60,21 +60,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/catalogo': typeof CatalogoRoute
   '/privacidad': typeof PrivacidadRoute
-  '/glosario/$termino': typeof GlosarioTerminoRoute
+  '/glosario/$slug': typeof GlosarioSlugRoute
   '/glosario/': typeof GlosarioIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/catalogo' | '/privacidad' | '/glosario/$termino' | '/glosario/'
+    '/' | '/catalogo' | '/privacidad' | '/glosario/$slug' | '/glosario/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/catalogo' | '/privacidad' | '/glosario/$termino' | '/glosario'
+  to: '/' | '/catalogo' | '/privacidad' | '/glosario/$slug' | '/glosario'
   id:
     | '__root__'
     | '/'
     | '/catalogo'
     | '/privacidad'
-    | '/glosario/$termino'
+    | '/glosario/$slug'
     | '/glosario/'
   fileRoutesById: FileRoutesById
 }
@@ -82,7 +82,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CatalogoRoute: typeof CatalogoRoute
   PrivacidadRoute: typeof PrivacidadRoute
-  GlosarioTerminoRoute: typeof GlosarioTerminoRoute
+  GlosarioSlugRoute: typeof GlosarioSlugRoute
   GlosarioIndexRoute: typeof GlosarioIndexRoute
 }
 
@@ -116,11 +116,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GlosarioIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/glosario/$termino': {
-      id: '/glosario/$termino'
-      path: '/glosario/$termino'
-      fullPath: '/glosario/$termino'
-      preLoaderRoute: typeof GlosarioTerminoRouteImport
+    '/glosario/$slug': {
+      id: '/glosario/$slug'
+      path: '/glosario/$slug'
+      fullPath: '/glosario/$slug'
+      preLoaderRoute: typeof GlosarioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -130,7 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CatalogoRoute: CatalogoRoute,
   PrivacidadRoute: PrivacidadRoute,
-  GlosarioTerminoRoute: GlosarioTerminoRoute,
+  GlosarioSlugRoute: GlosarioSlugRoute,
   GlosarioIndexRoute: GlosarioIndexRoute,
 }
 export const routeTree = rootRouteImport

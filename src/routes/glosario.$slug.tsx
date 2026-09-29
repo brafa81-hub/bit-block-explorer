@@ -4,7 +4,7 @@ import { getTermino, idx, indiceDe } from "@/content/glosario";
 
 const BASE = "https://bit-block-explorer.lovable.app/glosario";
 
-export const Route = createFileRoute("/glosario/$termino")({
+export const Route = createFileRoute("/glosario/$slug")({
   loader: ({ params }) => {
     const t = getTermino(params.termino);
     if (!t) throw notFound();
