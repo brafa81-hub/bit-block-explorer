@@ -561,8 +561,12 @@ export function getTermino(slug: string) {
   return GLOSARIO.find((t) => t.slug === slug);
 }
 
+export const GLOSARIO_ALFABETICO = [...GLOSARIO].sort((a, b) =>
+  a.termino.localeCompare(b.termino, "es", { sensitivity: "base" }),
+);
+
 export function indiceDe(slug: string) {
-  return GLOSARIO.findIndex((t) => t.slug === slug) + 1;
+  return GLOSARIO_ALFABETICO.findIndex((t) => t.slug === slug) + 1;
 }
 
 export const idx = (n: number) => String(n).padStart(3, "0");

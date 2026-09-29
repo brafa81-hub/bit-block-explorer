@@ -23,8 +23,8 @@ export function Termino({ slug, children }: { slug: string; children?: ReactNode
         <p className="mt-1 text-[15px] font-medium">{t.termino}</p>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{t.definicion}</p>
         <Link
-          to="/glosario/$termino"
-          params={{ termino: t.slug }}
+          to="/glosario/$slug"
+          params={{ slug: t.slug }}
           className="mt-3 inline-block text-[14px] text-primary underline underline-offset-4"
         >
           Ver ficha completa

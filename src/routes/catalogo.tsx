@@ -39,8 +39,6 @@ export const Route = createFileRoute("/catalogo")({
   component: Catalogo,
 });
 
-type Estado = "cerrado" | "abierto" | "enviando" | "hecho";
-
 function Formulario({
   tipo,
   producto,
@@ -246,16 +244,13 @@ function Catalogo() {
           {/* Tramos: tarjetas en móvil */}
           <div className="mt-8 space-y-4 sm:hidden">
             {TRAMOS.map((t) => (
-              <div key={t.id} className="border border-[var(--on-dark-border)] p-4">
+              <div key={t.min} className="border border-[var(--on-dark-border)] p-4">
                 <div className="flex items-baseline justify-between">
-                  <span className="hash-text text-[13px]">Tramo {t.id}</span>
+                  <span className="hash-text text-[13px]">{t.unidades} uds.</span>
                   <span className="hash-text text-[13px] text-[var(--on-dark-muted)]">
                     {t.descuento}
                   </span>
                 </div>
-                <p className="hash-text mt-2 text-[13px] text-[var(--on-dark-muted)]">
-                  {t.unidades} unidades
-                </p>
                 <p className="hash-text mt-3 text-[15px]">
                   Jornada: {formatearEuros(t.jornadaCentimos)} / ud
                 </p>
@@ -271,7 +266,6 @@ function Catalogo() {
             <table className="w-full border-collapse text-left text-[15px]">
               <thead>
                 <tr className="border-b border-[var(--on-dark-border)]">
-                  <th className="py-3 pr-4 font-medium">Tramo</th>
                   <th className="py-3 pr-4 font-medium">Unidades</th>
                   <th className="py-3 pr-4 font-medium">Descuento</th>
                   <th className="py-3 pr-4 font-medium">Jornada / ud</th>
@@ -280,8 +274,7 @@ function Catalogo() {
               </thead>
               <tbody>
                 {TRAMOS.map((t) => (
-                  <tr key={t.id} className="border-b border-[var(--on-dark-border)]">
-                    <td className="hash-text py-3 pr-4">{t.id}</td>
+                   <tr key={t.min} className="border-b border-[var(--on-dark-border)]">
                     <td className="hash-text py-3 pr-4">{t.unidades}</td>
                     <td className="hash-text py-3 pr-4">{t.descuento}</td>
                     <td className="hash-text py-3 pr-4">
@@ -328,7 +321,7 @@ function Catalogo() {
                 <input
                   id="cantidad-empresa"
                   type="number"
-                  min={MINIMO_VOLUMEN}
+                   min={1}
                   step={1}
                   value={cantidad}
                   onChange={(e) => setCantidad(Number(e.target.value))}
@@ -337,14 +330,10 @@ function Catalogo() {
               </div>
             </div>
 
-            {tramo ? (
-              <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
-                <p>
-                  Tramo aplicado:{" "}
-                  <span className="hash-text">
-                    {tramo.id} · {tramo.unidades} unidades · {tramo.descuento}
-                  </span>
-                </p>
+             <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
+                 <p>{tramo ? "Tramo aplicado:" : "Precio normal, sin descuento:"}{" "}
+                   {tramo && <span className="hash-text">{tramo.unidades} unidades · {tramo.descuento}</span>}
+                 </p>
                 <p>
                   Precio por unidad: <span className="hash-text">{formatearEuros(unitario)}</span>
                 </p>
@@ -352,12 +341,8 @@ function Catalogo() {
                   Total: <span className="hash-text">{formatearEuros(total)}</span>
                 </p>
                 <p className="text-[13px] text-[var(--on-dark-muted)]">IVA incluido</p>
-              </div>
-            ) : (
-              <p className="mt-6 border-t border-[var(--on-dark-border)] pt-5 text-[15px] text-[var(--on-dark-muted)]">
-                El precio por volumen empieza en 10 unidades.
-              </p>
-            )}
+               </div>
+             {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} unidades.</p>}
 
             {empresaAbierto ? (
               <Formulario
@@ -373,7 +358,7 @@ function Catalogo() {
                 onClick={() => setEmpresaAbierto(true)}
                 className="mt-6 min-h-[44px] w-full border border-[var(--instrument-dark)] px-5 text-[15px] text-[var(--instrument-dark)] sm:w-auto"
               >
-                Pedir presupuesto
+                 Apúntate a la lista de espera
               </button>
             )}
           </div>

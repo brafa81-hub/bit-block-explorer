@@ -1,8 +1,5 @@
-/**
- * Única fuente de precios del catálogo. Todo en céntimos enteros.
- * Los totales se calculan siempre como precio unitario × cantidad.
- * Todos los precios incluyen IVA.
- */
+/** Precios y tramos derivados de los datos canónicos del servicio. */
+import { SERVICIO } from "@/content/servicio";
 
 export type ProductoId = "jornada" | "dia";
 
@@ -15,27 +12,22 @@ export interface Producto {
   nota: string;
 }
 
-export const PRODUCTOS: Producto[] = [
-  {
-    id: "jornada",
-    nombre: "Jornada",
-    horas: 8,
-    potencia: "1 PH/s",
-    precioCentimos: 2995,
-    nota: "La opción recomendada.",
-  },
-  {
-    id: "dia",
-    nombre: "Día de minería",
-    horas: 24,
-    potencia: "1 PH/s",
-    precioCentimos: 7995,
-    nota: "Pensado para regalar.",
-  },
-];
+function aCentimos(precio: string): number {
+  return Math.round(Number(precio.replace("€", "").trim().replace(",", ".")) * 100);
+}
+
+export const PRODUCTOS: Producto[] = (
+  Object.entries(SERVICIO.productos) as [ProductoId, (typeof SERVICIO.productos)[ProductoId]][]
+).map(([id, datos]) => ({
+  id,
+  nombre: datos.nombre,
+  horas: datos.horas,
+  potencia: datos.potencia,
+  precioCentimos: aCentimos(datos.precio),
+  nota: id === "jornada" ? "La opción recomendada." : "Pensado para regalar.",
+}));
 
 export interface Tramo {
-  id: string;
   min: number;
   max: number | null;
   unidades: string;
@@ -44,46 +36,16 @@ export interface Tramo {
   diaCentimos: number;
 }
 
-export const TRAMOS: Tramo[] = [
-  {
-    id: "S",
-    min: 10,
-    max: 24,
-    unidades: "10-24",
-    descuento: "5 %",
-    jornadaCentimos: 2845,
-    diaCentimos: 7595,
-  },
-  {
-    id: "M",
-    min: 25,
-    max: 49,
-    unidades: "25-49",
-    descuento: "10 %",
-    jornadaCentimos: 2696,
-    diaCentimos: 7196,
-  },
-  {
-    id: "L",
-    min: 50,
-    max: 99,
-    unidades: "50-99",
-    descuento: "15 %",
-    jornadaCentimos: 2546,
-    diaCentimos: 6796,
-  },
-  {
-    id: "XL",
-    min: 100,
-    max: null,
-    unidades: "100 o más",
-    descuento: "20 %",
-    jornadaCentimos: 2396,
-    diaCentimos: 6396,
-  },
-];
+export const TRAMOS: Tramo[] = SERVICIO.tramosCorporate.map(({ min, max, descuentoPct }) => ({
+  min,
+  max,
+  unidades: max === null ? `${min}+` : `${min}-${max}`,
+  descuento: `−${descuentoPct} %`,
+  jornadaCentimos: Math.round(getProducto("jornada").precioCentimos * (100 - descuentoPct) / 100),
+  diaCentimos: Math.round(getProducto("dia").precioCentimos * (100 - descuentoPct) / 100),
+}));
 
-export const MINIMO_VOLUMEN = 10;
+export const MINIMO_VOLUMEN = SERVICIO.tramosCorporate[0].min;
 
 export function getProducto(id: ProductoId): Producto {
   const p = PRODUCTOS.find((x) => x.id === id);

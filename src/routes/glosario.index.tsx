@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
-import { CATEGORIAS, GLOSARIO, idx, type CategoriaGlosario } from "@/content/glosario";
+import { CATEGORIAS, GLOSARIO_ALFABETICO, idx, type CategoriaGlosario } from "@/content/glosario";
 
 const URL = "https://bit-block-explorer.lovable.app/glosario";
 const TITULO = "Glosario de minería de Bitcoin explicado fácil";
@@ -36,11 +36,11 @@ function chip(activo: boolean) {
 function GlosarioIndice() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<CategoriaGlosario | null>(null);
-  const [soloEsenciales, setSoloEsenciales] = useState(true);
+  const [soloEsenciales, setSoloEsenciales] = useState(false);
 
   const lista = useMemo(() => {
     const n = normalizar(q.trim());
-    return GLOSARIO.map((t, i) => ({ t, n: i + 1 })).filter(
+    return GLOSARIO_ALFABETICO.map((t, i) => ({ t, n: i + 1 })).filter(
       ({ t }) =>
         (!soloEsenciales || t.esencial) &&
         (!cat || t.categoria === cat) &&
@@ -100,8 +100,8 @@ function GlosarioIndice() {
         {lista.map(({ t, n }) => (
           <li key={t.slug} className="border-t border-border">
             <Link
-              to="/glosario/$termino"
-              params={{ termino: t.slug }}
+              to="/glosario/$slug"
+              params={{ slug: t.slug }}
               className="grid grid-cols-[3rem_1fr] gap-x-2 py-4 hover:bg-foreground/[0.03]"
             >
               <span className="index-label pt-1">{idx(n)}</span>
