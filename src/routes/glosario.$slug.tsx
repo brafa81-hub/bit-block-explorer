@@ -6,13 +6,13 @@ const BASE = "https://bit-block-explorer.lovable.app/glosario";
 
 export const Route = createFileRoute("/glosario/$slug")({
   loader: ({ params }) => {
-    const t = getTermino(params.termino);
+    const t = getTermino(params.slug);
     if (!t) throw notFound();
     return t;
   },
   head: ({ loaderData: t, params }) => {
     if (!t) return { meta: [{ title: "Término no encontrado" }, { name: "robots", content: "noindex" }] };
-    const url = `${BASE}/${params.termino}`;
+    const url = `${BASE}/${params.slug}`;
     const title = `Qué es ${t.termino} | Glosario de minería de Bitcoin`;
     return {
       meta: [
@@ -117,8 +117,8 @@ function Ficha() {
             {rel.map((r) => (
               <li key={r.slug}>
                 <Link
-                  to="/glosario/$termino"
-                  params={{ termino: r.slug }}
+                  to="/glosario/$slug"
+                  params={{ slug: r.slug }}
                   className="inline-flex min-h-[40px] items-center border border-border px-3 text-[14px] hover:border-foreground"
                 >
                   {r.termino}
