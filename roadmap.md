@@ -1,4 +1,4 @@
 - [x] Dejar el glosario en orden alfabético, con fichas por slug y acceso desde la cabecera.
 - [x] Unificar precios y descuentos del catálogo con los datos canónicos del servicio.
 - [x] Retirar tramos y textos obsoletos de la web.
-- [ ] Verificar catálogo, glosario y compilación.
+- [x] Verificar catálogo, glosario y compilación.
