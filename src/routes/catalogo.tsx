@@ -274,7 +274,7 @@ function Catalogo() {
               </thead>
               <tbody>
                 {TRAMOS.map((t) => (
-                   <tr key={t.min} className="border-b border-[var(--on-dark-border)]">
+                  <tr key={t.min} className="border-b border-[var(--on-dark-border)]">
                     <td className="hash-text py-3 pr-4">{t.unidades}</td>
                     <td className="hash-text py-3 pr-4">{t.descuento}</td>
                     <td className="hash-text py-3 pr-4">
@@ -321,28 +321,29 @@ function Catalogo() {
                 <input
                   id="cantidad-empresa"
                   type="number"
-                   min={1}
+                  min={1}
                   step={1}
                   value={cantidad}
-                  onChange={(e) => setCantidad(Number(e.target.value))}
+                  onChange={(e) => setCantidad(Math.max(1, Math.floor(Number(e.target.value) || 1)))}
                   className="hash-text mt-2 min-h-[44px] w-full border border-[var(--on-dark-border)] bg-transparent px-3 text-[15px] outline-none"
                 />
               </div>
             </div>
 
-             <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
-                 <p>{tramo ? "Tramo aplicado:" : "Precio normal, sin descuento:"}{" "}
-                   {tramo && <span className="hash-text">{tramo.unidades} unidades · {tramo.descuento}</span>}
-                 </p>
-                <p>
-                  Precio por unidad: <span className="hash-text">{formatearEuros(unitario)}</span>
-                </p>
-                <p className="text-xl">
-                  Total: <span className="hash-text">{formatearEuros(total)}</span>
-                </p>
-                <p className="text-[13px] text-[var(--on-dark-muted)]">IVA incluido</p>
-               </div>
-             {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} unidades.</p>}
+            <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
+              <p>
+                {tramo ? "Tramo aplicado:" : "Precio normal, sin descuento:"}{" "}
+                {tramo && <span className="hash-text">{tramo.unidades} unidades · {tramo.descuento}</span>}
+              </p>
+              <p>
+                Precio por unidad: <span className="hash-text">{formatearEuros(unitario)}</span>
+              </p>
+              <p className="text-xl">
+                Total: <span className="hash-text">{formatearEuros(total)}</span>
+              </p>
+              <p className="text-[13px] text-[var(--on-dark-muted)]">IVA incluido</p>
+            </div>
+            {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} unidades.</p>}
 
             {empresaAbierto ? (
               <Formulario
@@ -358,7 +359,7 @@ function Catalogo() {
                 onClick={() => setEmpresaAbierto(true)}
                 className="mt-6 min-h-[44px] w-full border border-[var(--instrument-dark)] px-5 text-[15px] text-[var(--instrument-dark)] sm:w-auto"
               >
-                 Apúntate a la lista de espera
+                Apúntate a la lista de espera
               </button>
             )}
           </div>

@@ -51,7 +51,7 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Para qué</h2>
           <p className="mt-2 text-muted-foreground">
-             Solo para avisarte de la apertura y responderte si nos pides un pedido. No
+             Solo para avisarte de la apertura y responderte si nos consultas por un pedido. No
             lo usamos para nada más ni se lo cedemos a terceros.
           </p>
         </section>
