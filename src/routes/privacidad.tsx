@@ -16,8 +16,10 @@ export const Route = createFileRoute("/privacidad")({
           "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de 1 PH/s.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://bit-block-explorer.lovable.app/privacidad" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/privacidad" }],
   }),
   component: Privacidad,
 });
@@ -74,10 +76,10 @@ function Privacidad() {
 
       <div className="mt-12">
         <Link
-          to="/catalogo"
+          to="/"
           className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]"
         >
-          Volver al catálogo
+          Volver al simulador
         </Link>
       </div>
     </main>

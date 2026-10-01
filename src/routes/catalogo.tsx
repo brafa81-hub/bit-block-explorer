@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
+import { SERVICIO } from "@/content/servicio";
 import {
   MINIMO_VOLUMEN,
   PRODUCTOS,
@@ -33,8 +34,10 @@ export const Route = createFileRoute("/catalogo")({
           "1 PH/s minando para ti durante 8 o 24 horas. Precios con IVA y tramos por volumen para empresas.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://bit-block-explorer.lovable.app/catalogo" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/catalogo" }],
   }),
   component: Catalogo,
 });
@@ -221,12 +224,15 @@ function Catalogo() {
                   onClick={() => setAbierto(p.id)}
                   className="mt-6 min-h-[44px] w-full border border-border px-5 text-[15px]"
                 >
-                  Avísame cuando abra
+                  Apúntate a la lista de espera
                 </button>
               )}
             </div>
           ))}
         </div>
+        <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">
+          {SERVICIO.transparencia} (<Link to="/" className="underline underline-offset-4">Calcúlalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
+        </p>
       </section>
 
       {/* 003 / para empresas */}
@@ -375,8 +381,7 @@ function Catalogo() {
             profesionales a la vez.
           </Pregunta>
           <Pregunta titulo="¿Qué necesito para usarlo?">
-            Una cuenta en un pool de minería donde recibir la potencia. Te guiamos en el
-            proceso.
+            Solo la dirección de tu wallet. HashFlow se encarga del pool y de los datos técnicos.
           </Pregunta>
           <Pregunta titulo="¿Cuándo se puede comprar?">
             Estamos preparando la apertura. Déjanos tu email y te avisamos.

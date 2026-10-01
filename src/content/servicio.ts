@@ -19,4 +19,6 @@ export const SERVICIO = {
   /** Página pública de pagos: todavía no existe. */
   webPublicaPagos: false,
   variacionPotencia: "la potencia puede variar algo durante la sesión",
+  transparencia: "Lo que recibirás en sats es menor que lo que pagas",
+  resultado: "No es una inversión ni garantiza un resultado.",
 } as const;

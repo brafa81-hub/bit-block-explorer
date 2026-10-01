@@ -130,6 +130,11 @@ function RootComponent() {
       </nav>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <footer className="mx-auto max-w-6xl border-t border-border px-5 py-8 text-[14px] sm:px-8">
+        <Link to="/catalogo" className="text-foreground underline underline-offset-4">
+          Apúntate a la lista de espera
+        </Link>
+      </footer>
     </QueryClientProvider>
   );
 }
