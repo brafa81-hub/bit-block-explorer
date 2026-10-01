@@ -76,10 +76,10 @@ function Privacidad() {
 
       <div className="mt-12">
         <Link
-          to="/catalogo"
+          to="/"
           className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]"
         >
-          Volver al catálogo
+          Volver al simulador
         </Link>
       </div>
     </main>
