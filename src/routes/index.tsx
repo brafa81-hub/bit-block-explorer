@@ -25,8 +25,10 @@ export const Route = createFileRoute("/")({
           "Una simulación real de prueba de trabajo con SHA-256 doble, ejecutada en tu navegador. Sin jerga y sin instalar nada.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://bit-block-explorer.lovable.app/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/" }],
   }),
   component: SimuladorMineria,
 });
@@ -657,14 +659,14 @@ function SimuladorMineria() {
 
           <div className="mt-8">
             <Link
-              to="/catalogo"
+              to="/mining-101"
               className="inline-flex min-h-[44px] items-center px-5 text-[15px]"
               style={{
                 backgroundColor: "var(--instrument-dark)",
                 color: "var(--ink)",
               }}
             >
-              Ver cómo alquilar 1 PH/s
+              Sigue aprendiendo en Mining 101
             </Link>
           </div>
         </div>

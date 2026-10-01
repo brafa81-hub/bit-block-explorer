@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { getTermino, idx, indiceDe } from "@/content/glosario";
+import { capituloDeTermino } from "@/content/mining101";
 
 const BASE = "https://bit-block-explorer.lovable.app/glosario";
 
@@ -65,6 +66,7 @@ function ConCifras({ texto }: { texto: string }) {
 function Ficha() {
   const t = Route.useLoaderData();
   const rel = t.relacionados.map(getTermino).filter((x) => !!x);
+  const capitulo = capituloDeTermino(t.slug);
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
@@ -101,12 +103,6 @@ function Ficha() {
         <section className="mt-10 border-t border-border pt-6">
           <h2 className="text-xl">En la práctica</h2>
           <p className="mt-3 text-[16px]">{t.enLaPractica}</p>
-          <Link
-            to="/catalogo"
-            className="mt-5 inline-block text-[15px] text-primary underline underline-offset-4"
-          >
-            Apúntate a la lista de espera
-          </Link>
         </section>
       )}
 
@@ -129,9 +125,9 @@ function Ficha() {
         </section>
       )}
 
-      {t.capitulo && (
+      {capitulo && (
         <p className="mt-10 border-t border-border pt-6 text-[15px]">
-          Aparece en el capítulo {t.capitulo.titulo}.
+          Aparece en el capítulo <Link to="/mining-101/$slug" params={{ slug: capitulo.slug }} className="underline underline-offset-4">{capitulo.titulo}</Link>.
         </p>
       )}
 

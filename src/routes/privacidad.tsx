@@ -16,8 +16,10 @@ export const Route = createFileRoute("/privacidad")({
           "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de 1 PH/s.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://bit-block-explorer.lovable.app/privacidad" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/privacidad" }],
   }),
   component: Privacidad,
 });

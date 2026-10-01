@@ -2,3 +2,6 @@
 - [x] Unificar precios y descuentos del catálogo con los datos canónicos del servicio.
 - [x] Retirar tramos y textos obsoletos de la web.
 - [x] Verificar catálogo, glosario y compilación.
+- [ ] Conectar simulador, Mining 101 y glosario; dejar el catálogo solo en los puntos acordados y añadir el pie.
+- [ ] Revisar metadatos de todas las páginas y publicar sitemap.xml y robots.txt.
+- [ ] Actualizar las invitaciones y la transparencia del catálogo desde SERVICIO.
