@@ -345,7 +345,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Lo que HashFlow nunca hará",
         parrafos: [
           "HashFlow nunca te pedirá la frase de recuperación. No crea tu wallet ni custodia tus fondos.",
-          "Solo necesitamos tu dirección. Si alguien te pide la frase, no es nosotros.",
+          "Solo necesitamos tu dirección. Si alguien te pide la frase, no somos nosotros.",
         ],
       },
     ],
