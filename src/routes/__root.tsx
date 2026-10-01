@@ -36,7 +36,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void; info?: { componentStack: string } }): ReactNode {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
