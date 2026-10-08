@@ -66,7 +66,7 @@ function ConCifras({ texto }: { texto: string }) {
 function Ficha() {
   const t = Route.useLoaderData();
   const rel = t.relacionados.map(getTermino).filter((x) => !!x);
-  const capitulo = capituloDeTermino(t.slug);
+  const capitulo = capituloDeTermino(t.slug) ?? t.capitulo;
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">

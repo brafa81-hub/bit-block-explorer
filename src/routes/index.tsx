@@ -135,6 +135,10 @@ function SimuladorMineria() {
   const [prev, setPrev] = useState(HASH_ANTERIOR);
   const [merkle, setMerkle] = useState(MERKLE);
   const [marca, setMarca] = useState("");
+  const detallesRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    if (detallesRef.current && window.matchMedia("(min-width: 1024px)").matches) detallesRef.current.open = true;
+  }, []);
 
   const [minando, setMinando] = useState(false);
   const [nonce, setNonce] = useState(0);
@@ -350,20 +354,18 @@ function SimuladorMineria() {
         {/* Bloque */}
         <section className="min-w-0 sm:[grid-area:bloque]">
           <div className="index-label">002 / el bloque</div>
-          <div className="mt-3 border border-border lg:hidden">
-            <details>
-              <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between px-4 py-3 text-[15px] marker:hidden [&::-webkit-details-marker]:hidden">
-                <span>Ver el contenido del bloque</span>
-                <span className="etiqueta">abrir / cerrar</span>
-              </summary>
-              <div className="border-t border-border px-4 pb-5 pt-4">
-                <CamposBloque {...camposProps} sufijo="m" />
-              </div>
-            </details>
-          </div>
-          <div className="mt-3 hidden lg:block">
-            <CamposBloque {...camposProps} sufijo="d" />
-          </div>
+          <details
+            ref={detallesRef}
+            className="mt-3 border border-border lg:border-0 [&[open]>summary]:lg:hidden"
+          >
+            <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between px-4 py-3 text-[15px] marker:hidden [&::-webkit-details-marker]:hidden">
+              <span>Ver el contenido del bloque</span>
+              <span className="etiqueta">abrir / cerrar</span>
+            </summary>
+            <div className="border-t border-border px-4 pb-5 pt-4 lg:border-0 lg:p-0">
+              <CamposBloque {...camposProps} sufijo="b" />
+            </div>
+          </details>
         </section>
 
         {/* Dificultad */}
