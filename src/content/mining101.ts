@@ -21,8 +21,6 @@ export interface Capitulo {
   terminos: string[];
   cierre: string;
   quiz: PreguntaQuiz[];
-  /** Solo el capítulo 007 invita a la lista de espera. */
-  listaEspera?: boolean;
 }
 
 const { jornada, dia } = SERVICIO.productos;
@@ -372,7 +370,6 @@ export const CAPITULOS: Capitulo[] = [
     titulo: "Alquilar hashrate",
     pregunta: "¿Se puede participar en la minería real sin tener ni una sola máquina?",
     descripcion: "Qué es alquilar hashrate, cómo funciona con HashFlow y qué puedes esperar, con total transparencia.",
-    listaEspera: true,
     secciones: [
       {
         titulo: "Potencia por horas",

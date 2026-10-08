@@ -14,7 +14,7 @@ export const Route = createFileRoute("/glosario/$slug")({
   head: ({ loaderData: t, params }) => {
     if (!t) return { meta: [{ title: "Término no encontrado" }, { name: "robots", content: "noindex" }] };
     const url = `${BASE}/${params.slug}`;
-    const title = `Qué es ${t.termino} | Glosario de minería de Bitcoin`;
+    const title = `${t.plural ? "Qué son" : "Qué es"} ${t.termino} | Glosario de minería de Bitcoin`;
     return {
       meta: [
         { title },

@@ -20,6 +20,8 @@ export interface TerminoGlosario {
   termino: string;
   categoria: CategoriaGlosario;
   esencial: boolean;
+  /** El nombre va en plural («Qué son…» en el título de la ficha). */
+  plural?: boolean;
   /** Máximo 25 palabras. */
   definicion: string;
   /** 2-4 párrafos cortos. Uno de ellos empieza por "En realidad...". */
@@ -261,6 +263,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "unidades-de-hashrate",
     termino: "Unidades TH/s, PH/s y EH/s",
+    plural: true,
     categoria: "Potencia y red",
     esencial: false,
     definicion: "Escalas para medir el hashrate. Cada una es mil veces la anterior: terahash, petahash y exahash por segundo.",
@@ -451,6 +454,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "esquemas-de-pago",
     termino: "Esquemas de pago (FPPS/PPLNS)",
+    plural: true,
     categoria: "Pools y wallets",
     esencial: false,
     definicion: "Las reglas con las que un pool reparte lo que gana entre sus mineros. Los más comunes son FPPS y PPLNS.",

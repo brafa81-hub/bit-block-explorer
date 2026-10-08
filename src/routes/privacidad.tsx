@@ -45,8 +45,8 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Qué guardamos</h2>
           <p className="mt-2 text-muted-foreground">
-            Tu email y, si escribes desde una empresa, el producto y la cantidad que nos
-            indicas, junto con la fecha en que nos lo envías.
+            Tu email, el producto que te interesa y, si escribes desde una empresa, la
+            cantidad que nos indicas, junto con la fecha en que nos lo envías.
           </p>
         </section>
 
