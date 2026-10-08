@@ -209,7 +209,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Juntar fuerzas",
         parrafos: [
-          "Una sola máquina podría pasar años sin encontrar un bloque. Por eso los mineros se unen en un pool.",
+          "Una sola máquina podría pasar décadas sin encontrar un bloque. Por eso los mineros se unen en un pool.",
           "Es como un equipo de pesca que comparte redes: todos tiran, y lo que sale se reparte.",
         ],
       },
@@ -278,13 +278,6 @@ export const CAPITULOS: Capitulo[] = [
         parrafos: [
           "Cada 210.000 bloques, unos 4 años, los bitcoins nuevos por bloque se reducen a la mitad.",
           "Desde abril de 2024 son 3,125 BTC. En el próximo, previsto hacia 2028, pasarán a 1,5625 BTC.",
-        ],
-      },
-      {
-        titulo: "Por qué hay quien guarda sus bitcoins",
-        parrafos: [
-          "Nunca habrá más de 21 millones de BTC y cada halving frena la emisión. Por esa escasez, muchos mineros guardan parte de lo que reciben.",
-          "Es un dato sobre cómo actúan otros, no una previsión de lo que pasará.",
         ],
       },
     ],

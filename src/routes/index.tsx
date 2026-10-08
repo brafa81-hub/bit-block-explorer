@@ -731,7 +731,7 @@ function CamposBloque({
       </Campo>
       <Campo
         etiqueta="Nonce"
-        ayuda="El único campo que el minero puede cambiar libremente. Es lo que se prueba una y otra vez."
+        ayuda="El campo que el minero va cambiando en cada intento. Es lo que se prueba una y otra vez."
       >
         <p className="hash-text cursor-default text-[15px] text-foreground">{formatInt(nonce)}</p>
       </Campo>
