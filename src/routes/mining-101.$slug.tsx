@@ -74,11 +74,6 @@ function CapituloPagina() {
 
       <section className="mt-12 border-t border-border pt-6">
         <p className="text-[17px]">{c.cierre}</p>
-        {c.listaEspera && (
-          <Link to="/catalogo" className="mt-4 inline-block text-[15px] text-primary underline underline-offset-4">
-            Apúntate a la lista de espera
-          </Link>
-        )}
         <div className="mt-6">
           {siguiente ? (
             <Link to="/mining-101/$slug" params={{ slug: siguiente.slug }} className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
