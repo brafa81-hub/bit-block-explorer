@@ -1,9 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
 import { Quiz } from "@/components/Quiz";
-import { Termino } from "@/components/Termino";
 import { CAPITULOS, getCapitulo, indiceCapitulo } from "@/content/mining101";
-import { idx } from "@/content/glosario";
+import { getTermino, idx } from "@/content/glosario";
 
 const BASE = "https://bit-block-explorer.lovable.app/mining-101";
 
@@ -61,7 +60,7 @@ function CapituloPagina() {
         <h2 className="text-xl">En el diccionario</h2>
         <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
           {c.terminos.map((t) => (
-            <li key={t}><Termino slug={t} /></li>
+            <li key={t}><Link to="/glosario/$slug" params={{ slug: t }} className="underline underline-offset-4">{getTermino(t)?.termino ?? t}</Link></li>
           ))}
         </ul>
       </section>
