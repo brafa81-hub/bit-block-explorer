@@ -32,9 +32,6 @@ function QuizFinal() {
       <div className="mt-10">
         <Quiz preguntas={QUIZ_FINAL} />
       </div>
-      <Link to="/catalogo" className="mt-12 inline-block text-[15px] text-primary underline underline-offset-4">
-        Apúntate a la lista de espera
-      </Link>
     </main>
   );
 }
