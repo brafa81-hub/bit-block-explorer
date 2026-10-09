@@ -56,7 +56,8 @@ function GlosarioIndice() {
       <h1 className="mt-4 text-3xl sm:text-4xl">Diccionario</h1>
       <p className="mt-3 max-w-xl text-[16px] text-muted-foreground">
         ¿Te has cruzado con una palabra rara? Aquí la tienes explicada desde cero, con un
-        ejemplo cotidiano y sin tecnicismos de más.
+        ejemplo cotidiano y sin tecnicismos de más. Detrás de cada término hay una pieza
+        de cómo funciona Bitcoin.
       </p>
 
       <div className="mt-8 space-y-4">

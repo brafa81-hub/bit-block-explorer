@@ -345,8 +345,9 @@ function SimuladorMineria() {
         <div className="index-label">001 / simulador</div>
         <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl">Simulador de minería</h1>
         <p className="mt-4 text-[16px] text-muted-foreground sm:text-[17px]">
-          Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Aquí lo
-          vas a ver en directo, en tu propio navegador. No se envía nada a ningún servidor.
+          Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Es el
+          mismo cálculo que protege la red; aquí lo vas a ver en directo, en tu propio
+          navegador. No se envía nada a ningún servidor.
         </p>
       </header>
 

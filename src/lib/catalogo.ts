@@ -24,7 +24,7 @@ export const PRODUCTOS: Producto[] = (
   horas: datos.horas,
   potencia: datos.potencia,
   precioCentimos: aCentimos(datos.precio),
-  nota: id === "jornada" ? "La opción recomendada." : "Pensado para regalar.",
+  nota: id === "jornada" ? "Una jornada completa con potencia industrial. La forma más directa de ver la minería real desde dentro." : "Un día entero, de principio a fin. Pensado también como regalo para quien quiere entender Bitcoin.",
 }));
 
 export interface Tramo {

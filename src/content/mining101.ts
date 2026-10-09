@@ -63,7 +63,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Por qué alguien lo hace",
         parrafos: [
           "Quien añade un bloque recibe bitcoins nuevos más las comisiones de los pagos incluidos. Es la recompensa de bloque.",
-          "Así la red se mantiene segura sin jefe: el incentivo empuja a jugar limpio.",
+          "Así la red se mantiene segura sin jefe: el incentivo empuja a actuar con honradez. Lleva funcionando así, sin parar, desde 2009.",
         ],
       },
     ],
@@ -116,7 +116,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Difícil de hacer, fácil de comprobar",
         parrafos: [
           "Aquí viene lo bueno. Encontrar ese hash exige millones de intentos, pero comprobarlo cuesta uno solo.",
-          "Eso es la prueba de trabajo. Puedes verlo tú mismo en el simulador de esta web.",
+          "Eso es la prueba de trabajo, y es lo que hace a Bitcoin tan difícil de falsificar. Puedes verlo tú mismo en el simulador de esta web.",
         ],
       },
     ],
@@ -169,7 +169,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Probabilidad, no turnos",
         parrafos: [
           "Nadie tiene turno fijo. Cada intento tiene una probabilidad pequeñísima de valer.",
-          "Con más hashrate haces más intentos, así que tu probabilidad crece en proporción a tu parte de la red.",
+          "Con más hashrate haces más intentos, así que tu parte del trabajo crece en proporción a tu parte de la red.",
         ],
       },
     ],
@@ -208,7 +208,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Juntar fuerzas",
         parrafos: [
           "Una sola máquina podría pasar décadas sin encontrar un bloque. Por eso los mineros se unen en un pool.",
-          "Es como un equipo de pesca que comparte redes: todos tiran, y lo que sale se reparte.",
+          "Es como una cooperativa: cada socio aporta trabajo y lo que se obtiene se reparte según lo aportado. Hoy casi toda la minería del mundo funciona así.",
         ],
       },
       {
@@ -374,7 +374,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Potencia por horas",
         parrafos: [
-          "Alquilar hashrate es como alquilar una furgoneta por un día: usas la potencia de máquinas industriales sin comprarlas ni tenerlas en casa.",
+          "Alquilar hashrate es acceder durante unas horas a potencia de minería industrial: máquinas profesionales, en instalaciones preparadas para ello, sin comprarlas, sin ruido y sin factura de luz.",
           `Con HashFlow eliges ${jornada.potencia} durante ${jornada.horas} h (${jornada.nombre}, ${jornada.precio}) o durante ${dia.horas} h (${dia.nombre}, ${dia.precio}).`,
         ],
       },
@@ -390,9 +390,9 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
-          "Vamos a ser claros: lo que pagas es mayor que lo que recibirás en sats. Normalmente, bastante mayor.",
+          "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats. Normalmente, bastante mayor.",
           "Mira el simulador: 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red. Lo que llega es, como orden de magnitud, una fracción de lo pagado.",
-          "No es una inversión y no hay resultado garantizado. Lo que obtienes es participar de verdad en la red y ver cómo funciona desde dentro.",
+          "No es una inversión y no hay resultado garantizado. Lo que obtienes es otra cosa: formar parte durante unas horas de la red que protege Bitcoin, con potencia real, y ver cómo funciona desde dentro.",
         ],
       },
       {
@@ -405,7 +405,7 @@ export const CAPITULOS: Capitulo[] = [
     enRealidad:
       "En realidad, no alquilas una máquina concreta: alquilas una cantidad de potencia durante un tiempo, que puede salir de varias máquinas.",
     terminos: ["hashrate-alquilado", "pool-de-destino", "orden", "corporate"],
-    cierre: "Ya lo entiendes todo, de la primera pregunta a la última. ¿Te animas a comprobarlo con el quiz final?",
+    cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. ¿Lo compruebas con el quiz final?",
     quiz: [
       {
         pregunta: "¿Qué necesitas darle a HashFlow?",

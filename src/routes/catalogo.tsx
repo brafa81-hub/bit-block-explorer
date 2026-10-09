@@ -188,7 +188,9 @@ function Catalogo() {
         <div className="index-label">001 / catálogo</div>
         <h1 className="mt-3 text-3xl sm:text-4xl">Alquila potencia de minería por horas</h1>
         <p className="mt-4 text-[16px] text-muted-foreground">
-          1 PH/s minando para ti durante 8 o 24 horas.
+          1 PH/s de potencia industrial trabajando para ti durante 8 o 24 horas: la de unas cinco
+          máquinas profesionales. Tú solo pones la dirección de tu wallet; de lo técnico nos
+          encargamos nosotros.
         </p>
         <p className="mt-4 text-[14px]">
           <Link to="/" className="text-primary underline underline-offset-4">
@@ -243,8 +245,8 @@ function Catalogo() {
           </div>
           <h2 className="mt-3 text-2xl sm:text-3xl">Comprar en volumen</h2>
           <p className="mt-4 text-[16px] text-[var(--on-dark-muted)]">
-            El mismo producto, comprado en volumen para regalar a tu equipo. Cuantas más
-            unidades, menor precio por unidad.
+            El mismo servicio, en volumen, para regalar a tu equipo o a tus clientes una
+            experiencia diferente con Bitcoin. Cuantas más unidades, menor precio por unidad.
           </p>
 
           {/* Tramos: tarjetas en móvil */}
