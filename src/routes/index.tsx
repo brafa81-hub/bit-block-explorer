@@ -678,8 +678,8 @@ function SimuladorMineria() {
             className="mt-8 max-w-2xl text-[15px]"
             style={{ color: "var(--on-dark-muted)" }}
           >
-            Frente a la red entera, 1 PH/s es una parte pequeña: más o menos una entre un
-            millón. Le pasa lo mismo a cualquier minero, incluso a granjas con cientos de
+            Frente a la red entera, 1 PH/s es una parte pequeña: más o menos una entre{" "}
+            {formatInt(redEhs * 1000)}. Le pasa lo mismo a cualquier minero, incluso a granjas con cientos de
             máquinas. Por eso la minería funciona en pools: cada participante recibe en
             proporción a lo que aporta, sea grande o pequeño.
           </p>
