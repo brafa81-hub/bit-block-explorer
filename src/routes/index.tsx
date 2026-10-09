@@ -114,7 +114,7 @@ function SimuladorMineria() {
   const runId = useRef(0);
 
   useEffect(() => {
-    setTextura(generarTexturaHex(150, 200));
+    setTextura(generarTexturaHex(150, 420));
     return () => {
       runId.current++;
     };
@@ -200,166 +200,170 @@ function SimuladorMineria() {
   const hecho = fase === "hecho";
 
   return (
-    <main className="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:py-16">
-      {/* Cabecera */}
-      <header className="max-w-2xl">
-        <div className="index-label">001 / simulador</div>
-        <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl">Simulador de minería</h1>
-        <p className="mt-4 text-[16px] text-muted-foreground sm:text-[17px]">
-          Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Es el mismo
-          cálculo que protege la red; aquí lo vas a ver en directo, en tu propio navegador: tu
-          simulación no sale de tu dispositivo.
-        </p>
-      </header>
+    <main>
+      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:py-16">
+        {/* Cabecera */}
+        <header className="max-w-2xl">
+          <div className="index-label">001 / simulador</div>
+          <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl">Simulador de minería</h1>
+          <p className="mt-4 text-[16px] text-muted-foreground sm:text-[17px]">
+            Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Es el mismo
+            cálculo que protege la red; aquí lo vas a ver en directo, en tu propio navegador: tu
+            simulación no sale de tu dispositivo.
+          </p>
+        </header>
 
-      {/* Demostración */}
-      <section className="mt-10 max-w-3xl lg:mt-14">
-        <div className="index-label">002 / demostración</div>
-        <p className="mt-3 text-[16px]">
-          Pulsa el botón y mira cómo se mina un bloque. Buscamos un resultado que empiece por tres
-          ceros. Va a cámara lenta para que puedas verlo: dura unos 10 segundos.
-        </p>
+        {/* Demostración */}
+        <section className="mt-10 max-w-3xl lg:mt-14">
+          <div className="index-label">002 / demostración</div>
+          <p className="mt-3 text-[16px]">
+            Pulsa el botón y mira cómo se mina un bloque. Buscamos un resultado que empiece por tres
+            ceros. Va a cámara lenta para que puedas verlo: dura unos 10 segundos.
+          </p>
 
-        <button
-          onClick={minar}
-          disabled={minando}
-          className={`mt-5 min-h-[48px] px-6 text-[16px] transition-opacity hover:opacity-90 ${
-            minando
-              ? "border border-border bg-transparent text-muted-foreground"
-              : "bg-primary text-primary-foreground"
-          }`}
-        >
-          {minando ? "Minando…" : hecho ? "Repetir" : "Ver cómo se mina un bloque"}
-        </button>
-
-        {/* Hash actual */}
-        <div className="mt-6 border border-border p-4">
-          <div className="etiqueta">{hecho ? "Hash válido" : "Hash actual"}</div>
-          <p
-            className={`hash-text hash-break mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
-              hecho ? "text-primary" : "text-foreground"
+          <button
+            onClick={minar}
+            disabled={minando}
+            className={`mt-5 min-h-[48px] px-6 text-[16px] transition-opacity hover:opacity-90 ${
+              minando
+                ? "border border-border bg-transparent text-muted-foreground"
+                : "bg-primary text-primary-foreground"
             }`}
           >
-            {hash || "—"}
-          </p>
-        </div>
+            {minando ? "Minando…" : hecho ? "Repetir" : "Ver cómo se mina un bloque"}
+          </button>
 
-        {/* Métricas */}
-        <div className="mt-4 grid grid-cols-3 gap-px border border-border bg-border">
-          <Metrica etiqueta="Intentos" valor={formatInt(intentos)} />
-          <Metrica etiqueta="Tiempo" valor={formatSeconds(ms)} />
-          <Metrica etiqueta="Shares para el pool" valor={formatInt(shares)} />
-        </div>
-
-        {/* Últimos intentos */}
-        {fase !== "inicio" && (
-          <div className="mt-4 border border-border p-4">
-            <div className="etiqueta">Últimos intentos</div>
-            <ul className="mt-2 space-y-1">
-              {historial.map((it, i) => (
-                <li
-                  key={`${it.hash}-${i}`}
-                  className={`hash-text hash-break text-[11px] sm:text-[12px] ${
-                    it.share ? "text-primary" : "text-muted-foreground"
-                  }`}
-                  style={{ opacity: 1 - i * 0.12 }}
-                >
-                  {it.share && (
-                    <span className="mr-2 font-sans text-[11px] uppercase tracking-wide">
-                      {it.valido ? "válido" : "share"}
-                    </span>
-                  )}
-                  {it.hash}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-[13px] text-muted-foreground">
-              Una share empieza por dos ceros: no cierra el bloque, pero demuestra trabajo real ante
-              el pool.
-            </p>
-          </div>
-        )}
-
-        {/* Resultado */}
-        {hecho && (
-          <div className="mt-4 border border-stone p-4">
-            <div className="etiqueta">Bloque encontrado</div>
-            <p className="mt-2 text-[15px]">
-              Tras {formatInt(intentos)} intentos, este resultado empieza por tres ceros: es válido.
-              Ninguno de los anteriores servía, aunque {formatInt(shares)} sí contaban como shares
-              para el pool.
-            </p>
-
-            <dl className="mt-4 grid gap-px border border-border bg-border sm:grid-cols-3">
-              <Metrica etiqueta="Esta demostración" valor={`${formatInt(intentos)} intentos`} />
-              <Metrica etiqueta="Antminer S21, en 10 s" valor="2.000 billones" />
-              <Metrica etiqueta="1 PH/s, en 10 s" valor="10.000 billones" />
-            </dl>
-
-            <p className="mt-4 text-[15px]">
-              En la red real se exigen muchísimos más ceros, y todas las máquinas del mundo compiten
-              por el mismo bloque. Se puede minar en solitario, pero encontrar un bloque así es muy
-              poco probable. Por eso la mayoría de mineros se une a un pool, que cuenta sus shares
-              y les paga en proporción. Es exactamente como trabaja la potencia que alquilas.
-            </p>
-            <a
-              href="#escala-real"
-              className="mt-3 inline-flex min-h-[44px] items-center text-[14px] text-muted-foreground underline"
+          {/* Hash actual */}
+          <div className="mt-6 border border-border p-4">
+            <div className="etiqueta">{hecho ? "Hash válido" : "Hash actual"}</div>
+            <p
+              className={`hash-text hash-break mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
+                hecho ? "text-primary" : "text-foreground"
+              }`}
             >
-              Ver la diferencia de escala
-            </a>
+              {hash || "—"}
+            </p>
           </div>
-        )}
-      </section>
 
-      {/* Cómo funciona */}
-      <section className="mt-12 lg:mt-16">
-        <div className="index-label">005 / cómo funciona</div>
-        <div className="mt-3">
-          <Desplegable titulo="Cómo funciona">
-            <div className="max-w-3xl space-y-6">
-              <Explica titulo="Qué es un hash">
-                Es una función que convierte cualquier dato en un código de longitud fija. Cambia
-                una coma del dato y el código cambia por completo. No se parece en nada al anterior.
-              </Explica>
-              <Explica titulo="Por qué no se puede calcular el resultado">
-                No hay forma de deducir qué número da un hash concreto. Solo se puede probar, uno
-                detrás de otro. Por eso se llama prueba de trabajo: el trabajo es la prueba.
-              </Explica>
-              <Explica titulo="Qué es el nonce">
-                Es un número dentro del bloque que el minero puede cambiar libremente. Todo lo demás
-                está fijado. Cambiar el nonce cambia el hash entero, y eso es lo que se repite una y
-                otra vez.
-              </Explica>
-              <Explica titulo="Qué es una share">
-                Es un resultado que no llega a cerrar el bloque, pero cumple una exigencia más baja
-                que pone el pool. Sirve para demostrar cuánto trabajas: el pool cuenta las shares de
-                cada minero y reparte lo que obtiene en proporción.
-              </Explica>
-              <Explica titulo="Qué es la dificultad">
-                Es cuántos ceros se exigen al principio del hash. Cada cero adicional hace el
-                acierto unas dieciséis veces más raro, así que hacen falta muchos más intentos de
-                media.
-              </Explica>
-              <Explica titulo="Qué es un ASIC">
-                Es un ordenador construido con un único propósito: calcular hashes SHA-256 lo más
-                rápido posible. A diferencia de tu ordenador, no sirve para nada más — y por eso es
-                miles de veces más rápido en esta tarea concreta.
-              </Explica>
-              <Explica titulo="Qué es un pool de minería">
-                Muchos participantes prueban a la vez y reparten el resultado entre todos. En
-                solitario las probabilidades de acertar son mínimas, y podrías no encontrar nada
-                nunca.
-              </Explica>
+          {/* Métricas */}
+          <div className="mt-4 grid grid-cols-3 gap-px border border-border bg-border">
+            <Metrica etiqueta="Intentos" valor={formatInt(intentos)} />
+            <Metrica etiqueta="Tiempo" valor={formatSeconds(ms)} />
+            <Metrica etiqueta="Shares para el pool" valor={formatInt(shares)} />
+          </div>
+
+          {/* Últimos intentos */}
+          {fase !== "inicio" && (
+            <div className="mt-4 border border-border p-4">
+              <div className="etiqueta">Últimos intentos</div>
+              <ul className="mt-2 space-y-1">
+                {historial.map((it, i) => (
+                  <li
+                    key={`${it.hash}-${i}`}
+                    className={`hash-text hash-break text-[11px] sm:text-[12px] ${
+                      it.share ? "text-primary" : "text-muted-foreground"
+                    }`}
+                    style={{ opacity: 1 - i * 0.12 }}
+                  >
+                    {it.share && (
+                      <span className="mr-2 font-sans text-[11px] uppercase tracking-wide">
+                        {it.valido ? "válido" : "share"}
+                      </span>
+                    )}
+                    {it.hash}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-[13px] text-muted-foreground">
+                Una share empieza por dos ceros: no cierra el bloque, pero demuestra trabajo real
+                ante el pool.
+              </p>
             </div>
-          </Desplegable>
-        </div>
-      </section>
+          )}
 
-      {/* Cierre bitono */}
+          {/* Resultado */}
+          {hecho && (
+            <div className="mt-4 border border-stone p-4">
+              <div className="etiqueta">Bloque encontrado</div>
+              <p className="mt-2 text-[15px]">
+                Tras {formatInt(intentos)} intentos, este resultado empieza por tres ceros: es
+                válido. Ninguno de los anteriores servía, aunque {formatInt(shares)} sí contaban
+                como shares para el pool.
+              </p>
+
+              <dl className="mt-4 grid gap-px border border-border bg-border sm:grid-cols-3">
+                <Metrica etiqueta="Esta demostración" valor={`${formatInt(intentos)} intentos`} />
+                <Metrica etiqueta="Antminer S21, en 10 s" valor="2.000 billones" />
+                <Metrica etiqueta="1 PH/s, en 10 s" valor="10.000 billones" />
+              </dl>
+
+              <p className="mt-4 text-[15px]">
+                En la red real se exigen muchísimos más ceros, y todas las máquinas del mundo
+                compiten por el mismo bloque. Se puede minar en solitario, pero encontrar un bloque
+                así es muy poco probable. Por eso la mayoría de mineros se une a un pool, que cuenta
+                sus shares y les paga en proporción. Es exactamente como trabaja la potencia que
+                alquilas.
+              </p>
+              <a
+                href="#escala-real"
+                className="mt-3 inline-flex min-h-[44px] items-center text-[14px] text-muted-foreground underline"
+              >
+                Ver la diferencia de escala
+              </a>
+            </div>
+          )}
+        </section>
+
+        {/* Cómo funciona */}
+        <section className="mt-12 lg:mt-16">
+          <div className="index-label">005 / cómo funciona</div>
+          <div className="mt-3">
+            <Desplegable titulo="Cómo funciona">
+              <div className="max-w-3xl space-y-6">
+                <Explica titulo="Qué es un hash">
+                  Es una función que convierte cualquier dato en un código de longitud fija. Cambia
+                  una coma del dato y el código cambia por completo. No se parece en nada al
+                  anterior.
+                </Explica>
+                <Explica titulo="Por qué no se puede calcular el resultado">
+                  No hay forma de deducir qué número da un hash concreto. Solo se puede probar, uno
+                  detrás de otro. Por eso se llama prueba de trabajo: el trabajo es la prueba.
+                </Explica>
+                <Explica titulo="Qué es el nonce">
+                  Es un número dentro del bloque que el minero puede cambiar libremente. Todo lo
+                  demás está fijado. Cambiar el nonce cambia el hash entero, y eso es lo que se
+                  repite una y otra vez.
+                </Explica>
+                <Explica titulo="Qué es una share">
+                  Es un resultado que no llega a cerrar el bloque, pero cumple una exigencia más
+                  baja que pone el pool. Sirve para demostrar cuánto trabajas: el pool cuenta las
+                  shares de cada minero y reparte lo que obtiene en proporción.
+                </Explica>
+                <Explica titulo="Qué es la dificultad">
+                  Es cuántos ceros se exigen al principio del hash. Cada cero adicional hace el
+                  acierto unas dieciséis veces más raro, así que hacen falta muchos más intentos de
+                  media.
+                </Explica>
+                <Explica titulo="Qué es un ASIC">
+                  Es un ordenador construido con un único propósito: calcular hashes SHA-256 lo más
+                  rápido posible. A diferencia de tu ordenador, no sirve para nada más — y por eso
+                  es miles de veces más rápido en esta tarea concreta.
+                </Explica>
+                <Explica titulo="Qué es un pool de minería">
+                  Muchos participantes prueban a la vez y reparten el resultado entre todos. En
+                  solitario las probabilidades de acertar son mínimas, y podrías no encontrar nada
+                  nunca.
+                </Explica>
+              </div>
+            </Desplegable>
+          </div>
+        </section>
+      </div>
+
+      {/* Cierre bitono: ancho completo */}
       <section
         id="escala-real"
-        className="relative mt-12 overflow-hidden lg:mt-20"
+        className="relative mt-2 overflow-hidden lg:mt-6"
         style={{ backgroundColor: "var(--ink)" }}
       >
         <pre
@@ -375,7 +379,7 @@ function SimuladorMineria() {
           {textura}
         </pre>
 
-        <div className="relative px-5 py-12 sm:px-10 lg:px-14 lg:py-16">
+        <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-16">
           <div className="index-label" style={{ color: "var(--instrument-dark)" }}>
             006 / escala real
           </div>
