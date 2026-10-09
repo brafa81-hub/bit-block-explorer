@@ -446,14 +446,14 @@ function SimuladorMineria() {
 
           <div className="mt-8">
             <Link
-              to="/mining-101"
+              to="/aprende"
               className="inline-flex min-h-[44px] items-center px-5 text-[15px]"
               style={{
                 backgroundColor: "var(--instrument-dark)",
                 color: "var(--ink)",
               }}
             >
-              Sigue aprendiendo en Mining 101
+              Sigue aprendiendo sobre minería
             </Link>
           </div>
         </div>

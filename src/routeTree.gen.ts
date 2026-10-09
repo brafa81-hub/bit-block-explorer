@@ -10,27 +10,42 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CatalogoRouteImport } from './routes/catalogo'
+import { Route as MinarRouteImport } from './routes/minar'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as AprendeIndexRouteImport } from './routes/aprende.index'
+import { Route as AprendeSlugRouteImport } from './routes/aprende.$slug'
+import { Route as AprendeQuizRouteImport } from './routes/aprende.quiz'
 import { Route as DiccionarioIndexRouteImport } from './routes/diccionario.index'
 import { Route as DiccionarioSlugRouteImport } from './routes/diccionario.$slug'
-import { Route as Mining101IndexRouteImport } from './routes/mining-101.index'
-import { Route as Mining101SlugRouteImport } from './routes/mining-101.$slug'
-import { Route as Mining101QuizRouteImport } from './routes/mining-101.quiz'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CatalogoRoute = CatalogoRouteImport.update({
-  id: '/catalogo',
-  path: '/catalogo',
+const MinarRoute = MinarRouteImport.update({
+  id: '/minar',
+  path: '/minar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacidadRoute = PrivacidadRouteImport.update({
   id: '/privacidad',
   path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AprendeIndexRoute = AprendeIndexRouteImport.update({
+  id: '/aprende/',
+  path: '/aprende/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AprendeSlugRoute = AprendeSlugRouteImport.update({
+  id: '/aprende/$slug',
+  path: '/aprende/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AprendeQuizRoute = AprendeQuizRouteImport.update({
+  id: '/aprende/quiz',
+  path: '/aprende/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiccionarioIndexRoute = DiccionarioIndexRouteImport.update({
@@ -43,95 +58,80 @@ const DiccionarioSlugRoute = DiccionarioSlugRouteImport.update({
   path: '/diccionario/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Mining101IndexRoute = Mining101IndexRouteImport.update({
-  id: '/mining-101/',
-  path: '/mining-101/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Mining101SlugRoute = Mining101SlugRouteImport.update({
-  id: '/mining-101/$slug',
-  path: '/mining-101/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Mining101QuizRoute = Mining101QuizRouteImport.update({
-  id: '/mining-101/quiz',
-  path: '/mining-101/quiz',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/catalogo': typeof CatalogoRoute
+  '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
+  '/aprende/$slug': typeof AprendeSlugRoute
+  '/aprende/quiz': typeof AprendeQuizRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
-  '/mining-101/$slug': typeof Mining101SlugRoute
-  '/mining-101/quiz': typeof Mining101QuizRoute
+  '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
-  '/mining-101/': typeof Mining101IndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/catalogo': typeof CatalogoRoute
+  '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
+  '/aprende/$slug': typeof AprendeSlugRoute
+  '/aprende/quiz': typeof AprendeQuizRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
-  '/mining-101/$slug': typeof Mining101SlugRoute
-  '/mining-101/quiz': typeof Mining101QuizRoute
+  '/aprende': typeof AprendeIndexRoute
   '/diccionario': typeof DiccionarioIndexRoute
-  '/mining-101': typeof Mining101IndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/catalogo': typeof CatalogoRoute
+  '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
+  '/aprende/$slug': typeof AprendeSlugRoute
+  '/aprende/quiz': typeof AprendeQuizRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
-  '/mining-101/$slug': typeof Mining101SlugRoute
-  '/mining-101/quiz': typeof Mining101QuizRoute
+  '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
-  '/mining-101/': typeof Mining101IndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/catalogo'
+    | '/minar'
     | '/privacidad'
+    | '/aprende/$slug'
+    | '/aprende/quiz'
     | '/diccionario/$slug'
-    | '/mining-101/$slug'
-    | '/mining-101/quiz'
+    | '/aprende/'
     | '/diccionario/'
-    | '/mining-101/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/catalogo'
+    | '/minar'
     | '/privacidad'
+    | '/aprende/$slug'
+    | '/aprende/quiz'
     | '/diccionario/$slug'
-    | '/mining-101/$slug'
-    | '/mining-101/quiz'
+    | '/aprende'
     | '/diccionario'
-    | '/mining-101'
   id:
     | '__root__'
     | '/'
-    | '/catalogo'
+    | '/minar'
     | '/privacidad'
+    | '/aprende/$slug'
+    | '/aprende/quiz'
     | '/diccionario/$slug'
-    | '/mining-101/$slug'
-    | '/mining-101/quiz'
+    | '/aprende/'
     | '/diccionario/'
-    | '/mining-101/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CatalogoRoute: typeof CatalogoRoute
+  MinarRoute: typeof MinarRoute
   PrivacidadRoute: typeof PrivacidadRoute
+  AprendeSlugRoute: typeof AprendeSlugRoute
+  AprendeQuizRoute: typeof AprendeQuizRoute
   DiccionarioSlugRoute: typeof DiccionarioSlugRoute
-  Mining101SlugRoute: typeof Mining101SlugRoute
-  Mining101QuizRoute: typeof Mining101QuizRoute
+  AprendeIndexRoute: typeof AprendeIndexRoute
   DiccionarioIndexRoute: typeof DiccionarioIndexRoute
-  Mining101IndexRoute: typeof Mining101IndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,11 +143,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/catalogo': {
-      id: '/catalogo'
-      path: '/catalogo'
-      fullPath: '/catalogo'
-      preLoaderRoute: typeof CatalogoRouteImport
+    '/minar': {
+      id: '/minar'
+      path: '/minar'
+      fullPath: '/minar'
+      preLoaderRoute: typeof MinarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacidad': {
@@ -155,6 +155,27 @@ declare module '@tanstack/react-router' {
       path: '/privacidad'
       fullPath: '/privacidad'
       preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aprende/': {
+      id: '/aprende/'
+      path: '/aprende'
+      fullPath: '/aprende/'
+      preLoaderRoute: typeof AprendeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aprende/$slug': {
+      id: '/aprende/$slug'
+      path: '/aprende/$slug'
+      fullPath: '/aprende/$slug'
+      preLoaderRoute: typeof AprendeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aprende/quiz': {
+      id: '/aprende/quiz'
+      path: '/aprende/quiz'
+      fullPath: '/aprende/quiz'
+      preLoaderRoute: typeof AprendeQuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/diccionario/': {
@@ -171,39 +192,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiccionarioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mining-101/': {
-      id: '/mining-101/'
-      path: '/mining-101'
-      fullPath: '/mining-101/'
-      preLoaderRoute: typeof Mining101IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mining-101/$slug': {
-      id: '/mining-101/$slug'
-      path: '/mining-101/$slug'
-      fullPath: '/mining-101/$slug'
-      preLoaderRoute: typeof Mining101SlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mining-101/quiz': {
-      id: '/mining-101/quiz'
-      path: '/mining-101/quiz'
-      fullPath: '/mining-101/quiz'
-      preLoaderRoute: typeof Mining101QuizRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CatalogoRoute: CatalogoRoute,
+  MinarRoute: MinarRoute,
   PrivacidadRoute: PrivacidadRoute,
+  AprendeSlugRoute: AprendeSlugRoute,
+  AprendeQuizRoute: AprendeQuizRoute,
   DiccionarioSlugRoute: DiccionarioSlugRoute,
-  Mining101SlugRoute: Mining101SlugRoute,
-  Mining101QuizRoute: Mining101QuizRoute,
+  AprendeIndexRoute: AprendeIndexRoute,
   DiccionarioIndexRoute: DiccionarioIndexRoute,
-  Mining101IndexRoute: Mining101IndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -4,9 +4,9 @@ import { Quiz } from "@/components/Quiz";
 import { CAPITULOS, getCapitulo, indiceCapitulo } from "@/content/mining101";
 import { getTermino, idx } from "@/content/glosario";
 
-const BASE = "https://bit-block-explorer.lovable.app/mining-101";
+const BASE = "https://bit-block-explorer.lovable.app/aprende";
 
-export const Route = createFileRoute("/mining-101/$slug")({
+export const Route = createFileRoute("/aprende/$slug")({
   loader: ({ params }) => {
     const c = getCapitulo(params.slug);
     if (!c) throw notFound();
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/mining-101/$slug")({
   head: ({ loaderData: c, params }) => {
     if (!c) return { meta: [{ title: "Capítulo no encontrado" }, { name: "robots", content: "noindex" }] };
     const url = `${BASE}/${params.slug}`;
-    const title = `${c.titulo} | Mining 101`;
+    const title = `${c.titulo} | Aprende minería`;
     return {
       meta: [
         { title },
@@ -40,7 +40,7 @@ function CapituloPagina() {
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
-      <Link to="/mining-101" className="index-label hover:text-foreground">← mining 101</Link>
+      <Link to="/aprende" className="index-label hover:text-foreground">← aprende</Link>
       <div className="index-label mt-6">{idx(i + 1)} /</div>
       <h1 className="mt-2 text-3xl sm:text-4xl">{c.titulo}</h1>
       <p className="mt-4 text-[19px] leading-relaxed">{c.pregunta}</p>
@@ -76,11 +76,11 @@ function CapituloPagina() {
         <p className="text-[17px]">{c.cierre}</p>
         <div className="mt-6">
           {siguiente ? (
-            <Link to="/mining-101/$slug" params={{ slug: siguiente.slug }} className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
+            <Link to="/aprende/$slug" params={{ slug: siguiente.slug }} className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
               Siguiente: {idx(i + 2)} / {siguiente.titulo}
             </Link>
           ) : (
-            <Link to="/mining-101/quiz" className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
+            <Link to="/aprende/quiz" className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
               Ir al quiz final
             </Link>
           )}
@@ -94,7 +94,7 @@ function CapituloNoEncontrado() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <h1 className="text-3xl">Este capítulo no existe</h1>
-      <Link to="/mining-101" className="mt-6 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]">
+      <Link to="/aprende" className="mt-6 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]">
         Ver todos los capítulos
       </Link>
     </main>

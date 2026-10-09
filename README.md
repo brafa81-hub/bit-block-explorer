@@ -323,7 +323,7 @@ Redacta el texto para que la diferencia de escala se entienda de forma intuitiva
 
 
 
-Debajo, botón en Verde instrumental (variante oscura): "Ver cómo alquilar 1 PH/s", enlazando a /catalogo.
+Debajo, botón en Verde instrumental (variante oscura): "Ver cómo alquilar 1 PH/s", enlazando a /minar.
 
 
 

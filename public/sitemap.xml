@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://bit-block-explorer.lovable.app/</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/quiz</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/que-es-minar</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/hash-y-prueba-de-trabajo</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/hashrate-y-dificultad</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/pools-y-pagos-proporcionales</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/lo-que-cuesta-y-lo-que-se-recibe</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/tu-primera-wallet</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/mining-101/alquilar-hashrate</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/quiz</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/que-es-minar</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/hash-y-prueba-de-trabajo</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/hashrate-y-dificultad</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/pools-y-pagos-proporcionales</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/lo-que-cuesta-y-lo-que-se-recibe</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/tu-primera-wallet</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/aprende/alquilar-hashrate</loc></url>
   <url><loc>https://bit-block-explorer.lovable.app/diccionario</loc></url>
   <url><loc>https://bit-block-explorer.lovable.app/diccionario/bitcoin</loc></url>
   <url><loc>https://bit-block-explorer.lovable.app/diccionario/satoshi</loc></url>
@@ -46,6 +46,6 @@
   <url><loc>https://bit-block-explorer.lovable.app/diccionario/pool-de-destino</loc></url>
   <url><loc>https://bit-block-explorer.lovable.app/diccionario/eficiencia</loc></url>
   <url><loc>https://bit-block-explorer.lovable.app/diccionario/corporate</loc></url>
-  <url><loc>https://bit-block-explorer.lovable.app/catalogo</loc></url>
+  <url><loc>https://bit-block-explorer.lovable.app/minar</loc></url>
   <url><loc>https://bit-block-explorer.lovable.app/privacidad</loc></url>
 </urlset>

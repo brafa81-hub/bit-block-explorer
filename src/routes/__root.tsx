@@ -124,14 +124,14 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <nav aria-label="Navegación principal" className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-5 pt-5 text-[14px] sm:px-8">
         <Link to="/" className="text-foreground hover:underline">Simulador</Link>
-        <Link to="/mining-101" className="text-foreground hover:underline">Mining 101</Link>
+        <Link to="/aprende" className="text-foreground hover:underline">Aprende</Link>
         <Link to="/diccionario" className="text-foreground hover:underline">Diccionario</Link>
-        <Link to="/catalogo" className="text-foreground hover:underline">Catálogo</Link>
+        <Link to="/minar" className="text-foreground hover:underline">Minar</Link>
       </nav>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <footer className="mx-auto max-w-6xl border-t border-border px-5 py-8 text-[14px] sm:px-8">
-        <Link to="/catalogo" className="text-foreground underline underline-offset-4">
+        <Link to="/minar" className="text-foreground underline underline-offset-4">
           Apúntate a la lista de espera
         </Link>
       </footer>

@@ -15,10 +15,10 @@ import {
   type ProductoId,
 } from "@/lib/catalogo";
 
-export const Route = createFileRoute("/catalogo")({
+export const Route = createFileRoute("/minar")({
   head: () => ({
     meta: [
-      { title: "Alquila 1 PH/s de potencia de minería por horas | Catálogo" },
+      { title: "Alquila 1 PH/s de potencia de minería por horas | Minar" },
       {
         name: "description",
         content:
@@ -34,12 +34,12 @@ export const Route = createFileRoute("/catalogo")({
           "1 PH/s minando para ti durante 8 o 24 horas. Precios con IVA y tramos por volumen para empresas.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://bit-block-explorer.lovable.app/catalogo" },
+      { property: "og:url", content: "https://bit-block-explorer.lovable.app/minar" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/catalogo" }],
+    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/minar" }],
   }),
-  component: Catalogo,
+  component: Minar,
 });
 
 function Formulario({
@@ -170,7 +170,7 @@ function Pregunta({ titulo, children }: { titulo: string; children: React.ReactN
   );
 }
 
-function Catalogo() {
+function Minar() {
   const [abierto, setAbierto] = useState<ProductoId | null>(null);
 
   const [productoEmpresa, setProductoEmpresa] = useState<ProductoId>("jornada");
@@ -183,9 +183,9 @@ function Catalogo() {
 
   return (
     <main>
-      {/* 001 / catálogo */}
+      {/* 001 / minar */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-12 sm:px-8">
-        <div className="index-label">001 / catálogo</div>
+        <div className="index-label">001 / minar</div>
         <h1 className="mt-3 text-3xl sm:text-4xl">Alquila potencia de minería por horas</h1>
         <p className="mt-4 text-[16px] text-muted-foreground">
           1 PH/s de potencia industrial trabajando para ti durante 8 o 24 horas: la de unas cinco

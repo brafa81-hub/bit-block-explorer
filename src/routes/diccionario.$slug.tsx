@@ -127,7 +127,7 @@ function Ficha() {
 
       {capitulo && (
         <p className="mt-10 border-t border-border pt-6 text-[15px]">
-          Aparece en el capítulo <Link to="/mining-101/$slug" params={{ slug: capitulo.slug }} className="underline underline-offset-4">{capitulo.titulo}</Link>.
+          Aparece en el capítulo <Link to="/aprende/$slug" params={{ slug: capitulo.slug }} className="underline underline-offset-4">{capitulo.titulo}</Link>.
         </p>
       )}
 
