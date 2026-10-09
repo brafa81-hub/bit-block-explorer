@@ -298,9 +298,9 @@ function SimuladorMineria() {
 
             <p className="mt-4 text-[15px]">
               En la red real se exigen muchísimos más ceros, y todas las máquinas del mundo compiten
-              por el mismo bloque. Por eso ningún minero trabaja solo: se une a un pool, que cuenta
-              sus shares y le paga en proporción. Es exactamente como trabaja la potencia que
-              alquilas.
+              por el mismo bloque. Se puede minar en solitario, pero encontrar un bloque así es muy
+              poco probable. Por eso la mayoría de mineros se une a un pool, que cuenta sus shares
+              y les paga en proporción. Es exactamente como trabaja la potencia que alquilas.
             </p>
             <a
               href="#escala-real"
@@ -430,7 +430,7 @@ function SimuladorMineria() {
           <p className="mt-8 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
             Frente a la red entera, 1 PH/s es una parte pequeña: más o menos una entre{" "}
             {formatInt(redEhs * 1000)}. Le pasa lo mismo a cualquier minero, incluso a granjas con
-            cientos de máquinas. Por eso la minería funciona en pools: cada participante recibe en
+            cientos de máquinas. Por eso la mayoría se une a pools: cada participante recibe en
             proporción a lo que aporta, sea grande o pequeño.
           </p>
           <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
