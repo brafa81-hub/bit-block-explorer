@@ -29,7 +29,7 @@ function Indice() {
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <div className="index-label">aprende</div>
       <h1 className="mt-2 text-3xl sm:text-4xl">Entiende la minería de Bitcoin en siete pasos</h1>
-      <p className="mt-4 text-[17px]">Bitcoin funciona gracias a miles de máquinas que trabajan sin descanso en todo el mundo. Aquí descubres cómo, sin saber nada de antemano: cada capítulo se lee en pocos minutos y acaba con un quiz de tres preguntas.</p>
+      <p className="mt-4 text-[17px]">Bitcoin funciona gracias a miles de máquinas que trabajan sin descanso en todo el mundo. Aquí descubres cómo, sin saber nada de antemano: cada capítulo se lee en pocos minutos y acaba con un test de tres preguntas.</p>
       <ol className="mt-10">
         {CAPITULOS.map((c, i) => (
           <li key={c.slug} className="border-t border-border">
@@ -42,7 +42,7 @@ function Indice() {
         ))}
       </ol>
       <Link to="/aprende/quiz" className="mt-8 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
-        Quiz final (opcional)
+        Test (opcional)
       </Link>
     </main>
   );

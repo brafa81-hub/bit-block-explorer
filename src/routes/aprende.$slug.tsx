@@ -103,7 +103,7 @@ function CapituloPagina() {
                 Mina con HashFlow
               </Link>
               <Link to="/aprende/quiz" className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
-                Ir al quiz final
+                Ir al test
               </Link>
             </>
           )}
