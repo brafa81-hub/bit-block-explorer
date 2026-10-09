@@ -46,7 +46,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Dinero digital que funciona sin banco central: miles de ordenadores de todo el mundo llevan juntos la cuenta de quién tiene qué.",
     explicacion: [
       "Imagina un cuaderno de cuentas compartido por todo un pueblo. Nadie lo guarda en su casa: cada vecino tiene una copia idéntica y todos comprueban cada apunte nuevo.",
-      "Bitcoin es ese cuaderno, pero a escala mundial y en internet. Sirve para enviar valor de una persona a otra sin pedir permiso a nadie.",
+      "Bitcoin es ese cuaderno, pero a escala mundial y en internet. Sirve para enviar valor de una persona a otra sin pedir permiso a nadie, y lleva funcionando sin parar desde 2009.",
       "En realidad, no hay monedas guardadas en ningún sitio. Lo que existe es un registro público de movimientos, protegido con criptografía y con el trabajo de los mineros.",
     ],
     ejemplo: "Nunca existirán más de 21.000.000 BTC. Ese límite está escrito en las reglas desde el principio.",
@@ -61,7 +61,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     definicion: "La unidad más pequeña de Bitcoin. Un bitcoin se divide en cien millones de satoshis.",
     explicacion: [
       "Igual que un euro se parte en céntimos, un bitcoin se parte en satoshis. La diferencia es que aquí las partes son muchísimo más pequeñas.",
-      "Gracias a eso puedes manejar cantidades diminutas sin necesidad de tener un bitcoin entero.",
+      "Gracias a eso puedes manejar cantidades diminutas sin necesidad de tener un bitcoin entero: tener unos pocos satoshis ya es tener Bitcoin.",
       "En realidad, el sistema cuenta todo en satoshis por dentro. Hablar de «bitcoins» es solo una forma cómoda de agruparlos.",
     ],
     ejemplo: "1 BTC = 100.000.000 satoshis.",
@@ -119,7 +119,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     definicion: "Quien pone máquinas a calcular hashes para crear el siguiente bloque y, a cambio, puede recibir la recompensa.",
     explicacion: [
       "Imagina buscar una llave que abra un candado probando combinaciones muy rápido: no hay atajo, solo probar.",
-      "Los mineros hacen justo eso. Quien encuentra un hash válido añade el bloque y cobra la recompensa en bitcoin.",
+      "Los mineros hacen justo eso. Quien encuentra un hash válido añade el bloque y cobra la recompensa en bitcoin, y lo intentan miles de mineros a la vez, día y noche, en todo el mundo.",
       "En realidad, no se «extrae» nada de ningún sitio. Minar es ofrecer cálculo para proteger la red, y los bitcoins nuevos son la compensación por ese servicio. Es una de las ideas más ingeniosas de Bitcoin.",
     ],
     relacionados: ["prueba-de-trabajo", "asic", "pool"],
@@ -223,7 +223,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     explicacion: [
       "Es la compensación por el trabajo. Tiene dos partes: bitcoins nuevos que crea el propio sistema y las comisiones que pagan los usuarios.",
       "La parte de bitcoins nuevos se llama subsidio y se reduce a la mitad en cada halving.",
-      "En realidad, así es como entran en circulación todos los bitcoins nuevos. No hay otra forma de emitirlos.",
+      "En realidad, así es como entran en circulación todos los bitcoins nuevos. No hay otra forma de emitirlos: cada uno nace de un minero que ha hecho su trabajo.",
     ],
     ejemplo: "Subsidio actual: 3,125 BTC por bloque, desde abril de 2024.",
     relacionados: ["halving", "comision-de-transaccion", "minero"],
@@ -313,7 +313,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     definicion: "El momento, cada 210.000 bloques, en que el subsidio por bloque se reduce a la mitad.",
     explicacion: [
       "Imagina un grifo que cada cuatro años suelta la mitad de agua. Nunca se cierra de golpe, pero cada vez gotea menos.",
-      "Así Bitcoin emite cada vez menos monedas nuevas, hasta acercarse al límite de 21 millones.",
+      "Así Bitcoin emite cada vez menos monedas nuevas, hasta acercarse al límite de 21 millones. Esa escasez programada es una de sus señas de identidad.",
       "En realidad, no va por fechas sino por número de bloques. Los cuatro años son una aproximación.",
     ],
     ejemplo: "Desde abril de 2024: 3,125 BTC. Próximo halving previsto hacia 2028: 1,5625 BTC.",
@@ -402,7 +402,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     definicion: "Una aplicación o dispositivo que guarda tus claves y te permite recibir y enviar bitcoin.",
     explicacion: [
       "Se traduce como «monedero», pero se parece más a un llavero: lo que guarda son las llaves de tu dinero.",
-      "Desde la wallet generas direcciones para recibir y firmas los envíos.",
+      "Desde la wallet generas direcciones para recibir y firmas los envíos. Con tu propia wallet, el control de tus bitcoins es solo tuyo.",
       "En realidad, los bitcoins no están dentro de la wallet. Están en la blockchain; la wallet solo guarda las claves para moverlos.",
     ],
     relacionados: ["direccion", "clave-privada", "frase-de-recuperacion"],
@@ -460,7 +460,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     definicion: "Las reglas con las que un pool reparte lo que gana entre sus mineros. Los más comunes son FPPS y PPLNS.",
     explicacion: [
       "Hay pools que pagan una cantidad fija por cada parte de trabajo aportada y otros que reparten cuando encuentran un bloque.",
-      "En FPPS el pool te paga por cada share según lo que se espera ganar, incluidas comisiones, y asume él la mala racha.",
+      "En FPPS el pool te paga por cada share según lo que se espera ganar, incluidas comisiones, y asume él la variabilidad.",
       "En PPLNS cobras cuando el pool encuentra un bloque, según tus shares de las últimas rondas. Hay más altibajos.",
       "En realidad, a largo plazo ambos tienden a parecerse. Lo que cambia es quién soporta la variabilidad.",
     ],
@@ -477,7 +477,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     definicion: "Potencia de minería que usas durante un tiempo sin tener la máquina. Otro pone el equipo y el pool se encarga de pagar.",
     explicacion: [
       "Es como alquilar una pista de pádel por horas. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
-      "Durante ese tiempo, la potencia trabaja en un pool como la de cualquier minero.",
+      "Durante ese tiempo, tu potencia trabaja en un pool igual que la de un minero profesional.",
       "En realidad, alquilas cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
     enLaPractica: `En HashFlow eliges un bloque de ${SERVICIO.productos.jornada.potencia} durante ${SERVICIO.productos.jornada.horas} o ${SERVICIO.productos.dia.horas} horas y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga HashFlow. Lo que pagas es más de lo que recibirás en sats: no es una inversión ni garantiza un resultado.`,
