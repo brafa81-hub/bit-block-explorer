@@ -116,7 +116,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Difícil de hacer, fácil de comprobar",
         parrafos: [
           "Aquí viene lo bueno. Encontrar ese hash exige millones de intentos, pero comprobarlo cuesta uno solo.",
-          "Eso es la prueba de trabajo, y es lo que hace a Bitcoin tan difícil de falsificar. Puedes verlo tú mismo en el simulador de esta web.",
+          "Eso es la prueba de trabajo, y es lo que hace a Bitcoin tan difícil de falsificar. Puedes verlo tú mismo en el [simulador](/) de esta web.",
         ],
       },
     ],
@@ -174,7 +174,7 @@ export const CAPITULOS: Capitulo[] = [
       },
     ],
     enRealidad:
-      "En realidad, la dificultad no se sube de ceros en ceros: se ajusta con mucha precisión. El simulador usa ceros para que lo veas a simple vista.",
+      "En realidad, nadie mide el hashrate de la red directamente: se estima a partir de lo rápido que salen los bloques y de la dificultad vigente.",
     terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "asic"],
     cierre: "Ya sabes por qué el ritmo se mantiene. Pero con tanta competencia, ¿cómo participa alguien con una sola máquina?",
     quiz: [
@@ -391,8 +391,8 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
           "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats. Normalmente, bastante mayor.",
-          "Mira el simulador: 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red. Lo que llega es, como orden de magnitud, una fracción de lo pagado.",
-          "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool, y será menor de lo que pagas.",
+          "Mira el [simulador](/): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
+          "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool.",
         ],
       },
       {
@@ -405,7 +405,7 @@ export const CAPITULOS: Capitulo[] = [
     enRealidad:
       "En realidad, no alquilas una máquina concreta: alquilas una cantidad de potencia durante un tiempo, que puede salir de varias máquinas.",
     terminos: ["hashrate-alquilado", "pool-de-destino", "orden", "corporate"],
-    cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. ¿Lo compruebas con el quiz final?",
+    cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el quiz final.",
     quiz: [
       {
         pregunta: "¿Qué necesitas darle a HashFlow?",
@@ -414,10 +414,10 @@ export const CAPITULOS: Capitulo[] = [
         explicacion: "Solo la dirección. HashFlow se encarga de todo lo técnico.",
       },
       {
-        pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
-        opciones: ["Mayor", "Menor", "Exactamente igual"],
-        correcta: 1,
-        explicacion: "Lo que pagas es mayor que lo que recibes. No es una inversión ni garantiza resultado.",
+        pregunta: "¿Qué eliges al alquilar potencia con HashFlow?",
+        opciones: ["Cuántas horas de potencia", "La máquina concreta", "El pool de destino"],
+        correcta: 0,
+        explicacion: `Eliges ${jornada.nombre} (${jornada.horas} h) o ${dia.nombre} (${dia.horas} h) y nos das tu dirección. Lo técnico corre de nuestra parte.`,
       },
       {
         pregunta: "¿Quién te paga los sats?",

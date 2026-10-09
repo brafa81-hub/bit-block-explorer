@@ -33,6 +33,24 @@ export const Route = createFileRoute("/aprende/$slug")({
   component: CapituloPagina,
 });
 
+/** Párrafo con enlaces internos escritos como [texto](/ruta). */
+function Parrafo({ texto }: { texto: string }) {
+  const partes = texto.split(/(\[[^\]]+\]\(\/[^)]*\))/g);
+  return (
+    <p>
+      {partes.map((parte, k) => {
+        const m = /^\[([^\]]+)\]\((\/[^)]*)\)$/.exec(parte);
+        if (!m) return parte;
+        return (
+          <Link key={k} to={m[2] as "/" | "/minar"} className="underline underline-offset-4">
+            {m[1]}
+          </Link>
+        );
+      })}
+    </p>
+  );
+}
+
 function CapituloPagina() {
   const c = Route.useLoaderData();
   const i = indiceCapitulo(c.slug);
@@ -49,7 +67,7 @@ function CapituloPagina() {
         <section key={s.titulo} className="mt-10 border-t border-border pt-6">
           <h2 className="text-xl">{s.titulo}</h2>
           <div className="mt-3 space-y-4 text-[16px]">
-            {s.parrafos.map((p, k) => <p key={k}>{p}</p>)}
+            {s.parrafos.map((p, k) => <Parrafo key={k} texto={p} />)}
           </div>
         </section>
       ))}
@@ -74,15 +92,20 @@ function CapituloPagina() {
 
       <section className="mt-12 border-t border-border pt-6">
         <p className="text-[17px]">{c.cierre}</p>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap gap-3">
           {siguiente ? (
             <Link to="/aprende/$slug" params={{ slug: siguiente.slug }} className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
               Siguiente: {idx(i + 2)} / {siguiente.titulo}
             </Link>
           ) : (
-            <Link to="/aprende/quiz" className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
-              Ir al quiz final
-            </Link>
+            <>
+              <Link to="/minar" className="inline-flex min-h-[44px] items-center border border-foreground px-5 text-[15px] hover:opacity-80">
+                Mina con HashFlow
+              </Link>
+              <Link to="/aprende/quiz" className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
+                Ir al quiz final
+              </Link>
+            </>
           )}
         </div>
       </section>
