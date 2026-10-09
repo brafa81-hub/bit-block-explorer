@@ -125,7 +125,7 @@ function RootComponent() {
       <nav aria-label="Navegación principal" className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-5 pt-5 text-[14px] sm:px-8">
         <Link to="/" className="text-foreground hover:underline">Simulador</Link>
         <Link to="/mining-101" className="text-foreground hover:underline">Mining 101</Link>
-        <Link to="/glosario" className="text-foreground hover:underline">Glosario</Link>
+        <Link to="/diccionario" className="text-foreground hover:underline">Diccionario</Link>
         <Link to="/catalogo" className="text-foreground hover:underline">Catálogo</Link>
       </nav>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

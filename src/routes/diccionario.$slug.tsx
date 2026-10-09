@@ -3,9 +3,9 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getTermino, idx, indiceDe } from "@/content/glosario";
 import { capituloDeTermino } from "@/content/mining101";
 
-const BASE = "https://bit-block-explorer.lovable.app/glosario";
+const BASE = "https://bit-block-explorer.lovable.app/diccionario";
 
-export const Route = createFileRoute("/glosario/$slug")({
+export const Route = createFileRoute("/diccionario/$slug")({
   loader: ({ params }) => {
     const t = getTermino(params.slug);
     if (!t) throw notFound();
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/glosario/$slug")({
   head: ({ loaderData: t, params }) => {
     if (!t) return { meta: [{ title: "Término no encontrado" }, { name: "robots", content: "noindex" }] };
     const url = `${BASE}/${params.slug}`;
-    const title = `${t.plural ? "Qué son" : "Qué es"} ${t.termino} | Glosario de minería de Bitcoin`;
+    const title = `${t.plural ? "Qué son" : "Qué es"} ${t.termino} | Diccionario de minería de Bitcoin`;
     return {
       meta: [
         { title },
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/glosario/$slug")({
             name: t.termino,
             description: t.definicion,
             url,
-            inDefinedTermSet: { "@type": "DefinedTermSet", name: "Glosario de minería de Bitcoin", url: BASE },
+            inDefinedTermSet: { "@type": "DefinedTermSet", name: "Diccionario de minería de Bitcoin", url: BASE },
           }),
         },
       ],
@@ -70,8 +70,8 @@ function Ficha() {
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
-      <Link to="/glosario" className="index-label hover:text-foreground">
-        ← glosario
+      <Link to="/diccionario" className="index-label hover:text-foreground">
+        ← diccionario
       </Link>
       <div className="index-label mt-6">
         {idx(indiceDe(t.slug))} / {t.categoria.toLowerCase()}
@@ -113,7 +113,7 @@ function Ficha() {
             {rel.map((r) => (
               <li key={r.slug}>
                 <Link
-                  to="/glosario/$slug"
+                  to="/diccionario/$slug"
                   params={{ slug: r.slug }}
                   className="inline-flex min-h-[40px] items-center border border-border px-3 text-[14px] hover:border-foreground"
                 >
@@ -139,8 +139,8 @@ function Ficha() {
 function TerminoNoEncontrado() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
-      <h1 className="text-3xl">Este término no está en el glosario</h1>
-      <Link to="/glosario" className="mt-6 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]">
+      <h1 className="text-3xl">Este término no está en el diccionario</h1>
+      <Link to="/diccionario" className="mt-6 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]">
         Ver todos los términos
       </Link>
     </main>

@@ -3,12 +3,12 @@ import { useMemo, useState } from "react";
 
 import { CATEGORIAS, GLOSARIO_ALFABETICO, idx, type CategoriaGlosario } from "@/content/glosario";
 
-const URL = "https://bit-block-explorer.lovable.app/glosario";
-const TITULO = "Glosario de minería de Bitcoin explicado fácil";
+const URL = "https://bit-block-explorer.lovable.app/diccionario";
+const TITULO = "Diccionario de minería de Bitcoin explicado fácil";
 const DESC =
   "Hash, bloque, dificultad, halving, pool… 35 términos de Bitcoin y minería explicados desde cero, con ejemplos del día a día.";
 
-export const Route = createFileRoute("/glosario/")({
+export const Route = createFileRoute("/diccionario/")({
   head: () => ({
     meta: [
       { title: TITULO },
@@ -53,7 +53,7 @@ function GlosarioIndice() {
       <Link to="/" className="index-label hover:text-foreground">
         ← simulador
       </Link>
-      <h1 className="mt-4 text-3xl sm:text-4xl">Glosario</h1>
+      <h1 className="mt-4 text-3xl sm:text-4xl">Diccionario</h1>
       <p className="mt-3 max-w-xl text-[16px] text-muted-foreground">
         ¿Te has cruzado con una palabra rara? Aquí la tienes explicada desde cero, con un
         ejemplo cotidiano y sin tecnicismos de más.
@@ -100,7 +100,7 @@ function GlosarioIndice() {
         {lista.map(({ t, n }) => (
           <li key={t.slug} className="border-t border-border">
             <Link
-              to="/glosario/$slug"
+              to="/diccionario/$slug"
               params={{ slug: t.slug }}
               className="grid grid-cols-[3rem_1fr] gap-x-2 py-4 hover:bg-foreground/[0.03]"
             >

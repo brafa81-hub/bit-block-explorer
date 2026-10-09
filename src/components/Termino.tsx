@@ -19,11 +19,11 @@ export function Termino({ slug, children }: { slug: string; children?: ReactNode
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-72 rounded-sm border-border bg-background p-4 shadow-none">
-        <div className="index-label">glosario</div>
+        <div className="index-label">diccionario</div>
         <p className="mt-1 text-[15px] font-medium">{t.termino}</p>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">{t.definicion}</p>
         <Link
-          to="/glosario/$slug"
+          to="/diccionario/$slug"
           params={{ slug: t.slug }}
           className="mt-3 inline-block text-[14px] text-primary underline underline-offset-4"
         >

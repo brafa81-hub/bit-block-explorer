@@ -60,7 +60,7 @@ function CapituloPagina() {
         <h2 className="text-xl">En el diccionario</h2>
         <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
           {c.terminos.map((t) => (
-            <li key={t}><Link to="/glosario/$slug" params={{ slug: t }} className="underline underline-offset-4">{getTermino(t)?.termino ?? t}</Link></li>
+            <li key={t}><Link to="/diccionario/$slug" params={{ slug: t }} className="underline underline-offset-4">{getTermino(t)?.termino ?? t}</Link></li>
           ))}
         </ul>
       </section>
