@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Mina Bitcoin de mentira en tu propio navegador: cambia el nonce, sube la dificultad y ve cuántos intentos hacen falta para encontrar un hash válido.",
+          "Simula la minería de Bitcoin en tu navegador: cambia la dificultad, prueba combinaciones y comprueba cuántos intentos hacen falta para encontrar un hash válido.",
       },
       { property: "og:title", content: "Simulador de minería de Bitcoin" },
       {
