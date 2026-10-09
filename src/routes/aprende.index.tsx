@@ -41,7 +41,7 @@ function Indice() {
           </li>
         ))}
       </ol>
-      <Link to="/aprende/quiz" className="mt-8 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
+      <Link to="/aprende/test" className="mt-8 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
         Test (opcional)
       </Link>
     </main>

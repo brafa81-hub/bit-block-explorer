@@ -15,6 +15,7 @@ import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as AprendeIndexRouteImport } from './routes/aprende.index'
 import { Route as AprendeSlugRouteImport } from './routes/aprende.$slug'
 import { Route as AprendeQuizRouteImport } from './routes/aprende.quiz'
+import { Route as AprendeTestRouteImport } from './routes/aprende.test'
 import { Route as DiccionarioIndexRouteImport } from './routes/diccionario.index'
 import { Route as DiccionarioSlugRouteImport } from './routes/diccionario.$slug'
 
@@ -48,6 +49,11 @@ const AprendeQuizRoute = AprendeQuizRouteImport.update({
   path: '/aprende/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AprendeTestRoute = AprendeTestRouteImport.update({
+  id: '/aprende/test',
+  path: '/aprende/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiccionarioIndexRoute = DiccionarioIndexRouteImport.update({
   id: '/diccionario/',
   path: '/diccionario/',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/privacidad': typeof PrivacidadRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
+  '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/privacidad': typeof PrivacidadRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
+  '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/aprende': typeof AprendeIndexRoute
   '/diccionario': typeof DiccionarioIndexRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/privacidad': typeof PrivacidadRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
+  '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/aprende/$slug'
     | '/aprende/quiz'
+    | '/aprende/test'
     | '/diccionario/$slug'
     | '/aprende/'
     | '/diccionario/'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/aprende/$slug'
     | '/aprende/quiz'
+    | '/aprende/test'
     | '/diccionario/$slug'
     | '/aprende'
     | '/diccionario'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/aprende/$slug'
     | '/aprende/quiz'
+    | '/aprende/test'
     | '/diccionario/$slug'
     | '/aprende/'
     | '/diccionario/'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   PrivacidadRoute: typeof PrivacidadRoute
   AprendeSlugRoute: typeof AprendeSlugRoute
   AprendeQuizRoute: typeof AprendeQuizRoute
+  AprendeTestRoute: typeof AprendeTestRoute
   DiccionarioSlugRoute: typeof DiccionarioSlugRoute
   AprendeIndexRoute: typeof AprendeIndexRoute
   DiccionarioIndexRoute: typeof DiccionarioIndexRoute
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AprendeQuizRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aprende/test': {
+      id: '/aprende/test'
+      path: '/aprende/test'
+      fullPath: '/aprende/test'
+      preLoaderRoute: typeof AprendeTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diccionario/': {
       id: '/diccionario/'
       path: '/diccionario'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadRoute: PrivacidadRoute,
   AprendeSlugRoute: AprendeSlugRoute,
   AprendeQuizRoute: AprendeQuizRoute,
+  AprendeTestRoute: AprendeTestRoute,
   DiccionarioSlugRoute: DiccionarioSlugRoute,
   AprendeIndexRoute: AprendeIndexRoute,
   DiccionarioIndexRoute: DiccionarioIndexRoute,
