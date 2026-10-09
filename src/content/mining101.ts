@@ -392,7 +392,7 @@ export const CAPITULOS: Capitulo[] = [
         parrafos: [
           "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats. Normalmente, bastante mayor.",
           "Mira el simulador: 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red. Lo que llega es, como orden de magnitud, una fracción de lo pagado.",
-          "No es una inversión y no hay resultado garantizado. Lo que obtienes es otra cosa: formar parte durante unas horas de la red que protege Bitcoin, con potencia real, y ver cómo funciona desde dentro.",
+          "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool, y será menor de lo que pagas.",
         ],
       },
       {
