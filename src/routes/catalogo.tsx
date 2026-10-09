@@ -233,7 +233,7 @@ function Catalogo() {
           ))}
         </div>
         <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">
-          {SERVICIO.transparencia} (<Link to="/" className="underline underline-offset-4">Calcúlalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
+          {SERVICIO.transparencia} (<Link to="/" hash="escala-real" className="underline underline-offset-4">compruébalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
         </p>
       </section>
 

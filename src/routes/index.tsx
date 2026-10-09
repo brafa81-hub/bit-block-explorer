@@ -333,6 +333,9 @@ function SimuladorMineria() {
   };
 
   const veces = hps > 0 ? 200e12 / hps : 0;
+  /** Hashrate total aproximado de la red Bitcoin. Actualizar de vez en cuando. */
+  const RED_EHS = 940;
+  const RED_FECHA = "julio de 2026";
   const anios = hps > 0 ? 1e15 / hps / 31_536_000 : 0;
   const medicionValida = hps > 0 && intentos >= 1000;
 
@@ -623,7 +626,7 @@ function SimuladorMineria() {
               : "Ejecuta la simulación un rato y te diremos cuántos años tardaría tu navegador en hacer lo que 1 PH/s hace en un segundo."}
           </p>
 
-          <dl className="mt-10 grid gap-px sm:grid-cols-3" style={{ backgroundColor: "var(--on-dark-border)" }}>
+          <dl className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ backgroundColor: "var(--on-dark-border)" }}>
             <Comparativa
               etiqueta="Tu navegador"
               valor={hps > 0 ? `${formatInt(Math.round(hps))} intentos/s` : "—"}
@@ -649,15 +652,32 @@ function SimuladorMineria() {
               cifraCompleta="Mil billones de hashes por segundo"
               nota="Lo que hacen 5 equipos como este trabajando a la vez, sin parar."
             />
+            <Comparativa
+              etiqueta="La red de Bitcoin"
+              valor={`≈ ${RED_EHS} EH/s`}
+              cifraCompleta={`Unos ${RED_EHS} trillones de hashes por segundo`}
+              nota={`Todas las máquinas del mundo sumadas (dato aproximado, ${RED_FECHA}).`}
+            />
           </dl>
 
           <p
             className="mt-8 max-w-2xl text-[15px]"
             style={{ color: "var(--on-dark-muted)" }}
           >
-            Por eso nadie mina en solitario desde un ordenador. La minería seria se hace con
-            máquinas dedicadas, en instalaciones con energía y refrigeración pensadas para
-            ello.
+            Frente a la red entera, 1 PH/s es una parte pequeña: más o menos una entre un
+            millón. Le pasa lo mismo a cualquier minero, incluso a granjas con cientos de
+            máquinas. Por eso la minería funciona en pools: cada participante recibe en
+            proporción a lo que aporta, sea grande o pequeño.
+          </p>
+          <p
+            className="mt-4 max-w-2xl text-[15px]"
+            style={{ color: "var(--on-dark-muted)" }}
+          >
+            Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan
+            miles de euros cada una, consumen tanta electricidad como unas 40 viviendas,
+            hacen ruido día y noche y se quedan anticuadas en pocos años. Alquilando 1 PH/s
+            usas esa misma potencia durante unas horas, sin comprar nada, sin ruido y sin
+            factura de luz.
           </p>
 
           <div className="mt-8">
