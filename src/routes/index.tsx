@@ -1,13 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import {
-  doubleSha256,
-  formatDecimal,
-  formatInt,
-  formatSeconds,
-  leadingZeros,
-} from "@/lib/mining";
+import { doubleSha256, formatInt, formatSeconds } from "@/lib/mining";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,37 +27,7 @@ export const Route = createFileRoute("/")({
   component: SimuladorMineria,
 });
 
-const DIFICULTAD_AVISO: Record<number, string> = {
-  1: "Fácil. Lo encontrarás casi al instante.",
-  2: "Fácil. Lo encontrarás casi al instante.",
-  3: "Equilibrado. Unos segundos.",
-  4: "Difícil. Puede tardar bastante.",
-  5: "Muy difícil. Puede tardar mucho, o no encontrarlo. Así se siente la minería real.",
-};
-
 const HASH_ANTERIOR = "00000000000000000002a7c4c1e48d76c5a37902165a270156b7a8d72728a054";
-const LOTE = 300;
-const PINTURA_MS = 66;
-
-/** Redondea a dos cifras significativas y lo expresa con palabras de escala. */
-function vecesEnPalabras(x: number): string {
-  if (!isFinite(x) || x <= 0) return "—";
-  const escalas: [number, string][] = [
-    [1e12, "billones"],
-    [1e9, "mil millones"],
-    [1e6, "millones"],
-  ];
-  for (const [v, nombre] of escalas) {
-    if (x >= v) {
-      const n = x / v;
-      const mag = Math.pow(10, Math.max(0, Math.floor(Math.log10(n)) - 1));
-      return `${formatInt(Math.round(n / mag) * mag)} ${nombre}`;
-    }
-  }
-  const mag = Math.pow(10, Math.max(0, Math.floor(Math.log10(x)) - 1));
-  return formatInt(Math.round(x / mag) * mag);
-}
-
 /** Cifra grande con palabras de escala (billones, trillones…). */
 function cifraEnPalabras(x: number): string {
   if (!isFinite(x) || x <= 0) return "0";
@@ -83,9 +47,6 @@ function cifraEnPalabras(x: number): string {
   }
   return formatInt(Math.round(x));
 }
-
-/** Ceros que pide el pool para una share: uno menos que el bloque (16 veces más fácil). */
-const cerosShare = (dif: number) => Math.max(1, dif - 1);
 
 const MERKLE = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b";
 
@@ -110,27 +71,6 @@ function generarTexturaHex(filas: number, cols: number): string {
   return lineas.join("\n");
 }
 
-function Campo({
-  etiqueta,
-  ayuda,
-  htmlFor,
-  children,
-}: {
-  etiqueta: string;
-  ayuda: string;
-  htmlFor?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="border-t border-border pt-4">
-      <label htmlFor={htmlFor} className="block text-[15px]">{etiqueta}</label>
-      <p className="text-[13px] leading-relaxed text-muted-foreground">{ayuda}</p>
-      <div className="mt-2">{children}</div>
-    </div>
-  );
-}
-
-
 function Desplegable({
   titulo,
   children,
@@ -151,216 +91,35 @@ function Desplegable({
   );
 }
 
+/** Bloque de ejemplo fijo: su primer hash con tres ceros aparece en el nonce 4.801. */
+const MARCA = "09/10/2026, 14:12:00";
+const CABECERA = `${HASH_ANTERIOR}${MERKLE}${MARCA}`;
+const NONCE_VALIDO = 4801;
+const TOTAL_INTENTOS = NONCE_VALIDO + 1;
+const OBJETIVO = "000";
+const OBJETIVO_SHARE = "00";
+const DURACION_MS = 10_000;
+
+type Fase = "inicio" | "minando" | "hecho";
+type Intento = { hash: string; share: boolean; valido?: boolean };
+
 function SimuladorMineria() {
-  const [dificultad, setDificultad] = useState(3);
-  const [difRonda, setDifRonda] = useState(3);
-
-  const [prev, setPrev] = useState(HASH_ANTERIOR);
-  const [merkle, setMerkle] = useState(MERKLE);
-  const [marca, setMarca] = useState("");
-
-  const [minando, setMinando] = useState(false);
-  const [nonce, setNonce] = useState(0);
-  const [hash, setHash] = useState("");
-  const [historial, setHistorial] = useState<string[]>([]);
+  const [fase, setFase] = useState<Fase>("inicio");
   const [intentos, setIntentos] = useState(0);
-  const [ms, setMs] = useState(0);
-  const [encontrado, setEncontrado] = useState<null | {
-    hash: string;
-    nonce: number;
-    intentos: number;
-    ms: number;
-    hps: number;
-  }>(null);
-  const [mejor, setMejor] = useState<{ hash: string; ceros: number } | null>(null);
   const [shares, setShares] = useState(0);
+  const [ms, setMs] = useState(0);
+  const [hash, setHash] = useState("");
+  const [historial, setHistorial] = useState<Intento[]>([]);
   const [textura, setTextura] = useState("");
-
-  const corriendo = useRef(false);
-  const pausado = useRef(false);
   const runId = useRef(0);
-  const acumulado = useRef(0);
-  const tramoInicio = useRef(0);
-  const total = useRef(0);
-  const sharesRef = useRef(0);
-  const nonceRef = useRef(0);
-  const mejorRef = useRef<{ hash: string; ceros: number } | null>(null);
-  const historialRef = useRef<string[]>([]);
-  const ultimaPintura = useRef(0);
-  const encontradoRef = useRef(false);
-  const cicloRef = useRef<(id: number) => void>(() => {});
 
   useEffect(() => {
-    setMarca(
-      new Intl.DateTimeFormat("es-ES", {
-        dateStyle: "short",
-        timeStyle: "medium",
-      }).format(new Date()),
-    );
     setTextura(generarTexturaHex(150, 200));
-  }, []);
-
-  const hps = ms > 0 ? intentos / (ms / 1000) : 0;
-
-  const tiempo = () =>
-    acumulado.current + (pausado.current ? 0 : performance.now() - tramoInicio.current);
-
-  const reiniciar = useCallback(() => {
-    runId.current++;
-    corriendo.current = false;
-    pausado.current = false;
-    encontradoRef.current = false;
-    total.current = 0;
-    sharesRef.current = 0;
-    nonceRef.current = 0;
-    acumulado.current = 0;
-    mejorRef.current = null;
-    historialRef.current = [];
-    setMinando(false);
-    setNonce(0);
-    setHash("");
-    setHistorial([]);
-    setIntentos(0);
-    setMs(0);
-    setEncontrado(null);
-    setMejor(null);
-    setShares(0);
-  }, []);
-
-  const parar = useCallback(() => {
-    if (corriendo.current && !pausado.current) {
-      acumulado.current += performance.now() - tramoInicio.current;
-    }
-    runId.current++;
-    corriendo.current = false;
-    pausado.current = false;
-    setMinando(false);
-    setMs(acumulado.current);
-    setIntentos(total.current);
-    setMejor(mejorRef.current);
-    setShares(sharesRef.current);
-  }, []);
-
-  const minar = useCallback(() => {
-    if (corriendo.current) return;
-    if (encontradoRef.current) reiniciar();
-    const id = ++runId.current;
-    const objetivo = "0".repeat(dificultad);
-    const objetivoShare = "0".repeat(cerosShare(dificultad));
-    const cabecera = `${prev}${merkle}${marca}`;
-    setDifRonda(dificultad);
-    corriendo.current = true;
-    pausado.current = typeof document !== "undefined" && document.hidden;
-    tramoInicio.current = performance.now();
-    setMinando(true);
-
-    const ciclo = async (rid: number) => {
-      if (rid !== runId.current || !corriendo.current || pausado.current) return;
-      const base = nonceRef.current;
-      nonceRef.current += LOTE;
-      const promesas: Promise<string>[] = [];
-      for (let i = 0; i < LOTE; i++) promesas.push(doubleSha256(`${cabecera}${base + i}`));
-      const hashes = await Promise.all(promesas);
-
-      let ultimo = "";
-      let ultimoNonce = base;
-      for (let i = 0; i < hashes.length; i++) {
-        if (rid !== runId.current || !corriendo.current) return;
-        const h = hashes[i] ?? "";
-        const n = base + i;
-        total.current++;
-        ultimo = h;
-        ultimoNonce = n;
-        const z = leadingZeros(h);
-        if (!mejorRef.current || z > mejorRef.current.ceros) {
-          mejorRef.current = { hash: h, ceros: z };
-        }
-        if (h.startsWith(objetivoShare)) sharesRef.current++;
-        if (h.startsWith(objetivo)) {
-          const t = tiempo();
-          acumulado.current = t;
-          corriendo.current = false;
-          encontradoRef.current = true;
-          runId.current++;
-          setMinando(false);
-          setHash(h);
-          setNonce(n);
-          setIntentos(total.current);
-          setMs(t);
-          setMejor(mejorRef.current);
-          setShares(sharesRef.current);
-          setEncontrado({
-            hash: h,
-            nonce: n,
-            intentos: total.current,
-            ms: t,
-            hps: total.current / (t / 1000),
-          });
-          return;
-        }
-      }
-
-      const ahora = performance.now();
-      if (ahora - ultimaPintura.current >= PINTURA_MS) {
-        ultimaPintura.current = ahora;
-        historialRef.current = [ultimo, ...historialRef.current].slice(0, 6);
-        setHash(ultimo);
-        setNonce(ultimoNonce);
-        setIntentos(total.current);
-        setMs(tiempo());
-        setHistorial(historialRef.current);
-        setMejor(mejorRef.current);
-        setShares(sharesRef.current);
-      }
-      requestAnimationFrame(() => void ciclo(rid));
-    };
-
-    cicloRef.current = (rid) => void ciclo(rid);
-    if (!pausado.current) void ciclo(id);
-  }, [dificultad, prev, merkle, marca, reiniciar]);
-
-  // Pausa en segundo plano y reanuda al volver.
-  useEffect(() => {
-    const onVis = () => {
-      if (!corriendo.current) return;
-      if (document.hidden) {
-        if (!pausado.current) {
-          acumulado.current += performance.now() - tramoInicio.current;
-          pausado.current = true;
-        }
-      } else if (pausado.current) {
-        pausado.current = false;
-        tramoInicio.current = performance.now();
-        cicloRef.current(runId.current);
-      }
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, []);
-
-  useEffect(
-    () => () => {
+    return () => {
       runId.current++;
-      corriendo.current = false;
-    },
-    [],
-  );
+    };
+  }, []);
 
-  const inputClase =
-    "hash-text w-full border border-border bg-transparent px-3 py-3 text-[13px] outline-none focus:border-primary disabled:opacity-60";
-
-  const camposProps = {
-    prev,
-    setPrev,
-    merkle,
-    setMerkle,
-    marca,
-    nonce,
-    inputClase,
-    bloqueado: minando,
-  };
-
-  const veces = hps > 0 ? 200e12 / hps : 0;
   /** Hashrate de la red: se lee en directo de mempool.space; si falla, se usa el valor de respaldo. */
   const [redEhs, setRedEhs] = useState<number>(RED_EHS_RESPALDO);
   const [redEnDirecto, setRedEnDirecto] = useState(false);
@@ -378,266 +137,219 @@ function SimuladorMineria() {
       .catch(() => {});
     return () => ctrl.abort();
   }, []);
-  const anios = hps > 0 ? 1e15 / hps / 31_536_000 : 0;
-  const medicionValida = hps > 0 && intentos >= 1000;
+
+  const minar = useCallback(() => {
+    const id = ++runId.current;
+    const inicio = performance.now();
+    let hechos = 0;
+    let nShares = 0;
+    let lista: Intento[] = [];
+    setFase("minando");
+    setIntentos(0);
+    setShares(0);
+    setMs(0);
+    setHash("");
+    setHistorial([]);
+
+    const ciclo = async () => {
+      if (id !== runId.current) return;
+      const t = performance.now() - inicio;
+      // Ritmo fijo: el mismo en cualquier dispositivo (cámara lenta).
+      const meta = Math.min(TOTAL_INTENTOS, Math.ceil((t / DURACION_MS) * TOTAL_INTENTOS));
+      const nonces: number[] = [];
+      for (let n = hechos; n < meta; n++) nonces.push(n);
+      const hashes = await Promise.all(nonces.map((n) => doubleSha256(`${CABECERA}${n}`)));
+      if (id !== runId.current) return;
+
+      let destacado: Intento | null = null;
+      let encontrado: string | null = null;
+      for (const h of hashes) {
+        const esShare = h.startsWith(OBJETIVO_SHARE);
+        if (esShare) {
+          nShares++;
+          destacado = { hash: h, share: true };
+        }
+        if (h.startsWith(OBJETIVO)) {
+          encontrado = h;
+          destacado = { hash: h, share: true, valido: true };
+        }
+      }
+      hechos = meta;
+      const ultimo = hashes[hashes.length - 1];
+      if (destacado || ultimo) {
+        lista = [destacado ?? { hash: ultimo ?? "", share: false }, ...lista].slice(0, 6);
+      }
+
+      setIntentos(hechos);
+      setShares(nShares);
+      setMs(performance.now() - inicio);
+      if (ultimo) setHash(ultimo);
+      setHistorial(lista);
+
+      if (encontrado) {
+        setHash(encontrado);
+        setFase("hecho");
+        return;
+      }
+      requestAnimationFrame(() => void ciclo());
+    };
+    requestAnimationFrame(() => void ciclo());
+  }, []);
+
+  const minando = fase === "minando";
+  const hecho = fase === "hecho";
 
   return (
-    <main
-      className={`mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:py-16 ${minando ? "pb-32 sm:pb-10" : ""}`}
-    >
+    <main className="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:py-16">
       {/* Cabecera */}
       <header className="max-w-2xl">
         <div className="index-label">001 / simulador</div>
         <h1 className="mt-3 text-3xl sm:text-4xl lg:text-5xl">Simulador de minería</h1>
         <p className="mt-4 text-[16px] text-muted-foreground sm:text-[17px]">
-          Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Es el
-          mismo cálculo que protege la red; aquí lo vas a ver en directo, en tu propio
-          navegador: tu simulación no sale de tu dispositivo.
+          Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Es el mismo
+          cálculo que protege la red; aquí lo vas a ver en directo, en tu propio navegador: tu
+          simulación no sale de tu dispositivo.
         </p>
       </header>
 
-      <div className="mt-10 grid gap-8 sm:grid-cols-2 sm:grid-rows-[auto_1fr] sm:[grid-template-areas:'dif_sim''bloque_sim'] lg:mt-14 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-x-12">
-        {/* Dificultad */}
-        <div className="min-w-0 sm:[grid-area:dif]">
-          <div className="index-label">002 / dificultad</div>
-          <label htmlFor="dif" className="mt-2 block text-[17px]">
-            Dificultad
-          </label>
-          <p className="mt-1 text-[15px] text-muted-foreground">
-            Cuantos más ceros exijas al principio del resultado, más difícil es acertar.
-            Empieza en 3 y prueba a subirlo para ver cómo cambia el tiempo.
-          </p>
-          <div className="mt-4 flex items-center gap-4">
-            <input
-              id="dif"
-              type="range"
-              min={1}
-              max={5}
-              step={1}
-              value={dificultad}
-              disabled={minando}
-              onChange={(e) => setDificultad(Number(e.target.value))}
-              className="h-11 w-full accent-[var(--instrument)] disabled:opacity-50"
-            />
-            <span className="hash-text text-lg text-foreground">{dificultad}</span>
-          </div>
-          <p className="mt-1 text-[14px] text-muted-foreground">
-            {DIFICULTAD_AVISO[dificultad]}
+      {/* Demostración */}
+      <section className="mt-10 max-w-3xl lg:mt-14">
+        <div className="index-label">002 / demostración</div>
+        <p className="mt-3 text-[16px]">
+          Pulsa el botón y mira cómo se mina un bloque. Buscamos un resultado que empiece por tres
+          ceros. Va a cámara lenta para que puedas verlo: dura unos 10 segundos.
+        </p>
+
+        <button
+          onClick={minar}
+          disabled={minando}
+          className={`mt-5 min-h-[48px] px-6 text-[16px] transition-opacity hover:opacity-90 ${
+            minando
+              ? "border border-border bg-transparent text-muted-foreground"
+              : "bg-primary text-primary-foreground"
+          }`}
+        >
+          {minando ? "Minando…" : hecho ? "Repetir" : "Ver cómo se mina un bloque"}
+        </button>
+
+        {/* Hash actual */}
+        <div className="mt-6 border border-border p-4">
+          <div className="etiqueta">{hecho ? "Hash válido" : "Hash actual"}</div>
+          <p
+            className={`hash-text hash-break mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
+              hecho ? "text-primary" : "text-foreground"
+            }`}
+          >
+            {hash || "—"}
           </p>
         </div>
 
-        {/* Simulación */}
-        <section className="min-w-0 sm:[grid-area:sim]">
-          <div className="index-label">003 / simulación</div>
+        {/* Métricas */}
+        <div className="mt-4 grid grid-cols-3 gap-px border border-border bg-border">
+          <Metrica etiqueta="Intentos" valor={formatInt(intentos)} />
+          <Metrica etiqueta="Tiempo" valor={formatSeconds(ms)} />
+          <Metrica etiqueta="Shares para el pool" valor={formatInt(shares)} />
+        </div>
 
-          <div className="mt-3 flex flex-wrap items-center gap-4">
-            <button
-              onClick={minando ? parar : minar}
-              className={`min-h-[48px] px-6 text-[16px] transition-opacity hover:opacity-90 ${
-                minando
-                  ? "border border-border bg-transparent text-foreground"
-                  : "bg-primary text-primary-foreground"
-              }`}
-            >
-              {minando
-                ? "Parar"
-                : encontrado
-                  ? "Minar otra vez"
-                  : intentos > 0
-                    ? "Seguir minando"
-                    : "Empezar a minar"}
-            </button>
-            {!minando && intentos > 0 && !encontrado && (
-              <button
-                onClick={reiniciar}
-                className="min-h-[44px] text-[14px] text-muted-foreground underline underline-offset-4"
-              >
-                Empezar de cero
-              </button>
-            )}
-          </div>
-
-          {/* Hash actual */}
-          <div className="mt-6 border border-border p-4">
-            <div className="etiqueta">Hash actual</div>
-            <p
-              className={`hash-text hash-break mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
-                encontrado ? "text-primary" : "text-foreground"
-              }`}
-            >
-              {hash || "—"}
-            </p>
-          </div>
-
-          {/* Métricas */}
-          <div className="mt-4 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-2 xl:grid-cols-4">
-            <Metrica etiqueta="Intentos" valor={formatInt(intentos)} />
-            <Metrica etiqueta="Tiempo" valor={formatSeconds(ms)} />
-            <Metrica etiqueta="Velocidad" valor={`${formatInt(Math.round(hps))} intentos/s`} />
-            <Metrica etiqueta="Shares para el pool" valor={formatInt(shares)} />
-          </div>
-
-          {/* Shares y 1 PH/s en paralelo */}
-          {intentos > 0 && (
-            <div className="mt-4 border border-border p-4">
-              <div className="etiqueta">Tu trabajo, como en un pool</div>
-              <p className="mt-2 text-[15px]">
-                {shares > 0
-                  ? `Has aportado ${formatInt(shares)} ${shares === 1 ? "share" : "shares"}: resultados con ${cerosShare(difRonda)} ${cerosShare(difRonda) === 1 ? "cero" : "ceros"} que no cierran el bloque, pero demuestran trabajo real.`
-                  : `Aún no has aportado ninguna share. Una share es un resultado con ${cerosShare(difRonda)} ${cerosShare(difRonda) === 1 ? "cero" : "ceros"}: no cierra el bloque, pero demuestra trabajo real.`}{" "}
-                Un pool cuenta las shares de cada minero y paga en proporción. Así se reparte
-                lo que llega con la potencia que alquilas.
-              </p>
-              <p className="mt-3 text-[15px]">
-                En estos {formatSeconds(ms)}, 1 PH/s habría probado unos{" "}
-                <span className="hash-text text-primary">{cifraEnPalabras((ms / 1000) * 1e15)}</span>{" "}
-                de combinaciones.
-              </p>
-            </div>
-          )}
-
-          {/* Historial */}
+        {/* Últimos intentos */}
+        {fase !== "inicio" && (
           <div className="mt-4 border border-border p-4">
             <div className="etiqueta">Últimos intentos</div>
             <ul className="mt-2 space-y-1">
-              {historial.length === 0 && (
-                <li className="text-[14px] text-muted-foreground">
-                  Todavía no has probado ninguna combinación.
-                </li>
-              )}
-              {historial.map((h, i) => (
+              {historial.map((it, i) => (
                 <li
-                  key={`${h}-${i}`}
-                  className="hash-text hash-break text-[11px] text-muted-foreground sm:text-[12px]"
+                  key={`${it.hash}-${i}`}
+                  className={`hash-text hash-break text-[11px] sm:text-[12px] ${
+                    it.share ? "text-primary" : "text-muted-foreground"
+                  }`}
                   style={{ opacity: 1 - i * 0.12 }}
                 >
-                  {h}
+                  {it.share && (
+                    <span className="mr-2 font-sans text-[11px] uppercase tracking-wide">
+                      {it.valido ? "válido" : "share"}
+                    </span>
+                  )}
+                  {it.hash}
                 </li>
               ))}
             </ul>
+            <p className="mt-3 text-[13px] text-muted-foreground">
+              Una share empieza por dos ceros: no cierra el bloque, pero demuestra trabajo real ante
+              el pool.
+            </p>
           </div>
+        )}
 
-          {/* Éxito */}
-          {encontrado && (
-            <div className="mt-4 border border-stone p-4">
-              <div className="etiqueta">Hash válido</div>
-              <p className="hash-text hash-break mt-2 text-[13px] text-primary sm:text-[15px]">
-                {encontrado.hash}
-              </p>
-              <p className="mt-3 text-[15px]">
-                Lo has encontrado. Tu navegador ha probado{" "}
-                {formatInt(encontrado.intentos)} combinaciones en{" "}
-                {formatSeconds(encontrado.ms)}, a una media de{" "}
-                {formatInt(Math.round(encontrado.hps))} intentos por segundo. El nonce que
-                ha valido es el {formatInt(encontrado.nonce)}. Ninguna de las anteriores
-                servía.
-              </p>
-              <p className="mt-3 text-[15px]">
-                En la red real la exigencia es incomparablemente mayor: cada diez minutos,
-                todas las máquinas del mundo compiten por dar con uno solo. Por eso ningún
-                minero trabaja solo: se une a un pool, que cuenta sus shares y le paga en
-                proporción. Es exactamente como trabaja la potencia que alquilas.
-              </p>
-              <a
-                href="#escala-real"
-                className="mt-3 inline-flex min-h-[44px] items-center text-[14px] text-muted-foreground underline"
-              >
-                Ver la diferencia de escala
-              </a>
-            </div>
-          )}
+        {/* Resultado */}
+        {hecho && (
+          <div className="mt-4 border border-stone p-4">
+            <div className="etiqueta">Bloque encontrado</div>
+            <p className="mt-2 text-[15px]">
+              Tras {formatInt(intentos)} intentos, este resultado empieza por tres ceros: es válido.
+              Ninguno de los anteriores servía, aunque {formatInt(shares)} sí contaban como shares
+              para el pool.
+            </p>
 
-          {/* Mejor resultado al parar */}
-          {!encontrado && !minando && mejor && intentos > 0 && (
-            <div className="mt-4 border border-border p-4">
-              <div className="etiqueta">Mejor resultado hasta ahora</div>
-              <p className="hash-text hash-break mt-2 text-[13px] text-muted-foreground sm:text-[15px]">
-                {mejor.hash}
-              </p>
-              <p className="mt-3 text-[15px] text-muted-foreground">
-                Has parado antes de encontrarlo. Lo más cerca que has estado son{" "}
-                {formatInt(mejor.ceros)} ceros al principio; necesitas {difRonda}.{" "}
-                {shares > 0
-                  ? `Aun así has aportado ${formatInt(shares)} ${shares === 1 ? "share" : "shares"}: en un pool, ese trabajo contaría y se pagaría en proporción.`
-                  : "Puedes seguir minando cuando quieras."}
-              </p>
-            </div>
-          )}
-        </section>
-        {/* Bloque (opcional) */}
-        <section className="min-w-0 sm:[grid-area:bloque]">
-          <div className="index-label">004 / el bloque</div>
-          <details className="mt-3 border border-border">
-            <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between px-4 py-3 text-[15px] marker:hidden [&::-webkit-details-marker]:hidden">
-              <span>Ver el contenido del bloque (opcional)</span>
-              <span className="etiqueta">abrir / cerrar</span>
-            </summary>
-            <div className="border-t border-border px-4 pb-5 pt-4">
-              <CamposBloque {...camposProps} sufijo="b" />
-            </div>
-          </details>
-        </section>
+            <dl className="mt-4 grid gap-px border border-border bg-border sm:grid-cols-3">
+              <Metrica etiqueta="Esta demostración" valor={`${formatInt(intentos)} intentos`} />
+              <Metrica etiqueta="Antminer S21, en 10 s" valor="2.000 billones" />
+              <Metrica etiqueta="1 PH/s, en 10 s" valor="10.000 billones" />
+            </dl>
 
-      </div>
-
-      {/* Barra fija en móvil mientras se mina */}
-      {minando && (
-        <div className="fixed inset-x-0 bottom-0 z-10 border-t border-stone bg-background px-5 py-3 sm:hidden">
-          <div className="flex gap-6 text-[13px]">
-            <span>
-              <span className="text-muted-foreground">Shares </span>
-              <span className="hash-text">{formatInt(shares)}</span>
-            </span>
-            <span>
-              <span className="text-muted-foreground">Intentos </span>
-              <span className="hash-text">{formatInt(intentos)}</span>
-            </span>
+            <p className="mt-4 text-[15px]">
+              En la red real se exigen muchísimos más ceros, y todas las máquinas del mundo compiten
+              por el mismo bloque. Por eso ningún minero trabaja solo: se une a un pool, que cuenta
+              sus shares y le paga en proporción. Es exactamente como trabaja la potencia que
+              alquilas.
+            </p>
+            <a
+              href="#escala-real"
+              className="mt-3 inline-flex min-h-[44px] items-center text-[14px] text-muted-foreground underline"
+            >
+              Ver la diferencia de escala
+            </a>
           </div>
-          <p className="hash-text mt-1 truncate text-[12px]">{hash || "—"}</p>
-        </div>
-      )}
+        )}
+      </section>
 
       {/* Cómo funciona */}
       <section className="mt-12 lg:mt-16">
         <div className="index-label">005 / cómo funciona</div>
         <div className="mt-3">
           <Desplegable titulo="Cómo funciona">
-
             <div className="max-w-3xl space-y-6">
               <Explica titulo="Qué es un hash">
-                Es una función que convierte cualquier dato en un código de longitud fija.
-                Cambia una coma del dato y el código cambia por completo. No se parece en
-                nada al anterior.
+                Es una función que convierte cualquier dato en un código de longitud fija. Cambia
+                una coma del dato y el código cambia por completo. No se parece en nada al anterior.
               </Explica>
               <Explica titulo="Por qué no se puede calcular el resultado">
-                No hay forma de deducir qué número da un hash concreto. Solo se puede
-                probar, uno detrás de otro. Por eso se llama prueba de trabajo: el trabajo
-                es la prueba.
+                No hay forma de deducir qué número da un hash concreto. Solo se puede probar, uno
+                detrás de otro. Por eso se llama prueba de trabajo: el trabajo es la prueba.
               </Explica>
               <Explica titulo="Qué es el nonce">
-                Es un número dentro del bloque que el minero puede cambiar libremente. Todo
-                lo demás está fijado. Cambiar el nonce cambia el hash entero, y eso es lo
-                que se repite una y otra vez.
+                Es un número dentro del bloque que el minero puede cambiar libremente. Todo lo demás
+                está fijado. Cambiar el nonce cambia el hash entero, y eso es lo que se repite una y
+                otra vez.
               </Explica>
               <Explica titulo="Qué es una share">
-                Es un resultado que no llega a cerrar el bloque, pero cumple una exigencia
-                más baja que pone el pool. Sirve para demostrar cuánto trabajas: el pool
-                cuenta las shares de cada minero y reparte lo que obtiene en proporción.
+                Es un resultado que no llega a cerrar el bloque, pero cumple una exigencia más baja
+                que pone el pool. Sirve para demostrar cuánto trabajas: el pool cuenta las shares de
+                cada minero y reparte lo que obtiene en proporción.
               </Explica>
               <Explica titulo="Qué es la dificultad">
-                Es cuántos ceros se exigen al principio del hash. Cada cero adicional hace
-                el acierto unas dieciséis veces más raro, así que hacen falta muchos más
-                intentos de media.
+                Es cuántos ceros se exigen al principio del hash. Cada cero adicional hace el
+                acierto unas dieciséis veces más raro, así que hacen falta muchos más intentos de
+                media.
               </Explica>
               <Explica titulo="Qué es un ASIC">
-                Es un ordenador construido con un único propósito: calcular hashes SHA-256
-                lo más rápido posible. A diferencia de tu ordenador, no sirve para nada más
-                — y por eso es miles de veces más rápido en esta tarea concreta.
+                Es un ordenador construido con un único propósito: calcular hashes SHA-256 lo más
+                rápido posible. A diferencia de tu ordenador, no sirve para nada más — y por eso es
+                miles de veces más rápido en esta tarea concreta.
               </Explica>
               <Explica titulo="Qué es un pool de minería">
-                Muchos participantes prueban a la vez y reparten el resultado entre todos.
-                En solitario las probabilidades de acertar son mínimas, y podrías no encontrar
-                nada nunca.
+                Muchos participantes prueban a la vez y reparten el resultado entre todos. En
+                solitario las probabilidades de acertar son mínimas, y podrías no encontrar nada
+                nunca.
               </Explica>
             </div>
           </Desplegable>
@@ -650,7 +362,6 @@ function SimuladorMineria() {
         className="relative mt-12 overflow-hidden lg:mt-20"
         style={{ backgroundColor: "var(--ink)" }}
       >
-
         <pre
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 select-none whitespace-pre"
@@ -665,47 +376,31 @@ function SimuladorMineria() {
         </pre>
 
         <div className="relative px-5 py-12 sm:px-10 lg:px-14 lg:py-16">
-          <div
-            className="index-label"
-            style={{ color: "var(--instrument-dark)" }}
-          >
+          <div className="index-label" style={{ color: "var(--instrument-dark)" }}>
             006 / escala real
           </div>
 
-          <h2
-            className="mt-3 max-w-2xl text-2xl sm:text-3xl"
-            style={{ color: "var(--on-dark)" }}
-          >
-            Lo que acabas de hacer, comparado con una máquina de verdad
+          <h2 className="mt-3 max-w-2xl text-2xl sm:text-3xl" style={{ color: "var(--on-dark)" }}>
+            Lo que acabas de ver, comparado con una máquina de verdad
           </h2>
-          <p
-            className="mt-4 max-w-2xl text-[16px]"
-            style={{ color: "var(--on-dark-muted)" }}
-          >
-            Tu navegador prueba unos cuantos miles de combinaciones por segundo.{" "}
-            {hps > 0
-              ? `Un Antminer S21 es unas ${vecesEnPalabras(veces)} de veces más rápido que lo que acabas de medir.`
-              : "Una máquina dedicada es muchísimas veces más rápida."}{" "}
-            La diferencia no es de grado, es de escala.
+          <p className="mt-4 max-w-2xl text-[16px]" style={{ color: "var(--on-dark-muted)" }}>
+            Un ordenador normal prueba unas decenas de miles de combinaciones por segundo. Un
+            Antminer S21, unos 200 billones: diez mil millones de veces más. La diferencia no es de
+            grado, es de escala.
           </p>
           <p className="mt-4 max-w-2xl text-[16px]" style={{ color: "var(--on-dark)" }}>
-            {medicionValida
-              ? `Lo que 1 PH/s hace en un segundo, a tu navegador le llevaría unos ${formatInt(anios)} años.`
-              : "Ejecuta la simulación un rato y te diremos cuántos años tardaría tu navegador en hacer lo que 1 PH/s hace en un segundo."}
+            Lo que 1 PH/s hace en un segundo, a un ordenador normal le llevaría más de 1.500 años.
           </p>
 
-          <dl className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ backgroundColor: "var(--on-dark-border)" }}>
+          <dl
+            className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-4"
+            style={{ backgroundColor: "var(--on-dark-border)" }}
+          >
             <Comparativa
-              etiqueta="Tu navegador"
-              valor={hps > 0 ? `${formatInt(Math.round(hps))} intentos/s` : "—"}
-              cifraCompleta={
-                hps > 0 ? `${formatInt(Math.round(hps))} hashes por segundo` : undefined
-              }
-              nota={
-                hps > 0
-                  ? "Lo que acabas de medir aquí mismo."
-                  : "Ejecuta la simulación para medirlo."
-              }
+              etiqueta="Un ordenador"
+              valor="≈ 20.000 intentos/s"
+              cifraCompleta="Unas veinte mil combinaciones por segundo"
+              nota="Lo que suele hacer un ordenador normal desde el navegador."
             />
 
             <Comparativa
@@ -724,28 +419,25 @@ function SimuladorMineria() {
               etiqueta="La red de Bitcoin"
               valor={`≈ ${formatInt(redEhs)} EH/s`}
               cifraCompleta={`Unos ${formatInt(redEhs)} trillones de hashes por segundo`}
-              nota={redEnDirecto ? "Todas las máquinas del mundo sumadas (dato en directo, media de los últimos días)." : `Todas las máquinas del mundo sumadas (dato aproximado, ${RED_FECHA_RESPALDO}).`}
+              nota={
+                redEnDirecto
+                  ? "Todas las máquinas del mundo sumadas (dato en directo, media de los últimos días)."
+                  : `Todas las máquinas del mundo sumadas (dato aproximado, ${RED_FECHA_RESPALDO}).`
+              }
             />
           </dl>
 
-          <p
-            className="mt-8 max-w-2xl text-[15px]"
-            style={{ color: "var(--on-dark-muted)" }}
-          >
+          <p className="mt-8 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
             Frente a la red entera, 1 PH/s es una parte pequeña: más o menos una entre{" "}
-            {formatInt(redEhs * 1000)}. Le pasa lo mismo a cualquier minero, incluso a granjas con cientos de
-            máquinas. Por eso la minería funciona en pools: cada participante recibe en
+            {formatInt(redEhs * 1000)}. Le pasa lo mismo a cualquier minero, incluso a granjas con
+            cientos de máquinas. Por eso la minería funciona en pools: cada participante recibe en
             proporción a lo que aporta, sea grande o pequeño.
           </p>
-          <p
-            className="mt-4 max-w-2xl text-[15px]"
-            style={{ color: "var(--on-dark-muted)" }}
-          >
-            Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan
-            miles de euros cada una, consumen tanta electricidad como unas 40 viviendas,
-            hacen ruido día y noche y se quedan anticuadas en pocos años. Alquilando 1 PH/s
-            usas esa misma potencia durante unas horas, sin comprar nada, sin ruido y sin
-            factura de luz.
+          <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
+            Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
+            euros cada una, consumen tanta electricidad como unas 40 viviendas, hacen ruido día y
+            noche y se quedan anticuadas en pocos años. Alquilando 1 PH/s usas esa misma potencia
+            durante unas horas, sin comprar nada, sin ruido y sin factura de luz.
           </p>
 
           <div className="mt-8">
@@ -763,71 +455,6 @@ function SimuladorMineria() {
         </div>
       </section>
     </main>
-  );
-}
-
-function CamposBloque({
-  prev,
-  setPrev,
-  merkle,
-  setMerkle,
-  marca,
-  nonce,
-  inputClase,
-  bloqueado,
-  sufijo,
-}: {
-  prev: string;
-  setPrev: (v: string) => void;
-  merkle: string;
-  setMerkle: (v: string) => void;
-  marca: string;
-  nonce: number;
-  inputClase: string;
-  bloqueado: boolean;
-  sufijo: string;
-}) {
-  return (
-    <div className="space-y-4">
-      <Campo
-        etiqueta="Bloque anterior"
-        ayuda="Cada bloque apunta al anterior. Así se forma la cadena."
-        htmlFor={`prev-${sufijo}`}
-      >
-        <input
-          id={`prev-${sufijo}`}
-          disabled={bloqueado}
-          className={inputClase}
-          value={prev}
-          onChange={(e) => setPrev(e.target.value)}
-          spellCheck={false}
-        />
-      </Campo>
-      <Campo
-        etiqueta="Raíz de transacciones (Merkle root)"
-        ayuda="Un resumen de todas las transacciones que contiene el bloque."
-        htmlFor={`merkle-${sufijo}`}
-      >
-        <input
-          id={`merkle-${sufijo}`}
-          disabled={bloqueado}
-          className={inputClase}
-          value={merkle}
-          onChange={(e) => setMerkle(e.target.value)}
-          spellCheck={false}
-        />
-      </Campo>
-      <Campo etiqueta="Marca de tiempo" ayuda="Cuándo se creó el bloque.">
-        <p className="hash-text text-[13px] text-muted-foreground">{marca || "—"}</p>
-      </Campo>
-      <Campo
-        etiqueta="Nonce"
-        ayuda="El campo que el minero va cambiando en cada intento. Es lo que se prueba una y otra vez."
-      >
-        <p className="hash-text cursor-default text-[15px] text-foreground">{formatInt(nonce)}</p>
-      </Campo>
-    </div>
-
   );
 }
 
@@ -860,17 +487,11 @@ function Comparativa({
       <dt className="text-[13px]" style={{ color: "var(--on-dark-muted)" }}>
         {etiqueta}
       </dt>
-      <dd
-        className="hash-text mt-2 text-xl"
-        style={{ color: "var(--on-dark)" }}
-      >
+      <dd className="hash-text mt-2 text-xl" style={{ color: "var(--on-dark)" }}>
         {valor}
       </dd>
       {cifraCompleta && (
-        <dd
-          className="mt-1 text-[13px]"
-          style={{ color: "var(--on-dark-muted)" }}
-        >
+        <dd className="mt-1 text-[13px]" style={{ color: "var(--on-dark-muted)" }}>
           {cifraCompleta}
         </dd>
       )}
