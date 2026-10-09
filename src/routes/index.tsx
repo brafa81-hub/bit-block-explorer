@@ -333,9 +333,23 @@ function SimuladorMineria() {
   };
 
   const veces = hps > 0 ? 200e12 / hps : 0;
-  /** Hashrate total aproximado de la red Bitcoin. Actualizar de vez en cuando. */
-  const RED_EHS = 940;
-  const RED_FECHA = "julio de 2026";
+  /** Hashrate de la red: se lee en directo de mempool.space; si falla, se usa el valor de respaldo. */
+  const [redEhs, setRedEhs] = useState<number>(RED_EHS_RESPALDO);
+  const [redEnDirecto, setRedEnDirecto] = useState(false);
+  useEffect(() => {
+    const ctrl = new AbortController();
+    fetch("https://mempool.space/api/v1/mining/hashrate/3d", { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d: { currentHashrate?: number }) => {
+        const ehs = (d.currentHashrate ?? 0) / 1e18;
+        if (ehs > 100 && ehs < 100_000) {
+          setRedEhs(Math.round(ehs));
+          setRedEnDirecto(true);
+        }
+      })
+      .catch(() => {});
+    return () => ctrl.abort();
+  }, []);
   const anios = hps > 0 ? 1e15 / hps / 31_536_000 : 0;
   const medicionValida = hps > 0 && intentos >= 1000;
 
@@ -350,7 +364,7 @@ function SimuladorMineria() {
         <p className="mt-4 text-[16px] text-muted-foreground sm:text-[17px]">
           Minar Bitcoin consiste en probar combinaciones hasta dar con la correcta. Es el
           mismo cálculo que protege la red; aquí lo vas a ver en directo, en tu propio
-          navegador. No se envía nada a ningún servidor.
+          navegador: tu simulación no sale de tu dispositivo.
         </p>
       </header>
 
@@ -654,9 +668,9 @@ function SimuladorMineria() {
             />
             <Comparativa
               etiqueta="La red de Bitcoin"
-              valor={`≈ ${RED_EHS} EH/s`}
-              cifraCompleta={`Unos ${RED_EHS} trillones de hashes por segundo`}
-              nota={`Todas las máquinas del mundo sumadas (dato aproximado, ${RED_FECHA}).`}
+              valor={`≈ ${formatInt(redEhs)} EH/s`}
+              cifraCompleta={`Unos ${formatInt(redEhs)} trillones de hashes por segundo`}
+              nota={redEnDirecto ? "Todas las máquinas del mundo sumadas (dato en directo, media de los últimos días)." : `Todas las máquinas del mundo sumadas (dato aproximado, ${RED_FECHA_RESPALDO}).`}
             />
           </dl>
 
@@ -771,6 +785,10 @@ function Metrica({ etiqueta, valor }: { etiqueta: string; valor: string }) {
     </div>
   );
 }
+
+/** Valor de respaldo si no se puede leer el dato en directo. */
+const RED_EHS_RESPALDO = 940;
+const RED_FECHA_RESPALDO = "julio de 2026";
 
 function Comparativa({
   etiqueta,
