@@ -390,7 +390,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
-          "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats. Normalmente, bastante mayor.",
+          "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats.",
           "Mira el [simulador](/): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
           "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool.",
         ],
