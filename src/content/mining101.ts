@@ -342,7 +342,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, tus bitcoins no están dentro de la app: están registrados en la blockchain. La wallet solo guarda las llaves para moverlos.",
-    terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo"],
+    terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo", "wallet-sin-custodia", "custodia", "wallet-fria", "wallet-caliente", "hardware-wallet", "copia-de-seguridad", "phishing", "doble-factor"],
     cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar sin comprar ninguna máquina.",
     quiz: [
       {
