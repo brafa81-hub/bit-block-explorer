@@ -71,7 +71,7 @@ export const CAPITULOS: Capitulo[] = [
     enRealidad:
       "En realidad, no se \"extrae\" nada. Minar es verificar pagos y sellarlos con cálculo; los bitcoins nuevos son la compensación por ese trabajo.",
     terminos: ["bitcoin", "bloque", "minero", "blockchain", "recompensa-de-bloque", "transaccion", "consenso", "descentralizacion", "bloque-genesis", "transaccion-coinbase"],
-    cierre: "Ya sabes qué hace un minero. Ahora, ¿en qué consiste exactamente ese trabajo de cálculo?",
+    cierre: "Ya sabes qué hace un minero. Pero, ¿qué lleva exactamente cada una de esas páginas?",
     quiz: [
       {
         pregunta: "¿Qué hace un minero de Bitcoin?",
@@ -90,6 +90,66 @@ export const CAPITULOS: Capitulo[] = [
         opciones: ["Solo de comisiones", "De bitcoins nuevos más comisiones", "De un pago del banco central"],
         correcta: 1,
         explicacion: "Recompensa = subsidio (bitcoins nuevos) + comisiones de las transacciones incluidas.",
+      },
+    ],
+  },
+  {
+    slug: "dentro-de-un-bloque",
+    titulo: "Dentro de un bloque",
+    pregunta: "Cuando envías bitcoin, ¿dónde espera tu pago hasta quedar registrado?",
+    descripcion: "Qué lleva un bloque, qué es el mempool, cómo eligen los mineros qué pagos incluir y qué son las confirmaciones.",
+    secciones: [
+      {
+        titulo: "La sala de espera",
+        parrafos: [
+          "Cuando alguien envía bitcoin, el pago no se registra al instante. Primero viaja por la red y espera en una especie de sala de espera: el mempool.",
+          "Cada nodo de la red guarda su propia copia de esa sala. Allí se acumulan los pagos pendientes hasta que un minero los incluye en un bloque.",
+        ],
+      },
+      {
+        titulo: "Qué lleva un bloque",
+        parrafos: [
+          "Un bloque es una página del registro. Lleva unos pocos miles de pagos y una cabecera con un resumen de todos ellos y la referencia al bloque anterior.",
+          "El primer pago de cada bloque es especial: lo crea el propio minero para cobrarse la recompensa. Es la transacción coinbase.",
+        ],
+      },
+      {
+        titulo: "Quién entra primero",
+        parrafos: [
+          "El espacio de cada bloque es limitado. Por eso los mineros eligen primero los pagos que ofrecen más comisión por espacio ocupado, medida en sat/vB.",
+          "Si hay mucha demanda, las comisiones suben. Si hay poca, un pago barato entra igual en pocos minutos.",
+        ],
+      },
+      {
+        titulo: "Confirmaciones",
+        parrafos: [
+          "Cuando tu pago entra en un bloque, tiene una confirmación. Cada bloque que se añade encima suma otra.",
+          "Cuantas más confirmaciones, más difícil es deshacerlo. Para cantidades grandes se suele esperar a seis, aproximadamente una hora.",
+        ],
+      },
+    ],
+    enRealidad:
+      "En realidad, no hay un único mempool: cada nodo tiene el suyo y pueden diferir un poco. Y el límite de un bloque no se mide en megas exactos, sino en una unidad llamada peso.",
+    terminos: ["mempool", "nodo", "confirmacion", "comision-de-transaccion", "sat-vb", "rbf", "bloque-huerfano", "bifurcacion"],
+    cierre: "Ya sabes qué se mete en un bloque. Ahora, ¿en qué consiste exactamente el trabajo de cálculo para sellarlo?",
+    quiz: [
+      {
+        pregunta: "¿Dónde esperan los pagos antes de entrar en un bloque?",
+        opciones: ["En el mempool", "En la wallet del minero", "En un banco"],
+        correcta: 0,
+        explicacion: "Los pagos pendientes esperan en el mempool de los nodos hasta que un minero los incluye en un bloque.",
+      },
+      {
+        pregunta: "¿Qué pagos suelen entrar antes en un bloque?",
+        opciones: ["Los más antiguos", "Los que pagan más comisión por espacio ocupado", "Los de mayor importe"],
+        correcta: 1,
+        explicacion: "El espacio es limitado, así que los mineros priorizan la comisión por espacio (sat/vB), no el importe.",
+      },
+      {
+        pregunta: "¿Qué significa que un pago tenga seis confirmaciones?",
+        opciones: ["Que seis personas lo han aprobado", "Que hay seis bloques con el suyo incluido o encima de él", "Que ha pagado seis veces la comisión"],
+        correcta: 1,
+        explicacion: "Cada bloque añadido encima suma una confirmación. Seis bloques son aproximadamente una hora.",
       },
     ],
   },
@@ -176,8 +236,8 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, nadie mide el hashrate de la red directamente: se estima a partir de lo rápido que salen los bloques y de la dificultad vigente.",
-    terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "asic", "ataque-del-51", "hashrate-de-la-red"],
-    cierre: "Ya sabes por qué el ritmo se mantiene. Pero con tanta competencia, ¿cómo participa alguien con una sola máquina?",
+    terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "hashrate-de-la-red"],
+    cierre: "Ya sabes por qué el ritmo se mantiene. ¿Y qué máquinas hacen todos esos intentos?",
     quiz: [
       {
         pregunta: "¿Cuántos TH/s hay en 1 PH/s?",
@@ -196,6 +256,66 @@ export const CAPITULOS: Capitulo[] = [
         opciones: ["Sube", "Baja", "Se queda igual siempre"],
         correcta: 0,
         explicacion: "Con más hashrate los bloques salen antes, así que en el siguiente ajuste la dificultad sube.",
+      },
+    ],
+  },
+  {
+    slug: "las-maquinas",
+    titulo: "Las máquinas: ASIC",
+    pregunta: "¿Por qué ya no se mina Bitcoin con un ordenador normal?",
+    descripcion: "Qué es un ASIC, cómo se pasó del ordenador de casa a las granjas de minería y cuánta potencia hay en 1 PH/s.",
+    secciones: [
+      {
+        titulo: "Del portátil a la máquina especializada",
+        parrafos: [
+          "En 2009 se minaba con el procesador de cualquier ordenador. Después llegaron las tarjetas gráficas, mucho más rápidas para este cálculo.",
+          "Desde 2013 se mina con ASIC: máquinas que solo saben hacer una cosa, calcular hashes SHA-256, pero la hacen millones de veces más rápido que un ordenador.",
+        ],
+      },
+      {
+        titulo: "Cómo es un ASIC",
+        parrafos: [
+          "Por fuera parece una caja metálica del tamaño de una tostadora grande, con ventiladores a cada lado. Dentro hay placas llenas de chips diseñados solo para minar.",
+          "Uno moderno hace unos 200 TH/s y consume más de 3.000 W, como tener varios hornos encendidos día y noche. Y suena como un secador de pelo a máxima potencia.",
+        ],
+      },
+      {
+        titulo: "Dónde viven",
+        parrafos: [
+          "Por el ruido, el calor y el consumo, no caben en casa. Viven en granjas de minería: naves con miles de máquinas, buena ventilación o refrigeración líquida y electricidad a precio industrial.",
+          "Allí trabajan sin descanso. Cada minuto parada es potencia perdida, por eso se vigila el tiempo de actividad de cada una.",
+        ],
+      },
+      {
+        titulo: "Cuánto es 1 PH/s",
+        parrafos: [
+          "1 PH/s son 1.000 TH/s: la potencia de unas cinco máquinas modernas trabajando a la vez.",
+          "Es mucho más de lo que nadie puede tener en casa, pero una parte muy pequeña de toda la red, que suma cientos de miles de PH/s.",
+        ],
+      },
+    ],
+    enRealidad:
+      "En realidad, cada modelo de ASIC tiene su propia potencia y consumo, y los nuevos son más eficientes. Por eso hablamos de \"unas cinco máquinas\": es una referencia, no una cifra exacta.",
+    terminos: ["asic", "eficiencia", "granja-de-mineria", "refrigeracion", "firmware", "tiempo-de-actividad"],
+    cierre: "Ya conoces las máquinas. Pero con tanta competencia, ¿cómo participa alguien con una sola?",
+    quiz: [
+      {
+        pregunta: "¿Qué es un ASIC?",
+        opciones: ["Un ordenador para todo uso", "Una máquina diseñada solo para calcular hashes", "Un tipo de wallet"],
+        correcta: 1,
+        explicacion: "Un ASIC solo sabe hacer una cosa, calcular hashes SHA-256, pero la hace muchísimo más rápido que cualquier ordenador.",
+      },
+      {
+        pregunta: "¿Por qué los ASIC están en granjas y no en casas?",
+        opciones: ["Por el ruido, el calor y el consumo", "Porque es obligatorio por ley", "Porque solo funcionan de noche"],
+        correcta: 0,
+        explicacion: "Hacen mucho ruido, generan mucho calor y consumen mucha electricidad. Las granjas están preparadas para eso.",
+      },
+      {
+        pregunta: "1 PH/s equivale aproximadamente a…",
+        opciones: ["Un ordenador portátil", "Unas cinco máquinas modernas", "Toda la red de Bitcoin"],
+        correcta: 1,
+        explicacion: "Un ASIC moderno hace unos 200 TH/s, así que 1 PH/s (1.000 TH/s) son unas cinco máquinas.",
       },
     ],
   },
@@ -282,8 +402,8 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, las cuentas de la minería cambian cada día: precio, dificultad y comisiones se mueven. Por eso aquí hablamos de órdenes de magnitud, no de cifras fijas.",
-    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi", "suministro-maximo", "altura-de-bloque", "granja-de-mineria", "refrigeracion", "firmware", "tiempo-de-actividad", "sat-vb", "rbf"],
-    cierre: "Ya sabes de qué depende todo. Antes de recibir nada, falta una pieza: un sitio propio donde llegue.",
+    terminos: ["halving", "recompensa-de-bloque", "satoshi", "suministro-maximo", "altura-de-bloque"],
+    cierre: "Ya sabes de qué depende lo que cuesta y lo que se recibe. Queda una pregunta que mucha gente se hace: ¿y la energía?",
     quiz: [
       {
         pregunta: "¿Qué dos costes principales tiene minar?",
@@ -302,6 +422,63 @@ export const CAPITULOS: Capitulo[] = [
         opciones: ["Más", "Menos", "Lo mismo"],
         correcta: 1,
         explicacion: "Su parte del hashrate total baja, así que lo que recibe también baja.",
+      },
+    ],
+  },
+  {
+    slug: "energia-y-mineria",
+    titulo: "Energía y minería",
+    pregunta: "¿Gasta Bitcoin demasiada electricidad?",
+    descripcion: "Por qué la minería consume energía, de dónde sale esa energía y qué tiene de particular como consumidor.",
+    secciones: [
+      {
+        titulo: "Sí, consume mucho",
+        parrafos: [
+          "No hay que esconderlo: la minería de Bitcoin usa mucha electricidad. Es el precio de su seguridad.",
+          "Para cambiar el registro, un tramposo tendría que gastar más energía que todos los mineros honrados juntos. Esa barrera física es la que protege cada pago.",
+        ],
+      },
+      {
+        titulo: "Busca la energía más barata",
+        parrafos: [
+          "Para un minero, la electricidad es el gasto principal. Por eso las granjas se instalan donde la energía sobra y es barata: junto a presas, parques eólicos o solares.",
+          "A veces aprovechan energía que se perdería: sobrantes que la red eléctrica no puede absorber o gas que, si no, se quemaría al aire en pozos de petróleo.",
+        ],
+      },
+      {
+        titulo: "Un consumidor que se puede apagar",
+        parrafos: [
+          "A diferencia de una fábrica o un hospital, una granja puede apagarse en segundos y volver a encenderse sin perder nada.",
+          "En algunos lugares, las granjas se apagan cuando la red eléctrica va justa y vuelven cuando sobra energía. Así ayudan a equilibrar la red.",
+        ],
+      },
+    ],
+    enRealidad:
+      "En realidad, cuánta de la energía de la minería es renovable depende de quién lo mida y cómo. Las cifras varían entre estudios, así que desconfía de cualquier número rotundo, a favor o en contra.",
+    terminos: ["ataque-del-51"],
+    cierre: "Ya sabes de qué depende todo. Antes de recibir nada, falta una pieza: un sitio propio donde llegue.",
+    quiz: [
+      {
+        pregunta: "¿Por qué la minería protege Bitcoin?",
+        opciones: [
+          "Porque cambiar el registro exigiría más energía que la de todos los mineros honrados",
+          "Porque los mineros vigilan a los usuarios",
+          "Porque la energía cifra los bitcoins",
+        ],
+        correcta: 0,
+        explicacion: "La energía gastada es una barrera física: hacer trampa costaría más que jugar limpio.",
+      },
+      {
+        pregunta: "¿Dónde suelen instalarse las granjas de minería?",
+        opciones: ["En el centro de las ciudades", "Donde la electricidad sobra y es barata", "Donde más frío hace, sin importar el precio"],
+        correcta: 1,
+        explicacion: "La electricidad es el gasto principal, así que buscan energía barata, a menudo sobrante.",
+      },
+      {
+        pregunta: "¿Qué tiene de particular una granja como consumidor de electricidad?",
+        opciones: ["Que no puede apagarse nunca", "Que puede apagarse y encenderse en segundos", "Que solo funciona de día"],
+        correcta: 1,
+        explicacion: "Puede parar cuando la red eléctrica va justa y volver cuando sobra energía.",
       },
     ],
   },

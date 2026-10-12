@@ -6,7 +6,7 @@ import { idx } from "@/content/glosario";
 const URL = "https://bit-block-explorer.lovable.app/aprende";
 const TITULO = "Aprende minería de Bitcoin desde cero";
 const DESC =
-  "Siete capítulos cortos para entender qué es minar Bitcoin: hash, dificultad, pools, costes, tu primera wallet y el alquiler de hashrate.";
+  "Diez capítulos cortos para entender qué es minar Bitcoin: bloques, hash, dificultad, máquinas, pools, costes, energía, tu primera wallet y el alquiler de hashrate.";
 
 export const Route = createFileRoute("/aprende/")({
   head: () => ({
@@ -28,7 +28,7 @@ function Indice() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <div className="index-label">aprende</div>
-      <h1 className="mt-2 text-3xl sm:text-4xl">Entiende la minería de Bitcoin en siete pasos</h1>
+      <h1 className="mt-2 text-3xl sm:text-4xl">Entiende la minería de Bitcoin en diez pasos</h1>
       <p className="mt-4 text-[17px]">Bitcoin funciona gracias a miles de máquinas que trabajan sin descanso en todo el mundo. Aquí descubres cómo, sin saber nada de antemano: cada capítulo se lee en pocos minutos y acaba con un test de tres preguntas.</p>
       <ol className="mt-10">
         {CAPITULOS.map((c, i) => (
