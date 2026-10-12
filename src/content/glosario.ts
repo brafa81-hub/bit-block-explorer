@@ -572,7 +572,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Mientras espera, la transacción está en la mempool. Cuando un minero la incluye en un bloque, empieza a tener confirmaciones.",
       "En realidad, no viaja ninguna moneda de un sitio a otro. Una transacción gasta salidas anteriores y crea otras nuevas; lo que cambia es quién puede moverlas.",
     ],
-    ejemplo: "Un bloque suele contener entre 2.000 y 4.000 transacciones.",
+    ejemplo: "Un bloque suele contener varios miles de transacciones. En 2026, la red procesa entre 400.000 y 650.000 al día.",
     relacionados: ["utxo", "firma-digital", "mempool", "confirmacion"],
     revisado: R2,
   },
@@ -600,7 +600,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     explicacion: [
       "Imagina un buzón con ranura: cualquiera puede echar cartas, pero solo tú tienes la llave para abrirlo. La clave pública es lo que se puede enseñar sin riesgo.",
       "Se calcula a partir de la clave privada, y el camino inverso es imposible en la práctica. Por eso puedes compartirla.",
-      "En realidad, las direcciones que usas hoy normalmente no son la clave pública en sí, sino un resumen suyo (un hash). La clave pública completa se muestra al gastar.",
+      "En realidad, en la mayoría de direcciones lo que se ve es un resumen (un hash) de la clave pública, que solo se revela al gastar. En las direcciones Taproot, que empiezan por bc1p, la clave va directamente en la dirección.",
     ],
     relacionados: ["clave-privada", "direccion", "firma-digital"],
     revisado: R2,
