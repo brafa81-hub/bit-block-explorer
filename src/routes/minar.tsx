@@ -276,9 +276,6 @@ function Minar() {
             </div>
           ))}
         </div>
-        <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">
-          {SERVICIO.transparencia} (<Link to="/" hash="escala-real" className="underline underline-offset-4">compruébalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
-        </p>
         <div className="mt-8 flex flex-col gap-4 border border-primary p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xl">¿Quieres más potencia?</p>
@@ -294,6 +291,9 @@ function Minar() {
             Calcula tu pedido
           </a>
         </div>
+        <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
+          {SERVICIO.transparencia} (<Link to="/" hash="escala-real" className="underline underline-offset-4">compruébalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
+        </p>
       </section>
 
       {/* 003 / grupos, empresas y más potencia */}
