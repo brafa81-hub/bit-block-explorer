@@ -171,6 +171,34 @@ function Pregunta({ titulo, children }: { titulo: string; children: React.ReactN
   );
 }
 
+/** Icono sobrio de una máquina de minería: carcasa con dos ventiladores. */
+function IconoMaquina() {
+  return (
+    <svg viewBox="0 0 40 26" className="h-[26px] w-10" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
+      <rect x="0.6" y="0.6" width="38.8" height="24.8" />
+      <line x1="4" y1="4.5" x2="36" y2="4.5" />
+      <line x1="4" y1="21.5" x2="36" y2="21.5" />
+      <circle cx="12" cy="13" r="5.5" />
+      <circle cx="28" cy="13" r="5.5" />
+      <path d="M12 7.5v11M6.5 13h11M28 7.5v11M22.5 13h11" strokeWidth="0.8" />
+    </svg>
+  );
+}
+
+function Equivalencia() {
+  const n = SERVICIO.maquinasEquivalentes;
+  return (
+    <div className="mt-4" aria-label={`Equivale a unas ${n} máquinas profesionales`}>
+      <div className="flex flex-wrap gap-2 text-primary">
+        {Array.from({ length: n }, (_, i) => (
+          <IconoMaquina key={i} />
+        ))}
+      </div>
+      <p className="hash-text mt-2 text-[12px] text-muted-foreground">≈ {n} máquinas profesionales</p>
+    </div>
+  );
+}
+
 function Minar() {
   const [abierto, setAbierto] = useState<ProductoId | null>(null);
 
@@ -211,6 +239,7 @@ function Minar() {
               <p className="hash-text mt-2 text-[13px] text-muted-foreground">
                 {p.horas} horas · {p.potencia}
               </p>
+              <Equivalencia />
               <p className="hash-text mt-4 text-2xl">{formatearEuros(p.precioCentimos)}</p>
               <p className="mt-1 text-[13px] text-muted-foreground">IVA incluido</p>
               <p className="mt-4 text-[15px]">{p.nota}</p>

@@ -17,6 +17,8 @@ export const SERVICIO = {
     /** Los descuentos (Corporate, certificado...) no se suman entre sí. */
     descuentosAcumulables: false,
   },
+  /** Equivalencia de 1 PH/s en máquinas profesionales (unos 200 TH/s cada una). */
+  maquinasEquivalentes: 5,
   plazoPago: "en los días siguientes",
   /** Recomendación de wallet: sin definir por ahora. */
   walletRecomendada: null,
