@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 import type { PreguntaQuiz } from "@/content/mining101";
 import { idx } from "@/content/glosario";
 
 /** Quiz de opción única con explicación tras responder. Reutiliza los estilos existentes. */
-export function Quiz({ preguntas }: { preguntas: PreguntaQuiz[] }) {
+export function Quiz({
+  preguntas,
+  alTerminar,
+}: {
+  preguntas: PreguntaQuiz[];
+  /** Contenido opcional tras responder todo (p. ej. certificado). */
+  alTerminar?: (aciertos: number, total: number) => ReactNode;
+}) {
   const [resp, setResp] = useState<Record<number, number>>({});
   const aciertos = preguntas.filter((p, i) => resp[i] === p.correcta).length;
   const hechas = Object.keys(resp).length;
@@ -59,6 +66,7 @@ export function Quiz({ preguntas }: { preguntas: PreguntaQuiz[] }) {
           respuestas correctas.
         </p>
       )}
+      {hechas === preguntas.length && alTerminar?.(aciertos, preguntas.length)}
     </div>
   );
 }
