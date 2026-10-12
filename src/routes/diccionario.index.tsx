@@ -5,8 +5,7 @@ import { CATEGORIAS, GLOSARIO_ALFABETICO, idx, type CategoriaGlosario } from "@/
 
 const URL = "https://bit-block-explorer.lovable.app/diccionario";
 const TITULO = "Diccionario de minería de Bitcoin explicado fácil";
-const DESC =
-  "Hash, bloque, dificultad, halving, pool… 35 términos de Bitcoin y minería explicados desde cero, con ejemplos del día a día.";
+const DESC = `Hash, bloque, dificultad, halving, pool… ${GLOSARIO_ALFABETICO.length} términos de Bitcoin y minería explicados desde cero, con ejemplos del día a día.`;
 
 export const Route = createFileRoute("/diccionario/")({
   head: () => ({

@@ -69,7 +69,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, no se \"extrae\" nada. Minar es verificar pagos y sellarlos con cálculo; los bitcoins nuevos son la compensación por ese trabajo.",
-    terminos: ["bitcoin", "bloque", "minero", "blockchain", "recompensa-de-bloque"],
+    terminos: ["bitcoin", "bloque", "minero", "blockchain", "recompensa-de-bloque", "transaccion", "consenso", "descentralizacion", "bloque-genesis"],
     cierre: "Ya sabes qué hace un minero. Ahora, ¿en qué consiste exactamente ese trabajo de cálculo?",
     quiz: [
       {
@@ -122,7 +122,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, la regla no son exactamente \"ceros\": el hash tiene que ser menor que un número objetivo. Los ceros iniciales son la forma visible de eso.",
-    terminos: ["hash", "sha-256", "nonce", "prueba-de-trabajo"],
+    terminos: ["hash", "sha-256", "nonce", "prueba-de-trabajo", "cabecera-de-bloque", "raiz-de-merkle"],
     cierre: "Ya entiendes la prueba de trabajo. ¿Y qué pasa cuando miles de máquinas prueban a la vez?",
     quiz: [
       {
@@ -175,7 +175,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, nadie mide el hashrate de la red directamente: se estima a partir de lo rápido que salen los bloques y de la dificultad vigente.",
-    terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "asic"],
+    terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "asic", "ataque-del-51"],
     cierre: "Ya sabes por qué el ritmo se mantiene. Pero con tanta competencia, ¿cómo participa alguien con una sola máquina?",
     quiz: [
       {
@@ -281,7 +281,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, las cuentas de la minería cambian cada día: precio, dificultad y comisiones se mueven. Por eso aquí hablamos de órdenes de magnitud, no de cifras fijas.",
-    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi"],
+    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi", "suministro-maximo", "altura-de-bloque"],
     cierre: "Ya sabes de qué depende todo. Antes de recibir nada, falta una pieza: un sitio propio donde llegue.",
     quiz: [
       {
@@ -342,7 +342,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, tus bitcoins no están dentro de la app: están registrados en la blockchain. La wallet solo guarda las llaves para moverlos.",
-    terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion"],
+    terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo"],
     cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar sin comprar ninguna máquina.",
     quiz: [
       {
