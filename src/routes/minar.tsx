@@ -23,7 +23,7 @@ export const Route = createFileRoute("/minar")({
       {
         name: "description",
         content:
-          "Alquila 1 PH/s de potencia de minería durante 8 o 24 horas. Precios con IVA para particulares y tramos por volumen para empresas.",
+          "Alquila 1 PH/s de potencia de minería durante 8 o 24 horas. Precios con IVA para particulares y descuento por volumen para grupos y empresas.",
       },
       {
         property: "og:title",
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/minar")({
       {
         property: "og:description",
         content:
-          "1 PH/s minando para ti durante 8 o 24 horas. Precios con IVA y tramos por volumen para empresas.",
+          "1 PH/s minando para ti durante 8 o 24 horas. Precios con IVA y descuento por volumen para grupos y empresas.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://bit-block-explorer.lovable.app/minar" },
@@ -239,15 +239,15 @@ function Minar() {
         </p>
       </section>
 
-      {/* 003 / para empresas */}
+      {/* 003 / grupos y empresas */}
       <section className="bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
-            003 / para empresas
+            003 / grupos y empresas
           </div>
           <h2 className="mt-3 text-2xl sm:text-3xl">Comprar en volumen</h2>
           <p className="mt-4 text-[16px] text-[var(--on-dark-muted)]">
-            El mismo servicio, en volumen, para regalar a tu equipo o a tus clientes una
+            El mismo servicio, en volumen, para regalar a tu equipo, a tus clientes o a tu grupo una
             experiencia diferente con Bitcoin. Desde {MINIMO_VOLUMEN} unidades, con descuento.
           </p>
 

@@ -397,7 +397,7 @@ export const CAPITULOS: Capitulo[] = [
         ],
       },
       {
-        titulo: "Para empresas",
+        titulo: "Para grupos y empresas",
         parrafos: [
           `Con Corporate compras códigos regalo: de ${tramoA.min} a ${tramoA.max} uds. con −${tramoA.descuentoPct} % y, desde ${presupuestoDesde} uds., con presupuesto a medida. Cada persona canjea el suyo con su propia wallet durante ${caducidadMeses} meses.`,
         ],
