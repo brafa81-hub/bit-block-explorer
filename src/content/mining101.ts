@@ -429,11 +429,116 @@ export const CAPITULOS: Capitulo[] = [
   },
 ];
 
+/**
+ * Test final: 15 preguntas (4 Bitcoin · 5 minería · 6 servicio).
+ * Sin preguntas que dependan del modelo de pool, todavía sin decidir.
+ */
 export const QUIZ_FINAL: PreguntaQuiz[] = [
-  ...CAPITULOS.map((c) => c.quiz[0]!),
-  CAPITULOS[1]!.quiz[2]!,
-  CAPITULOS[4]!.quiz[1]!,
-  CAPITULOS[6]!.quiz[1]!,
+  // Bitcoin
+  {
+    pregunta: "¿Quién valida los pagos de Bitcoin?",
+    opciones: ["Un banco central", "La red de nodos y mineros, con reglas comunes", "La empresa que creó Bitcoin"],
+    correcta: 1,
+    explicacion: "Nadie manda en Bitcoin: miles de ordenadores aplican las mismas reglas y comprueban cada pago.",
+  },
+  {
+    pregunta: "¿Qué es un satoshi (sat)?",
+    opciones: ["Una moneda distinta de Bitcoin", "La unidad más pequeña de bitcoin: 0,00000001 BTC", "Una comisión de la red"],
+    correcta: 1,
+    explicacion: "Un bitcoin se divide en 100 millones de sats. Es la unidad en la que se suele medir lo que genera la minería.",
+  },
+  {
+    pregunta: "¿Qué es un bloque?",
+    opciones: ["Un paquete de transacciones que se añade a la cadena", "Una cuenta bloqueada", "Un tipo de máquina de minería"],
+    correcta: 0,
+    explicacion: "Cada bloque agrupa pagos y se encadena al anterior. Se añade uno cada 10 minutos de media.",
+  },
+  {
+    pregunta: "¿Qué no debes compartir nunca con nadie?",
+    opciones: ["Tu dirección de wallet", "El nombre de tu wallet", "Tu frase de recuperación"],
+    correcta: 2,
+    explicacion: "La frase de recuperación da control total de tus fondos. La dirección, en cambio, es para recibir y puedes compartirla.",
+  },
+  // Minería
+  {
+    pregunta: "¿Qué hace un minero?",
+    opciones: [
+      "Hace muchísimos cálculos por segundo para cerrar el siguiente bloque",
+      "Compra bitcoin barato para venderlo caro",
+      "Guarda los bitcoin de otras personas",
+    ],
+    correcta: 0,
+    explicacion: "Minar es probar combinaciones hasta dar con una válida. Quien la encuentra añade el bloque y recibe la recompensa.",
+  },
+  {
+    pregunta: "¿Qué mide el hashrate?",
+    opciones: ["Cuántos bitcoin tienes", "La potencia de cálculo: intentos por segundo", "El precio de Bitcoin"],
+    correcta: 1,
+    explicacion: "Es la velocidad a la que una máquina o una red hace intentos. Se mide en TH/s, PH/s o EH/s.",
+  },
+  {
+    pregunta: "¿Cuántos TH/s hay en 1 PH/s?",
+    opciones: ["100", "1.000", "1.000.000"],
+    correcta: 1,
+    explicacion: "1 PH/s son 1.000 TH/s: la potencia de varias decenas de máquinas profesionales.",
+  },
+  {
+    pregunta: "Si entran muchas máquinas nuevas en la red, la dificultad…",
+    opciones: ["Sube, para mantener unos 10 minutos por bloque", "Baja", "No cambia nunca"],
+    correcta: 0,
+    explicacion: "La red ajusta la dificultad cada 2.016 bloques. Más potencia en la red significa más competencia para todos.",
+  },
+  {
+    pregunta: "¿Por qué no se puede saber de antemano cuánto generará una potencia concreta?",
+    opciones: [
+      "Porque depende de la dificultad, de la potencia total de la red y de cuándo se encuentran los bloques",
+      "Porque lo decide la empresa que vende la potencia",
+      "Sí se puede: siempre es la misma cantidad",
+    ],
+    correcta: 0,
+    explicacion: "Es una competencia de cálculo con toda la red. La cantidad varía y nadie puede fijarla por adelantado.",
+  },
+  // Servicio
+  {
+    pregunta: `¿Qué compras con ${jornada.nombre} o ${dia.nombre}?`,
+    opciones: ["Una cantidad fija de bitcoin", "Tiempo de potencia de minería", "Una máquina de minería"],
+    correcta: 1,
+    explicacion: `Compras ${jornada.potencia} durante ${jornada.horas} h (${jornada.nombre}) o ${dia.horas} h (${dia.nombre}). No compras bitcoin ni equipos.`,
+  },
+  {
+    pregunta: "¿Qué significa 1 PH/s en tu sesión?",
+    opciones: ["La potencia de cálculo que trabaja para ti", "Los sats que recibirás", "Un bitcoin por hora"],
+    correcta: 0,
+    explicacion: "Es potencia, no una cantidad de bitcoin. Lo que genera esa potencia no es fijo.",
+  },
+  {
+    pregunta: "Durante la sesión, la potencia…",
+    opciones: ["Es exactamente igual cada segundo", `Es la contratada, aunque ${SERVICIO.variacionPotencia.replace(/^la potencia /, "")}`, "Va aumentando sola"],
+    correcta: 1,
+    explicacion: `Trabajas con la potencia contratada, pero ${SERVICIO.variacionPotencia}.`,
+  },
+  {
+    pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
+    opciones: ["Mayor", "Igual", "Menor"],
+    correcta: 2,
+    explicacion: `${SERVICIO.transparencia}. Lo que obtienes es la experiencia de minar Bitcoin de verdad, no un rendimiento.`,
+  },
+  {
+    pregunta: "¿Es una inversión?",
+    opciones: [
+      "Sí, con rentabilidad asegurada",
+      "No: es un servicio de potencia de minería sin resultado garantizado",
+      "Solo si eliges la sesión más larga",
+    ],
+    correcta: 1,
+    explicacion: SERVICIO.resultado,
+  },
+  {
+    pregunta: "¿Quién guarda los bitcoin que genera tu sesión?",
+    opciones: ["HashFlow, en una cuenta interna", "Tú, en tu propia wallet", "Nadie hasta que los reclames"],
+    correcta: 1,
+    explicacion: "Solo nos das tu dirección. HashFlow nunca pide tu frase de recuperación ni guarda tus fondos.",
+  },
 ];
 
 export const getCapitulo = (slug: string) => CAPITULOS.find((c) => c.slug === slug);

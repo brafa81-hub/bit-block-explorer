@@ -23,7 +23,7 @@ export const SERVICIO = {
   resultado: "No es una inversión ni garantiza un resultado.",
   /** Certificado del test final: nota mínima y descuento de lanzamiento. */
   certificado: {
-    notaMinima: 8,
+    notaMinima: 12,
     descuentoPct: 10,
     /** Fecha de caducidad del descuento: sin decidir (null = "se comunicará"). */
     caducidad: null as string | null,
