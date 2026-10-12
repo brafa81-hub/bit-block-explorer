@@ -99,8 +99,10 @@ const TOTAL_INTENTOS = NONCE_VALIDO + 1;
 const OBJETIVO = "000";
 const OBJETIVO_SHARE = "00";
 const DURACION_MS = 10_000;
+/** Pausa para leer el bloque encontrado antes de seguir con el siguiente. */
+const PAUSA_ENTRE_BLOQUES_MS = 3_000;
 
-type Fase = "inicio" | "minando" | "hecho";
+type Fase = "inicio" | "minando" | "hecho" | "parado";
 type Intento = { hash: string; share: boolean; valido?: boolean };
 
 function SimuladorMineria() {
@@ -111,12 +113,22 @@ function SimuladorMineria() {
   const [hash, setHash] = useState("");
   const [historial, setHistorial] = useState<Intento[]>([]);
   const [textura, setTextura] = useState("");
+  const [bloques, setBloques] = useState(0);
+  const [bloqueIntentos, setBloqueIntentos] = useState(0);
+  const [bloqueShares, setBloqueShares] = useState(0);
   const runId = useRef(0);
+  const corriendo = useRef(false);
+  const rondaInicio = useRef(0);
+  const hechosRef = useRef(0);
+  const nSharesRef = useRef(0);
+  const listaRef = useRef<Intento[]>([]);
+  const pendiente = useRef<number | null>(null);
 
   useEffect(() => {
     setTextura(generarTexturaHex(150, 420));
     return () => {
       runId.current++;
+      if (pendiente.current) window.clearTimeout(pendiente.current);
     };
   }, []);
 
@@ -138,35 +150,40 @@ function SimuladorMineria() {
     return () => ctrl.abort();
   }, []);
 
-  const minar = useCallback(() => {
-    const id = ++runId.current;
-    const inicio = performance.now();
-    let hechos = 0;
-    let nShares = 0;
-    let lista: Intento[] = [];
-    setFase("minando");
+  function iniciarRonda() {
+    rondaInicio.current = performance.now();
+    hechosRef.current = 0;
+    nSharesRef.current = 0;
+    listaRef.current = [];
     setIntentos(0);
     setShares(0);
     setMs(0);
-    setHash("");
     setHistorial([]);
+  }
+
+  const minar = useCallback(() => {
+    const id = ++runId.current;
+    corriendo.current = true;
+    setBloques(0);
+    setFase("minando");
+    iniciarRonda();
 
     const ciclo = async () => {
-      if (id !== runId.current) return;
-      const t = performance.now() - inicio;
+      if (id !== runId.current || !corriendo.current) return;
+      const t = performance.now() - rondaInicio.current;
       // Ritmo fijo: el mismo en cualquier dispositivo (cámara lenta).
       const meta = Math.min(TOTAL_INTENTOS, Math.ceil((t / DURACION_MS) * TOTAL_INTENTOS));
       const nonces: number[] = [];
-      for (let n = hechos; n < meta; n++) nonces.push(n);
+      for (let n = hechosRef.current; n < meta; n++) nonces.push(n);
       const hashes = await Promise.all(nonces.map((n) => doubleSha256(`${CABECERA}${n}`)));
-      if (id !== runId.current) return;
+      if (id !== runId.current || !corriendo.current) return;
 
       let destacado: Intento | null = null;
       let encontrado: string | null = null;
       for (const h of hashes) {
         const esShare = h.startsWith(OBJETIVO_SHARE);
         if (esShare) {
-          nShares++;
+          nSharesRef.current++;
           destacado = { hash: h, share: true };
         }
         if (h.startsWith(OBJETIVO)) {
@@ -174,21 +191,30 @@ function SimuladorMineria() {
           destacado = { hash: h, share: true, valido: true };
         }
       }
-      hechos = meta;
+      hechosRef.current = meta;
       const ultimo = hashes[hashes.length - 1];
       if (destacado || ultimo) {
-        lista = [destacado ?? { hash: ultimo ?? "", share: false }, ...lista].slice(0, 6);
+        listaRef.current = [destacado ?? { hash: ultimo ?? "", share: false }, ...listaRef.current].slice(0, 6);
       }
 
-      setIntentos(hechos);
-      setShares(nShares);
-      setMs(performance.now() - inicio);
+      setIntentos(hechosRef.current);
+      setShares(nSharesRef.current);
+      setMs(performance.now() - rondaInicio.current);
       if (ultimo) setHash(ultimo);
-      setHistorial(lista);
+      setHistorial(listaRef.current);
 
       if (encontrado) {
+        setBloqueIntentos(hechosRef.current);
+        setBloqueShares(nSharesRef.current);
+        setBloques((b) => b + 1);
         setHash(encontrado);
         setFase("hecho");
+        // Sin parar: tras una pausa breve, sigue con el siguiente bloque.
+        pendiente.current = window.setTimeout(() => {
+          if (id !== runId.current || !corriendo.current) return;
+          iniciarRonda();
+          requestAnimationFrame(() => void ciclo());
+        }, PAUSA_ENTRE_BLOQUES_MS);
         return;
       }
       requestAnimationFrame(() => void ciclo());
@@ -196,8 +222,18 @@ function SimuladorMineria() {
     requestAnimationFrame(() => void ciclo());
   }, []);
 
-  const minando = fase === "minando";
-  const hecho = fase === "hecho";
+  const detener = useCallback(() => {
+    corriendo.current = false;
+    runId.current++;
+    if (pendiente.current) {
+      window.clearTimeout(pendiente.current);
+      pendiente.current = null;
+    }
+    setFase("parado");
+  }, []);
+
+  const corriendoFase = fase === "minando" || fase === "hecho";
+  const finalFase = fase === "hecho" || fase === "parado";
 
   return (
     <main>
@@ -217,28 +253,28 @@ function SimuladorMineria() {
         <section className="mt-10 max-w-3xl lg:mt-14">
           <div className="index-label">002 / demostración</div>
           <p className="mt-3 text-[16px]">
-            Pulsa el botón y mira cómo se mina un bloque. Buscamos un resultado que empiece por tres
-            ceros. Va a cámara lenta para que puedas verlo: dura unos 10 segundos.
+            Pulsa el botón y mira cómo se minan bloques uno detrás de otro. Buscamos un resultado que
+            empiece por tres ceros; cada bloque tarda unos 10 segundos y, al encontrarlo, sigue con
+            el siguiente sin parar. Pulsa Detener cuando quieras.
           </p>
 
           <button
-            onClick={minar}
-            disabled={minando}
+            onClick={corriendoFase ? detener : minar}
             className={`mt-5 min-h-[48px] px-6 text-[16px] transition-opacity hover:opacity-90 ${
-              minando
+              corriendoFase
                 ? "border border-border bg-transparent text-muted-foreground"
                 : "bg-primary text-primary-foreground"
             }`}
           >
-            {minando ? "Minando…" : hecho ? "Repetir" : "Ver cómo se mina un bloque"}
+            {corriendoFase ? "Detener" : fase === "inicio" ? "Ver cómo se mina un bloque" : "Repetir"}
           </button>
 
           {/* Hash actual */}
           <div className="mt-6 border border-border p-4">
-            <div className="etiqueta">{hecho ? "Hash válido" : "Hash actual"}</div>
+            <div className="etiqueta">{finalFase ? "Hash válido" : "Hash actual"}</div>
             <p
               className={`hash-text hash-break mt-2 min-h-[3.4em] text-[13px] sm:text-[15px] ${
-                hecho ? "text-primary" : "text-foreground"
+                finalFase ? "text-primary" : "text-foreground"
               }`}
             >
               {hash || "—"}
@@ -246,10 +282,11 @@ function SimuladorMineria() {
           </div>
 
           {/* Métricas */}
-          <div className="mt-4 grid grid-cols-3 gap-px border border-border bg-border">
+          <div className="mt-4 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
             <Metrica etiqueta="Intentos" valor={formatInt(intentos)} />
             <Metrica etiqueta="Tiempo" valor={formatSeconds(ms)} />
             <Metrica etiqueta="Shares para el pool" valor={formatInt(shares)} />
+            <Metrica etiqueta="Bloques" valor={formatInt(bloques)} />
           </div>
 
           {/* Últimos intentos */}
@@ -282,17 +319,17 @@ function SimuladorMineria() {
           )}
 
           {/* Resultado */}
-          {hecho && (
+          {finalFase && (
             <div className="mt-4 border border-stone p-4">
               <div className="etiqueta">Bloque encontrado</div>
               <p className="mt-2 text-[15px]">
-                Tras {formatInt(intentos)} intentos, este resultado empieza por tres ceros: es
-                válido. Ninguno de los anteriores servía, aunque {formatInt(shares)} sí contaban
-                como shares para el pool.
+                Tras {formatInt(bloqueIntentos)} intentos, este resultado empieza por tres ceros: es
+                válido. Ninguno de los anteriores servía, aunque {formatInt(bloqueShares)} sí
+                contaban como shares para el pool.
               </p>
 
               <dl className="mt-4 grid gap-px border border-border bg-border sm:grid-cols-3">
-                <Metrica etiqueta="Esta demostración" valor={`${formatInt(intentos)} intentos`} />
+                <Metrica etiqueta="Último bloque" valor={`${formatInt(bloqueIntentos)} intentos`} />
                 <Metrica etiqueta="Antminer S21, en 10 s" valor="2.000 billones" />
                 <Metrica etiqueta="1 PH/s, en 10 s" valor="10.000 billones" />
               </dl>
