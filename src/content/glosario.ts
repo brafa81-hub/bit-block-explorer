@@ -813,7 +813,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     explicacion: [
       "Es lo contrario de la cooperativa del pool. No hay reparto: la recompensa del bloque, entera, va para quien lo encuentra.",
       "Funciona igual que cualquier otra minería: se prueban hashes sin parar. Lo que cambia es que no hay pagos pequeños y regulares, sino uno grande que llega muy de tarde en tarde.",
-      "En realidad, cualquier máquina tiene alguna probabilidad en cada intento, también las pequeñas, y de vez en cuando alguien con un equipo doméstico encuentra un bloque. Pero con poca potencia esa probabilidad es muy baja.",
+      "En realidad, cada intento tiene la misma probabilidad para todos; lo que cambia es cuántos intentos haces. Con poca potencia, encontrar un bloque es muy poco probable, por eso casi toda la minería se hace en pools.",
     ],
     relacionados: ["pool", "esquemas-de-pago", "recompensa-de-bloque", "hashrate"],
     revisado: R2,
