@@ -279,13 +279,21 @@ function Minar() {
         <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">
           {SERVICIO.transparencia} (<Link to="/" hash="escala-real" className="underline underline-offset-4">compruébalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
         </p>
-        <p className="mt-4 text-[14px]">
-          ¿Quieres más potencia? Combina varias unidades: desde {MINIMO_VOLUMEN}, con un{" "}
-          {SERVICIO.tramosCorporate[0].descuentoPct} % de descuento.{" "}
-          <a href="#volumen" className="text-primary underline underline-offset-4">
+        <div className="mt-8 flex flex-col gap-4 border border-primary p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xl">¿Quieres más potencia?</p>
+            <p className="mt-1 text-[15px] text-muted-foreground">
+              Combina varias unidades: desde {MINIMO_VOLUMEN}, con un {SERVICIO.tramosCorporate[0].descuentoPct} % de
+              descuento.
+            </p>
+          </div>
+          <a
+            href="#volumen"
+            className="inline-flex min-h-[44px] shrink-0 items-center justify-center bg-primary px-5 text-[15px] text-primary-foreground"
+          >
             Calcula tu pedido
           </a>
-        </p>
+        </div>
       </section>
 
       {/* 003 / grupos, empresas y más potencia */}
