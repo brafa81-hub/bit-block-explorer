@@ -171,16 +171,29 @@ function Pregunta({ titulo, children }: { titulo: string; children: React.ReactN
   );
 }
 
-/** Icono sobrio de una máquina de minería: carcasa con dos ventiladores. */
+/** Máquina de minería en vertical: carcasa, rejilla, ventilador con aspas, tornillos y LEDs. */
 function IconoMaquina() {
+  const aspas = [0, 72, 144, 216, 288];
   return (
-    <svg viewBox="0 0 40 26" className="h-[26px] w-10" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-      <rect x="0.6" y="0.6" width="38.8" height="24.8" />
-      <line x1="4" y1="4.5" x2="36" y2="4.5" />
-      <line x1="4" y1="21.5" x2="36" y2="21.5" />
-      <circle cx="12" cy="13" r="5.5" />
-      <circle cx="28" cy="13" r="5.5" />
-      <path d="M12 7.5v11M6.5 13h11M28 7.5v11M22.5 13h11" strokeWidth="0.8" />
+    <svg viewBox="0 0 30 44" className="h-11 w-[30px]" fill="none" stroke="currentColor" aria-hidden="true">
+      <rect x="0.6" y="0.6" width="28.8" height="42.8" rx="1.5" strokeWidth="1.2" />
+      <rect x="3" y="3" width="24" height="5" strokeWidth="0.7" />
+      {[6, 9.5, 13, 16.5, 20, 23.5].map((x) => (
+        <line key={x} x1={x} y1="4" x2={x} y2="7" strokeWidth="0.7" />
+      ))}
+      <rect x="3" y="11" width="24" height="24" strokeWidth="0.7" />
+      <circle cx="15" cy="23" r="10" strokeWidth="1" />
+      {aspas.map((a) => (
+        <path key={a} d="M15 23 Q19 17 15 13.6" strokeWidth="0.9" transform={`rotate(${a} 15 23)`} />
+      ))}
+      <circle cx="15" cy="23" r="2.4" fill="currentColor" stroke="none" />
+      {[[5, 13], [25, 13], [5, 33], [25, 33]].map(([cx, cy]) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="0.8" fill="currentColor" stroke="none" />
+      ))}
+      <line x1="3" y1="38.5" x2="17" y2="38.5" strokeWidth="0.7" />
+      <line x1="3" y1="40.5" x2="17" y2="40.5" strokeWidth="0.7" />
+      <circle cx="22" cy="39.5" r="1" fill="currentColor" stroke="none" />
+      <circle cx="25.5" cy="39.5" r="1" strokeWidth="0.7" />
     </svg>
   );
 }
