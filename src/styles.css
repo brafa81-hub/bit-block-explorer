@@ -127,32 +127,3 @@
   color: var(--stone);
 }
 
-/* Iconos de máquina: aspas lentas y un LED que parpadea. Quietos si se pide reducir movimiento. */
-.maquina-aspas {
-  transform-box: view-box;
-  transform-origin: 15px 23px;
-  animation: maquina-giro 3.6s linear infinite;
-}
-.maquina-led {
-  animation: maquina-parpadeo 2.4s ease-in-out infinite;
-}
-@keyframes maquina-giro {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes maquina-parpadeo {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.2;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .maquina-aspas,
-  .maquina-led {
-    animation: none;
-  }
-}
