@@ -79,7 +79,7 @@ function GlosarioIndice() {
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-14 sm:px-8">
-      <Link to="/" className="index-label hover:text-foreground">
+      <Link to="/simulador" className="index-label hover:text-foreground">
         ← simulador
       </Link>
       <h1 className="mt-4 text-3xl sm:text-4xl">Diccionario</h1>

@@ -177,7 +177,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Difícil de hacer, fácil de comprobar",
         parrafos: [
           "Aquí viene lo bueno. Encontrar ese hash exige millones de intentos, pero comprobarlo cuesta uno solo.",
-          "Eso es la prueba de trabajo, y es lo que hace a Bitcoin tan difícil de falsificar. Puedes verlo tú mismo en el [simulador](/) de esta web.",
+          "Eso es la prueba de trabajo, y es lo que hace a Bitcoin tan difícil de falsificar. Puedes verlo tú mismo en el [simulador](/simulador) de esta web.",
         ],
       },
     ],
@@ -511,9 +511,9 @@ export const CAPITULOS: Capitulo[] = [
         ],
       },
       {
-        titulo: "Lo que HashFlow nunca hará",
+        titulo: `Lo que ${SERVICIO.marca} nunca hará`,
         parrafos: [
-          "HashFlow nunca te pedirá la frase de recuperación. No crea tu wallet ni custodia tus fondos.",
+          `${SERVICIO.marca} nunca te pedirá la frase de recuperación. No crea tu wallet ni custodia tus fondos.`,
           "Solo necesitamos tu dirección. Si alguien te pide la frase, no somos nosotros.",
         ],
       },
@@ -536,10 +536,10 @@ export const CAPITULOS: Capitulo[] = [
         explicacion: "En papel, guardado en un lugar seguro y lejos de internet.",
       },
       {
-        pregunta: "¿Qué te pide HashFlow?",
+        pregunta: `¿Qué te pide ${SERVICIO.marca}?`,
         opciones: ["Tu frase de recuperación", "Solo tu dirección", "Tu clave privada"],
         correcta: 1,
-        explicacion: "Solo tu dirección. HashFlow nunca pide la frase ni custodia fondos.",
+        explicacion: `Solo tu dirección. ${SERVICIO.marca} nunca pide la frase ni custodia fondos.`,
       },
     ],
   },
@@ -547,20 +547,20 @@ export const CAPITULOS: Capitulo[] = [
     slug: "alquilar-hashrate",
     titulo: "Alquilar hashrate",
     pregunta: "¿Se puede participar en la minería real sin tener ni una sola máquina?",
-    descripcion: "Qué es alquilar hashrate, cómo funciona con HashFlow y qué puedes esperar, con total transparencia.",
+    descripcion: `Qué es alquilar hashrate, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
     secciones: [
       {
         titulo: "Potencia por horas",
         parrafos: [
           "Alquilar hashrate es acceder durante unas horas a potencia de minería industrial: máquinas profesionales, en instalaciones preparadas para ello, sin comprarlas, sin ruido y sin factura de luz.",
-          `Con HashFlow eliges ${jornada.potencia} durante ${jornada.horas} h (${jornada.nombre}, ${jornada.precio}) o durante ${dia.horas} h (${dia.nombre}, ${dia.precio}).`,
+          `Con ${SERVICIO.marca} eliges ${jornada.potencia} durante ${jornada.horas} h (${jornada.nombre}, ${jornada.precio}) o durante ${dia.horas} h (${dia.nombre}, ${dia.precio}).`,
         ],
       },
       {
         titulo: "Cómo funciona",
         parrafos: [
           `Eliges ${jornada.nombre} o ${dia.nombre}. Nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos.`,
-          `HashFlow lanza la potencia a un pool. El pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
+          `${SERVICIO.marca} lanza la potencia a un pool. El pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
           `Ten en cuenta que ${SERVICIO.variacionPotencia}.`,
           ...pagos,
         ],
@@ -569,7 +569,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
           "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats.",
-          "Mira el [simulador](/): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
+          "Mira el [simulador](/simulador): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
           "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool.",
         ],
       },
@@ -586,22 +586,22 @@ export const CAPITULOS: Capitulo[] = [
     cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el test.",
     quiz: [
       {
-        pregunta: "¿Qué necesitas darle a HashFlow?",
+        pregunta: `¿Qué necesitas darle a ${SERVICIO.marca}?`,
         opciones: ["Tu dirección de wallet", "Tu pool y tu stratum", "Tu frase de recuperación"],
         correcta: 0,
-        explicacion: "Solo la dirección. HashFlow se encarga de todo lo técnico.",
+        explicacion: `Solo la dirección. ${SERVICIO.marca} se encarga de todo lo técnico.`,
       },
       {
-        pregunta: "¿Qué eliges al alquilar potencia con HashFlow?",
+        pregunta: `¿Qué eliges al alquilar potencia con ${SERVICIO.marca}?`,
         opciones: ["Cuántas horas de potencia", "La máquina concreta", "El pool de destino"],
         correcta: 0,
         explicacion: `Eliges ${jornada.nombre} (${jornada.horas} h) o ${dia.nombre} (${dia.horas} h) y nos das tu dirección. Lo técnico corre de nuestra parte.`,
       },
       {
         pregunta: "¿Quién te paga los sats?",
-        opciones: ["HashFlow, de su cuenta", "El pool, de forma proporcional", "Un banco"],
+        opciones: [`${SERVICIO.marca}, de su cuenta`, "El pool, de forma proporcional", "Un banco"],
         correcta: 1,
-        explicacion: "El pool paga directamente a tu dirección según lo aportado. HashFlow no recibe ni custodia fondos.",
+        explicacion: `El pool paga directamente a tu dirección según lo aportado. ${SERVICIO.marca} no recibe ni custodia fondos.`,
       },
     ],
   },
@@ -713,9 +713,9 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
   },
   {
     pregunta: "¿Quién guarda los bitcoin que genera tu sesión?",
-    opciones: ["HashFlow, en una cuenta interna", "Tú, en tu propia wallet", "Nadie hasta que los reclames"],
+    opciones: [`${SERVICIO.marca}, en una cuenta interna`, "Tú, en tu propia wallet", "Nadie hasta que los reclames"],
     correcta: 1,
-    explicacion: "Solo nos das tu dirección. HashFlow nunca pide tu frase de recuperación ni guarda tus fondos.",
+    explicacion: `Solo nos das tu dirección. ${SERVICIO.marca} nunca pide tu frase de recuperación ni guarda tus fondos.`,
   },
 ];
 

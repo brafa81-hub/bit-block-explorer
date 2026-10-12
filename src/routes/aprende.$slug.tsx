@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { SERVICIO } from "@/content/servicio";
 
 import { Quiz } from "@/components/Quiz";
 import { CAPITULOS, getCapitulo, indiceCapitulo } from "@/content/mining101";
@@ -42,7 +43,7 @@ function Parrafo({ texto }: { texto: string }) {
         const m = /^\[([^\]]+)\]\((\/[^)]*)\)$/.exec(parte);
         if (!m) return parte;
         return (
-          <Link key={k} to={m[2] as "/" | "/minar"} className="underline underline-offset-4">
+          <Link key={k} to={m[2] as "/simulador" | "/minar"} className="underline underline-offset-4">
             {m[1]}
           </Link>
         );
@@ -100,7 +101,7 @@ function CapituloPagina() {
           ) : (
             <>
               <Link to="/minar" className="inline-flex min-h-[44px] items-center border border-foreground px-5 text-[15px] hover:opacity-80">
-                Mina con HashFlow
+                Mina con {SERVICIO.marca}
               </Link>
               <Link to="/aprende/test" className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
                 Ir al test

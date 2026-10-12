@@ -79,7 +79,7 @@ function Privacidad() {
           to="/"
           className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px]"
         >
-          Volver al simulador
+          Volver al inicio
         </Link>
       </div>
     </main>

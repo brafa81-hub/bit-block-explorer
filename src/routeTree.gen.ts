@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MinarRouteImport } from './routes/minar'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as SimuladorRouteImport } from './routes/simulador'
 import { Route as AprendeIndexRouteImport } from './routes/aprende.index'
 import { Route as AprendeSlugRouteImport } from './routes/aprende.$slug'
 import { Route as AprendeQuizRouteImport } from './routes/aprende.quiz'
@@ -32,6 +33,11 @@ const MinarRoute = MinarRouteImport.update({
 const PrivacidadRoute = PrivacidadRouteImport.update({
   id: '/privacidad',
   path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SimuladorRoute = SimuladorRouteImport.update({
+  id: '/simulador',
+  path: '/simulador',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AprendeIndexRoute = AprendeIndexRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
+  '/simulador': typeof SimuladorRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
   '/aprende/test': typeof AprendeTestRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
+  '/simulador': typeof SimuladorRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
   '/aprende/test': typeof AprendeTestRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
+  '/simulador': typeof SimuladorRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
   '/aprende/test': typeof AprendeTestRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/minar'
     | '/privacidad'
+    | '/simulador'
     | '/aprende/$slug'
     | '/aprende/quiz'
     | '/aprende/test'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/minar'
     | '/privacidad'
+    | '/simulador'
     | '/aprende/$slug'
     | '/aprende/quiz'
     | '/aprende/test'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/minar'
     | '/privacidad'
+    | '/simulador'
     | '/aprende/$slug'
     | '/aprende/quiz'
     | '/aprende/test'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MinarRoute: typeof MinarRoute
   PrivacidadRoute: typeof PrivacidadRoute
+  SimuladorRoute: typeof SimuladorRoute
   AprendeSlugRoute: typeof AprendeSlugRoute
   AprendeQuizRoute: typeof AprendeQuizRoute
   AprendeTestRoute: typeof AprendeTestRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidad'
       fullPath: '/privacidad'
       preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/simulador': {
+      id: '/simulador'
+      path: '/simulador'
+      fullPath: '/simulador'
+      preLoaderRoute: typeof SimuladorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aprende/': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MinarRoute: MinarRoute,
   PrivacidadRoute: PrivacidadRoute,
+  SimuladorRoute: SimuladorRoute,
   AprendeSlugRoute: AprendeSlugRoute,
   AprendeQuizRoute: AprendeQuizRoute,
   AprendeTestRoute: AprendeTestRoute,

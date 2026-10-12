@@ -1,10 +1,12 @@
 /**
- * Datos canónicos del servicio HashFlow.
+ * Datos canónicos del servicio.
  * Única fuente de precios, tramos Corporate y condiciones.
  * Los textos leen de aquí; no se repiten estos datos a mano.
  */
 
 export const SERVICIO = {
+  /** Nombre de marca: se cambia solo aquí. */
+  marca: "HashFlow",
   productos: {
     jornada: { nombre: "Jornada", horas: 8, potencia: "1 PH/s", precio: "29,95 €" },
     dia: { nombre: "Día", horas: 24, potencia: "1 PH/s", precio: "74,95 €" },

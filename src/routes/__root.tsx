@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SERVICIO } from "@/content/servicio";
 
 const botonPrimario =
   "inline-flex min-h-[44px] items-center justify-center bg-primary px-5 text-[15px] text-primary-foreground transition-opacity hover:opacity-90";
@@ -29,7 +30,7 @@ function NotFoundComponent() {
         </p>
         <div className="mt-6">
           <Link to="/" className={botonPrimario}>
-            Volver al simulador
+            Volver al inicio
           </Link>
         </div>
       </div>
@@ -123,7 +124,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <nav aria-label="Navegación principal" className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-5 pt-5 text-[14px] sm:px-8">
-        <Link to="/" className="text-foreground hover:underline">Simulador</Link>
+        <Link to="/" className="basis-full text-[15px] font-medium text-foreground sm:mr-auto sm:basis-auto">{SERVICIO.marca}</Link>
+        <Link to="/simulador" className="text-foreground hover:underline">Simulador</Link>
         <Link to="/aprende" className="text-foreground hover:underline">Aprende</Link>
         <Link to="/diccionario" className="text-foreground hover:underline">Diccionario</Link>
         <Link to="/minar" className="text-foreground hover:underline">Minar</Link>
