@@ -279,18 +279,25 @@ function Minar() {
         <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">
           {SERVICIO.transparencia} (<Link to="/" hash="escala-real" className="underline underline-offset-4">compruébalo en el simulador</Link>) y {SERVICIO.variacionPotencia}. {SERVICIO.resultado}
         </p>
+        <p className="mt-4 text-[14px]">
+          ¿Quieres más potencia? Combina varias unidades: desde {MINIMO_VOLUMEN}, con un{" "}
+          {SERVICIO.tramosCorporate[0].descuentoPct} % de descuento.{" "}
+          <a href="#volumen" className="text-primary underline underline-offset-4">
+            Calcula tu pedido
+          </a>
+        </p>
       </section>
 
-      {/* 003 / grupos y empresas */}
-      <section className="bg-[var(--ink)] text-[var(--on-dark)]">
+      {/* 003 / grupos, empresas y más potencia */}
+      <section id="volumen" className="scroll-mt-4 bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
-            003 / grupos y empresas
+            003 / grupos, empresas y más potencia
           </div>
           <h2 className="mt-3 text-2xl sm:text-3xl">Comprar en volumen</h2>
           <p className="mt-4 text-[16px] text-[var(--on-dark-muted)]">
             El mismo servicio, en volumen, para regalar a tu equipo, a tus clientes o a tu grupo una
-            experiencia diferente con Bitcoin. Desde {MINIMO_VOLUMEN} unidades, con descuento.
+            experiencia diferente con Bitcoin, o para minar tú con más potencia: cada unidad es 1 PH/s y las puedes canjear todas con tu wallet. Desde {MINIMO_VOLUMEN} unidades, con descuento.
           </p>
 
           {/* Tramos: tarjetas en móvil */}
