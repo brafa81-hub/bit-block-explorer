@@ -26,6 +26,7 @@ export function Certificado({
   const textoCaducidad = caducidad
     ? `Válido hasta el ${caducidad}.`
     : "Descuento de lanzamiento con fecha de caducidad, que se comunicará al abrir la venta.";
+  const condiciones = `${textoCaducidad} No acumulable con otros descuentos.`;
 
   async function descargar() {
     setGenerando(true);
@@ -83,7 +84,7 @@ export function Certificado({
         y + 9,
         { align: "center" },
       );
-      doc.text(textoCaducidad, W / 2, y + 16, { align: "center" });
+      doc.text(condiciones, W / 2, y + 16, { align: "center" });
 
       doc.setFont("courier", "normal");
       doc.setFontSize(9);
@@ -115,7 +116,7 @@ export function Certificado({
       <p className="mt-2">
         Descarga tu certificado. Incluye un <strong>{descuentoPct} % de descuento de lanzamiento</strong>: apúntate a
         la <Link to="/minar" className="underline">lista de espera</Link> y te enviaremos tu código por email cuando
-        abramos la venta. {textoCaducidad}
+        abramos la venta. {condiciones}
       </p>
       <label htmlFor="cert-nombre" className="index-label mt-5 block">
         Nombre en el certificado (opcional)

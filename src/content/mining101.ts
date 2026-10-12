@@ -24,7 +24,8 @@ export interface Capitulo {
 }
 
 const { jornada, dia } = SERVICIO.productos;
-const [tramoA, tramoB] = SERVICIO.tramosCorporate;
+const [tramoA] = SERVICIO.tramosCorporate;
+const { presupuestoDesde, caducidadMeses } = SERVICIO.corporate;
 
 const wallet: string[] = SERVICIO.walletRecomendada
   ? [
@@ -398,7 +399,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Para empresas",
         parrafos: [
-          `Con Corporate compras códigos regalo: de ${tramoA.min} a ${tramoA.max} uds. con −${tramoA.descuentoPct} % y desde ${tramoB.min} uds. con −${tramoB.descuentoPct} %. Cada persona canjea el suyo con su propia wallet.`,
+          `Con Corporate compras códigos regalo: de ${tramoA.min} a ${tramoA.max} uds. con −${tramoA.descuentoPct} % y, desde ${presupuestoDesde} uds., con presupuesto a medida. Cada persona canjea el suyo con su propia wallet durante ${caducidadMeses} meses.`,
         ],
       },
     ],

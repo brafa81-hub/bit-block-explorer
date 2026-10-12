@@ -46,6 +46,8 @@ export const TRAMOS: Tramo[] = SERVICIO.tramosCorporate.map(({ min, max, descuen
 }));
 
 export const MINIMO_VOLUMEN = SERVICIO.tramosCorporate[0].min;
+/** Desde esta cantidad no hay precio en la web: se cotiza a medida. */
+export const PRESUPUESTO_DESDE = SERVICIO.corporate.presupuestoDesde;
 
 export function getProducto(id: ProductoId): Producto {
   const p = PRODUCTOS.find((x) => x.id === id);

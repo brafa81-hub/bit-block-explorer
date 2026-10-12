@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SERVICIO } from "@/content/servicio";
 import {
   MINIMO_VOLUMEN,
+  PRESUPUESTO_DESDE,
   PRODUCTOS,
   TRAMOS,
   formatearEuros,
@@ -177,6 +178,7 @@ function Minar() {
   const [cantidad, setCantidad] = useState(10);
   const [empresaAbierto, setEmpresaAbierto] = useState(false);
 
+  const aMedida = cantidad >= PRESUPUESTO_DESDE;
   const tramo = tramoPara(cantidad);
   const unitario = precioUnitarioCentimos(productoEmpresa, cantidad);
   const total = totalCentimos(productoEmpresa, cantidad);
@@ -246,7 +248,7 @@ function Minar() {
           <h2 className="mt-3 text-2xl sm:text-3xl">Comprar en volumen</h2>
           <p className="mt-4 text-[16px] text-[var(--on-dark-muted)]">
             El mismo servicio, en volumen, para regalar a tu equipo o a tus clientes una
-            experiencia diferente con Bitcoin. Cuantas más unidades, menor precio por unidad.
+            experiencia diferente con Bitcoin. Desde {MINIMO_VOLUMEN} unidades, con descuento.
           </p>
 
           {/* Tramos: tarjetas en móvil */}
@@ -296,7 +298,9 @@ function Minar() {
           </div>
 
           <p className="mt-4 text-[13px] text-[var(--on-dark-muted)]">
-            Precios por unidad, IVA incluido.
+            Precios por unidad, IVA incluido. Desde {PRESUPUESTO_DESDE} unidades, presupuesto a medida.
+            Los códigos caducan a los {SERVICIO.corporate.caducidadMeses} meses y el descuento no se
+            acumula con otros.
           </p>
 
           {/* Calculadora */}
@@ -338,20 +342,33 @@ function Minar() {
               </div>
             </div>
 
-            <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
-              <p>
-                {tramo ? "Tramo aplicado:" : "Precio normal, sin descuento:"}{" "}
-                {tramo && <span className="hash-text">{tramo.unidades} unidades · {tramo.descuento}</span>}
-              </p>
-              <p>
-                Precio por unidad: <span className="hash-text">{formatearEuros(unitario)}</span>
-              </p>
-              <p className="text-xl">
-                Total: <span className="hash-text">{formatearEuros(total)}</span>
-              </p>
-              <p className="text-[13px] text-[var(--on-dark-muted)]">IVA incluido</p>
-            </div>
-            {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} unidades.</p>}
+            {aMedida ? (
+              <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
+                <p>
+                  Para {PRESUPUESTO_DESDE} unidades o más preparamos un presupuesto a medida.
+                </p>
+                <p className="text-[13px] text-[var(--on-dark-muted)]">
+                  Déjanos tu email y te lo enviamos al abrir.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
+                  <p>
+                    {tramo ? "Tramo aplicado:" : "Precio normal, sin descuento:"}{" "}
+                    {tramo && <span className="hash-text">{tramo.unidades} unidades · {tramo.descuento}</span>}
+                  </p>
+                  <p>
+                    Precio por unidad: <span className="hash-text">{formatearEuros(unitario)}</span>
+                  </p>
+                  <p className="text-xl">
+                    Total: <span className="hash-text">{formatearEuros(total)}</span>
+                  </p>
+                  <p className="text-[13px] text-[var(--on-dark-muted)]">IVA incluido</p>
+                </div>
+                {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} unidades.</p>}
+              </>
+            )}
 
             {empresaAbierto ? (
               <Formulario

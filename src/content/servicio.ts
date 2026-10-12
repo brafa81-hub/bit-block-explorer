@@ -9,10 +9,14 @@ export const SERVICIO = {
     jornada: { nombre: "Jornada", horas: 8, potencia: "1 PH/s", precio: "29,95 €" },
     dia: { nombre: "Día", horas: 24, potencia: "1 PH/s", precio: "74,95 €" },
   },
-  tramosCorporate: [
-    { min: 10, max: 49, descuentoPct: 10 },
-    { min: 50, max: null, descuentoPct: 15 },
-  ],
+  /** Un solo tramo con compra directa; desde `presupuestoDesde` se cotiza a medida. */
+  tramosCorporate: [{ min: 5, max: 50, descuentoPct: 10 }],
+  corporate: {
+    presupuestoDesde: 51,
+    caducidadMeses: 12,
+    /** Los descuentos (Corporate, certificado...) no se suman entre sí. */
+    descuentosAcumulables: false,
+  },
   plazoPago: "en los días siguientes",
   /** Recomendación de wallet: sin definir por ahora. */
   walletRecomendada: null,
