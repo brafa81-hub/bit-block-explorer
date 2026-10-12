@@ -69,7 +69,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, no se \"extrae\" nada. Minar es verificar pagos y sellarlos con cálculo; los bitcoins nuevos son la compensación por ese trabajo.",
-    terminos: ["bitcoin", "bloque", "minero", "blockchain", "recompensa-de-bloque", "transaccion", "consenso", "descentralizacion", "bloque-genesis"],
+    terminos: ["bitcoin", "bloque", "minero", "blockchain", "recompensa-de-bloque", "transaccion", "consenso", "descentralizacion", "bloque-genesis", "transaccion-coinbase"],
     cierre: "Ya sabes qué hace un minero. Ahora, ¿en qué consiste exactamente ese trabajo de cálculo?",
     quiz: [
       {
@@ -122,7 +122,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, la regla no son exactamente \"ceros\": el hash tiene que ser menor que un número objetivo. Los ceros iniciales son la forma visible de eso.",
-    terminos: ["hash", "sha-256", "nonce", "prueba-de-trabajo", "cabecera-de-bloque", "raiz-de-merkle"],
+    terminos: ["hash", "sha-256", "nonce", "prueba-de-trabajo", "cabecera-de-bloque", "raiz-de-merkle", "objetivo-de-dificultad"],
     cierre: "Ya entiendes la prueba de trabajo. ¿Y qué pasa cuando miles de máquinas prueban a la vez?",
     quiz: [
       {
@@ -175,7 +175,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, nadie mide el hashrate de la red directamente: se estima a partir de lo rápido que salen los bloques y de la dificultad vigente.",
-    terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "asic", "ataque-del-51"],
+    terminos: ["hashrate", "unidades-de-hashrate", "dificultad", "ajuste-de-dificultad", "asic", "ataque-del-51", "hashrate-de-la-red"],
     cierre: "Ya sabes por qué el ritmo se mantiene. Pero con tanta competencia, ¿cómo participa alguien con una sola máquina?",
     quiz: [
       {
@@ -228,7 +228,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, hay varios esquemas de pago, como FPPS o PPLNS. Cambian cómo se calcula el reparto, pero siempre en proporción al trabajo.",
-    terminos: ["pool", "share", "esquemas-de-pago", "stratum"],
+    terminos: ["pool", "share", "esquemas-de-pago", "stratum", "worker", "share-rechazada", "mineria-en-solitario"],
     cierre: "Ya entiendes cómo se reparte. Ahora toca la pregunta práctica: ¿cuánto cuesta minar y cuánto se recibe?",
     quiz: [
       {
@@ -281,7 +281,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, las cuentas de la minería cambian cada día: precio, dificultad y comisiones se mueven. Por eso aquí hablamos de órdenes de magnitud, no de cifras fijas.",
-    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi", "suministro-maximo", "altura-de-bloque"],
+    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi", "suministro-maximo", "altura-de-bloque", "granja-de-mineria", "refrigeracion", "firmware", "tiempo-de-actividad"],
     cierre: "Ya sabes de qué depende todo. Antes de recibir nada, falta una pieza: un sitio propio donde llegue.",
     quiz: [
       {
