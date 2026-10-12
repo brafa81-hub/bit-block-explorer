@@ -1020,6 +1020,78 @@ export const GLOSARIO: TerminoGlosario[] = [
     relacionados: ["phishing", "custodia", "wallet-sin-custodia", "clave-privada"],
     revisado: R2,
   },
+  // Tanda 5 · Evolución de Bitcoin
+  {
+    slug: "segwit",
+    termino: "SegWit",
+    categoria: "Fundamentos",
+    esencial: false,
+    definicion: "Una actualización de 2017 que separa las firmas del resto de la transacción, para ganar espacio y corregir un fallo antiguo.",
+    explicacion: [
+      "Es como guardar las firmas de un contrato en un anexo aparte en lugar de dentro de cada hoja. El contrato ocupa menos y se maneja mejor.",
+      "Se activó en agosto de 2017. Gracias a ella caben más transacciones en cada bloque y las comisiones salen más baratas. También hizo posible la red Lightning.",
+      "En realidad, SegWit cambió cómo se mide el límite del bloque: en lugar de contar bytes, se cuenta «peso». Por eso se habla de bytes virtuales (vB) al hablar de comisiones.",
+    ],
+    relacionados: ["transaccion", "sat-vb", "lightning", "taproot"],
+    revisado: R2,
+  },
+  {
+    slug: "taproot",
+    termino: "Taproot",
+    categoria: "Fundamentos",
+    esencial: false,
+    definicion: "Una actualización de noviembre de 2021 que hace las transacciones complejas más baratas y más privadas, y las deja parecer corrientes.",
+    explicacion: [
+      "Imagina que todos los contratos, simples o complicados, se ven igual por fuera. Quien mira desde fuera no puede distinguir uno de otro.",
+      "Taproot mejora las firmas y permite que acuerdos entre varias personas se publiquen como si fueran una sola firma normal. Sus direcciones empiezan por bc1p.",
+      "En realidad, no es una wallet ni una moneda nueva, sino un cambio de reglas. Se activó tras el apoyo mayoritario de los mineros y la aceptación de los nodos.",
+    ],
+    relacionados: ["segwit", "firma-digital", "clave-publica", "consenso"],
+    revisado: R2,
+  },
+  {
+    slug: "lightning",
+    termino: "Lightning",
+    categoria: "Fundamentos",
+    esencial: false,
+    definicion: "Una red construida sobre Bitcoin para hacer pagos rápidos y muy baratos, sin escribir cada uno en la cadena de bloques.",
+    explicacion: [
+      "Es como abrir una cuenta en un bar: vas apuntando consumiciones durante la noche y solo pagas la cuenta final al salir.",
+      "Dos personas abren un canal con una transacción en la cadena, se mandan pagos entre sí todas las veces que quieran y, al cerrarlo, queda registrado el saldo final.",
+      "En realidad, Lightning no sustituye a Bitcoin ni es otra moneda. Sigue apoyándose en la red principal, que es la que registra la apertura y el cierre de los canales.",
+    ],
+    relacionados: ["transaccion", "segwit", "comision-de-transaccion", "bitcoin"],
+    revisado: R2,
+  },
+  {
+    slug: "rbf",
+    termino: "Reemplazo por comisión (RBF)",
+    categoria: "Fundamentos",
+    esencial: false,
+    definicion: "La posibilidad de sustituir una transacción que aún no se ha confirmado por otra igual con una comisión más alta.",
+    explicacion: [
+      "Es como mandar una carta urgente cuando la normal se está retrasando: mientras no se haya entregado, la sustituyes por otra con mejor franqueo.",
+      "Sirve cuando una transacción se queda esperando en la mempool porque su comisión es baja. Si la nueva paga más, los mineros prefieren incluir esa.",
+      "En realidad, no es una marcha atrás. Solo funciona antes de que la transacción entre en un bloque: una vez confirmada, ya no se puede cambiar.",
+    ],
+    relacionados: ["transaccion", "mempool", "sat-vb", "confirmacion"],
+    revisado: R2,
+  },
+  {
+    slug: "sat-vb",
+    termino: "sat/vB",
+    categoria: "Fundamentos",
+    esencial: false,
+    definicion: "Satoshis por byte virtual: la unidad en que se expresa cuánto paga una transacción por cada unidad de espacio que ocupa.",
+    explicacion: [
+      "Es como el precio por kilo en el envío de un paquete: lo que pagas depende de lo que pesa, no de lo que vale lo que hay dentro.",
+      "Para calcular la comisión se multiplica este precio por el tamaño de la transacción en bytes virtuales. A mayor sat/vB, más probable que un minero la incluya pronto.",
+      "En realidad, la comisión no depende de cuánto envías. Mover el equivalente a 10 € o a 10.000 € cuesta casi lo mismo si la transacción ocupa el mismo espacio.",
+    ],
+    ejemplo: "Una transacción de 140 vB pagando 10 sat/vB lleva una comisión de 1.400 satoshis.",
+    relacionados: ["comision-de-transaccion", "satoshi", "mempool", "transaccion"],
+    revisado: R2,
+  },
 ];
 
 export function getTermino(slug: string) {

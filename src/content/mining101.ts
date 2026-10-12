@@ -281,7 +281,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, las cuentas de la minería cambian cada día: precio, dificultad y comisiones se mueven. Por eso aquí hablamos de órdenes de magnitud, no de cifras fijas.",
-    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi", "suministro-maximo", "altura-de-bloque", "granja-de-mineria", "refrigeracion", "firmware", "tiempo-de-actividad"],
+    terminos: ["eficiencia", "halving", "recompensa-de-bloque", "comision-de-transaccion", "satoshi", "suministro-maximo", "altura-de-bloque", "granja-de-mineria", "refrigeracion", "firmware", "tiempo-de-actividad", "sat-vb", "rbf"],
     cierre: "Ya sabes de qué depende todo. Antes de recibir nada, falta una pieza: un sitio propio donde llegue.",
     quiz: [
       {
@@ -342,7 +342,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, tus bitcoins no están dentro de la app: están registrados en la blockchain. La wallet solo guarda las llaves para moverlos.",
-    terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo", "wallet-sin-custodia", "custodia", "wallet-fria", "wallet-caliente", "hardware-wallet", "copia-de-seguridad", "phishing", "doble-factor"],
+    terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo", "wallet-sin-custodia", "custodia", "wallet-fria", "wallet-caliente", "hardware-wallet", "copia-de-seguridad", "phishing", "doble-factor", "segwit", "taproot", "lightning"],
     cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar sin comprar ninguna máquina.",
     quiz: [
       {
