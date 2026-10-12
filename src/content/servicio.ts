@@ -7,6 +7,8 @@
 export const SERVICIO = {
   /** Nombre de marca: se cambia solo aquí. */
   marca: "HashFlow",
+  /** Lema de marca. */
+  lema: "Democratizamos el acceso a la minería de Bitcoin",
   productos: {
     jornada: { nombre: "Jornada", horas: 8, potencia: "1 PH/s", precio: "29,95 €" },
     dia: { nombre: "Día", horas: 24, potencia: "1 PH/s", precio: "74,95 €" },
