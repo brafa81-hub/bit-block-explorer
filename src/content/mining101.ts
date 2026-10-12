@@ -582,7 +582,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, no alquilas una máquina concreta: alquilas una cantidad de potencia durante un tiempo, que puede salir de varias máquinas.",
-    terminos: ["hashrate-alquilado", "pool-de-destino", "orden", "corporate"],
+    terminos: ["hashrate-alquilado", "pool-de-destino", "grupos-y-empresas"],
     cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el test.",
     quiz: [
       {

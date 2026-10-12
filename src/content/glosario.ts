@@ -2,17 +2,23 @@ import { SERVICIO } from "./servicio";
 
 export type CategoriaGlosario =
   | "Fundamentos"
+  | "Transacciones"
   | "Prueba de trabajo"
   | "Potencia y red"
-  | "Pools y wallets"
-  | "Compra de hashrate";
+  | "Máquinas"
+  | "Pools"
+  | "Wallets y seguridad"
+  | "Alquiler de hashrate";
 
 export const CATEGORIAS: CategoriaGlosario[] = [
   "Fundamentos",
+  "Transacciones",
   "Prueba de trabajo",
   "Potencia y red",
-  "Pools y wallets",
-  "Compra de hashrate",
+  "Máquinas",
+  "Pools",
+  "Wallets y seguridad",
+  "Alquiler de hashrate",
 ];
 
 export interface TerminoGlosario {
@@ -129,7 +135,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "confirmacion",
     termino: "Confirmación",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Cada bloque que se añade encima del bloque donde está tu transacción. Más confirmaciones, más difícil deshacerla.",
     explicacion: [
@@ -144,7 +150,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "mempool",
     termino: "Mempool",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "La sala de espera de las transacciones que ya se han enviado pero todavía no han entrado en ningún bloque.",
     explicacion: [
@@ -233,7 +239,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "comision-de-transaccion",
     termino: "Comisión de transacción",
-    categoria: "Prueba de trabajo",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Lo que paga quien envía bitcoin para que un minero incluya su transacción en un bloque.",
     explicacion: [
@@ -339,7 +345,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "asic",
     termino: "ASIC",
-    categoria: "Potencia y red",
+    categoria: "Máquinas",
     esencial: true,
     definicion: "Una máquina diseñada solo para calcular hashes SHA-256 lo más rápido posible. Es el equipo de minería profesional.",
     explicacion: [
@@ -356,7 +362,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "pool",
     termino: "Pool",
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: true,
     definicion: "Un grupo de mineros que suman su potencia y se reparten las recompensas según lo que aporta cada uno.",
     explicacion: [
@@ -370,7 +376,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "share",
     termino: "Share",
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: false,
     definicion: "Un hash que no vale para la red pero sí cumple una dificultad más baja. Sirve para demostrar al pool cuánto trabajas.",
     explicacion: [
@@ -384,7 +390,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "stratum",
     termino: "Stratum",
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: false,
     definicion: "El protocolo con el que las máquinas de minería reciben trabajo del pool y le devuelven sus shares.",
     explicacion: [
@@ -398,7 +404,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "wallet",
     termino: "Wallet",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: true,
     definicion: "Una aplicación o dispositivo que guarda tus claves y te permite recibir y enviar bitcoin.",
     explicacion: [
@@ -412,7 +418,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "direccion",
     termino: "Dirección",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una cadena de letras y números que compartes para que te envíen bitcoin. Es pública, como un número de cuenta.",
     explicacion: [
@@ -426,7 +432,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "clave-privada",
     termino: "Clave privada",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "El número secreto que permite gastar los bitcoins de una dirección. Quien la tiene, controla los fondos.",
     explicacion: [
@@ -440,7 +446,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "frase-de-recuperacion",
     termino: "Frase de recuperación",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una lista de palabras que sirve para recuperar tu wallet entera si pierdes el móvil o el dispositivo.",
     explicacion: [
@@ -456,7 +462,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     slug: "esquemas-de-pago",
     termino: "Esquemas de pago (FPPS/PPLNS)",
     plural: true,
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: false,
     definicion: "Las reglas con las que un pool reparte lo que gana entre sus mineros. Los más comunes son FPPS y PPLNS.",
     explicacion: [
@@ -473,7 +479,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "hashrate-alquilado",
     termino: "Hashrate alquilado",
-    categoria: "Compra de hashrate",
+    categoria: "Alquiler de hashrate",
     esencial: true,
     definicion: "Potencia de minería que usas durante un tiempo sin tener la máquina. Otro pone el equipo y el pool se encarga de pagar.",
     explicacion: [
@@ -482,43 +488,15 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, alquilas cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
     enLaPractica: `En HashFlow eliges un bloque de ${SERVICIO.productos.jornada.potencia} durante ${SERVICIO.productos.jornada.horas} o ${SERVICIO.productos.dia.horas} horas y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga HashFlow. Lo que pagas es más de lo que recibirás en sats: no es una inversión ni garantiza un resultado.`,
-    relacionados: ["mercado-de-hashrate", "pool-de-destino", "orden"],
+    relacionados: ["pool-de-destino", "grupos-y-empresas"],
     revisado: R,
   },
-  {
-    slug: "mercado-de-hashrate",
-    termino: "Mercado de hashrate",
-    categoria: "Compra de hashrate",
-    esencial: false,
-    definicion: "Un lugar donde quien tiene máquinas ofrece su potencia y quien la quiere usar la alquila por tiempo.",
-    explicacion: [
-      "Es como una plataforma de alquiler de coches entre particulares, pero con potencia de cálculo.",
-      "El vendedor redirige sus máquinas al pool que indique el comprador durante el tiempo acordado.",
-      "En realidad, el precio cambia con la dificultad y la demanda. Por eso aquí no damos cifras concretas.",
-    ],
-    relacionados: ["hashrate-alquilado", "orden"],
-    capitulo: { slug: "alquilar-hashrate", titulo: "Alquilar hashrate" },
-    revisado: R,
-  },
-  {
-    slug: "orden",
-    termino: "Orden",
-    categoria: "Compra de hashrate",
-    esencial: false,
-    definicion: "La petición concreta de alquiler: cuánta potencia, durante cuánto tiempo y hacia dónde se dirige.",
-    explicacion: [
-      "Es la reserva de la pista: qué pista, a qué hora y durante cuánto rato.",
-      "Una orden define la potencia, la duración y los datos del pool de destino (en HashFlow los pone HashFlow, no tú).",
-      "En realidad, la potencia entregada puede oscilar un poco durante la orden. Lo normal es medirla como media del periodo.",
-    ],
-    enLaPractica: `En HashFlow la orden es sencilla: eliges la duración y dejas la dirección de tu wallet; del resto se encarga HashFlow, y el pago se realiza ${SERVICIO.plazoPago}. Ten en cuenta que ${SERVICIO.variacionPotencia}.`,
-    relacionados: ["hashrate-alquilado", "pool-de-destino"],
-    revisado: R,
-  },
+
+
   {
     slug: "pool-de-destino",
     termino: "Pool de destino",
-    categoria: "Compra de hashrate",
+    categoria: "Alquiler de hashrate",
     esencial: false,
     definicion: "El pool al que se envía la potencia que has alquilado. Allí se registran tus shares y tus pagos.",
     explicacion: [
@@ -532,7 +510,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "eficiencia",
     termino: "Eficiencia (J/TH)",
-    categoria: "Potencia y red",
+    categoria: "Máquinas",
     esencial: false,
     definicion: "La energía que gasta una máquina por cada terahash que calcula. Menos julios por terahash, máquina más eficiente.",
     explicacion: [
@@ -546,9 +524,9 @@ export const GLOSARIO: TerminoGlosario[] = [
     revisado: R,
   },
   {
-    slug: "corporate",
-    termino: "Corporate (compra por volumen)",
-    categoria: "Compra de hashrate",
+    slug: "grupos-y-empresas",
+    termino: "Grupos y empresas (compra por volumen)",
+    categoria: "Alquiler de hashrate",
     esencial: false,
     definicion: "La modalidad para grupos y empresas que necesitan muchas sesiones de potencia a la vez, con descuento por cantidad.",
     explicacion: [
@@ -557,14 +535,14 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, funciona igual que el alquiler individual. Solo cambia la cantidad.",
     ],
     enLaPractica: `Para empresas y grupos, HashFlow vende sesiones: de ${SERVICIO.tramosCorporate[0].min} a ${SERVICIO.tramosCorporate[0].max} sesiones con un ${SERVICIO.tramosCorporate[0].descuentoPct} % de descuento y, desde ${SERVICIO.corporate.presupuestoDesde}, con presupuesto a medida. Cada persona recibe un enlace de activación y pone su propia wallet: un regalo distinto, que se vive desde dentro de la red.`,
-    relacionados: ["hashrate-alquilado", "orden"],
+    relacionados: ["hashrate-alquilado", "pool-de-destino"],
     revisado: R,
   },
   // Tanda 2 · Red y fundamentos
   {
     slug: "transaccion",
     termino: "Transacción",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Un mensaje firmado que mueve bitcoins de unas direcciones a otras y que, al entrar en un bloque, queda registrado para siempre.",
     explicacion: [
@@ -579,7 +557,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "utxo",
     termino: "UTXO",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Una salida de transacción que todavía no se ha gastado. Tu saldo es la suma de todas las que tu wallet puede mover.",
     explicacion: [
@@ -594,7 +572,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "clave-publica",
     termino: "Clave pública",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Un código matemático derivado de tu clave privada que permite a otros comprobar tus firmas sin poder mover tus fondos.",
     explicacion: [
@@ -608,7 +586,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "firma-digital",
     termino: "Firma digital",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "La prueba matemática de que quien envía una transacción controla los fondos, creada con la clave privada sin revelarla.",
     explicacion: [
@@ -793,7 +771,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "granja-de-mineria",
     termino: "Granja de minería",
-    categoria: "Potencia y red",
+    categoria: "Máquinas",
     esencial: false,
     definicion: "Instalación con muchas máquinas de minería funcionando juntas, con electricidad, refrigeración y conexión a internet preparadas para ello.",
     explicacion: [
@@ -807,7 +785,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "mineria-en-solitario",
     termino: "Minería en solitario",
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: false,
     definicion: "Minar sin pool: la máquina intenta encontrar un bloque por su cuenta, y solo cobra si lo encuentra.",
     explicacion: [
@@ -821,7 +799,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "worker",
     termino: "Worker",
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: false,
     definicion: "El nombre con el que cada máquina se identifica ante un pool, para que el pool sepa cuánto trabajo aporta cada una.",
     explicacion: [
@@ -835,7 +813,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "share-rechazada",
     termino: "Share rechazada",
-    categoria: "Pools y wallets",
+    categoria: "Pools",
     esencial: false,
     definicion: "Una share que el pool no cuenta porque llegó tarde, está repetida o no cumple la dificultad exigida.",
     explicacion: [
@@ -850,7 +828,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "tiempo-de-actividad",
     termino: "Tiempo de actividad (uptime)",
-    categoria: "Potencia y red",
+    categoria: "Máquinas",
     esencial: false,
     definicion: "El porcentaje de tiempo que una máquina o servicio funciona de verdad. Cada minuto parado es trabajo que no se cuenta.",
     explicacion: [
@@ -865,7 +843,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "firmware",
     termino: "Firmware",
-    categoria: "Potencia y red",
+    categoria: "Máquinas",
     esencial: false,
     definicion: "El programa interno de una máquina de minería: controla su funcionamiento, su temperatura y la conexión con el pool.",
     explicacion: [
@@ -879,7 +857,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "refrigeracion",
     termino: "Refrigeración",
-    categoria: "Potencia y red",
+    categoria: "Máquinas",
     esencial: false,
     definicion: "Los sistemas que retiran el calor de las máquinas de minería: ventiladores, extracción de aire o inmersión en líquido.",
     explicacion: [
@@ -910,7 +888,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "wallet-fria",
     termino: "Wallet fría",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una wallet que guarda las claves sin conexión a internet, por ejemplo en un dispositivo dedicado o apuntadas en papel.",
     explicacion: [
@@ -924,7 +902,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "wallet-caliente",
     termino: "Wallet caliente",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una wallet conectada a internet, como una app de móvil o de ordenador. Cómoda para el día a día, pero más expuesta.",
     explicacion: [
@@ -938,7 +916,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "hardware-wallet",
     termino: "Hardware wallet",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Un dispositivo pequeño y dedicado que guarda tus claves privadas y firma las transacciones sin que las claves salgan de él.",
     explicacion: [
@@ -952,7 +930,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "wallet-sin-custodia",
     termino: "Wallet sin custodia",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una wallet en la que solo tú tienes las claves privadas; nadie más, ni la empresa que hizo la app, puede mover tus fondos.",
     explicacion: [
@@ -966,7 +944,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "custodia",
     termino: "Custodia",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Que un tercero guarde tus claves y tus bitcoins por ti. Para moverlos, dependes de él.",
     explicacion: [
@@ -980,7 +958,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "copia-de-seguridad",
     termino: "Copia de seguridad",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una copia segura de la frase de recuperación, que permite volver a tus fondos si pierdes o se estropea el dispositivo.",
     explicacion: [
@@ -994,7 +972,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "phishing",
     termino: "Phishing",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Un engaño en el que alguien se hace pasar por una empresa de confianza para que entregues contraseñas, claves o fondos.",
     explicacion: [
@@ -1009,7 +987,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "doble-factor",
     termino: "Doble factor (2FA)",
-    categoria: "Pools y wallets",
+    categoria: "Wallets y seguridad",
     esencial: false,
     definicion: "Una segunda comprobación, además de la contraseña, para entrar en una cuenta: un código temporal o una llave física.",
     explicacion: [
@@ -1024,7 +1002,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "segwit",
     termino: "SegWit",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Una actualización de 2017 que separa las firmas del resto de la transacción, para ganar espacio y corregir un fallo antiguo.",
     explicacion: [
@@ -1038,7 +1016,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "taproot",
     termino: "Taproot",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Una actualización de noviembre de 2021 que hace las transacciones complejas más baratas y más privadas, y las deja parecer corrientes.",
     explicacion: [
@@ -1052,7 +1030,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "lightning",
     termino: "Lightning",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Una red construida sobre Bitcoin para hacer pagos rápidos y muy baratos, sin escribir cada uno en la cadena de bloques.",
     explicacion: [
@@ -1066,7 +1044,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "rbf",
     termino: "Reemplazo por comisión (RBF)",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "La posibilidad de sustituir una transacción que aún no se ha confirmado por otra igual con una comisión más alta.",
     explicacion: [
@@ -1080,7 +1058,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "sat-vb",
     termino: "sat/vB",
-    categoria: "Fundamentos",
+    categoria: "Transacciones",
     esencial: false,
     definicion: "Satoshis por byte virtual: la unidad en que se expresa cuánto paga una transacción por cada unidad de espacio que ocupa.",
     explicacion: [
@@ -1102,8 +1080,14 @@ export const GLOSARIO_ALFABETICO = [...GLOSARIO].sort((a, b) =>
   a.termino.localeCompare(b.termino, "es", { sensitivity: "base" }),
 );
 
+/** Orden de referencia: por categoría (como en Aprende) y, dentro de cada una, alfabético en español. */
+export const GLOSARIO_POR_CATEGORIA = CATEGORIAS.flatMap((c) =>
+  GLOSARIO_ALFABETICO.filter((t) => t.categoria === c),
+);
+
+/** Número de ficha: posición en el orden por categoría. */
 export function indiceDe(slug: string) {
-  return GLOSARIO_ALFABETICO.findIndex((t) => t.slug === slug) + 1;
+  return GLOSARIO_POR_CATEGORIA.findIndex((t) => t.slug === slug) + 1;
 }
 
 export const idx = (n: number) => String(n).padStart(3, "0");
