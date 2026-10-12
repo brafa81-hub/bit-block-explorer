@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { SERVICIO } from "@/content/servicio";
@@ -223,11 +223,8 @@ function IconoMaquina({ indice = 0, animar = true }: { indice?: number; animar?:
 
 function Equivalencia() {
   const n = SERVICIO.maquinasEquivalentes;
-  const [animar, setAnimar] = useState(true);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setAnimar(!mq.matches);
-  }, []);
+  // Decisión de producto: se animan siempre, aunque el sistema pida reducir movimiento (giro lento y LED suave).
+  const animar = true;
   return (
     <div className="mt-4" aria-label={`Equivale a unas ${n} máquinas profesionales`}>
       <div className="flex flex-wrap gap-2 text-primary">
