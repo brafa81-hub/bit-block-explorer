@@ -120,7 +120,7 @@ function Formulario({
 
       {tipo === "empresa" && (
         <p className={`text-[13px] ${apagado}`}>
-          Producto: {getProducto(producto).nombre} · Cantidad: {cantidad}
+          Producto: {getProducto(producto).nombre} · Sesiones: {cantidad}
         </p>
       )}
 
@@ -280,7 +280,7 @@ function Minar() {
           <div>
             <p className="text-xl">¿Quieres más potencia?</p>
             <p className="mt-1 text-[15px] text-muted-foreground">
-              Combina varias unidades: desde {MINIMO_VOLUMEN}, con un {SERVICIO.tramosCorporate[0].descuentoPct} % de
+              Combina varias sesiones: desde {MINIMO_VOLUMEN}, con un {SERVICIO.tramosCorporate[0].descuentoPct} % de
               descuento.
             </p>
           </div>
@@ -305,7 +305,7 @@ function Minar() {
           <h2 className="mt-3 text-2xl sm:text-3xl">Comprar en volumen</h2>
           <p className="mt-4 text-[16px] text-[var(--on-dark-muted)]">
             El mismo servicio, en volumen, para regalar a tu equipo, a tus clientes o a tu grupo una
-            experiencia diferente con Bitcoin, o para minar tú con más potencia: cada unidad es 1 PH/s y las puedes canjear todas con tu wallet. Desde {MINIMO_VOLUMEN} unidades, con descuento.
+            experiencia diferente con Bitcoin, o para minar tú con más potencia: cada sesión es 1 PH/s y las lanzamos todas a la vez con tu wallet. Desde {MINIMO_VOLUMEN} sesiones, con descuento.
           </p>
 
           {/* Tramos: tarjetas en móvil */}
@@ -313,16 +313,16 @@ function Minar() {
             {TRAMOS.map((t) => (
               <div key={t.min} className="border border-[var(--on-dark-border)] p-4">
                 <div className="flex items-baseline justify-between">
-                  <span className="hash-text text-[13px]">{t.unidades} uds.</span>
+                  <span className="hash-text text-[13px]">{t.unidades} sesiones</span>
                   <span className="hash-text text-[13px] text-[var(--on-dark-muted)]">
                     {t.descuento}
                   </span>
                 </div>
                 <p className="hash-text mt-3 text-[15px]">
-                  Jornada: {formatearEuros(t.jornadaCentimos)} / ud
+                  Jornada: {formatearEuros(t.jornadaCentimos)} / sesión
                 </p>
                 <p className="hash-text text-[15px]">
-                  Día: {formatearEuros(t.diaCentimos)} / ud
+                  Día: {formatearEuros(t.diaCentimos)} / sesión
                 </p>
               </div>
             ))}
@@ -333,10 +333,10 @@ function Minar() {
             <table className="w-full border-collapse text-left text-[15px]">
               <thead>
                 <tr className="border-b border-[var(--on-dark-border)]">
-                  <th className="py-3 pr-4 font-medium">Unidades</th>
+                  <th className="py-3 pr-4 font-medium">Sesiones</th>
                   <th className="py-3 pr-4 font-medium">Descuento</th>
-                  <th className="py-3 pr-4 font-medium">Jornada / ud</th>
-                  <th className="py-3 font-medium">Día / ud</th>
+                  <th className="py-3 pr-4 font-medium">Jornada / sesión</th>
+                  <th className="py-3 font-medium">Día / sesión</th>
                 </tr>
               </thead>
               <tbody>
@@ -355,8 +355,8 @@ function Minar() {
           </div>
 
           <p className="mt-4 text-[13px] text-[var(--on-dark-muted)]">
-            Precios por unidad, IVA incluido. Desde {PRESUPUESTO_DESDE} unidades, presupuesto a medida.
-            Los códigos caducan a los {SERVICIO.corporate.caducidadMeses} meses y el descuento no se
+            Precios por sesión, IVA incluido. Desde {PRESUPUESTO_DESDE} sesiones, presupuesto a medida.
+            Las sesiones para regalar caducan a los {SERVICIO.corporate.caducidadMeses} meses y el descuento no se
             acumula con otros.
           </p>
 
@@ -385,7 +385,7 @@ function Minar() {
 
               <div>
                 <label htmlFor="cantidad-empresa" className="block text-[13px]">
-                  Cantidad
+                  Sesiones
                 </label>
                 <input
                   id="cantidad-empresa"
@@ -402,7 +402,7 @@ function Minar() {
             {aMedida ? (
               <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
                 <p>
-                  Para {PRESUPUESTO_DESDE} unidades o más preparamos un presupuesto a medida.
+                  Para {PRESUPUESTO_DESDE} sesiones o más preparamos un presupuesto a medida.
                 </p>
                 <p className="text-[13px] text-[var(--on-dark-muted)]">
                   Déjanos tu email y te lo enviamos al abrir.
@@ -413,17 +413,17 @@ function Minar() {
                 <div className="mt-6 space-y-2 border-t border-[var(--on-dark-border)] pt-5 text-[15px]">
                   <p>
                     {tramo ? "Tramo aplicado:" : "Precio normal, sin descuento:"}{" "}
-                    {tramo && <span className="hash-text">{tramo.unidades} unidades · {tramo.descuento}</span>}
+                    {tramo && <span className="hash-text">{tramo.unidades} sesiones · {tramo.descuento}</span>}
                   </p>
                   <p>
-                    Precio por unidad: <span className="hash-text">{formatearEuros(unitario)}</span>
+                    Precio por sesión: <span className="hash-text">{formatearEuros(unitario)}</span>
                   </p>
                   <p className="text-xl">
                     Total: <span className="hash-text">{formatearEuros(total)}</span>
                   </p>
                   <p className="text-[13px] text-[var(--on-dark-muted)]">IVA incluido</p>
                 </div>
-                {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} unidades.</p>}
+                {!tramo && <p className="mt-2 text-[13px] text-[var(--on-dark-muted)]">El descuento empieza en {MINIMO_VOLUMEN} sesiones.</p>}
               </>
             )}
 
