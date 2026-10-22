@@ -7,13 +7,13 @@ export const Route = createFileRoute("/privacidad")({
       {
         name: "description",
         content:
-          "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de potencia de minería de 1 PH/s.",
+          "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de potencia de minería.",
       },
       { property: "og:title", content: "Privacidad" },
       {
         property: "og:description",
         content:
-          "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de 1 PH/s.",
+          "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de potencia de minería.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://bit-block-explorer.lovable.app/privacidad" },
@@ -45,31 +45,32 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Qué guardamos</h2>
           <p className="mt-2 text-muted-foreground">
-            Tu email, el producto que te interesa y, si escribes desde una empresa, la
-            cantidad que nos indicas, junto con la fecha en que nos lo envías.
+            Tu email, el producto y el modo que te interesan, si es para ti o para regalar, para
+            cuándo lo querrías y, si escribes desde una empresa, la potencia que nos indicas, junto
+            con la fecha en que nos lo envías y la web o campaña desde la que llegaste. Además
+            contamos de forma anónima las visitas y los clics en la página de compra, sin cookies ni
+            datos que te identifiquen.
           </p>
         </section>
 
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Para qué</h2>
           <p className="mt-2 text-muted-foreground">
-             Solo para avisarte de la apertura y responderte si nos consultas por un pedido. No
-            lo usamos para nada más ni se lo cedemos a terceros.
+            Solo para avisarte de la apertura y responderte si nos consultas por un pedido. No lo
+            usamos para nada más ni se lo cedemos a terceros.
           </p>
         </section>
 
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Cuánto tiempo</h2>
-          <p className="mt-2 text-muted-foreground">
-            [Pendiente: plazo de conservación.]
-          </p>
+          <p className="mt-2 text-muted-foreground">[Pendiente: plazo de conservación.]</p>
         </section>
 
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Tus derechos</h2>
           <p className="mt-2 text-muted-foreground">
-            Puedes pedirnos en cualquier momento que te digamos qué tenemos tuyo, que lo
-            corrijamos o que lo borremos. Escríbenos a [pendiente: email de contacto].
+            Puedes pedirnos en cualquier momento que te digamos qué tenemos tuyo, que lo corrijamos
+            o que lo borremos. Escríbenos a [pendiente: email de contacto].
           </p>
         </section>
       </div>

@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SERVICIO } from "@/content/servicio";
+import { capturarOrigen } from "@/lib/medicion";
 
 const botonPrimario =
   "inline-flex min-h-[44px] items-center justify-center bg-primary px-5 text-[15px] text-primary-foreground transition-opacity hover:opacity-90";
@@ -120,6 +121,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Guarda de dónde llega la visita (utm) en la primera página que se abre.
+  useEffect(() => {
+    capturarOrigen();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

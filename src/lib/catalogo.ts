@@ -1,75 +1,59 @@
-/** Precios y tramos derivados de los datos canónicos del servicio. */
+/** Precios del catálogo v9.2 derivados de los datos canónicos del servicio (en céntimos). */
 import { SERVICIO } from "@/content/servicio";
 
-export type ProductoId = "jornada" | "dia";
-
-export interface Producto {
-  id: ProductoId;
-  nombre: string;
-  horas: number;
-  potencia: string;
-  precioCentimos: number;
-  nota: string;
-}
+export type ProductoId = "unidad" | "pack" | "corporate";
+export type ModoId = "estable" | "solitario" | "mixto";
 
 function aCentimos(precio: string): number {
   return Math.round(Number(precio.replace("€", "").trim().replace(",", ".")) * 100);
 }
 
-export const PRODUCTOS: Producto[] = (
-  Object.entries(SERVICIO.productos) as [ProductoId, (typeof SERVICIO.productos)[ProductoId]][]
-).map(([id, datos]) => ({
-  id,
-  nombre: datos.nombre,
-  horas: datos.horas,
-  potencia: datos.potencia,
-  precioCentimos: aCentimos(datos.precio),
-  nota: id === "jornada" ? "Una jornada completa con potencia industrial. La forma más directa de ver la minería real desde dentro." : "Un día entero, de principio a fin. Pensado también como regalo para quien quiere entender Bitcoin.",
-}));
+const { unidad, pack, corporate } = SERVICIO.catalogo;
 
-export interface Tramo {
-  min: number;
-  max: number | null;
-  unidades: string;
-  descuento: string;
-  jornadaCentimos: number;
-  diaCentimos: number;
+export const PRECIO_UNIDAD = aCentimos(unidad.precio);
+export const PRECIO_PACK = aCentimos(pack.precio);
+export const EXTRA_MIXTO = aCentimos(SERVICIO.modos.extraMixto);
+export const MAX_SUELTAS = unidad.maxSueltas;
+export const UNIDADES_PACK = pack.unidades;
+export const CORPORATE_DESDE_PH = corporate.desdePH;
+/** Corporate va al mismo precio por PH/s que el pack. */
+export const PRECIO_PH_CORPORATE = PRECIO_PACK;
+export const CORPORATE_DESDE_CENTIMOS = PRECIO_PACK * CORPORATE_DESDE_PH;
+
+/** Lo que se ahorra con el pack frente a 4 unidades sueltas, en % redondeado. */
+export const AHORRO_PACK_PCT = Math.round(
+  100 - (PRECIO_PACK * 100) / (PRECIO_UNIDAD * UNIDADES_PACK),
+);
+
+/** Precio de un pedido de unidades sueltas o del pack, según el modo (el mixto suma un extra por pedido). */
+export function precioPedido(producto: "unidad" | "pack", cantidad: number, modo: ModoId): number {
+  const base = producto === "pack" ? PRECIO_PACK : PRECIO_UNIDAD * cantidad;
+  return base + (modo === "mixto" ? EXTRA_MIXTO : 0);
 }
 
-export const TRAMOS: Tramo[] = SERVICIO.tramosCorporate.map(({ min, max, descuentoPct }) => ({
-  min,
-  max,
-  unidades: max === null ? `${min}+` : `${min}-${max}`,
-  descuento: `−${descuentoPct} %`,
-  jornadaCentimos: Math.round(getProducto("jornada").precioCentimos * (100 - descuentoPct) / 100),
-  diaCentimos: Math.round(getProducto("dia").precioCentimos * (100 - descuentoPct) / 100),
-}));
-
-export const MINIMO_VOLUMEN = SERVICIO.tramosCorporate[0].min;
-/** Desde esta cantidad no hay precio en la web: se cotiza a medida. */
-export const PRESUPUESTO_DESDE = SERVICIO.corporate.presupuestoDesde;
-
-export function getProducto(id: ProductoId): Producto {
-  const p = PRODUCTOS.find((x) => x.id === id);
-  if (!p) throw new Error("Producto desconocido");
-  return p;
+/** Unidades de 250 TH/s que tiene un pedido. */
+export function unidadesDe(producto: "unidad" | "pack", cantidad: number): number {
+  return producto === "pack" ? UNIDADES_PACK : cantidad;
 }
 
-export function tramoPara(cantidad: number): Tramo | null {
-  for (const t of TRAMOS) {
-    if (cantidad >= t.min && (t.max === null || cantidad <= t.max)) return t;
-  }
-  return null;
+/** Potencia del pedido en TH/s. */
+export function potenciaTH(unidades: number): number {
+  return unidades * unidad.potenciaTH;
 }
 
-export function precioUnitarioCentimos(producto: ProductoId, cantidad: number): number {
-  const tramo = tramoPara(cantidad);
-  if (!tramo) return getProducto(producto).precioCentimos;
-  return producto === "jornada" ? tramo.jornadaCentimos : tramo.diaCentimos;
+/** Sats aproximados según modo (solo cuenta la parte en modo estable). */
+export function satsAprox(producto: "unidad" | "pack", cantidad: number, modo: ModoId): number {
+  const base = producto === "pack" ? pack.satsAprox : unidad.satsAprox * cantidad;
+  if (modo === "solitario") return 0;
+  if (modo === "mixto") return Math.round(base / 2 / 500) * 500;
+  return base;
 }
 
-export function totalCentimos(producto: ProductoId, cantidad: number): number {
-  return precioUnitarioCentimos(producto, cantidad) * cantidad;
+/** "1 entre X" de encontrar un bloque en la parte en solitario. */
+export function unoEntreBloque(unidades: number, modo: ModoId): number {
+  const horasSolo = modo === "mixto" ? 0.5 : 1;
+  const x = SERVICIO.modos.unoEntreBloquePorUnidad / (unidades * horasSolo);
+  return Math.round(x / 500) * 500;
 }
 
 const formateador = new Intl.NumberFormat("es-ES", {
@@ -78,7 +62,17 @@ const formateador = new Intl.NumberFormat("es-ES", {
   useGrouping: "always" as unknown as boolean,
 });
 
+const formateadorEntero = new Intl.NumberFormat("es-ES", {
+  maximumFractionDigits: 0,
+  useGrouping: "always" as unknown as boolean,
+});
+
 /** Formato español: coma decimal, punto de miles y el símbolo detrás. */
 export function formatearEuros(centimos: number): string {
   return `${formateador.format(centimos / 100)} €`;
+}
+
+/** Número entero con punto de miles: 11.000 */
+export function formatearEntero(n: number): string {
+  return formateadorEntero.format(n);
 }

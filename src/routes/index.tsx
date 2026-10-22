@@ -1,15 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Equivalencia } from "@/components/Maquinas";
+import { IconoMaquina } from "@/components/Maquinas";
 import { GLOSARIO } from "@/content/glosario";
 import { CAPITULOS } from "@/content/mining101";
 import { SERVICIO } from "@/content/servicio";
-import { MINIMO_VOLUMEN, PRODUCTOS, formatearEuros } from "@/lib/catalogo";
+import {
+  AHORRO_PACK_PCT,
+  CORPORATE_DESDE_PH,
+  PRECIO_PACK,
+  PRECIO_PH_CORPORATE,
+  PRECIO_UNIDAD,
+  UNIDADES_PACK,
+  formatearEuros,
+} from "@/lib/catalogo";
 
 const URL = "https://bit-block-explorer.lovable.app/";
 const TITULO = `${SERVICIO.marca} | Mina Bitcoin sin tener máquinas`;
 const DESC =
-  "Potencia de minería industrial por horas, en euros y en español. Tú pones la dirección de tu wallet; nosotros, las máquinas.";
+  "Vive 24 h como minero de Bitcoin sin comprar la máquina ni pagar la luz. Potencia de cálculo profesional, en euros y en español.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,12 +42,13 @@ const botonSecundario =
 
 const PASOS = [
   {
-    titulo: "Eliges tu sesión",
-    texto: `${SERVICIO.productos.jornada.nombre} (${SERVICIO.productos.jornada.horas} h) o ${SERVICIO.productos.dia.nombre} (${SERVICIO.productos.dia.horas} h), con ${SERVICIO.productos.jornada.potencia} de potencia.`,
+    titulo: "Eliges tu potencia",
+    texto: `Una unidad de ${SERVICIO.catalogo.unidad.potenciaTH} TH/s o el pack de 1 PH/s, durante 24 horas.`,
   },
   {
     titulo: "Pones tu wallet",
-    texto: "Solo la dirección. Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
+    texto:
+      "Solo la dirección. Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
   },
   {
     titulo: "Tu potencia mina",
@@ -50,15 +59,17 @@ const PASOS = [
 const CONFIANZA = [
   {
     titulo: "Tu wallet, tus fondos",
-    texto: "Nunca te pedimos la frase de recuperación ni guardamos tus bitcoins. Solo necesitas una dirección para recibir.",
+    texto:
+      "Nunca te pedimos la frase de recuperación ni guardamos tus bitcoins. Solo necesitas una dirección para recibir.",
   },
   {
     titulo: "Potencia industrial",
-    texto: "Máquinas profesionales en instalaciones preparadas para ello. Sin ruido en casa, sin factura de luz, sin mantenimiento.",
+    texto:
+      "Máquinas profesionales en instalaciones preparadas para ello. Sin ruido en casa, sin factura de luz, sin mantenimiento.",
   },
   {
     titulo: "Claridad desde el principio",
-    texto: `${SERVICIO.transparencia}. ${SERVICIO.resultado} Lo que compras es la experiencia de minar Bitcoin de verdad.`,
+    texto: `${SERVICIO.transparencia} y no está garantizado. Lo que compras es la experiencia de minar Bitcoin de verdad, no un producto financiero.`,
   },
 ];
 
@@ -74,12 +85,12 @@ function Inicio() {
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
           Hasta ahora, minar exigía comprar equipos de miles de euros, aguantar el ruido y pagar la
-          luz. Con {SERVICIO.marca} accedes a potencia de minería industrial por horas, en euros y
-          desde cualquier móvil.
+          luz. Con {SERVICIO.marca} accedes a potencia de minería profesional durante 24 horas, en
+          euros y desde cualquier móvil.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/minar" className={botonPrimario}>
-            Ver las sesiones
+            Ver la potencia
           </Link>
           <Link to="/simulador" className={botonSecundario}>
             Prueba el simulador
@@ -87,19 +98,51 @@ function Inicio() {
         </div>
       </section>
 
-      {/* 002 / sesiones */}
+      {/* 002 / potencia */}
       <section className="mx-auto max-w-3xl px-5 pb-16 sm:px-8">
-        <div className="index-label">002 / sesiones</div>
-        <h2 className="mt-3 text-2xl sm:text-3xl">Potencia profesional, al alcance de cualquiera</h2>
+        <div className="index-label">002 / potencia</div>
+        <h2 className="mt-3 text-2xl sm:text-3xl">
+          Potencia profesional, al alcance de cualquiera
+        </h2>
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {PRODUCTOS.map((p) => (
-            <Link key={p.id} to="/minar" className="block border border-border p-6 hover:border-foreground">
-              <h3 className="text-xl">{p.nombre}</h3>
-              <p className="hash-text mt-2 text-[13px] text-muted-foreground">
-                {p.horas} horas · {p.potencia}
-              </p>
-              <Equivalencia />
-              <p className="hash-text mt-4 text-2xl">{formatearEuros(p.precioCentimos)}</p>
+          {[
+            {
+              nombre: SERVICIO.catalogo.unidad.nombre,
+              linea: `${SERVICIO.catalogo.unidad.potenciaTH} TH/s · 24 horas`,
+              apoyo: "Potencia equivalente a un minero profesional",
+              n: 1,
+              precio: PRECIO_UNIDAD,
+              destacado: false,
+            },
+            {
+              nombre: SERVICIO.catalogo.pack.nombre,
+              linea: "1.000 TH/s · 24 horas",
+              apoyo: `Un ${AHORRO_PACK_PCT} % más barato que ${UNIDADES_PACK} unidades`,
+              n: UNIDADES_PACK,
+              precio: PRECIO_PACK,
+              destacado: true,
+            },
+          ].map((p) => (
+            <Link
+              key={p.nombre}
+              to="/minar"
+              hash={p.destacado ? "pack" : "minar"}
+              className={`block p-6 hover:border-foreground ${p.destacado ? "border-2 border-primary" : "border border-border"}`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="text-xl">{p.nombre}</h3>
+                <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
+                  PRÓXIMAMENTE
+                </span>
+              </div>
+              <p className="hash-text mt-2 text-[13px] text-muted-foreground">{p.linea}</p>
+              <div className="mt-4 flex flex-wrap gap-2 text-primary" aria-hidden="true">
+                {Array.from({ length: p.n }, (_, i) => (
+                  <IconoMaquina key={i} indice={i} />
+                ))}
+              </div>
+              <p className="mt-3 text-[13px] text-muted-foreground">{p.apoyo}</p>
+              <p className="hash-text mt-4 text-2xl">{formatearEuros(p.precio)}</p>
               <p className="mt-1 text-[13px] text-muted-foreground">IVA incluido</p>
             </Link>
           ))}
@@ -112,7 +155,9 @@ function Inicio() {
         <ol className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
           {PASOS.map((p, i) => (
             <li key={p.titulo} className="border-t border-border pt-4">
-              <span className="hash-text text-[13px] text-primary">{String(i + 1).padStart(2, "0")}</span>
+              <span className="hash-text text-[13px] text-primary">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               <p className="mt-1 text-[17px]">{p.titulo}</p>
               <p className="mt-2 text-[15px] text-muted-foreground">{p.texto}</p>
             </li>
@@ -155,7 +200,8 @@ function Inicio() {
               <span className="block text-xl">Aprende</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">
                 {CAPITULOS.length} capítulos cortos y un test final. Si lo apruebas, te llevas un
-                certificado con un {SERVICIO.certificado.descuentoPct} % de descuento de lanzamiento.
+                certificado con un {SERVICIO.certificado.descuentoPct} % de descuento de
+                lanzamiento.
               </span>
             </Link>
           </li>
@@ -176,12 +222,12 @@ function Inicio() {
           <div>
             <p className="text-xl">Grupos, empresas y regalos</p>
             <p className="mt-1 text-[15px] text-muted-foreground">
-              Desde {MINIMO_VOLUMEN} sesiones, con un {SERVICIO.tramosCorporate[0].descuentoPct} % de
-              descuento. Para tu equipo, tus clientes o para regalar.
+              Desde {CORPORATE_DESDE_PH} PH/s, a {formatearEuros(PRECIO_PH_CORPORATE)} por PH/s.
+              Para tu equipo, tus clientes o para regalar.
             </p>
           </div>
-          <Link to="/minar" hash="volumen" className={`${botonPrimario} shrink-0`}>
-            Calcula tu pedido
+          <Link to="/minar" hash="corporate" className={`${botonPrimario} shrink-0`}>
+            Pedir presupuesto
           </Link>
         </div>
       </section>
