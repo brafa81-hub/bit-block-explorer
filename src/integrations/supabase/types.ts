@@ -115,7 +115,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      resumen_diario: {
+        Row: {
+          clics_comprar: number | null
+          dia: string | null
+          emails: number | null
+          visitas: number | null
+        }
+        Relationships: []
+      }
+      resumen_origen: {
+        Row: {
+          campana: string | null
+          clics_comprar: number | null
+          emails: number | null
+          origen: string | null
+          pct_visita_a_email: number | null
+          visitas: number | null
+        }
+        Relationships: []
+      }
+      resumen_productos: {
+        Row: {
+          clics_comprar: number | null
+          emails: number | null
+          modo: string | null
+          pct_clic_a_email: number | null
+          producto: string | null
+        }
+        Relationships: []
+      }
+      resumen_respuestas: {
+        Row: {
+          cuando: string | null
+          emails: number | null
+          para_quien: string | null
+          producto: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
