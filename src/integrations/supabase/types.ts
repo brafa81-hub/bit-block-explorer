@@ -14,36 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
+      eventos: {
+        Row: {
+          cantidad: number | null
+          created_at: string
+          id: string
+          modo: string | null
+          producto: string | null
+          referrer: string | null
+          tipo: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          cantidad?: number | null
+          created_at?: string
+          id?: string
+          modo?: string | null
+          producto?: string | null
+          referrer?: string | null
+          tipo: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          cantidad?: number | null
+          created_at?: string
+          id?: string
+          modo?: string | null
+          producto?: string | null
+          referrer?: string | null
+          tipo?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
       lista_espera: {
         Row: {
           cantidad: number
           created_at: string
+          cuando: string | null
           email: string
           id: string
+          modo: string | null
+          para_quien: string | null
           producto: string | null
+          referrer: string | null
           tipo: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           cantidad?: number
           created_at?: string
+          cuando?: string | null
           email: string
           id?: string
+          modo?: string | null
+          para_quien?: string | null
           producto?: string | null
+          referrer?: string | null
           tipo?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           cantidad?: number
           created_at?: string
+          cuando?: string | null
           email?: string
           id?: string
+          modo?: string | null
+          para_quien?: string | null
           producto?: string | null
+          referrer?: string | null
           tipo?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      resumen_diario: {
+        Row: {
+          clics_comprar: number | null
+          dia: string | null
+          emails: number | null
+          visitas: number | null
+        }
+        Relationships: []
+      }
+      resumen_origen: {
+        Row: {
+          campana: string | null
+          clics_comprar: number | null
+          emails: number | null
+          origen: string | null
+          pct_visita_a_email: number | null
+          visitas: number | null
+        }
+        Relationships: []
+      }
+      resumen_productos: {
+        Row: {
+          clics_comprar: number | null
+          emails: number | null
+          modo: string | null
+          pct_clic_a_email: number | null
+          producto: string | null
+        }
+        Relationships: []
+      }
+      resumen_respuestas: {
+        Row: {
+          cuando: string | null
+          emails: number | null
+          para_quien: string | null
+          producto: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

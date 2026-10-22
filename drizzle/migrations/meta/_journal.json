@@ -15,6 +15,13 @@
       "when": 1792656000000,
       "tag": "0001_prueba_demanda_minar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792675731733,
+      "tag": "0002_prueba_demanda_minar_aplicar",
+      "breakpoints": true
     }
   ]
 }
