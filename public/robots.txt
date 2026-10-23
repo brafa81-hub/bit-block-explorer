@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bit-block-explorer.lovable.app/sitemap.xml
+Sitemap: https://bloque170.com/sitemap.xml

@@ -1,3 +1,4 @@
+import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 import { SERVICIO } from "./servicio";
 
 export interface PreguntaQuiz {
@@ -23,9 +24,8 @@ export interface Capitulo {
   quiz: PreguntaQuiz[];
 }
 
-const { jornada, dia } = SERVICIO.productos;
-const [tramoA] = SERVICIO.tramosCorporate;
-const { presupuestoDesde, caducidadMeses } = SERVICIO.corporate;
+const { caducidadMeses } = SERVICIO.corporate;
+const potencia = "de 250 TH/s a 1 PH/s";
 
 const wallet: string[] = SERVICIO.walletRecomendada
   ? [
@@ -553,13 +553,13 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Potencia por horas",
         parrafos: [
           "Alquilar hashrate es acceder durante unas horas a potencia de minería industrial: máquinas profesionales, en instalaciones preparadas para ello, sin comprarlas, sin ruido y sin factura de luz.",
-          `Con ${SERVICIO.marca} eliges ${jornada.potencia} durante ${jornada.horas} h (${jornada.nombre}, ${jornada.precio}) o durante ${dia.horas} h (${dia.nombre}, ${dia.precio}).`,
+          `Con ${SERVICIO.marca} eliges tu potencia, ${potencia}, durante 24 h, desde unos ${DESDE_EUROS_APROX} con IVA.`,
         ],
       },
       {
         titulo: "Cómo funciona",
         parrafos: [
-          `Eliges ${jornada.nombre} o ${dia.nombre}. Nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos.`,
+          `Eliges la potencia y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos (salvo en modo Avanzado, si quieres elegir tú el pool).`,
           `${SERVICIO.marca} lanza la potencia a un pool. El pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
           `Ten en cuenta que ${SERVICIO.variacionPotencia}.`,
           ...pagos,
@@ -576,7 +576,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Para grupos y empresas",
         parrafos: [
-          `Compras sesiones, para ti o para regalar: de ${tramoA.min} a ${tramoA.max} sesiones con −${tramoA.descuentoPct} % y, desde ${presupuestoDesde}, con presupuesto a medida. Si son para ti, las lanzamos a la vez con tu wallet. Si son para regalar, cada persona recibe un enlace de activación, pone su wallet y elige cuándo empezar, durante ${caducidadMeses} meses.`,
+          `Para más de 1 PH/s, para ti o para regalar, preparamos un presupuesto a medida. Si son para ti, las lanzamos a la vez con tu wallet. Si son para regalar, cada persona recibe un enlace de activación, pone su wallet y elige cuándo empezar, durante ${caducidadMeses} meses.`,
         ],
       },
     ],
@@ -593,9 +593,9 @@ export const CAPITULOS: Capitulo[] = [
       },
       {
         pregunta: `¿Qué eliges al alquilar potencia con ${SERVICIO.marca}?`,
-        opciones: ["Cuántas horas de potencia", "La máquina concreta", "El pool de destino"],
+        opciones: ["Cuánta potencia usar durante 24 h", "La máquina concreta", "La cantidad de bitcoin que recibes"],
         correcta: 0,
-        explicacion: `Eliges ${jornada.nombre} (${jornada.horas} h) o ${dia.nombre} (${dia.horas} h) y nos das tu dirección. Lo técnico corre de nuestra parte.`,
+        explicacion: `Eliges la potencia, ${potencia} durante 24 h, y nos das tu dirección. Lo técnico corre de nuestra parte.`,
       },
       {
         pregunta: "¿Quién te paga los sats?",
@@ -678,10 +678,10 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
   },
   // Servicio
   {
-    pregunta: `¿Qué compras con ${jornada.nombre} o ${dia.nombre}?`,
+    pregunta: `¿Qué compras con ${SERVICIO.marca}?`,
     opciones: ["Una cantidad fija de bitcoin", "Tiempo de potencia de minería", "Una máquina de minería"],
     correcta: 1,
-    explicacion: `Compras ${jornada.potencia} durante ${jornada.horas} h (${jornada.nombre}) o ${dia.horas} h (${dia.nombre}). No compras bitcoin ni equipos.`,
+    explicacion: `Compras potencia, ${potencia}, durante 24 h. No compras bitcoin ni equipos.`,
   },
   {
     pregunta: "¿Qué significa 1 PH/s en tu sesión?",

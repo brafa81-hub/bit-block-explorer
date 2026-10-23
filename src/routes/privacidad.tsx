@@ -16,10 +16,10 @@ export const Route = createFileRoute("/privacidad")({
           "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de potencia de minería.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://bit-block-explorer.lovable.app/privacidad" },
+      { property: "og:url", content: "https://bloque170.com/privacidad" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://bit-block-explorer.lovable.app/privacidad" }],
+    links: [{ rel: "canonical", href: "https://bloque170.com/privacidad" }],
   }),
   component: Privacidad,
 });

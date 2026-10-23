@@ -3,7 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getTermino, idx, indiceDe } from "@/content/glosario";
 import { capituloDeTermino } from "@/content/mining101";
 
-const BASE = "https://bit-block-explorer.lovable.app/diccionario";
+const BASE = "https://bloque170.com/diccionario";
 
 export const Route = createFileRoute("/diccionario/$slug")({
   loader: ({ params }) => {

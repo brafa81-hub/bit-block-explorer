@@ -50,7 +50,7 @@ export function Certificado({
       doc.setTextColor(...negro);
       doc.setFont("courier", "normal");
       doc.setFontSize(10);
-      doc.text("HASHFLOW · MINERÍA DE BITCOIN", 24, 32);
+      doc.text(`${SERVICIO.marca.toUpperCase()} · MINERÍA DE BITCOIN`, 24, 32);
       doc.text(new Date().toLocaleDateString("es-ES"), W - 24, 32, { align: "right" });
 
       doc.setFont("helvetica", "normal");
@@ -88,7 +88,7 @@ export function Certificado({
 
       doc.setFont("courier", "normal");
       doc.setFontSize(9);
-      doc.text("bit-block-explorer.lovable.app/minar", W / 2, H - 22, { align: "center" });
+      doc.text(`${SERVICIO.dominio}/minar`, W / 2, H - 22, { align: "center" });
 
       doc.save("certificado-mineria-bitcoin.pdf");
     } finally {
