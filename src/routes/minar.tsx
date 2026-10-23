@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { SERVICIO, urlPublica } from "@/content/servicio";
-import { IconoMaquina } from "@/components/Maquinas";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import {
   CORPORATE_MIN_PH,
@@ -113,18 +112,6 @@ function Proximamente({ oscuro = false }: { oscuro?: boolean }) {
     >
       PRÓXIMAMENTE
     </span>
-  );
-}
-
-function Mineros({ n }: { n: number }) {
-  return (
-    <div className="mt-4" aria-hidden="true">
-      <div className="flex flex-wrap gap-2 text-primary">
-        {Array.from({ length: n }, (_, i) => (
-          <IconoMaquina key={i} indice={i} />
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -431,8 +418,8 @@ function Minar() {
         <div className="index-label">001 / minar</div>
         <h1 className="mt-3 text-3xl sm:text-4xl">Vive 24 h como minero de Bitcoin</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
-          Sin comprar la máquina ni pagar la luz. Eliges la potencia y durante 24 horas minas en la
-          red real de Bitcoin. De lo técnico nos encargamos nosotros.
+          Eliges la potencia y durante 24 horas mina en la red real de Bitcoin. Sin contratos, sin
+          permanencia y sin promesas de rentabilidad. De lo técnico nos encargamos nosotros.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
           Todavía no se puede comprar: déjanos tu email y te avisamos el primero.
@@ -451,7 +438,9 @@ function Minar() {
             <span className="hash-text">{formatearEntero(th)} TH/s</span> de potencia de cálculo
             durante 24 h
           </p>
-          <Mineros n={maquinasDe(th)} />
+          <div className="mt-4 h-1 w-full bg-border" aria-hidden="true">
+            <div className="h-1 bg-primary" style={{ width: `${Math.round((th / 1000) * 100)}%` }} />
+          </div>
 
           <div className="mt-5">
             <label htmlFor="potencia-th" className="text-[13px] text-muted-foreground">

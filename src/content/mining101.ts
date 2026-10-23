@@ -521,7 +521,7 @@ export const CAPITULOS: Capitulo[] = [
     enRealidad:
       "En realidad, tus bitcoins no están dentro de la app: están registrados en la blockchain. La wallet solo guarda las llaves para moverlos.",
     terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo", "wallet-sin-custodia", "custodia", "wallet-fria", "wallet-caliente", "hardware-wallet", "copia-de-seguridad", "phishing", "doble-factor", "segwit", "taproot", "lightning"],
-    cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar sin comprar ninguna máquina.",
+    cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar con potencia de minería durante unas horas.",
     quiz: [
       {
         pregunta: "¿Qué puedes compartir sin problema?",
@@ -545,14 +545,14 @@ export const CAPITULOS: Capitulo[] = [
   },
   {
     slug: "alquilar-hashrate",
-    titulo: "Alquilar hashrate",
-    pregunta: "¿Se puede participar en la minería real sin tener ni una sola máquina?",
-    descripcion: `Qué es alquilar hashrate, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
+    titulo: "Potencia de minería por horas",
+    pregunta: "¿Se puede participar en la minería real sin montar tu propio equipo?",
+    descripcion: `Qué es la potencia de minería por horas, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
     secciones: [
       {
         titulo: "Potencia por horas",
         parrafos: [
-          "Alquilar hashrate es acceder durante unas horas a potencia de minería industrial: máquinas profesionales, en instalaciones preparadas para ello, sin comprarlas, sin ruido y sin factura de luz.",
+          "Comprar potencia de minería por horas es acceder durante un tiempo concreto a potencia de minería industrial, sin montar tu propio equipo. Tú eliges cuánta potencia y durante cuánto tiempo.",
           `Con ${SERVICIO.marca} eliges tu potencia, ${potencia}, durante 24 h, desde unos ${DESDE_EUROS_APROX} con IVA.`,
         ],
       },
@@ -581,7 +581,7 @@ export const CAPITULOS: Capitulo[] = [
       },
     ],
     enRealidad:
-      "En realidad, no alquilas una máquina concreta: alquilas una cantidad de potencia durante un tiempo, que puede salir de varias máquinas.",
+      "En realidad, no eliges una máquina concreta: eliges una cantidad de potencia durante un tiempo, que puede salir de varios equipos.",
     terminos: ["hashrate-alquilado", "pool-de-destino", "grupos-y-empresas"],
     cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el test.",
     quiz: [
@@ -592,7 +592,7 @@ export const CAPITULOS: Capitulo[] = [
         explicacion: `Solo la dirección. ${SERVICIO.marca} se encarga de todo lo técnico.`,
       },
       {
-        pregunta: `¿Qué eliges al alquilar potencia con ${SERVICIO.marca}?`,
+        pregunta: `¿Qué eliges al comprar potencia con ${SERVICIO.marca}?`,
         opciones: ["Cuánta potencia usar durante 24 h", "La máquina concreta", "La cantidad de bitcoin que recibes"],
         correcta: 0,
         explicacion: `Eliges la potencia, ${potencia} durante 24 h, y nos das tu dirección. Lo técnico corre de nuestra parte.`,

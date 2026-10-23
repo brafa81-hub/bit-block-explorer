@@ -302,7 +302,7 @@ function SimuladorMineria() {
                 compiten por el mismo bloque. Se puede minar en solitario, pero encontrar un bloque
                 así es muy poco probable. Por eso la mayoría de mineros se une a un pool, que cuenta
                 sus shares y les paga en proporción. Es exactamente como trabaja la potencia que
-                alquilas.
+                compras.
               </p>
               <a
                 href="#escala-real"
@@ -440,8 +440,8 @@ function SimuladorMineria() {
           <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
             Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
             euros cada una, consumen tanta electricidad como unas 40 viviendas, hacen ruido día y
-            noche y se quedan anticuadas en pocos años. Alquilando 1 PH/s usas esa misma potencia
-            durante unas horas, sin comprar nada, sin ruido y sin factura de luz.
+            noche y se quedan anticuadas en pocos años. Con 1 PH/s usas esa misma potencia
+            durante unas horas, sin montar tu propio equipo.
           </p>
 
           <div className="mt-8">

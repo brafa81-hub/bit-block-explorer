@@ -3,17 +3,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/privacidad")({
   head: () => ({
     meta: [
-      { title: "Privacidad | Alquiler de potencia de minería en PH/s" },
+      { title: "Privacidad | Potencia de minería por 24 horas" },
       {
         name: "description",
         content:
-          "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de potencia de minería.",
+          "Cómo tratamos tu email cuando te apuntas al aviso de apertura de la venta de potencia de minería.",
       },
       { property: "og:title", content: "Privacidad" },
       {
         property: "og:description",
         content:
-          "Cómo tratamos tu email cuando te apuntas al aviso de apertura del alquiler de potencia de minería.",
+          "Cómo tratamos tu email cuando te apuntas al aviso de apertura de la venta de potencia de minería.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://bloque170.com/privacidad" },

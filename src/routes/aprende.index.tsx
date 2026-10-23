@@ -6,7 +6,7 @@ import { idx } from "@/content/glosario";
 const URL = "https://bloque170.com/aprende";
 const TITULO = "Aprende minería de Bitcoin desde cero";
 const DESC =
-  "Diez capítulos cortos para entender qué es minar Bitcoin: bloques, hash, dificultad, máquinas, pools, costes, energía, tu primera wallet y el alquiler de hashrate.";
+  "Diez capítulos cortos para entender qué es minar Bitcoin: bloques, hash, dificultad, máquinas, pools, costes, energía, tu primera wallet y la potencia de minería por horas.";
 
 export const Route = createFileRoute("/aprende/")({
   head: () => ({

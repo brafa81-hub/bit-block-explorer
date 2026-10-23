@@ -8,7 +8,7 @@ export type CategoriaGlosario =
   | "Máquinas"
   | "Pools"
   | "Wallets y seguridad"
-  | "Alquiler de hashrate";
+  | "Potencia por horas";
 
 export const CATEGORIAS: CategoriaGlosario[] = [
   "Fundamentos",
@@ -18,7 +18,7 @@ export const CATEGORIAS: CategoriaGlosario[] = [
   "Máquinas",
   "Pools",
   "Wallets y seguridad",
-  "Alquiler de hashrate",
+  "Potencia por horas",
 ];
 
 export interface TerminoGlosario {
@@ -478,14 +478,14 @@ export const GLOSARIO: TerminoGlosario[] = [
   // Compra de hashrate
   {
     slug: "hashrate-alquilado",
-    termino: "Hashrate alquilado",
-    categoria: "Alquiler de hashrate",
+    termino: "Potencia de minería por horas",
+    categoria: "Potencia por horas",
     esencial: true,
-    definicion: "Potencia de minería que usas durante un tiempo sin tener la máquina. Otro pone el equipo y el pool se encarga de pagar.",
+    definicion: "Potencia de minería que usas durante un tiempo concreto, sin montar tu propio equipo. El pool se encarga de repartir los pagos.",
     explicacion: [
-      "Es como alquilar una pista de pádel por horas. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
+      "Es como reservar una pista de pádel por horas. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
       "Durante ese tiempo, tu potencia trabaja en un pool igual que la de un minero profesional.",
-      "En realidad, alquilas cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
+      "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
     enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Lo que pagas es más de lo que recibirás en sats: no es una inversión ni garantiza un resultado.`,
     relacionados: ["pool-de-destino", "grupos-y-empresas"],
@@ -496,11 +496,11 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "pool-de-destino",
     termino: "Pool de destino",
-    categoria: "Alquiler de hashrate",
+    categoria: "Potencia por horas",
     esencial: false,
-    definicion: "El pool al que se envía la potencia que has alquilado. Allí se registran tus shares y tus pagos.",
+    definicion: "El pool al que se envía la potencia que has comprado. Allí se registran tus shares y tus pagos.",
     explicacion: [
-      `Es el pool al que se dirige la potencia alquilada. En general, configurarlo requiere datos técnicos (dirección stratum y usuario); con ${SERVICIO.marca} no tienes que hacerlo tú.`,
+      `Es el pool al que se dirige la potencia comprada. En general, configurarlo requiere datos técnicos (dirección stratum y usuario); con ${SERVICIO.marca} no tienes que hacerlo tú.`,
       "En realidad, las recompensas no las pagamos nosotros: las paga el pool según su esquema de pago.",
     ],
     enLaPractica: `Con ${SERVICIO.marca} no configuras ningún pool: eliges la potencia, dejas la dirección de tu wallet y ${SERVICIO.marca} dirige la potencia por ti, de modo que los pagos llegan a tu wallet.`,
@@ -519,20 +519,20 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, cada generación nueva de ASIC mejora esta cifra. Los equipos antiguos acaban retirándose porque gastan demasiado.",
     ],
     enLaPractica:
-      "Cuando alquilas potencia no pagas tú la luz ni eliges la máquina. La eficiencia es cosa de quien opera los equipos.",
+      "Cuando compras potencia por horas no pagas tú la luz ni eliges la máquina. La eficiencia es cosa de quien opera los equipos.",
     relacionados: ["asic", "hashrate"],
     revisado: R,
   },
   {
     slug: "grupos-y-empresas",
     termino: "Grupos y empresas (compra por volumen)",
-    categoria: "Alquiler de hashrate",
+    categoria: "Potencia por horas",
     esencial: false,
     definicion: "La modalidad para grupos y empresas que necesitan más de 1 PH/s, con presupuesto a medida.",
     explicacion: [
       "Es como reservar un bloque de habitaciones de hotel para un congreso en lugar de una sola noche.",
       "Pensada para grupos, empresas, formación o proyectos que quieren mucha potencia a la vez.",
-      "En realidad, funciona igual que el alquiler individual. Solo cambia la cantidad.",
+      "En realidad, funciona igual que una compra individual. Solo cambia la cantidad.",
     ],
     enLaPractica: `Para empresas y grupos, ${SERVICIO.marca} prepara un presupuesto a medida desde más de 1 PH/s. Cada persona recibe un enlace de activación y pone su propia wallet: un regalo distinto, que se vive desde dentro de la red.`,
     relacionados: ["hashrate-alquilado", "pool-de-destino"],

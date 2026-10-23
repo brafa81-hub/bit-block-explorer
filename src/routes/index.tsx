@@ -1,15 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { IconoMaquina } from "@/components/Maquinas";
 import { GLOSARIO } from "@/content/glosario";
 import { CAPITULOS } from "@/content/mining101";
 import { SERVICIO, urlPublica } from "@/content/servicio";
 import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 
 const URL = urlPublica("/");
-const TITULO = `${SERVICIO.marca} | Mina Bitcoin sin tener máquinas`;
+const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin, por 24 horas`;
 const DESC =
-  "Vive 24 h como minero de Bitcoin sin comprar la máquina ni pagar la luz. Potencia de cálculo profesional, en euros y en español.";
+  "Compra potencia de minería de Bitcoin por 24 horas, en euros y en español. Tú eliges la potencia y la apuntas a tu wallet. Sin contratos ni permanencia.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,7 +43,7 @@ const PASOS = [
   },
   {
     titulo: "Tu potencia mina",
-    texto: "Durante la sesión, máquinas profesionales trabajan para ti en la red de Bitcoin real.",
+    texto: "Durante 24 horas, tu potencia mina en la red real de Bitcoin.",
   },
 ];
 
@@ -55,9 +54,9 @@ const CONFIANZA = [
       "Nunca te pedimos la frase de recuperación ni guardamos tus bitcoins. Solo necesitas una dirección para recibir.",
   },
   {
-    titulo: "Potencia industrial",
+    titulo: "Sin contratos ni permanencia",
     texto:
-      "Máquinas profesionales en instalaciones preparadas para ello. Sin ruido en casa, sin factura de luz, sin mantenimiento.",
+      "Son 24 horas sueltas, a precio claro. Sin cuotas, sin renovaciones y sin promesas de rentabilidad.",
   },
   {
     titulo: "Claridad desde el principio",
@@ -73,12 +72,11 @@ function Inicio() {
         <div className="index-label">001 / BLOQUE170.COM</div>
         <p className="mt-3 text-[15px] text-primary">{SERVICIO.lema}</p>
         <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">
-          Mina Bitcoin de verdad, sin tener ni una máquina
+          Potencia de minería, por 24 horas.
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
-          Hasta ahora, minar exigía comprar equipos de miles de euros, aguantar el ruido y pagar la
-          luz. Con {SERVICIO.marca} accedes a potencia de minería profesional durante 24 horas, en
-          euros y desde cualquier móvil.
+          Eliges la potencia, la apuntas a tu wallet y mina en la red real de Bitcoin. Sin contratos,
+          sin permanencia y sin promesas de rentabilidad.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/minar" className={botonPrimario}>
@@ -104,10 +102,8 @@ function Inicio() {
             </span>
           </div>
           <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas</p>
-          <div className="mt-4 flex flex-wrap gap-2 text-primary" aria-hidden="true">
-            {Array.from({ length: 4 }, (_, i) => (
-              <IconoMaquina key={i} indice={i} />
-            ))}
+          <div className="mt-4 h-1 w-full bg-border" aria-hidden="true">
+            <div className="h-1 w-3/4 bg-primary" />
           </div>
           <p className="mt-4 text-[17px]">Desde unos {DESDE_EUROS_APROX}, IVA incluido</p>
           <span className={`${botonPrimario} mt-5`}>Ver la potencia</span>
