@@ -1,65 +1,51 @@
 /**
  * Datos canónicos del servicio.
- * Única fuente de precios, tramos Corporate y condiciones.
+ * Única fuente de precios, fórmula del catálogo y condiciones.
  * Los textos leen de aquí; no se repiten estos datos a mano.
  */
 
 export const SERVICIO = {
   /** Nombre de marca: se cambia solo aquí. */
-  marca: "HashFlow",
+  marca: "Bloque 170",
+  /** Dominio público de la web (canonical, og:url, PDF). */
+  dominio: "bloque170.com",
   /** Lema de marca. */
   lema: "Democratizamos el acceso a la minería de Bitcoin",
   /**
-   * Catálogo vigente (modelo de negocio v9.2, 21 oct 2026). Lo usan /minar y la portada.
-   * Precios cerrados con IVA incluido. Los sats son una estimación orientativa, no garantizada.
+   * Catálogo vigente (modelo de negocio v9.3). Potencia a elegir, siempre 24 h.
+   * Precio con IVA en céntimos = base + porTH × TH/s, redondeado y luego hacia arriba al múltiplo de `redondeo`.
+   * Los sats son una estimación orientativa, no garantizada.
    */
   catalogo: {
-    unidad: {
-      nombre: "Unidad",
-      potenciaTH: 250,
-      horas: 24,
-      precio: "24,95 €",
-      /** Sats aproximados en modo estable (parte baja del rango de la v9.2, BTC a 72.840 €). */
-      satsAprox: 11000,
-      /** Unidades sueltas que se pueden pedir; desde 4 se ofrece el pack. */
-      maxSueltas: 3,
-    },
-    pack: {
-      nombre: "Pack 1 PH/s",
-      unidades: 4,
-      horas: 24,
-      precio: "79,95 €",
-      satsAprox: 45000,
-    },
+    horas: 24,
+    minTH: 250,
+    maxTH: 1000,
+    pasoTH: 50,
+    /** Potencia de referencia de un pedido pequeño (una máquina profesional). */
+    bloqueTH: 250,
+    precioBaseCentimos: 257,
+    /** Céntimos por TH/s (7,11). */
+    precioPorTHCentimos: 7.11,
+    redondeoCentimos: 5,
+    /** Sats aproximados por TH/s en modo estable (unos 11.500 por cada 250 TH/s). */
+    satsPorTH: 46,
+    redondeoSats: 500,
     corporate: {
       nombre: "Corporate",
-      /** Mínimo en PH/s; cada PH/s va a precio de pack. */
-      desdePH: 5,
+      /** Mínimo de potencia en el formulario, en PH/s enteros. */
+      minPH: 2,
     },
-    /** Fecha a la que se calcularon los sats y las probabilidades. */
+    /** Fecha a la que se calcularon los sats. */
     fechaEstimacion: "oct. 2026",
   },
-  /** Modos de minado en prueba de demanda (no están en la v9.2; se mide el interés). */
+  /** Modos de minado en prueba de demanda. */
   modos: {
-    /** Recargo por pedido del modo mixto (cubre el segundo pedido al cambiar de pool). */
-    extraMixto: "2,00 €",
-    /**
-     * Probabilidad aproximada de encontrar un bloque con una unidad (250 TH/s · 24 h)
-     * con la red a unos 1.000 EH/s: 1 entre ~28.000. Con n unidades, 1 entre 28.000 / n.
-     */
-    unoEntreBloquePorUnidad: 28000,
+    /** Recargo por pedido del modo mixto, en céntimos. */
+    extraMixtoCentimos: 95,
   },
-  /** Catálogo anterior (Jornada/Día): lo usan aún Aprende y el Diccionario hasta que se actualicen. */
-  productos: {
-    jornada: { nombre: "Jornada", horas: 8, potencia: "1 PH/s", precio: "29,95 €" },
-    dia: { nombre: "Día", horas: 24, potencia: "1 PH/s", precio: "74,95 €" },
-  },
-  /** Un solo tramo con compra directa; desde `presupuestoDesde` se cotiza a medida. */
-  tramosCorporate: [{ min: 5, max: 50, descuentoPct: 10 }],
   corporate: {
-    presupuestoDesde: 51,
     caducidadMeses: 12,
-    /** Los descuentos (Corporate, certificado...) no se suman entre sí. */
+    /** Los descuentos (certificado...) no se suman entre sí. */
     descuentosAcumulables: false,
   },
   /** Equivalencia de 1 PH/s en máquinas profesionales (unos 200 TH/s cada una). */
@@ -80,3 +66,8 @@ export const SERVICIO = {
     caducidad: null as string | null,
   },
 } as const;
+
+/** URL pública absoluta de una ruta ("/minar" → "https://bloque170.com/minar"). */
+export function urlPublica(ruta: string): string {
+  return `https://${SERVICIO.dominio}${ruta}`;
+}

@@ -1,59 +1,55 @@
-/** Precios del catálogo v9.2 derivados de los datos canónicos del servicio (en céntimos). */
+/** Precios del catálogo v9.3 derivados de los datos canónicos del servicio (en céntimos). */
 import { SERVICIO } from "@/content/servicio";
 
-export type ProductoId = "unidad" | "pack" | "corporate";
+export type ProductoId = "potencia" | "corporate";
+/** "solitario" es el id interno del modo que se muestra como "Avanzado". */
 export type ModoId = "estable" | "solitario" | "mixto";
 
-function aCentimos(precio: string): number {
-  return Math.round(Number(precio.replace("€", "").trim().replace(",", ".")) * 100);
+const c = SERVICIO.catalogo;
+
+export const MIN_TH = c.minTH;
+export const MAX_TH = c.maxTH;
+export const PASO_TH = c.pasoTH;
+export const BLOQUE_TH = c.bloqueTH;
+export const EXTRA_MIXTO = SERVICIO.modos.extraMixtoCentimos;
+export const CORPORATE_MIN_PH = c.corporate.minPH;
+
+/** Precio base (sin modo) para una potencia en TH/s, en céntimos. */
+export function precioBase(th: number): number {
+  // Se opera en centésimas de céntimo para evitar errores de coma flotante.
+  const centesimas = Math.round(c.precioBaseCentimos * 100) + Math.round(c.precioPorTHCentimos * 100) * th;
+  const centimos = Math.round(centesimas / 100);
+  return Math.ceil(centimos / c.redondeoCentimos) * c.redondeoCentimos;
 }
 
-const { unidad, pack, corporate } = SERVICIO.catalogo;
-
-export const PRECIO_UNIDAD = aCentimos(unidad.precio);
-export const PRECIO_PACK = aCentimos(pack.precio);
-export const EXTRA_MIXTO = aCentimos(SERVICIO.modos.extraMixto);
-export const MAX_SUELTAS = unidad.maxSueltas;
-export const UNIDADES_PACK = pack.unidades;
-export const CORPORATE_DESDE_PH = corporate.desdePH;
-/** Corporate va al mismo precio por PH/s que el pack. */
-export const PRECIO_PH_CORPORATE = PRECIO_PACK;
-export const CORPORATE_DESDE_CENTIMOS = PRECIO_PACK * CORPORATE_DESDE_PH;
-
-/** Lo que se ahorra con el pack frente a 4 unidades sueltas, en % redondeado. */
-export const AHORRO_PACK_PCT = Math.round(
-  100 - (PRECIO_PACK * 100) / (PRECIO_UNIDAD * UNIDADES_PACK),
-);
-
-/** Precio de un pedido de unidades sueltas o del pack, según el modo (el mixto suma un extra por pedido). */
-export function precioPedido(producto: "unidad" | "pack", cantidad: number, modo: ModoId): number {
-  const base = producto === "pack" ? PRECIO_PACK : PRECIO_UNIDAD * cantidad;
-  return base + (modo === "mixto" ? EXTRA_MIXTO : 0);
+/** Precio de un pedido según la potencia y el modo (el mixto suma un extra por pedido). */
+export function precioPedido(th: number, modo: ModoId): number {
+  return precioBase(th) + (modo === "mixto" ? EXTRA_MIXTO : 0);
 }
 
-/** Unidades de 250 TH/s que tiene un pedido. */
-export function unidadesDe(producto: "unidad" | "pack", cantidad: number): number {
-  return producto === "pack" ? UNIDADES_PACK : cantidad;
+/** Sats aproximados según modo; en Avanzado no hay estimación (null). */
+export function satsAprox(th: number, modo: ModoId): number | null {
+  if (modo === "solitario") return null;
+  const base = c.satsPorTH * th;
+  const parte = modo === "mixto" ? base / 2 : base;
+  return Math.round(parte / c.redondeoSats) * c.redondeoSats;
 }
 
-/** Potencia del pedido en TH/s. */
-export function potenciaTH(unidades: number): number {
-  return unidades * unidad.potenciaTH;
+/** Iconos de máquina: uno por cada 250 TH/s, mínimo 1. */
+export function maquinasDe(th: number): number {
+  return Math.max(1, Math.floor(th / BLOQUE_TH));
 }
 
-/** Sats aproximados según modo (solo cuenta la parte en modo estable). */
-export function satsAprox(producto: "unidad" | "pack", cantidad: number, modo: ModoId): number {
-  const base = producto === "pack" ? pack.satsAprox : unidad.satsAprox * cantidad;
-  if (modo === "solitario") return 0;
-  if (modo === "mixto") return Math.round(base / 2 / 500) * 500;
-  return base;
-}
-
-/** "1 entre X" de encontrar un bloque en la parte en solitario. */
-export function unoEntreBloque(unidades: number, modo: ModoId): number {
-  const horasSolo = modo === "mixto" ? 0.5 : 1;
-  const x = SERVICIO.modos.unoEntreBloquePorUnidad / (unidades * horasSolo);
-  return Math.round(x / 500) * 500;
+/** Ahorro frente a varios pedidos de 250 TH/s, solo si la potencia es múltiplo de 250 y mayor. */
+export function ahorroFrenteABloques(
+  th: number,
+  modo: ModoId,
+): { pedidos: number; separado: number; junto: number; ahorro: number } | null {
+  if (th <= BLOQUE_TH || th % BLOQUE_TH !== 0) return null;
+  const pedidos = th / BLOQUE_TH;
+  const junto = precioPedido(th, modo);
+  const separado = precioPedido(BLOQUE_TH, modo) * pedidos;
+  return { pedidos, separado, junto, ahorro: separado - junto };
 }
 
 const formateador = new Intl.NumberFormat("es-ES", {
@@ -76,3 +72,6 @@ export function formatearEuros(centimos: number): string {
 export function formatearEntero(n: number): string {
   return formateadorEntero.format(n);
 }
+
+/** "Desde unos 20 €": precio mínimo redondeado a euros. */
+export const DESDE_EUROS_APROX = `${Math.round(precioBase(MIN_TH) / 100)} €`;
