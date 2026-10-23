@@ -2,33 +2,29 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
-import { SERVICIO } from "@/content/servicio";
+import { SERVICIO, urlPublica } from "@/content/servicio";
 import { IconoMaquina } from "@/components/Maquinas";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import {
-  AHORRO_PACK_PCT,
-  CORPORATE_DESDE_CENTIMOS,
-  CORPORATE_DESDE_PH,
-  MAX_SUELTAS,
-  PRECIO_PACK,
-  PRECIO_PH_CORPORATE,
-  PRECIO_UNIDAD,
-  UNIDADES_PACK,
+  CORPORATE_MIN_PH,
+  DESDE_EUROS_APROX,
+  MAX_TH,
+  MIN_TH,
+  PASO_TH,
+  ahorroFrenteABloques,
   formatearEntero,
   formatearEuros,
-  potenciaTH,
+  maquinasDe,
   precioPedido,
   satsAprox,
-  unidadesDe,
-  unoEntreBloque,
   type ModoId,
   type ProductoId,
 } from "@/lib/catalogo";
 import { origen, registrar } from "@/lib/medicion";
 
-const URL = "https://bit-block-explorer.lovable.app/minar";
+const URL = urlPublica("/minar");
 const TITULO = "Vive 24 h como minero de Bitcoin | Minar";
-const DESC = `250 TH/s de potencia de cálculo durante 24 h por ${SERVICIO.catalogo.unidad.precio}, IVA incluido. Sin comprar la máquina ni pagar la luz. Próximamente.`;
+const DESC = `De 250 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde unos ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
 
 export const Route = createFileRoute("/minar")({
   head: () => ({
@@ -50,35 +46,34 @@ const { catalogo } = SERVICIO;
 
 /* ───────────── Modos de minado ───────────── */
 
-const MODOS: { id: ModoId; nombre: string; avanzado: boolean }[] = [
-  { id: "estable", nombre: "Estable", avanzado: false },
-  { id: "solitario", nombre: "Solitario", avanzado: true },
-  { id: "mixto", nombre: "Mixto", avanzado: true },
+const MODOS: { id: ModoId; nombre: string }[] = [
+  { id: "estable", nombre: "Estable" },
+  { id: "mixto", nombre: "Mixto" },
+  { id: "solitario", nombre: "Avanzado" },
 ];
 
-function textoModo(modo: ModoId, unidades: number): string {
+function textoModo(modo: ModoId): string {
   if (modo === "estable")
     return "Cobras cada día por el trabajo entregado, en cantidades pequeñas.";
   if (modo === "solitario")
-    return `Toda la potencia mina por su cuenta. Lo normal es no recibir nada; solo si tu potencia encuentra un bloque recibes la recompensa completa. Probabilidad aproximada: 1 entre ${formatearEntero(unoEntreBloque(unidades, "solitario"))}.`;
-  return `12 h en modo estable y 12 h en solitario. Probabilidad aproximada de bloque: 1 entre ${formatearEntero(unoEntreBloque(unidades, "mixto"))}. Incluye ${SERVICIO.modos.extraMixto} por el cambio de modo.`;
+    return "Para quien ya sabe de minería: tú pones el pool donde quieres que trabaje la potencia. Mismo precio que el Estable. Lo que recibas depende del pool que elijas, así que no damos estimación.";
+  return `12 h en modo estable y 12 h en solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
 }
 
-function textoSats(producto: "unidad" | "pack", cantidad: number, modo: ModoId): string {
-  const sats = formatearEntero(satsAprox(producto, cantidad, modo));
-  if (modo === "estable") return `Unos ${sats} sats aproximados`;
+function textoSats(th: number, modo: ModoId): string | null {
+  const s = satsAprox(th, modo);
+  if (s === null) return null;
+  const sats = formatearEntero(s);
   if (modo === "mixto") return `Unos ${sats} sats aproximados en las 12 h en modo estable`;
-  return "Lo normal: 0 sats. Si tu potencia encuentra un bloque: la recompensa completa";
+  return `Unos ${sats} sats aproximados`;
 }
 
 function SelectorModo({
   modo,
   onCambio,
-  unidades,
 }: {
   modo: ModoId;
   onCambio: (m: ModoId) => void;
-  unidades: number;
 }) {
   return (
     <fieldset className="mt-5">
@@ -95,18 +90,11 @@ function SelectorModo({
             }`}
           >
             {m.nombre}
-            {m.avanzado && (
-              <span
-                className={`block text-[10px] ${modo === m.id ? "opacity-70" : "text-muted-foreground"}`}
-              >
-                avanzado
-              </span>
-            )}
           </button>
         ))}
       </div>
       <p className="mt-3 min-h-[3lh] text-[14px] leading-relaxed text-muted-foreground">
-        {textoModo(modo, unidades)}
+        {textoModo(modo)}
       </p>
     </fieldset>
   );
@@ -154,7 +142,7 @@ function Pregunta({ titulo, children }: { titulo: string; children: React.ReactN
 interface Seleccion {
   producto: ProductoId;
   modo: ModoId | null;
-  /** Unidades (unidad/pack) o PH/s (corporate). */
+  /** TH/s elegidos (en corporate, PH/s × 1.000). */
   cantidad: number;
 }
 
@@ -218,12 +206,8 @@ function Opciones<T extends string>({
 
 function resumenSeleccion(s: Seleccion): string {
   const modo = s.modo ? ` · modo ${MODOS.find((m) => m.id === s.modo)?.nombre.toLowerCase()}` : "";
-  if (s.producto === "corporate") return `Corporate · ${s.cantidad} PH/s`;
-  if (s.producto === "pack")
-    return `Pack 1 PH/s · 24 h${modo} · ${formatearEuros(precioPedido("pack", 1, s.modo ?? "estable"))}`;
-  const th = formatearEntero(potenciaTH(s.cantidad));
-  const n = s.cantidad === 1 ? "1 unidad" : `${s.cantidad} unidades`;
-  return `${n} (${th} TH/s) · 24 h${modo} · ${formatearEuros(precioPedido("unidad", s.cantidad, s.modo ?? "estable"))}`;
+  if (s.producto === "corporate") return `Corporate · ${s.cantidad / 1000} PH/s`;
+  return `${formatearEntero(s.cantidad)} TH/s · 24 h${modo} · ${formatearEuros(precioPedido(s.cantidad, s.modo ?? "estable"))}`;
 }
 
 function AvisoComprar({
@@ -236,7 +220,7 @@ function AvisoComprar({
   const [email, setEmail] = useState("");
   const [paraQuien, setParaQuien] = useState<"para_mi" | "regalo" | null>(null);
   const [cuando, setCuando] = useState<(typeof CUANDO)[number]["id"] | null>(null);
-  const [ph, setPh] = useState<number>(CORPORATE_DESDE_PH);
+  const [ph, setPh] = useState<number>(CORPORATE_MIN_PH);
   const [modoCorp, setModoCorp] = useState<ModoId | "no_se" | null>(null);
   const [acepta, setAcepta] = useState(false);
   const [estado, setEstado] = useState<"listo" | "enviando" | "hecho">("listo");
@@ -250,7 +234,7 @@ function AvisoComprar({
       setParaQuien(null);
       setCuando(null);
       setModoCorp(null);
-      setPh(CORPORATE_DESDE_PH);
+      setPh(CORPORATE_MIN_PH);
     }
   }, [seleccion]);
 
@@ -261,7 +245,7 @@ function AvisoComprar({
     acepta &&
     paraQuien !== null &&
     cuando !== null &&
-    (!empresa || (modoCorp !== null && ph >= CORPORATE_DESDE_PH));
+    (!empresa || (modoCorp !== null && Number.isInteger(ph) && ph >= CORPORATE_MIN_PH));
 
   async function enviar() {
     if (!seleccion || !valido || estado === "enviando") return;
@@ -271,7 +255,7 @@ function AvisoComprar({
       email: email.trim().toLowerCase(),
       tipo,
       producto: seleccion.producto,
-      cantidad: empresa ? ph : seleccion.cantidad,
+      cantidad: empresa ? ph * 1000 : seleccion.cantidad,
       modo: empresa ? modoCorp : seleccion.modo,
       para_quien: paraQuien,
       cuando,
@@ -339,16 +323,15 @@ function AvisoComprar({
                   <input
                     id="ph-corporate"
                     type="number"
-                    min={CORPORATE_DESDE_PH}
+                    min={CORPORATE_MIN_PH}
                     step={1}
                     value={ph}
                     onChange={(e) => setPh(Math.max(1, Math.floor(Number(e.target.value) || 0)))}
                     className="hash-text mt-2 min-h-[44px] w-full border border-border bg-transparent px-3 text-[15px] outline-none focus:border-foreground"
                   />
                   <p className="mt-1 text-[12px] text-muted-foreground">
-                    Desde {CORPORATE_DESDE_PH} PH/s. Referencia:{" "}
-                    {formatearEuros(PRECIO_PH_CORPORATE * Math.max(ph, CORPORATE_DESDE_PH))}, IVA
-                    incluido.
+                    Mínimo {CORPORATE_MIN_PH} PH/s. Presupuesto a medida, confirmado el día del
+                    pedido.
                   </p>
                 </div>
                 <Opciones
@@ -356,8 +339,8 @@ function AvisoComprar({
                   etiqueta="Modo de minado"
                   opciones={[
                     { id: "estable", texto: "Estable" },
-                    { id: "solitario", texto: "Solitario" },
                     { id: "mixto", texto: "Mixto" },
+                    { id: "solitario", texto: "Avanzado" },
                     { id: "no_se", texto: "No lo sé" },
                   ]}
                   valor={modoCorp}
@@ -420,19 +403,17 @@ function AvisoComprar({
 /* ───────────── Página ───────────── */
 
 function Minar() {
-  const [modoUnidad, setModoUnidad] = useState<ModoId>("estable");
-  const [cantidad, setCantidad] = useState(1);
-  const [modoPack, setModoPack] = useState<ModoId>("estable");
+  const [th, setTh] = useState<number>(MIN_TH);
+  const [modo, setModo] = useState<ModoId>("estable");
   const [seleccion, setSeleccion] = useState<Seleccion | null>(null);
 
   useEffect(() => {
     registrar({ tipo: "visita" });
   }, []);
 
-  function cambiarModo(producto: "unidad" | "pack", m: ModoId) {
-    if (producto === "unidad") setModoUnidad(m);
-    else setModoPack(m);
-    registrar({ tipo: "cambio_modo", producto, modo: m });
+  function cambiarModo(m: ModoId) {
+    setModo(m);
+    registrar({ tipo: "cambio_modo", producto: "potencia", modo: m });
   }
 
   function comprar(s: Seleccion) {
@@ -440,8 +421,8 @@ function Minar() {
     setSeleccion(s);
   }
 
-  const precioUnidad = precioPedido("unidad", cantidad, modoUnidad);
-  const diferenciaPack = PRECIO_PACK - PRECIO_UNIDAD * MAX_SUELTAS;
+  const sats = textoSats(th, modo);
+  const ahorro = ahorroFrenteABloques(th, modo);
 
   return (
     <main>
@@ -454,144 +435,73 @@ function Minar() {
           red real de Bitcoin. De lo técnico nos encargamos nosotros.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
-          Estamos preparando la apertura. Todavía no se puede comprar: pulsa «Comprar», déjanos tu
-          email y te avisamos el primero.
+          Todavía no se puede comprar: déjanos tu email y te avisamos el primero.
         </p>
       </section>
 
       {/* 002 / potencia */}
-      <section className="mx-auto max-w-3xl px-5 pb-16 sm:px-8">
+      <section id="potencia" className="mx-auto max-w-3xl scroll-mt-4 px-5 pb-16 sm:px-8">
         <div className="index-label">002 / elige tu potencia</div>
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {/* Unidad */}
-          <article className="flex flex-col border border-border p-6">
-            <div className="flex items-start justify-between gap-3">
-              <h2 className="text-xl">{catalogo.unidad.nombre}</h2>
-              <Proximamente />
-            </div>
-            <p className="mt-2 text-[16px]">
-              {formatearEntero(potenciaTH(cantidad))} TH/s de potencia de cálculo durante 24 h
-            </p>
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              {cantidad === 1
-                ? "Potencia equivalente a un minero profesional"
-                : `Potencia equivalente a ${cantidad} mineros profesionales`}
-            </p>
-            <Mineros n={cantidad} />
+        <article className="mt-6 flex flex-col border-2 border-primary p-6">
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="text-xl">Elige tu potencia</h2>
+            <Proximamente />
+          </div>
+          <p className="mt-2 text-[16px]">
+            <span className="hash-text">{formatearEntero(th)} TH/s</span> de potencia de cálculo
+            durante 24 h
+          </p>
+          <Mineros n={maquinasDe(th)} />
 
-            <fieldset className="mt-5">
-              <legend className="text-[13px] text-muted-foreground">Unidades de 250 TH/s</legend>
-              <div className="mt-2 inline-grid grid-cols-3 border border-border">
-                {Array.from({ length: MAX_SUELTAS }, (_, i) => i + 1).map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    aria-pressed={cantidad === n}
-                    onClick={() => setCantidad(n)}
-                    className={`hash-text min-h-[44px] min-w-[52px] text-[15px] ${n > 1 ? "border-l border-border" : ""} ${
-                      cantidad === n ? "bg-foreground text-background" : ""
-                    }`}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
-
-            <SelectorModo
-              modo={modoUnidad}
-              onCambio={(m) => cambiarModo("unidad", m)}
-              unidades={cantidad}
+          <div className="mt-5">
+            <label htmlFor="potencia-th" className="text-[13px] text-muted-foreground">
+              Potencia (TH/s)
+            </label>
+            <input
+              id="potencia-th"
+              type="range"
+              min={MIN_TH}
+              max={MAX_TH}
+              step={PASO_TH}
+              value={th}
+              onChange={(e) => setTh(Number(e.target.value))}
+              className="mt-2 w-full accent-[var(--primary)]"
             />
-
-            <div className="mt-auto pt-4">
-              <p className="hash-text text-2xl">{formatearEuros(precioUnidad)}</p>
-              <p className="mt-1 text-[13px] text-muted-foreground">
-                IVA incluido, sin cuotas aparte
-              </p>
-              <p className="hash-text mt-4 text-[14px]">
-                {textoSats("unidad", cantidad, modoUnidad)}
-              </p>
-              <p className="mt-1 text-[12px] text-muted-foreground">
-                Estimación a {catalogo.fechaEstimacion}, no garantizada.
-              </p>
-
-              {cantidad === MAX_SUELTAS && (
-                <a
-                  href="#pack"
-                  className="mt-4 block border border-primary p-3 text-[14px] text-primary"
-                >
-                  Mina con 1 PH/s = 1.000 TH/s por {formatearEuros(diferenciaPack)} más →
-                </a>
-              )}
-
-              <button
-                type="button"
-                onClick={() => comprar({ producto: "unidad", modo: modoUnidad, cantidad })}
-                className="mt-5 min-h-[44px] w-full border border-foreground px-5 text-[15px]"
-              >
-                Comprar
-              </button>
+            <div className="hash-text mt-1 flex justify-between text-[12px] text-muted-foreground">
+              <span>{formatearEntero(MIN_TH)} TH/s</span>
+              <span>1 PH/s</span>
             </div>
-          </article>
+          </div>
 
-          {/* Pack 1 PH/s (destacado) */}
-          <article
-            id="pack"
-            className="relative flex scroll-mt-4 flex-col border-2 border-primary p-6"
-          >
-            <span className="hash-text absolute -top-3 left-5 bg-primary px-2 py-0.5 text-[11px] tracking-[0.06em] text-primary-foreground">
-              RECOMENDADO
-            </span>
-            <div className="flex items-start justify-between gap-3">
-              <h2 className="text-xl">{catalogo.pack.nombre}</h2>
-              <Proximamente />
-            </div>
-            <p className="mt-2 text-[16px]">
-              1 PH/s = 1.000 TH/s de potencia de cálculo durante 24 h
-            </p>
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              {UNIDADES_PACK} unidades · potencia equivalente a {UNIDADES_PACK} mineros
-              profesionales
-            </p>
-            <Mineros n={UNIDADES_PACK} />
-            <p className="mt-5 text-[14px] text-primary">
-              Un {AHORRO_PACK_PCT} % más barato que {UNIDADES_PACK} unidades sueltas (
-              <span className="hash-text line-through">
-                {formatearEuros(PRECIO_UNIDAD * UNIDADES_PACK)}
-              </span>
-              )
+          <SelectorModo modo={modo} onCambio={cambiarModo} />
+
+          <div className="pt-4">
+            <p className="hash-text text-2xl">{formatearEuros(precioPedido(th, modo))}</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">IVA incluido, sin cuotas aparte</p>
+            {sats && (
+              <>
+                <p className="hash-text mt-4 text-[14px]">{sats}</p>
+                <p className="mt-1 text-[12px] text-muted-foreground">
+                  Estimación a {SERVICIO.catalogo.fechaEstimacion}, no garantizada.
+                </p>
+              </>
+            )}
+
+            <p className="mt-4 border border-primary p-3 text-[14px] text-primary">
+              {ahorro
+                ? `Comprar en un solo pedido sale más barato: ${formatearEuros(ahorro.junto)} frente a ${formatearEuros(ahorro.separado)} en ${ahorro.pedidos} pedidos de ${formatearEntero(MIN_TH)} TH/s (${formatearEuros(ahorro.ahorro)} menos).`
+                : "Más potencia en un solo pedido sale más barato por TH/s."}
             </p>
 
-            <SelectorModo
-              modo={modoPack}
-              onCambio={(m) => cambiarModo("pack", m)}
-              unidades={UNIDADES_PACK}
-            />
-
-            <div className="mt-auto pt-4">
-              <p className="hash-text text-2xl">
-                {formatearEuros(precioPedido("pack", 1, modoPack))}
-              </p>
-              <p className="mt-1 text-[13px] text-muted-foreground">
-                IVA incluido, sin cuotas aparte
-              </p>
-              <p className="hash-text mt-4 text-[14px]">{textoSats("pack", 1, modoPack)}</p>
-              <p className="mt-1 text-[12px] text-muted-foreground">
-                Estimación a {catalogo.fechaEstimacion}, no garantizada.
-              </p>
-              <button
-                type="button"
-                onClick={() =>
-                  comprar({ producto: "pack", modo: modoPack, cantidad: UNIDADES_PACK })
-                }
-                className="mt-5 min-h-[44px] w-full bg-primary px-5 text-[15px] text-primary-foreground"
-              >
-                Comprar
-              </button>
-            </div>
-          </article>
-        </div>
+            <button
+              type="button"
+              onClick={() => comprar({ producto: "potencia", modo, cantidad: th })}
+              className="mt-5 min-h-[44px] w-full bg-primary px-5 text-[15px] text-primary-foreground"
+            >
+              Apuntarme a la lista de espera
+            </button>
+          </div>
+        </article>
 
         <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
           Es una experiencia, no un producto financiero. {SERVICIO.transparencia} y no está
@@ -614,13 +524,7 @@ function Minar() {
             <h2 className="text-2xl sm:text-3xl">{catalogo.corporate.nombre}</h2>
             <Proximamente oscuro />
           </div>
-          <p className="hash-text mt-4 text-[17px]">
-            Desde {CORPORATE_DESDE_PH} PH/s · {formatearEuros(PRECIO_PH_CORPORATE)} por PH/s
-          </p>
-          <p className="mt-1 text-[13px] text-[var(--on-dark-muted)]">
-            Desde {formatearEuros(CORPORATE_DESDE_CENTIMOS)}, IVA incluido. Mismo precio por PH/s
-            que el pack.
-          </p>
+          <p className="hash-text mt-4 text-[17px]">Más de 1 PH/s, con presupuesto a medida</p>
           <ul className="mt-6 space-y-3 text-[15px]">
             <li className="border-t border-[var(--on-dark-border)] pt-3">
               Para regalar a tu equipo, a tus clientes o en eventos: un código de regalo por
@@ -636,7 +540,7 @@ function Minar() {
           <button
             type="button"
             onClick={() =>
-              comprar({ producto: "corporate", modo: null, cantidad: CORPORATE_DESDE_PH })
+              comprar({ producto: "corporate", modo: null, cantidad: CORPORATE_MIN_PH * 1000 })
             }
             className="mt-8 min-h-[44px] w-full border border-[var(--instrument-dark)] px-5 text-[15px] text-[var(--instrument-dark)] sm:w-auto"
           >
@@ -650,13 +554,13 @@ function Minar() {
         <div className="index-label">004 / preguntas</div>
         <div className="mt-6">
           <Pregunta titulo="¿Qué es 250 TH/s?">
-            250 billones de intentos por segundo: la potencia de un minero profesional actual. El
-            pack de 1 PH/s son 1.000 TH/s, cuatro veces más.
+            250 billones de intentos por segundo: la potencia de un minero profesional actual.
+            Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
           </Pregunta>
           <Pregunta titulo="¿Qué modo elijo?">
-            Estable, si quieres recibir sats cada día por el trabajo entregado. Solitario, si
-            prefieres que toda la potencia busque un bloque por su cuenta: lo normal es no recibir
-            nada, y muy de vez en cuando se encuentra uno. Mixto reparte las 24 horas entre los dos.
+            Estable, si quieres recibir sats cada día por el trabajo entregado. Mixto reparte las 24
+            horas entre el modo estable y el solitario. Avanzado, si ya sabes de minería y quieres
+            elegir tú el pool donde trabaja la potencia.
           </Pregunta>
           <Pregunta titulo="¿Qué necesito?">
             Una wallet de Bitcoin para recibir. Te guiamos paso a paso para configurarla; del resto
