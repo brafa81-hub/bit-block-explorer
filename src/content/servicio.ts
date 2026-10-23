@@ -32,6 +32,8 @@ export const SERVICIO = {
     redondeoSats: 500,
     /** Subsidio por bloque desde el halving de abril de 2024 (3,125 BTC), sin contar comisiones. */
     recompensaBloqueSats: 312_500_000,
+    /** Potencia total de la red en TH/s (unos 1.057 EH/s). Actualizar junto a fechaEstimacion. */
+    redHashrateTH: 1_057_000_000,
     corporate: {
       nombre: "Corporate",
       /** Mínimo de potencia en el formulario, en PH/s enteros. */

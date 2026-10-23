@@ -136,7 +136,7 @@ function Inicio() {
         </p>
         <p className="mt-3 text-[17px] text-muted-foreground">
           Ese día Bitcoin empezó a moverse entre personas. Nosotros llevamos la minería profesional
-          a las personas. Con tu potencia, podrías tener tu propia oportunidad de minar un bloque.
+          a las personas. Tú eliges cómo usar la potencia; el resultado depende del modo y de lo que ocurra en la red.
         </p>
       </section>
 

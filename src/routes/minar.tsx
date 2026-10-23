@@ -16,6 +16,7 @@ import {
   maquinasDe,
   precioPedido,
   satsAprox,
+  unoEntreBloque12h,
   type ModoId,
   type ProductoId,
 } from "@/lib/catalogo";
@@ -64,7 +65,7 @@ function textoSats(th: number, modo: ModoId): string | null {
   if (s === null) return null;
   const sats = formatearEntero(s);
   if (modo === "mixto")
-    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones)`;
+    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada: 1 entre ${formatearEntero(unoEntreBloque12h(th))}.`;
   return `Unos ${sats} sats aproximados`;
 }
 

@@ -35,6 +35,14 @@ export function satsAprox(th: number, modo: ModoId): number | null {
   return Math.round(parte / c.redondeoSats) * c.redondeoSats;
 }
 
+/** Probabilidad aproximada de encontrar un bloque en 12 h en solitario, como "1 entre N" (N con 2 cifras significativas). */
+export function unoEntreBloque12h(th: number): number {
+  const bloquesEn12h = 72;
+  const n = c.redHashrateTH / (bloquesEn12h * th);
+  const magnitud = 10 ** (Math.floor(Math.log10(n)) - 1);
+  return Math.round(n / magnitud) * magnitud;
+}
+
 /** Iconos de máquina: uno por cada 250 TH/s, mínimo 1. */
 export function maquinasDe(th: number): number {
   return Math.max(1, Math.floor(th / BLOQUE_TH));
