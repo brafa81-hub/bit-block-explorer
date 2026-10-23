@@ -30,6 +30,8 @@ export const SERVICIO = {
     /** Sats aproximados por TH/s en modo estable (unos 11.500 por cada 250 TH/s). */
     satsPorTH: 46,
     redondeoSats: 500,
+    /** Subsidio por bloque desde el halving de abril de 2024 (3,125 BTC), sin contar comisiones. */
+    recompensaBloqueSats: 312_500_000,
     corporate: {
       nombre: "Corporate",
       /** Mínimo de potencia en el formulario, en PH/s enteros. */

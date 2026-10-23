@@ -63,7 +63,8 @@ function textoSats(th: number, modo: ModoId): string | null {
   const s = satsAprox(th, modo);
   if (s === null) return null;
   const sats = formatearEntero(s);
-  if (modo === "mixto") return `Unos ${sats} sats aproximados en las 12 h en modo estable`;
+  if (modo === "mixto")
+    return `Unos ${sats} sats aproximados en las 12 h en modo estable. En las 12 h en solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones)`;
   return `Unos ${sats} sats aproximados`;
 }
 
@@ -493,9 +494,12 @@ function Minar() {
         </article>
 
         <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
-          Es una experiencia, no un producto financiero. {SERVICIO.transparencia} y no está
-          garantizado. Si en algún momento llega algo menos de potencia, la sesión se alarga un poco
-          hasta completar el trabajo.{" "}
+          No es un producto financiero ni una inversión: compras potencia de minería real durante
+          24 horas. En modo estable, lo normal es recibir en sats menos de lo que pagas. En las
+          horas en solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
+          recibirías la recompensa completa, y la probabilidad es muy baja. En Avanzado depende de
+          tu pool. Ningún resultado está garantizado. Si en algún momento llega menos potencia, la
+          sesión se alarga hasta entregar toda la contratada.{" "}
           <Link to="/simulador" className="underline underline-offset-4">
             Pruébalo antes en el simulador
           </Link>
