@@ -39,7 +39,7 @@ const PASOS = [
   {
     titulo: "Pones tu wallet",
     texto:
-      "Solo la dirección (en modo Avanzado, también el pool que quieras usar). Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
+      "Solo la dirección (en modo Pool propio, también el pool que quieras usar). Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
   },
   {
     titulo: "Tu potencia mina",
