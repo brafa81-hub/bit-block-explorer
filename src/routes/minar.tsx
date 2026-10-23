@@ -416,7 +416,7 @@ function Minar() {
       {/* 001 / minar */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-12 sm:px-8">
         <div className="index-label">001 / minar</div>
-        <h1 className="mt-3 text-3xl sm:text-4xl">Vive 24 h como minero de Bitcoin</h1>
+        <h1 className="mt-3 text-3xl sm:text-4xl">Potencia 100% Real</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
           Eliges la potencia y durante 24 horas mina en la red real de Bitcoin. Sin contratos, sin
           permanencia y sin promesas de rentabilidad. De lo técnico nos encargamos nosotros.
