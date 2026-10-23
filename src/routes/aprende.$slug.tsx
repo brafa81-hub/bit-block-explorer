@@ -5,7 +5,7 @@ import { Quiz } from "@/components/Quiz";
 import { CAPITULOS, getCapitulo, indiceCapitulo } from "@/content/mining101";
 import { getTermino, idx } from "@/content/glosario";
 
-const BASE = "https://bit-block-explorer.lovable.app/aprende";
+const BASE = "https://bloque170.com/aprende";
 
 export const Route = createFileRoute("/aprende/$slug")({
   loader: ({ params }) => {

@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CAPITULOS } from "@/content/mining101";
 import { idx } from "@/content/glosario";
 
-const URL = "https://bit-block-explorer.lovable.app/aprende";
+const URL = "https://bloque170.com/aprende";
 const TITULO = "Aprende minería de Bitcoin desde cero";
 const DESC =
   "Diez capítulos cortos para entender qué es minar Bitcoin: bloques, hash, dificultad, máquinas, pools, costes, energía, tu primera wallet y el alquiler de hashrate.";

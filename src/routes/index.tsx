@@ -3,18 +3,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { IconoMaquina } from "@/components/Maquinas";
 import { GLOSARIO } from "@/content/glosario";
 import { CAPITULOS } from "@/content/mining101";
-import { SERVICIO } from "@/content/servicio";
-import {
-  AHORRO_PACK_PCT,
-  CORPORATE_DESDE_PH,
-  PRECIO_PACK,
-  PRECIO_PH_CORPORATE,
-  PRECIO_UNIDAD,
-  UNIDADES_PACK,
-  formatearEuros,
-} from "@/lib/catalogo";
+import { SERVICIO, urlPublica } from "@/content/servicio";
+import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 
-const URL = "https://bit-block-explorer.lovable.app/";
+const URL = urlPublica("/");
 const TITULO = `${SERVICIO.marca} | Mina Bitcoin sin tener máquinas`;
 const DESC =
   "Vive 24 h como minero de Bitcoin sin comprar la máquina ni pagar la luz. Potencia de cálculo profesional, en euros y en español.";
@@ -43,12 +35,12 @@ const botonSecundario =
 const PASOS = [
   {
     titulo: "Eliges tu potencia",
-    texto: `Una unidad de ${SERVICIO.catalogo.unidad.potenciaTH} TH/s o el pack de 1 PH/s, durante 24 horas.`,
+    texto: "Eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas.",
   },
   {
     titulo: "Pones tu wallet",
     texto:
-      "Solo la dirección. Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
+      "Solo la dirección (en modo Avanzado, también el pool que quieras usar). Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
   },
   {
     titulo: "Tu potencia mina",
@@ -104,49 +96,22 @@ function Inicio() {
         <h2 className="mt-3 text-2xl sm:text-3xl">
           Potencia profesional, al alcance de cualquiera
         </h2>
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {[
-            {
-              nombre: SERVICIO.catalogo.unidad.nombre,
-              linea: `${SERVICIO.catalogo.unidad.potenciaTH} TH/s · 24 horas`,
-              apoyo: "Potencia equivalente a un minero profesional",
-              n: 1,
-              precio: PRECIO_UNIDAD,
-              destacado: false,
-            },
-            {
-              nombre: SERVICIO.catalogo.pack.nombre,
-              linea: "1.000 TH/s · 24 horas",
-              apoyo: `Un ${AHORRO_PACK_PCT} % más barato que ${UNIDADES_PACK} unidades`,
-              n: UNIDADES_PACK,
-              precio: PRECIO_PACK,
-              destacado: true,
-            },
-          ].map((p) => (
-            <Link
-              key={p.nombre}
-              to="/minar"
-              hash={p.destacado ? "pack" : "minar"}
-              className={`block p-6 hover:border-foreground ${p.destacado ? "border-2 border-primary" : "border border-border"}`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="text-xl">{p.nombre}</h3>
-                <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
-                  PRÓXIMAMENTE
-                </span>
-              </div>
-              <p className="hash-text mt-2 text-[13px] text-muted-foreground">{p.linea}</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-primary" aria-hidden="true">
-                {Array.from({ length: p.n }, (_, i) => (
-                  <IconoMaquina key={i} indice={i} />
-                ))}
-              </div>
-              <p className="mt-3 text-[13px] text-muted-foreground">{p.apoyo}</p>
-              <p className="hash-text mt-4 text-2xl">{formatearEuros(p.precio)}</p>
-              <p className="mt-1 text-[13px] text-muted-foreground">IVA incluido</p>
-            </Link>
-          ))}
-        </div>
+        <Link to="/minar" hash="potencia" className="mt-6 block border-2 border-primary p-6 hover:border-foreground">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-xl">Elige tu potencia</h3>
+            <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
+              PRÓXIMAMENTE
+            </span>
+          </div>
+          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas</p>
+          <div className="mt-4 flex flex-wrap gap-2 text-primary" aria-hidden="true">
+            {Array.from({ length: 4 }, (_, i) => (
+              <IconoMaquina key={i} indice={i} />
+            ))}
+          </div>
+          <p className="mt-4 text-[17px]">Desde unos {DESDE_EUROS_APROX}, IVA incluido</p>
+          <span className={`${botonPrimario} mt-5`}>Ver la potencia</span>
+        </Link>
       </section>
 
       {/* 003 / cómo funciona */}
@@ -165,11 +130,25 @@ function Inicio() {
         </ol>
       </section>
 
-      {/* 004 / confianza */}
+      {/* 004 / por qué bloque 170 */}
+      <section className="mx-auto max-w-3xl px-5 pb-16 sm:px-8">
+        <div className="index-label">004 / el nombre</div>
+        <h2 className="mt-3 text-2xl sm:text-3xl">Por qué {SERVICIO.marca}</h2>
+        <p className="mt-5 text-[17px] text-muted-foreground">
+          El 12 de enero de 2009 se minó el bloque 170 de Bitcoin. Contenía la primera transacción
+          entre dos personas: Satoshi envió 10 bitcoins a Hal Finney.
+        </p>
+        <p className="mt-3 text-[17px] text-muted-foreground">
+          Ese día Bitcoin dejó de ser una idea y pasó a ser dinero que se mueve entre personas. Aquí
+          puedes minar tu propio bloque.
+        </p>
+      </section>
+
+      {/* 005 / confianza */}
       <section className="bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
-            004 / por qué fiarte
+            005 / por qué fiarte
           </div>
           <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-3">
             {CONFIANZA.map((c) => (
@@ -182,9 +161,9 @@ function Inicio() {
         </div>
       </section>
 
-      {/* 005 / aprende */}
+      {/* 006 / aprende */}
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
-        <div className="index-label">005 / antes de empezar</div>
+        <div className="index-label">006 / antes de empezar</div>
         <h2 className="mt-3 text-2xl sm:text-3xl">Entiende lo que haces</h2>
         <ul className="mt-6">
           <li className="border-t border-border">
@@ -216,14 +195,13 @@ function Inicio() {
         </ul>
       </section>
 
-      {/* 006 / grupos y empresas */}
+      {/* 007 / grupos y empresas */}
       <section className="mx-auto max-w-3xl px-5 pb-20 sm:px-8">
         <div className="flex flex-col gap-4 border border-primary p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xl">Grupos, empresas y regalos</p>
             <p className="mt-1 text-[15px] text-muted-foreground">
-              Desde {CORPORATE_DESDE_PH} PH/s, a {formatearEuros(PRECIO_PH_CORPORATE)} por PH/s.
-              Para tu equipo, tus clientes o para regalar.
+              Más de 1 PH/s, presupuesto a medida. Para tu equipo, tus clientes o para regalar.
             </p>
           </div>
           <Link to="/minar" hash="corporate" className={`${botonPrimario} shrink-0`}>

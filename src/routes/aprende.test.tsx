@@ -6,7 +6,7 @@ import { Quiz } from "@/components/Quiz";
 import { SERVICIO } from "@/content/servicio";
 import { QUIZ_FINAL } from "@/content/mining101";
 
-const URL = "https://bit-block-explorer.lovable.app/aprende/test";
+const URL = "https://bloque170.com/aprende/test";
 const TITULO = "Test de minería de Bitcoin | Minería de Bitcoin";
 const DESC = "Quince preguntas para comprobar si entiendes Bitcoin, la minería y qué incluye nuestro servicio, con la explicación de cada respuesta.";
 
