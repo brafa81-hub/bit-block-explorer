@@ -132,11 +132,11 @@ function Inicio() {
         <h2 className="mt-3 text-2xl sm:text-3xl">Por qué {SERVICIO.marca}</h2>
         <p className="mt-5 text-[17px] text-muted-foreground">
           El 12 de enero de 2009 se minó el bloque 170 de Bitcoin. Contenía la primera transacción
-          entre dos personas: Satoshi envió 10 bitcoins a Hal Finney.
+          entre dos personas: Satoshi Nakamoto envió 10 bitcoins a Hal Finney.
         </p>
         <p className="mt-3 text-[17px] text-muted-foreground">
           Ese día Bitcoin dejó de ser una idea y pasó a ser dinero que se mueve entre personas. Aquí
-          puedes minar tu propio bloque.
+          podrías tener tu propia oportunidad de minar un bloque.
         </p>
       </section>
 
