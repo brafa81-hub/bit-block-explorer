@@ -699,7 +699,7 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
     opciones: ["Mayor", "Igual", "Menor"],
     correcta: 2,
-    explicacion: `${SERVICIO.transparencia}. Lo que obtienes es la experiencia de minar Bitcoin de verdad, no un rendimiento.`,
+    explicacion: "Lo normal es recibir en sats menos de lo que pagas, o nada. Lo que obtienes es potencia de minería real durante el tiempo contratado, no un rendimiento.",
   },
   {
     pregunta: "¿Es una inversión?",

@@ -60,7 +60,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: `${SERVICIO.transparencia} y no está garantizado. Lo que compras es la experiencia de minar Bitcoin de verdad, no un producto financiero.`,
+    texto: "Lo normal es recibir en sats menos de lo que pagas, o nada, y no está garantizado. Lo que compras es potencia de minería real durante 24 horas, no un producto financiero.",
   },
 ];
 
