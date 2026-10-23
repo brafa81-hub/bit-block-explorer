@@ -135,8 +135,8 @@ function Inicio() {
           entre dos personas: Satoshi Nakamoto envió 10 bitcoins a Hal Finney.
         </p>
         <p className="mt-3 text-[17px] text-muted-foreground">
-          Ese día Bitcoin empezó a moverse entre personas. Aquí
-          podrías tener tu propia oportunidad de minar un bloque.
+          Ese día Bitcoin empezó a moverse entre personas. Nosotros llevamos la minería profesional
+          a las personas. Con tu potencia, podrías tener tu propia oportunidad de minar un bloque.
         </p>
       </section>
 
