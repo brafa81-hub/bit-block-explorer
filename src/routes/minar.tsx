@@ -263,7 +263,7 @@ function AvisoComprar({
           <div>
             <DialogTitle className="text-xl font-normal">Hecho</DialogTitle>
             <DialogDescription className="mt-2 text-[15px]">
-              Te avisaremos el primero en cuanto abramos.
+              Te avisaremos en cuanto abramos.
             </DialogDescription>
             <button
               type="button"
@@ -278,7 +278,7 @@ function AvisoComprar({
             <div className="pr-6">
               <DialogTitle className="text-xl font-normal">Disponible muy pronto</DialogTitle>
               <DialogDescription className="mt-2 text-[15px] text-muted-foreground">
-                Déjanos tu email y te avisamos el primero.
+                Déjanos tu email y te avisamos en cuanto abramos.
               </DialogDescription>
               {seleccion && !empresa && (
                 <p className="hash-text mt-3 text-[13px]">{resumenSeleccion(seleccion)}</p>
@@ -422,7 +422,7 @@ function Minar() {
           permanencia y sin promesas de rentabilidad. De lo técnico nos encargamos nosotros.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
-          Todavía no se puede comprar: déjanos tu email y te avisamos el primero.
+          Todavía no se puede comprar: déjanos tu email y te avisamos en cuanto abramos.
         </p>
       </section>
 
@@ -560,7 +560,7 @@ function Minar() {
             abrir.
           </Pregunta>
           <Pregunta titulo="¿Cuándo se puede comprar?">
-            Estamos preparando la apertura. Déjanos tu email y te avisamos el primero.
+            Estamos preparando la apertura. Déjanos tu email y te avisamos en cuanto abramos.
           </Pregunta>
         </div>
 
