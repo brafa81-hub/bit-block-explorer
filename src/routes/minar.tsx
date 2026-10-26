@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SERVICIO, urlPublica } from "@/content/servicio";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { SolicitudPotencia } from "@/components/SolicitudPotencia";
+import { REGALOS } from "@/content/minar";
+import { emailSolicitud, interesRegalos } from "@/lib/solicitudes";
 import {
   CORPORATE_MIN_PH,
   DESDE_EUROS_APROX,
@@ -41,8 +45,6 @@ export const Route = createFileRoute("/minar")({
   }),
   component: Minar,
 });
-
-const { catalogo } = SERVICIO;
 
 /* ───────────── Modos de minado ───────────── */
 
@@ -194,6 +196,7 @@ function Opciones<T extends string>({
 }
 
 function resumenSeleccion(s: Seleccion): string {
+  if (s.producto === "regalos") return REGALOS.subtitulo;
   const modo = s.modo ? ` · modo ${MODOS.find((m) => m.id === s.modo)?.nombre.toLowerCase()}` : "";
   if (s.producto === "corporate") return `Corporate · ${s.cantidad / 1000} PH/s`;
   return `${formatearEntero(s.cantidad)} TH/s · 24 h${modo} · ${formatearEuros(precioPedido(s.cantidad, s.modo ?? "estable"))}`;
@@ -220,7 +223,7 @@ function AvisoComprar({
     if (seleccion) {
       setEstado("listo");
       setError(null);
-      setParaQuien(null);
+      setParaQuien(seleccion.producto === "regalos" ? "regalo" : null);
       setCuando(null);
       setModoCorp(null);
       setPh(CORPORATE_MIN_PH);
@@ -230,7 +233,7 @@ function AvisoComprar({
   const empresa = seleccion?.producto === "corporate";
   const tipo = empresa ? "empresa" : "particular";
   const valido =
-    /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim()) &&
+    emailSolicitud.safeParse(email).success &&
     acepta &&
     paraQuien !== null &&
     cuando !== null &&
@@ -249,6 +252,7 @@ function AvisoComprar({
       para_quien: paraQuien,
       cuando,
       ...origen(),
+      ...(seleccion.producto === "regalos" ? interesRegalos(seleccion.cantidad) : {}),
     });
     if (err) {
       setError("No hemos podido guardar tu email. Inténtalo otra vez en un momento.");
@@ -296,6 +300,7 @@ function AvisoComprar({
                 type="email"
                 inputMode="email"
                 autoComplete="email"
+                maxLength={254}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="nombre@ejemplo.com"
@@ -338,13 +343,13 @@ function AvisoComprar({
               </>
             )}
 
-            <Opciones
+            {seleccion?.producto !== "regalos" && <Opciones
               nombre="para-quien"
               etiqueta={empresa ? "¿Para quién es?" : "¿Es para ti o para regalar?"}
               opciones={PARA_QUIEN[tipo]}
               valor={paraQuien}
               onCambio={setParaQuien}
-            />
+            />}
 
             <Opciones
               nombre="cuando"
@@ -372,14 +377,14 @@ function AvisoComprar({
             {error && <p className="text-[13px]">{error}</p>}
 
             <div className="flex flex-wrap items-center gap-4">
-              <button
+              <Button
                 type="button"
                 onClick={enviar}
                 disabled={!valido || estado === "enviando"}
-                className="min-h-[44px] bg-primary px-5 text-[15px] text-primary-foreground disabled:opacity-40"
+                className="min-h-[44px] rounded-none bg-primary px-5 text-[15px] text-primary-foreground shadow-none disabled:opacity-40"
               >
-                {estado === "enviando" ? "Enviando" : "Avisadme"}
-              </button>
+                {estado === "enviando" ? "Enviando" : seleccion?.producto === "regalos" ? REGALOS.boton : "Avisadme"}
+              </Button>
               <p className="text-[12px] text-muted-foreground">Sin pagos ni datos de tarjeta.</p>
             </div>
           </div>
@@ -464,6 +469,7 @@ function Minar() {
             </div>
           </div>
 
+          <SolicitudPotencia />
           <SelectorModo modo={modo} onCambio={cambiarModo} />
 
           <div className="pt-4">
@@ -508,38 +514,30 @@ function Minar() {
         </p>
       </section>
 
-      {/* 003 / corporate */}
+      {/* 003 / regalos */}
       <section id="corporate" className="scroll-mt-4 bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
-            003 / empresas y regalos
+            {REGALOS.etiqueta}
           </div>
           <div className="mt-3 flex items-start justify-between gap-3">
-            <h2 className="text-2xl sm:text-3xl">{catalogo.corporate.nombre}</h2>
+            <h2 className="text-2xl sm:text-3xl">{REGALOS.titulo}</h2>
             <Proximamente oscuro />
           </div>
-          <p className="hash-text mt-4 text-[17px]">Más de 1 PH/s, con presupuesto a medida</p>
+          <p className="mt-4 text-[17px]">{REGALOS.subtitulo}</p>
           <ul className="mt-6 space-y-3 text-[15px]">
-            <li className="border-t border-[var(--on-dark-border)] pt-3">
-              Para regalar a tu equipo, a tus clientes o en eventos: un código de regalo por
-              persona, que cada uno activa con su cuenta.
-            </li>
-            <li className="border-t border-[var(--on-dark-border)] pt-3">
-              Factura a nombre de la empresa.
-            </li>
-            <li className="border-y border-[var(--on-dark-border)] py-3">
-              Presupuesto confirmado el día del pedido.
-            </li>
+            {REGALOS.puntos.map((punto, i) => <li key={punto} className={`border-t border-on-dark-border pt-3 ${i === REGALOS.puntos.length - 1 ? "border-b pb-3" : ""}`}>{punto}</li>)}
           </ul>
-          <button
+          <Button
             type="button"
+            variant="ghost"
             onClick={() =>
-              comprar({ producto: "corporate", modo: null, cantidad: CORPORATE_MIN_PH * 1000 })
+              comprar({ producto: "regalos", modo: null, cantidad: 1 })
             }
-            className="mt-8 min-h-[44px] w-full border border-[var(--instrument-dark)] px-5 text-[15px] text-[var(--instrument-dark)] sm:w-auto"
+            className="mt-8 min-h-[44px] w-full rounded-none border border-instrument-dark px-5 text-[15px] text-instrument-dark sm:w-auto"
           >
-            Pedir presupuesto
-          </button>
+            {REGALOS.boton}
+          </Button>
         </div>
       </section>
 
