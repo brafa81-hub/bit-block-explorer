@@ -7,3 +7,4 @@
 - [x] Actualizar las invitaciones y la transparencia del catálogo desde SERVICIO.
 - [x] Actualizar el módulo de regalos y registrar el interés como regalos.
 - [x] Añadir y verificar la solicitud de más de 1 PH/s con potencia, fecha y email.
+- [ ] Eliminar Corporate, actualizar regalos y verificar enlaces, formularios y caducidad.
