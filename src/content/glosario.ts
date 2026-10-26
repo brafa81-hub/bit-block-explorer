@@ -488,7 +488,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
     enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Lo que pagas es más de lo que recibirás en sats: no es una inversión ni garantiza un resultado.`,
-    relacionados: ["pool-de-destino", "grupos-y-empresas"],
+    relacionados: ["pool-de-destino"],
     revisado: R,
   },
 
@@ -521,21 +521,6 @@ export const GLOSARIO: TerminoGlosario[] = [
     enLaPractica:
       "Cuando compras potencia por horas no pagas tú la luz ni eliges la máquina. La eficiencia es cosa de quien opera los equipos.",
     relacionados: ["asic", "hashrate"],
-    revisado: R,
-  },
-  {
-    slug: "grupos-y-empresas",
-    termino: "Grupos y empresas (compra por volumen)",
-    categoria: "Potencia por horas",
-    esencial: false,
-    definicion: "La modalidad para grupos y empresas que necesitan más de 1 PH/s, con presupuesto a medida.",
-    explicacion: [
-      "Es como reservar un bloque de habitaciones de hotel para un congreso en lugar de una sola noche.",
-      "Pensada para grupos, empresas, formación o proyectos que quieren mucha potencia a la vez.",
-      "En realidad, funciona igual que una compra individual. Solo cambia la cantidad.",
-    ],
-    enLaPractica: `Para empresas y grupos, ${SERVICIO.marca} prepara un presupuesto a medida desde más de 1 PH/s. Cada persona recibe un enlace de activación y pone su propia wallet: un regalo distinto, que se vive desde dentro de la red.`,
-    relacionados: ["hashrate-alquilado", "pool-de-destino"],
     revisado: R,
   },
   // Tanda 2 · Red y fundamentos

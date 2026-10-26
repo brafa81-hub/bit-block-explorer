@@ -34,11 +34,6 @@ export const SERVICIO = {
     recompensaBloqueSats: 312_500_000,
     /** Potencia total de la red en TH/s (unos 1.057 EH/s). Actualizar junto a fechaEstimacion. */
     redHashrateTH: 1_057_000_000,
-    corporate: {
-      nombre: "Corporate",
-      /** Mínimo de potencia en el formulario, en PH/s enteros. */
-      minPH: 2,
-    },
     /** Fecha a la que se calcularon los sats. */
     fechaEstimacion: "oct. 2026",
   },
@@ -47,7 +42,7 @@ export const SERVICIO = {
     /** Recargo por pedido del modo mixto, en céntimos. */
     extraMixtoCentimos: 95,
   },
-  corporate: {
+  regalos: {
     caducidadMeses: 12,
     /** Los descuentos (certificado...) no se suman entre sí. */
     descuentosAcumulables: false,

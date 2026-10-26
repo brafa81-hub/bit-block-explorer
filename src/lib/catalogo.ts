@@ -1,7 +1,7 @@
 /** Precios del catálogo v9.3 derivados de los datos canónicos del servicio (en céntimos). */
 import { SERVICIO } from "@/content/servicio";
 
-export type ProductoId = "potencia" | "corporate" | "regalos";
+export type ProductoId = "potencia" | "regalos";
 /** "solitario" es el id interno del modo que se muestra como "Avanzado". */
 export type ModoId = "estable" | "solitario" | "mixto";
 
@@ -12,7 +12,6 @@ export const MAX_TH = c.maxTH;
 export const PASO_TH = c.pasoTH;
 export const BLOQUE_TH = c.bloqueTH;
 export const EXTRA_MIXTO = SERVICIO.modos.extraMixtoCentimos;
-export const CORPORATE_MIN_PH = c.corporate.minPH;
 
 /** Precio base (sin modo) para una potencia en TH/s, en céntimos. */
 export function precioBase(th: number): number {

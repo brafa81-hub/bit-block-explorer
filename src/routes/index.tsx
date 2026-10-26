@@ -191,17 +191,17 @@ function Inicio() {
         </ul>
       </section>
 
-      {/* 007 / grupos y empresas */}
+      {/* 007 / regalos */}
       <section className="mx-auto max-w-3xl px-5 pb-20 sm:px-8">
         <div className="flex flex-col gap-4 border border-primary p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xl">Grupos, empresas y regalos</p>
+            <p className="text-xl">Regala potencia de minería</p>
             <p className="mt-1 text-[15px] text-muted-foreground">
-              Más de 1 PH/s, presupuesto a medida. Para tu equipo, tus clientes o para regalar.
+              Códigos regalo para una persona o para todo tu equipo.
             </p>
           </div>
-          <Link to="/minar" hash="corporate" className={`${botonPrimario} shrink-0`}>
-            Pedir presupuesto
+          <Link to="/minar" hash="regalos" className={`${botonPrimario} shrink-0`}>
+            Ver regalos
           </Link>
         </div>
       </section>

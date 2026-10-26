@@ -24,7 +24,7 @@ export interface Capitulo {
   quiz: PreguntaQuiz[];
 }
 
-const { caducidadMeses } = SERVICIO.corporate;
+const { caducidadMeses } = SERVICIO.regalos;
 const potencia = "de 250 TH/s a 1 PH/s";
 
 const wallet: string[] = SERVICIO.walletRecomendada
@@ -574,15 +574,15 @@ export const CAPITULOS: Capitulo[] = [
         ],
       },
       {
-        titulo: "Para grupos y empresas",
+        titulo: "Más potencia y regalos",
         parrafos: [
-          `Para más de 1 PH/s, para ti o para regalar, preparamos un presupuesto a medida. Si son para ti, las lanzamos a la vez con tu wallet. Si son para regalar, cada persona recibe un enlace de activación, pone su wallet y elige cuándo empezar, durante ${caducidadMeses} meses.`,
+          `¿Necesitas más de 1 PH/s? Escríbenos desde la página [Minar](/minar). Y si quieres regalar, cada persona recibe un código, pone su propia wallet y elige cuándo empezar, durante ${caducidadMeses} meses.`,
         ],
       },
     ],
     enRealidad:
       "En realidad, no eliges una máquina concreta: eliges una cantidad de potencia durante un tiempo, que puede salir de varios equipos.",
-    terminos: ["hashrate-alquilado", "pool-de-destino", "grupos-y-empresas"],
+    terminos: ["hashrate-alquilado", "pool-de-destino"],
     cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el test.",
     quiz: [
       {

@@ -9,7 +9,6 @@ import { SolicitudPotencia } from "@/components/SolicitudPotencia";
 import { REGALOS } from "@/content/minar";
 import { emailSolicitud, interesRegalos } from "@/lib/solicitudes";
 import {
-  CORPORATE_MIN_PH,
   DESDE_EUROS_APROX,
   MAX_TH,
   MIN_TH,
@@ -133,20 +132,14 @@ function Pregunta({ titulo, children }: { titulo: string; children: React.ReactN
 interface Seleccion {
   producto: ProductoId;
   modo: ModoId | null;
-  /** TH/s elegidos (en corporate, PH/s × 1.000). */
+  /** TH/s elegidos. */
   cantidad: number;
 }
 
-const PARA_QUIEN = {
-  particular: [
-    { id: "para_mi", texto: "Para mí" },
-    { id: "regalo", texto: "Para regalar" },
-  ],
-  empresa: [
-    { id: "para_mi", texto: "Para la empresa" },
-    { id: "regalo", texto: "Para regalar (equipo, clientes…)" },
-  ],
-} as const;
+const PARA_QUIEN = [
+  { id: "para_mi", texto: "Para mí" },
+  { id: "regalo", texto: "Para regalar" },
+] as const;
 
 const CUANDO = [
   { id: "ya", texto: "Lo antes posible" },
@@ -198,7 +191,6 @@ function Opciones<T extends string>({
 function resumenSeleccion(s: Seleccion): string {
   if (s.producto === "regalos") return REGALOS.subtitulo;
   const modo = s.modo ? ` · modo ${MODOS.find((m) => m.id === s.modo)?.nombre.toLowerCase()}` : "";
-  if (s.producto === "corporate") return `Corporate · ${s.cantidad / 1000} PH/s`;
   return `${formatearEntero(s.cantidad)} TH/s · 24 h${modo} · ${formatearEuros(precioPedido(s.cantidad, s.modo ?? "estable"))}`;
 }
 
@@ -212,8 +204,6 @@ function AvisoComprar({
   const [email, setEmail] = useState("");
   const [paraQuien, setParaQuien] = useState<"para_mi" | "regalo" | null>(null);
   const [cuando, setCuando] = useState<(typeof CUANDO)[number]["id"] | null>(null);
-  const [ph, setPh] = useState<number>(CORPORATE_MIN_PH);
-  const [modoCorp, setModoCorp] = useState<ModoId | "no_se" | null>(null);
   const [acepta, setAcepta] = useState(false);
   const [estado, setEstado] = useState<"listo" | "enviando" | "hecho">("listo");
   const [error, setError] = useState<string | null>(null);
@@ -225,19 +215,15 @@ function AvisoComprar({
       setError(null);
       setParaQuien(seleccion.producto === "regalos" ? "regalo" : null);
       setCuando(null);
-      setModoCorp(null);
-      setPh(CORPORATE_MIN_PH);
     }
   }, [seleccion]);
 
-  const empresa = seleccion?.producto === "corporate";
-  const tipo = empresa ? "empresa" : "particular";
+  const tipo = "particular";
   const valido =
     emailSolicitud.safeParse(email).success &&
     acepta &&
     paraQuien !== null &&
-    cuando !== null &&
-    (!empresa || (modoCorp !== null && Number.isInteger(ph) && ph >= CORPORATE_MIN_PH));
+    cuando !== null;
 
   async function enviar() {
     if (!seleccion || !valido || estado === "enviando") return;
@@ -247,8 +233,8 @@ function AvisoComprar({
       email: email.trim().toLowerCase(),
       tipo,
       producto: seleccion.producto,
-      cantidad: empresa ? ph * 1000 : seleccion.cantidad,
-      modo: empresa ? modoCorp : seleccion.modo,
+      cantidad: seleccion.cantidad,
+      modo: seleccion.modo,
       para_quien: paraQuien,
       cuando,
       ...origen(),
@@ -286,14 +272,14 @@ function AvisoComprar({
               <DialogDescription className="mt-2 text-[15px] text-muted-foreground">
                 Déjanos tu email y te avisamos en cuanto abramos.
               </DialogDescription>
-              {seleccion && !empresa && (
+              {seleccion && (
                 <p className="hash-text mt-3 text-[13px]">{resumenSeleccion(seleccion)}</p>
               )}
             </div>
 
             <div>
               <label htmlFor="email-aviso" className="block text-[13px]">
-                {empresa ? "Email de contacto" : "Tu email"}
+                Tu email
               </label>
               <input
                 id="email-aviso"
@@ -308,45 +294,11 @@ function AvisoComprar({
               />
             </div>
 
-            {empresa && (
-              <>
-                <div>
-                  <label htmlFor="ph-corporate" className="block text-[13px]">
-                    Potencia aproximada (PH/s)
-                  </label>
-                  <input
-                    id="ph-corporate"
-                    type="number"
-                    min={CORPORATE_MIN_PH}
-                    step={1}
-                    value={ph}
-                    onChange={(e) => setPh(Math.max(1, Math.floor(Number(e.target.value) || 0)))}
-                    className="hash-text mt-2 min-h-[44px] w-full border border-border bg-transparent px-3 text-[15px] outline-none focus:border-foreground"
-                  />
-                  <p className="mt-1 text-[12px] text-muted-foreground">
-                    Mínimo {CORPORATE_MIN_PH} PH/s. Presupuesto a medida, confirmado el día del
-                    pedido.
-                  </p>
-                </div>
-                <Opciones
-                  nombre="modo-corp"
-                  etiqueta="Modo de minado"
-                  opciones={[
-                    { id: "estable", texto: "Compartido" },
-                    { id: "mixto", texto: "Combinado" },
-                    { id: "solitario", texto: "Pool propio" },
-                    { id: "no_se", texto: "No lo sé" },
-                  ]}
-                  valor={modoCorp}
-                  onCambio={setModoCorp}
-                />
-              </>
-            )}
 
             {seleccion?.producto !== "regalos" && <Opciones
               nombre="para-quien"
-              etiqueta={empresa ? "¿Para quién es?" : "¿Es para ti o para regalar?"}
-              opciones={PARA_QUIEN[tipo]}
+              etiqueta="¿Es para ti o para regalar?"
+              opciones={PARA_QUIEN}
               valor={paraQuien}
               onCambio={setParaQuien}
             />}
@@ -515,7 +467,7 @@ function Minar() {
       </section>
 
       {/* 003 / regalos */}
-      <section id="corporate" className="scroll-mt-4 bg-[var(--ink)] text-[var(--on-dark)]">
+      <section id="regalos" className="scroll-mt-4 bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
             {REGALOS.etiqueta}
