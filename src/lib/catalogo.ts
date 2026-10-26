@@ -1,7 +1,7 @@
 /** Precios del catálogo v9.3 derivados de los datos canónicos del servicio (en céntimos). */
 import { SERVICIO } from "@/content/servicio";
 
-export type ProductoId = "potencia" | "corporate";
+export type ProductoId = "potencia" | "corporate" | "regalos";
 /** "solitario" es el id interno del modo que se muestra como "Avanzado". */
 export type ModoId = "estable" | "solitario" | "mixto";
 

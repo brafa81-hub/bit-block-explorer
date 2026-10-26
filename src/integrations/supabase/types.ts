@@ -113,6 +113,30 @@ export type Database = {
         }
         Relationships: []
       }
+      solicitudes_potencia: {
+        Row: {
+          created_at: string
+          email: string
+          fecha: string
+          id: string
+          potencia_ph: number
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          fecha: string
+          id?: string
+          potencia_ph: number
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          fecha?: string
+          id?: string
+          potencia_ph?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       resumen_diario: {
