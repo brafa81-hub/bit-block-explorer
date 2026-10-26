@@ -43,7 +43,7 @@ export const SERVICIO = {
     extraMixtoCentimos: 95,
   },
   regalos: {
-    caducidadMeses: 12,
+    caducidadDias: 30,
     /** Los descuentos (certificado...) no se suman entre sí. */
     descuentosAcumulables: false,
   },

@@ -24,7 +24,7 @@ export interface Capitulo {
   quiz: PreguntaQuiz[];
 }
 
-const { caducidadMeses } = SERVICIO.regalos;
+const { caducidadDias } = SERVICIO.regalos;
 const potencia = "de 250 TH/s a 1 PH/s";
 
 const wallet: string[] = SERVICIO.walletRecomendada
@@ -576,7 +576,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Más potencia y regalos",
         parrafos: [
-          `¿Necesitas más de 1 PH/s? Escríbenos desde la página [Minar](/minar). Y si quieres regalar, cada persona recibe un código, pone su propia wallet y elige cuándo empezar, durante ${caducidadMeses} meses.`,
+          `¿Necesitas más de 1 PH/s? Escríbenos desde la página [Minar](/minar). Y si quieres regalar, cada persona recibe un código, pone su propia wallet y elige cuándo empezar, durante ${caducidadDias} días.`,
         ],
       },
     ],
