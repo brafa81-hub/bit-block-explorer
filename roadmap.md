@@ -5,3 +5,5 @@
 - [x] Conectar simulador, Mining 101 y glosario; dejar el catálogo solo en los puntos acordados y añadir el pie.
 - [x] Revisar metadatos de todas las páginas y publicar sitemap.xml y robots.txt.
 - [x] Actualizar las invitaciones y la transparencia del catálogo desde SERVICIO.
+- [ ] Actualizar el módulo de regalos y registrar el interés como regalos.
+- [ ] Añadir y verificar la solicitud de más de 1 PH/s con potencia, fecha y email.
