@@ -16,10 +16,8 @@ export const Route = createFileRoute("/privacidad")({
           "Cómo tratamos tu email cuando te apuntas al aviso de apertura de la venta de potencia de minería.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://bloque170.com/privacidad" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://bloque170.com/privacidad" }],
   }),
   component: Privacidad,
 });

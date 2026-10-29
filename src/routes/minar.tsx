@@ -37,10 +37,8 @@ export const Route = createFileRoute("/minar")({
       { property: "og:title", content: "Vive 24 h como minero de Bitcoin" },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: URL }],
   }),
   component: Minar,
 });
@@ -426,7 +424,7 @@ function Minar() {
 
           <div className="pt-4">
             <p className="hash-text text-2xl">{formatearEuros(precioPedido(th, modo))}</p>
-            <p className="mt-1 text-[13px] text-muted-foreground">IVA incluido, sin cuotas aparte</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">Precio orientativo, IVA incluido. Puede cambiar antes de abrir la venta.</p>
             {sats && (
               <>
                 <p className="hash-text mt-4 text-[14px]">{sats}</p>

@@ -19,10 +19,8 @@ export const Route = createFileRoute("/simulador")({
           "Una simulación real de prueba de trabajo con SHA-256 doble, ejecutada en tu navegador. Sin jerga y sin instalar nada.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://bloque170.com/simulador" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://bloque170.com/simulador" }],
   }),
   component: SimuladorMineria,
 });

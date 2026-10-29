@@ -6,7 +6,7 @@
 
 export const SERVICIO = {
   /** Nombre de marca: se cambia solo aquí. */
-  marca: "Bloque 170",
+  marca: "BLOQUE170.COM",
   /** Dominio público de la web (canonical, og:url, PDF). */
   dominio: "bloque170.com",
   /** Lema de marca. */

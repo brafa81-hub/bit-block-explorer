@@ -24,10 +24,8 @@ export const Route = createFileRoute("/aprende/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: c.descripcion },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: url }],
     };
   },
   notFoundComponent: CapituloNoEncontrado,

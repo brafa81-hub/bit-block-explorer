@@ -18,10 +18,8 @@ export const Route = createFileRoute("/aprende/test")({
       { property: "og:title", content: TITULO },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: URL }],
   }),
   component: TestFinal,
 });
