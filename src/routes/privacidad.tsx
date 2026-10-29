@@ -28,15 +28,11 @@ function Privacidad() {
       <div className="index-label">001 / privacidad</div>
       <h1 className="mt-3 text-3xl sm:text-4xl">Privacidad</h1>
 
-      <p className="mt-6 text-[16px] text-muted-foreground">
-        Texto provisional. Queda pendiente de completar con los datos definitivos.
-      </p>
-
       <div className="mt-10 space-y-8 text-[15px]">
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Quién guarda tus datos</h2>
           <p className="mt-2 text-muted-foreground">
-            INDENE OÜ (en constitución), Lõõtsa tn 5, 11415 Tallinn, Estonia. Contacto: [pendiente: email de contacto].
+            INDENE OÜ (en constitución), Lõõtsa tn 5, 11415 Tallinn, Estonia. Contacto: hola@bloque170.com.
           </p>
         </section>
 
@@ -68,7 +64,7 @@ function Privacidad() {
           <h2 className="text-xl">Tus derechos</h2>
           <p className="mt-2 text-muted-foreground">
             Puedes pedirnos en cualquier momento que te digamos qué tenemos tuyo, que lo corrijamos
-            o que lo borremos. Escríbenos a [pendiente: email de contacto].
+            o que lo borremos. Escríbenos a hola@bloque170.com.
           </p>
         </section>
       </div>
