@@ -36,6 +36,13 @@
       "when": 1793052901282,
       "tag": "0004_regalos_y_solicitudes_potencia",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793056501282,
+      "tag": "0005_origen_solicitudes_potencia",
+      "breakpoints": true
     }
   ]
 }

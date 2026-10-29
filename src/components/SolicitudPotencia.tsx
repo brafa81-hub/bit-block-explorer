@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { SOLICITUD_POTENCIA as texto } from "@/content/minar";
 import { solicitudPotenciaSchema } from "@/lib/solicitudes";
 import { supabase } from "@/integrations/supabase/client";
+import { origen } from "@/lib/medicion";
 
 export function SolicitudPotencia() {
   const [abierto, setAbierto] = useState(false);
@@ -22,7 +23,9 @@ export function SolicitudPotencia() {
     setEstado("enviando");
     setError(false);
     try {
-      const { error } = await supabase.from("solicitudes_potencia").insert(datos.data);
+      let { error } = await supabase.from("solicitudes_potencia").insert({ ...datos.data, ...origen() });
+      // Si la base de datos aún no tiene las columnas de origen, se guarda igualmente sin ellas.
+      if (error) ({ error } = await supabase.from("solicitudes_potencia").insert(datos.data));
       if (error) throw error;
       setEstado("hecho");
     } catch {
