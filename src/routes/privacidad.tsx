@@ -36,7 +36,7 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Quién guarda tus datos</h2>
           <p className="mt-2 text-muted-foreground">
-            [Pendiente: nombre o razón social, dirección y email de contacto.]
+            INDENE OÜ (en constitución), Lõõtsa tn 5, 11415 Tallinn, Estonia. Contacto: [pendiente: email de contacto].
           </p>
         </section>
 
@@ -61,7 +61,7 @@ function Privacidad() {
 
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Cuánto tiempo</h2>
-          <p className="mt-2 text-muted-foreground">[Pendiente: plazo de conservación.]</p>
+          <p className="mt-2 text-muted-foreground">Conservamos tu email hasta que se abra la venta o pidas la baja, y como máximo 12 meses.</p>
         </section>
 
         <section className="border-t border-border pt-6">
