@@ -8,3 +8,4 @@
 - [x] Actualizar el módulo de regalos y registrar el interés como regalos.
 - [x] Añadir y verificar la solicitud de más de 1 PH/s con potencia, fecha y email.
 - [ ] Eliminar Corporate, actualizar regalos y verificar enlaces, formularios y caducidad.
+- [ ] Aplicar el archivo v9.3.2: marca BLOQUE170.COM, URLs actuales, modos y precios orientativos, tipos de lista de espera sin borrar datos y comprobaciones.
