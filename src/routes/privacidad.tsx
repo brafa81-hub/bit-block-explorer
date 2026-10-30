@@ -32,7 +32,7 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Quién guarda tus datos</h2>
           <p className="mt-2 text-muted-foreground">
-            INDENE OÜ (en constitución), Lõõtsa tn 5, 11415 Tallinn, Estonia. Contacto: hola@bloque170.com.
+            INDENE OÜ (en constitución), Lõõtsa tn 5, 11415 Tallinn, Estonia. Contacto: contact@bloque170.com.
           </p>
         </section>
 
@@ -64,7 +64,7 @@ function Privacidad() {
           <h2 className="text-xl">Tus derechos</h2>
           <p className="mt-2 text-muted-foreground">
             Puedes pedirnos en cualquier momento que te digamos qué tenemos tuyo, que lo corrijamos
-            o que lo borremos. Escríbenos a hola@bloque170.com.
+            o que lo borremos. Escríbenos a contact@bloque170.com.
           </p>
         </section>
       </div>
