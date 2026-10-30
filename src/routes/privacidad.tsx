@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/privacidad")({
   head: () => ({
     meta: [
-      { title: "Privacidad | Potencia de minería por 24 horas" },
+      { title: "Privacidad | Potencia de minería durante 24 horas" },
       {
         name: "description",
         content:

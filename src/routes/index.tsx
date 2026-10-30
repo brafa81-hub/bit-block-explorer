@@ -6,9 +6,9 @@ import { SERVICIO, urlPublica } from "@/content/servicio";
 import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 
 const URL = urlPublica("/");
-const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin, por 24 horas`;
+const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin durante 24 horas`;
 const DESC =
-  "Compra potencia de minería de Bitcoin por 24 horas, en euros y en español. Tú eliges la potencia y la apuntas a tu wallet. Sin contratos ni permanencia.";
+  "Compra potencia de minería de Bitcoin durante 24 horas, en euros y en español. Tú eliges la potencia y la apuntas a tu wallet. Sin contratos ni permanencia.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,7 +70,7 @@ function Inicio() {
         <div className="index-label">001 / BLOQUE170.COM</div>
         <p className="mt-3 text-[15px] text-primary">{SERVICIO.lema}</p>
         <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">
-          Potencia de minería, por 24 horas.
+          Potencia de minería durante 24 horas.
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
           Eliges la potencia, la apuntas a tu wallet y mina en la red real de Bitcoin. Sin contratos,
