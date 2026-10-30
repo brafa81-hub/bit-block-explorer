@@ -79,7 +79,7 @@ function Inicio() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/minar" className={botonPrimario}>
-            Ver la potencia
+            Ver potencia
           </Link>
           <Link to="/simulador" className={botonSecundario}>
             Prueba el simulador
@@ -105,7 +105,7 @@ function Inicio() {
             <div className="h-1 w-3/4 bg-primary" />
           </div>
           <p className="mt-4 text-[17px]">Desde unos {DESDE_EUROS_APROX}, IVA incluido</p>
-          <span className={`${botonPrimario} mt-5`}>Ver la potencia</span>
+          <span className={`${botonPrimario} mt-5`}>Ver potencia</span>
         </Link>
       </section>
 
