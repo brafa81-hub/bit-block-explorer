@@ -375,7 +375,7 @@ function Minar() {
       {/* 001 / minar */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-12 sm:px-8">
         <div className="index-label">001 / minar</div>
-        <h1 className="mt-3 text-3xl sm:text-4xl">Minería de Bitcoin a tu medida, durante 24 horas</h1>
+        <h1 className="mt-3 text-3xl sm:text-4xl">Minería de Bitcoin a tu medida</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
           Eliges la potencia y el modo, indicas tu wallet y durante 24 horas mina en la red real de
           Bitcoin. Un único pago, sin renovaciones.
