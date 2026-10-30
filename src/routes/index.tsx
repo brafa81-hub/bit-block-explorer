@@ -8,7 +8,7 @@ import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 const URL = urlPublica("/");
 const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin durante 24 horas`;
 const DESC =
-  "Elige tu potencia de minería de Bitcoin durante 24 horas, en euros y en español. Indicas tu wallet y lo que se genere va directo a ella. Un único pago, sin renovaciones.";
+  "Elige entre 250 TH/s y 1 PH/s y mina Bitcoin durante 24 horas en la red real. Lo que se genere va directo a tu wallet.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
