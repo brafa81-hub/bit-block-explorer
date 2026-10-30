@@ -44,8 +44,6 @@ export const SERVICIO = {
   },
   regalos: {
     caducidadDias: 30,
-    /** Los descuentos (certificado...) no se suman entre sí. */
-    descuentosAcumulables: false,
   },
   /** Equivalencia de 1 PH/s en máquinas profesionales (unos 200 TH/s cada una). */
   maquinasEquivalentes: 5,
@@ -57,12 +55,9 @@ export const SERVICIO = {
   variacionPotencia: "la potencia puede variar algo durante la sesión",
   transparencia: "Lo que recibirás en sats es menor que lo que pagas",
   resultado: "No es una inversión ni garantiza un resultado.",
-  /** Certificado del test final: nota mínima y descuento de lanzamiento. */
+  /** Certificado del test final. Sin descuento: mismo precio para todos (modelo v9.3.2). */
   certificado: {
     notaMinima: 12,
-    descuentoPct: 10,
-    /** Fecha de caducidad del descuento: sin decidir (null = "se comunicará"). */
-    caducidad: null as string | null,
   },
 } as const;
 

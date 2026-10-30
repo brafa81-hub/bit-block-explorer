@@ -30,7 +30,7 @@ function TestFinal() {
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <Link to="/aprende" className="index-label hover:text-foreground">← aprende</Link>
       <h1 className="mt-6 text-3xl sm:text-4xl">Test</h1>
-      <p className="mt-4 text-[17px]">Quince preguntas sobre Bitcoin, la minería y nuestro servicio. Sin prisa. Con {SERVICIO.certificado.notaMinima} aciertos o más, te llevas un certificado en PDF y un descuento del {SERVICIO.certificado.descuentoPct} %.</p>
+      <p className="mt-4 text-[17px]">Quince preguntas sobre Bitcoin, la minería y nuestro servicio. Sin prisa. Con {SERVICIO.certificado.notaMinima} aciertos o más, te llevas un certificado en PDF.</p>
       <div className="mt-10">
         <Quiz
           key={intento}

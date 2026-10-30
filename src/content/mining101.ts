@@ -699,7 +699,7 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
     opciones: ["Mayor", "Igual", "Menor"],
     correcta: 2,
-    explicacion: "Lo normal es recibir en sats menos de lo que pagas, o nada. Lo que obtienes es potencia de minería real durante el tiempo contratado, no un rendimiento.",
+    explicacion: "Lo normal es recibir en sats menos de lo que pagas (y en modo Solitario, normalmente nada). Lo que obtienes es potencia de minería real durante el tiempo contratado, no un rendimiento.",
   },
   {
     pregunta: "¿Es una inversión?",

@@ -58,7 +58,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Lo normal es recibir en sats menos de lo que pagas, o nada, y no está garantizado. Lo que compras es potencia de minería real durante 24 horas, no un producto financiero.",
+    texto: "Lo que recibes en sats es menos de lo que pagas y no está garantizado: en modo Compartido, unos pocos miles de sats; en Solitario, lo normal es nada. Lo que compras es potencia de minería real durante 24 horas, no un producto financiero.",
   },
 ];
 
@@ -173,8 +173,7 @@ function Inicio() {
               <span className="block text-xl">Aprende</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">
                 {CAPITULOS.length} capítulos cortos y un test final. Si lo apruebas, te llevas un
-                certificado con un {SERVICIO.certificado.descuentoPct} % de descuento de
-                lanzamiento.
+                certificado en PDF.
               </span>
             </Link>
           </li>

@@ -3,12 +3,12 @@ import { Link } from "@tanstack/react-router";
 
 import { SERVICIO } from "@/content/servicio";
 
-const { notaMinima, descuentoPct, caducidad } = SERVICIO.certificado;
+const { notaMinima } = SERVICIO.certificado;
 
 /**
  * Certificado del test final. El PDF se genera en el navegador:
  * no se envía ni se guarda nada en ningún servidor.
- * No lleva código de descuento (el código único llega por email al abrir la venta).
+ * Certificado sin descuento (mismo precio para todos).
  */
 export function Certificado({
   aciertos,
@@ -23,10 +23,6 @@ export function Certificado({
   const [generando, setGenerando] = useState(false);
   const aprobado = aciertos >= notaMinima;
 
-  const textoCaducidad = caducidad
-    ? `Válido hasta el ${caducidad}.`
-    : "Descuento de lanzamiento con fecha de caducidad, que se comunicará al abrir la venta.";
-  const condiciones = `${textoCaducidad} No acumulable con otros descuentos.`;
 
   async function descargar() {
     setGenerando(true);
@@ -72,19 +68,10 @@ export function Certificado({
 
       doc.setTextColor(...negro);
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(13);
-      const y = 148;
-      doc.text(`Regalo: ${descuentoPct} % de descuento de lanzamiento en tu primera sesión de minería.`, W / 2, y, {
+      doc.setFontSize(12);
+      doc.text("Ya entiendes cómo funciona la minería de Bitcoin. Pruébala con potencia real.", W / 2, 148, {
         align: "center",
       });
-      doc.setFontSize(10);
-      doc.text(
-        "Apúntate a la lista de espera en /minar y recibirás tu código personal por email al abrir la venta.",
-        W / 2,
-        y + 9,
-        { align: "center" },
-      );
-      doc.text(condiciones, W / 2, y + 16, { align: "center" });
 
       doc.setFont("courier", "normal");
       doc.setFontSize(9);
@@ -114,9 +101,8 @@ export function Certificado({
     <div className="border-t border-border pt-5 text-[16px]">
       <p className="etiqueta">Test superado.</p>
       <p className="mt-2">
-        Descarga tu certificado. Incluye un <strong>{descuentoPct} % de descuento de lanzamiento</strong>: apúntate a
-        la <Link to="/minar" className="underline">lista de espera</Link> y te enviaremos tu código por email cuando
-        abramos la venta. {condiciones}
+        Descarga tu certificado. Y si quieres probar con potencia real, apúntate a la{" "}
+        <Link to="/minar" className="underline">lista de espera</Link> y te avisaremos cuando abramos la venta.
       </p>
       <label htmlFor="cert-nombre" className="index-label mt-5 block">
         Nombre en el certificado (opcional)
