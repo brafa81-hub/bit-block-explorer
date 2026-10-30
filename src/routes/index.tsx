@@ -35,13 +35,14 @@ const PASOS = [
     texto: "Eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas.",
   },
   {
-    titulo: "Indicas tu wallet",
+    titulo: "Eliges tu modo",
     texto:
-      "Solo la dirección donde quieres recibir. No necesitas configurar equipos ni programas.",
+      "Compartido, Solitario o Híbrido, según cómo quieras recibir lo que genere tu potencia.",
   },
   {
-    titulo: "Tu potencia mina",
-    texto: "Durante 24 horas, tu potencia mina en la red real de Bitcoin.",
+    titulo: "Indicas tu wallet y mina",
+    texto:
+      "Solo la dirección donde quieres recibir. Durante 24 horas, tu potencia mina en la red real de Bitcoin.",
   },
 ];
 
@@ -73,7 +74,7 @@ function Inicio() {
           Potencia de minería durante 24 horas.
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
-          Eliges la potencia, indicas tu wallet y durante 24 horas mina en la red real de Bitcoin.
+          Eliges la potencia y el modo de minado, indicas tu wallet y durante 24 horas mina en la red real de Bitcoin.
           Lo que se genere va directo a tu wallet, sin pasar por nosotros.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
@@ -94,12 +95,12 @@ function Inicio() {
         </h2>
         <Link to="/minar" hash="potencia" className="mt-6 block border-2 border-primary p-6 hover:border-foreground">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-xl">Elige tu potencia</h3>
+            <h3 className="text-xl">Elige tu potencia y tu modo</h3>
             <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
               PRÓXIMAMENTE
             </span>
           </div>
-          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas</p>
+          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas · Compartido, Solitario o Híbrido</p>
           <div className="mt-4 h-1 w-full bg-border" aria-hidden="true">
             <div className="h-1 w-3/4 bg-primary" />
           </div>
