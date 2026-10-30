@@ -26,7 +26,7 @@ import {
 import { origen, registrar } from "@/lib/medicion";
 
 const URL = urlPublica("/minar");
-const TITULO = "Vive 24 h como minero de Bitcoin | Minar";
+const TITULO = `Minería de Bitcoin a tu medida, durante 24 horas | ${SERVICIO.marca}`;
 const DESC = `De 250 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde unos ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
 
 export const Route = createFileRoute("/minar")({
@@ -53,20 +53,20 @@ const MODOS: { id: ModoId; nombre: string }[] = [
 
 function textoModo(modo: ModoId): string {
   if (modo === "estable")
-    return "Cobras cada día por el trabajo entregado, en cantidades pequeñas.";
+    return "Recibes cada día pequeñas cantidades de sats según el trabajo que hace tu potencia.";
   if (modo === "solitario")
-    return "Tu potencia mina sola durante 24 horas. Lo normal es no recibir nada; muy de vez en cuando se encuentra un bloque entero, que va directo a tu wallet. Mismo precio que el Compartido.";
+    return "Tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
   return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
 }
 
 function textoSats(th: number, modo: ModoId): string | null {
   if (modo === "solitario")
-    return `Lo normal es nada. Si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
+    return `Lo normal es no recibir nada. Probabilidad aproximada de encontrar un bloque en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
   const s = satsAprox(th, modo);
   if (s === null) return null;
   const sats = formatearEntero(s);
   if (modo === "mixto")
-    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en Solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}.`;
+    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en Solitario, lo normal es no recibir nada (probabilidad aproximada de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}).`;
   return `Unos ${sats} sats aproximados`;
 }
 
@@ -375,10 +375,10 @@ function Minar() {
       {/* 001 / minar */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-12 sm:px-8">
         <div className="index-label">001 / minar</div>
-        <h1 className="mt-3 text-3xl sm:text-4xl">Potencia verificable</h1>
+        <h1 className="mt-3 text-3xl sm:text-4xl">Minería de Bitcoin a tu medida, durante 24 horas</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
-          Eliges la potencia y durante 24 horas mina en la red real de Bitcoin. Sin contratos, sin
-          permanencia y sin promesas de rentabilidad. De lo técnico nos encargamos nosotros.
+          Eliges la potencia y el modo, indicas tu wallet y durante 24 horas mina en la red real de
+          Bitcoin. Un único pago, sin renovaciones.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
           Todavía no se puede comprar: déjanos tu email y te avisamos en cuanto abramos.
@@ -453,11 +453,10 @@ function Minar() {
         </article>
 
         <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
-          No es un producto financiero ni una inversión: compras potencia de minería real durante
-          24 horas. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En las
+          Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En las
           horas en Solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
-          recibirías la recompensa completa, y la probabilidad es muy baja. Ningún resultado está garantizado. Si en algún momento llega menos potencia, la
-          sesión se alarga hasta entregar toda la contratada.{" "}
+          recibirías la recompensa completa, y la probabilidad es muy baja. Ningún resultado está garantizado. Si en algún momento llega menos potencia, el
+          tiempo se alarga hasta completar la potencia de tu pedido.{" "}
           <Link to="/simulador" className="underline underline-offset-4">
             Pruébalo antes en el simulador
           </Link>
@@ -497,14 +496,23 @@ function Minar() {
         <div className="index-label">004 / preguntas</div>
         <div className="mt-6">
           <Pregunta titulo="¿Qué es 250 TH/s?">
-            250 billones de intentos por segundo: la potencia de un minero profesional actual.
-            Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
+            250 billones de intentos por segundo, algo más de lo que hace una máquina de minería
+            profesional actual. Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
+          </Pregunta>
+          <Pregunta titulo="¿Qué son los sats?">
+            Pequeñas fracciones de bitcoin: 100 millones de sats son 1 BTC. Es la unidad en la que
+            recibes lo que genera tu potencia.
           </Pregunta>
           <Pregunta titulo="¿Qué modo elijo?">
             Compartido, si quieres recibir sats cada día por el trabajo entregado. Solitario, si
             prefieres que tu potencia mine sola: lo normal es no recibir nada, pero si encuentra un
             bloque entero, va directo a tu wallet. Híbrido reparte las 24 horas: 12 en Compartido y 12
             en Solitario.
+          </Pregunta>
+          <Pregunta titulo="¿Qué pasa si en Solitario se encuentra un bloque?">
+            Recibes en tu wallet la recompensa completa del bloque: hoy, 3,125 BTC más las comisiones
+            de los pagos que incluye. Es muy poco probable; la probabilidad aproximada aparece junto
+            al precio.
           </Pregunta>
           <Pregunta titulo="¿Qué necesito?">
             Una wallet de Bitcoin para recibir. Te guiamos paso a paso para configurarla; del resto

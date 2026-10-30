@@ -8,7 +8,7 @@ import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 const URL = urlPublica("/");
 const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin durante 24 horas`;
 const DESC =
-  "Compra potencia de minería de Bitcoin durante 24 horas, en euros y en español. Tú eliges la potencia y la apuntas a tu wallet. Sin contratos ni permanencia.";
+  "Elige tu potencia de minería de Bitcoin durante 24 horas, en euros y en español. Indicas tu wallet y lo que se genere va directo a ella. Un único pago, sin renovaciones.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,9 +35,9 @@ const PASOS = [
     texto: "Eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas.",
   },
   {
-    titulo: "Pones tu wallet",
+    titulo: "Indicas tu wallet",
     texto:
-      "Solo la dirección de tu wallet. Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
+      "Solo la dirección donde quieres recibir. No necesitas configurar equipos ni programas.",
   },
   {
     titulo: "Tu potencia mina",
@@ -49,7 +49,7 @@ const CONFIANZA = [
   {
     titulo: "Tu wallet, tus fondos",
     texto:
-      "Nunca te pedimos la frase de recuperación ni guardamos tus bitcoins. Solo necesitas una dirección para recibir.",
+      "Los pagos van directos a la dirección de tu wallet. No necesitamos tus claves ni tu frase de recuperación, y no guardamos tus bitcoins.",
   },
   {
     titulo: "Sin contratos ni permanencia",
@@ -58,7 +58,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Lo que recibes en sats es menos de lo que pagas y no está garantizado: en modo Compartido, unos pocos miles de sats; en Solitario, lo normal es nada. Lo que compras es potencia de minería real durante 24 horas, no un producto financiero.",
+    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que recibes en sats (fracciones de bitcoin: 100 millones de sats son 1 BTC) es menos de lo que pagas y no está garantizado: en modo Compartido, unos pocos miles de sats; en Solitario, lo normal es nada.",
   },
 ];
 
@@ -73,8 +73,8 @@ function Inicio() {
           Potencia de minería durante 24 horas.
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
-          Eliges la potencia, la apuntas a tu wallet y mina en la red real de Bitcoin. Sin contratos,
-          sin permanencia y sin promesas de rentabilidad.
+          Eliges la potencia, indicas tu wallet y durante 24 horas mina en la red real de Bitcoin.
+          Lo que se genere va directo a tu wallet, sin pasar por nosotros.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/minar" className={botonPrimario}>
@@ -142,7 +142,7 @@ function Inicio() {
       <section className="bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
-            005 / por qué fiarte
+            005 / qué compras y qué recibes
           </div>
           <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-3">
             {CONFIANZA.map((c) => (
@@ -164,7 +164,7 @@ function Inicio() {
             <Link to="/simulador" className="block py-5 hover:opacity-80">
               <span className="block text-xl">Simulador</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">
-                Mina un bloque en tu navegador y mira la prueba de trabajo en directo.
+                Simula en tu navegador cómo se mina un bloque y mira la prueba de trabajo en directo.
               </span>
             </Link>
           </li>
