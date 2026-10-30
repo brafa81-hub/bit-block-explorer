@@ -53,7 +53,7 @@ const MODOS: { id: ModoId; nombre: string }[] = [
 
 function textoModo(modo: ModoId): string {
   if (modo === "estable")
-    return "Recibes cada día pequeñas cantidades de sats según el trabajo que hace tu potencia.";
+    return "Recibes cada día pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.";
   if (modo === "solitario")
     return "Tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
   return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;

@@ -58,7 +58,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que recibes en sats (fracciones de bitcoin: 100 millones de sats son 1 BTC) es menos de lo que pagas y no está garantizado: en modo Compartido, unos pocos miles de sats; en Solitario, lo normal es nada.",
+    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que recibes en sats (fracciones de bitcoin: 100 millones de sats son 1 BTC) depende del modo y de la red, y no está garantizado.",
   },
 ];
 
