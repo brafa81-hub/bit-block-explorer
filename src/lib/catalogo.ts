@@ -2,7 +2,7 @@
 import { SERVICIO } from "@/content/servicio";
 
 export type ProductoId = "potencia" | "regalos";
-/** "solitario" es el id interno del modo que se muestra como "Avanzado". */
+/** Ids internos: "estable" = Compartido, "solitario" = Solitario, "mixto" = Híbrido. */
 export type ModoId = "estable" | "solitario" | "mixto";
 
 const c = SERVICIO.catalogo;
@@ -26,7 +26,7 @@ export function precioPedido(th: number, modo: ModoId): number {
   return precioBase(th) + (modo === "mixto" ? EXTRA_MIXTO : 0);
 }
 
-/** Sats aproximados según modo; en Avanzado no hay estimación (null). */
+/** Sats aproximados según modo; en Solitario no hay estimación (null). */
 export function satsAprox(th: number, modo: ModoId): number | null {
   if (modo === "solitario") return null;
   const base = c.satsPorTH * th;
@@ -34,10 +34,10 @@ export function satsAprox(th: number, modo: ModoId): number | null {
   return Math.round(parte / c.redondeoSats) * c.redondeoSats;
 }
 
-/** Probabilidad aproximada de encontrar un bloque en 12 h en solitario, como "1 entre N" (N con 2 cifras significativas). */
-export function unoEntreBloque12h(th: number): number {
-  const bloquesEn12h = 72;
-  const n = c.redHashrateTH / (bloquesEn12h * th);
+/** Probabilidad aproximada de encontrar un bloque en solitario en `horas`, como "1 entre N" (N con 2 cifras significativas). */
+export function unoEntreBloque(th: number, horas: number): number {
+  const bloques = horas * 6;
+  const n = c.redHashrateTH / (bloques * th);
   const magnitud = 10 ** (Math.floor(Math.log10(n)) - 1);
   return Math.round(n / magnitud) * magnitud;
 }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
 
 import { SERVICIO } from "@/content/servicio";
 
@@ -69,7 +68,7 @@ export function Certificado({
       doc.setTextColor(...negro);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(12);
-      doc.text("Ya entiendes cómo funciona la minería de Bitcoin. Pruébala con potencia real.", W / 2, 148, {
+      doc.text("Ya entiendes cómo funciona la minería de Bitcoin.", W / 2, 148, {
         align: "center",
       });
 
@@ -101,8 +100,7 @@ export function Certificado({
     <div className="border-t border-border pt-5 text-[16px]">
       <p className="etiqueta">Test superado.</p>
       <p className="mt-2">
-        Descarga tu certificado. Y si quieres probar con potencia real, apúntate a la{" "}
-        <Link to="/minar" className="underline">lista de espera</Link> y te avisaremos cuando abramos la venta.
+        Descarga tu certificado en PDF.
       </p>
       <label htmlFor="cert-nombre" className="index-label mt-5 block">
         Nombre en el certificado (opcional)

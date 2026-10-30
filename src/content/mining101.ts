@@ -559,8 +559,8 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Cómo funciona",
         parrafos: [
-          `Eliges la potencia y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos (salvo en modo Pool propio, si quieres elegir tú el pool).`,
-          `${SERVICIO.marca} lanza la potencia a un pool. El pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
+          `Eliges la potencia y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos.`,
+          `${SERVICIO.marca} lanza la potencia a un pool. En modo Compartido, el pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}. En Solitario, solo recibes si tu potencia encuentra un bloque.`,
           `Ten en cuenta que ${SERVICIO.variacionPotencia}.`,
           ...pagos,
         ],

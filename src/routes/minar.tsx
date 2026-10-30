@@ -19,7 +19,7 @@ import {
   maquinasDe,
   precioPedido,
   satsAprox,
-  unoEntreBloque12h,
+  unoEntreBloque,
   type ModoId,
   type ProductoId,
 } from "@/lib/catalogo";
@@ -47,24 +47,26 @@ export const Route = createFileRoute("/minar")({
 
 const MODOS: { id: ModoId; nombre: string }[] = [
   { id: "estable", nombre: "Compartido" },
-  { id: "mixto", nombre: "Combinado" },
-  { id: "solitario", nombre: "Pool propio" },
+  { id: "solitario", nombre: "Solitario" },
+  { id: "mixto", nombre: "Híbrido" },
 ];
 
 function textoModo(modo: ModoId): string {
   if (modo === "estable")
     return "Cobras cada día por el trabajo entregado, en cantidades pequeñas.";
   if (modo === "solitario")
-    return "Para quien ya sabe de minería: tú pones el pool donde quieres que trabaje la potencia. Mismo precio que el Compartido. Lo que recibas depende del pool que elijas, así que no damos estimación.";
-  return `12 h en modo Compartido y 12 h en solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
+    return "Tu potencia mina sola durante 24 horas. Lo normal es no recibir nada; muy de vez en cuando se encuentra un bloque entero, que va directo a tu wallet. Mismo precio que el Compartido.";
+  return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
 }
 
 function textoSats(th: number, modo: ModoId): string | null {
+  if (modo === "solitario")
+    return `Lo normal es nada. Si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
   const s = satsAprox(th, modo);
   if (s === null) return null;
   const sats = formatearEntero(s);
   if (modo === "mixto")
-    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada: 1 entre ${formatearEntero(unoEntreBloque12h(th))}.`;
+    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en Solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}.`;
   return `Unos ${sats} sats aproximados`;
 }
 
@@ -453,9 +455,8 @@ function Minar() {
         <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
           No es un producto financiero ni una inversión: compras potencia de minería real durante
           24 horas. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En las
-          horas en solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
-          recibirías la recompensa completa, y la probabilidad es muy baja. En Pool propio depende de
-          tu pool. Ningún resultado está garantizado. Si en algún momento llega menos potencia, la
+          horas en Solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
+          recibirías la recompensa completa, y la probabilidad es muy baja. Ningún resultado está garantizado. Si en algún momento llega menos potencia, la
           sesión se alarga hasta entregar toda la contratada.{" "}
           <Link to="/simulador" className="underline underline-offset-4">
             Pruébalo antes en el simulador
@@ -500,9 +501,10 @@ function Minar() {
             Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
           </Pregunta>
           <Pregunta titulo="¿Qué modo elijo?">
-            Compartido, si quieres recibir sats cada día por el trabajo entregado. Combinado reparte las 24
-            horas entre el modo Compartido y el solitario. Pool propio, si ya sabes de minería y quieres
-            elegir tú el pool donde trabaja la potencia.
+            Compartido, si quieres recibir sats cada día por el trabajo entregado. Solitario, si
+            prefieres que tu potencia mine sola: lo normal es no recibir nada, pero si encuentra un
+            bloque entero, va directo a tu wallet. Híbrido reparte las 24 horas: 12 en Compartido y 12
+            en Solitario.
           </Pregunta>
           <Pregunta titulo="¿Qué necesito?">
             Una wallet de Bitcoin para recibir. Te guiamos paso a paso para configurarla; del resto
