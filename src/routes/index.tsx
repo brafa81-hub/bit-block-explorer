@@ -68,7 +68,7 @@ function Inicio() {
       {/* 001 / portada */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-14 sm:px-8 sm:pt-24">
         <div className="index-label">001 / BLOQUE170.COM</div>
-        <p className="mt-3 text-[15px] text-primary">{SERVICIO.lema}</p>
+        <p className="mt-3 text-[19px] text-primary">{SERVICIO.lema}</p>
         <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">
           Potencia de minería durante 24 horas.
         </h1>
