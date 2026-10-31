@@ -95,12 +95,12 @@ function Inicio() {
         </h2>
         <Link to="/minar" hash="potencia" className="mt-6 block border-2 border-primary p-6 hover:border-foreground">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="text-xl">Elige tu potencia y tu modo</h3>
+            <h3 className="text-xl">Elige tu potencia</h3>
             <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
               PRÓXIMAMENTE
             </span>
           </div>
-          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas · Compartido, Solitario o Híbrido</p>
+          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas</p>
           <div className="mt-4 h-1 w-full bg-border" aria-hidden="true">
             <div className="h-1 w-3/4 bg-primary" />
           </div>
