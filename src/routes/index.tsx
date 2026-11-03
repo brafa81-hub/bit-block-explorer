@@ -33,7 +33,7 @@ const botonSecundario =
 const PASOS = [
   {
     titulo: "Eliges tu potencia",
-    texto: "Eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas.",
+    texto: "De 250 TH/s a 1 PH/s. Con más potencia haces más intentos en la red, y cada TH/s sale más barato.",
   },
   {
     titulo: "Eliges tu modo",
@@ -60,7 +60,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Los sats que genere van directos a tu wallet; la cantidad depende del modo y de la red.",
+    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que genere depende del modo y de la red.",
   },
 ];
 
@@ -75,8 +75,8 @@ function Inicio() {
           Potencia de minería durante 24 horas.
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
-          Eliges la potencia y el modo de minado, indicas tu wallet y durante 24 horas mina en la red real de Bitcoin.
-          Lo que se genere va directo a tu wallet, sin pasar por nosotros.
+          Eliges la potencia y el modo, indicas tu wallet y tu potencia mina en la red real de Bitcoin.
+          Lo que genere va directo a ti, sin pasar por nosotros.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/minar" className={botonPrimario}>
@@ -123,7 +123,7 @@ function Inicio() {
         </p>
         <p className="mt-3 text-[17px] text-muted-foreground">
           Ese día Bitcoin empezó a moverse entre personas. <span className="font-medium text-primary">Nosotros llevamos la minería profesional
-          a las personas.</span> Tú eliges cómo usar la potencia; el resultado depende del modo y de lo que ocurra en la red.
+          a las personas.</span> Tú eliges cuánta potencia y cómo usarla.
         </p>
       </section>
 
