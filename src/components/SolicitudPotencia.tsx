@@ -50,7 +50,7 @@ export function SolicitudPotencia() {
             <input id="solicitud-fecha" type="date" required value={fecha} onChange={e => setFecha(e.target.value)} className="hash-text mt-2 min-h-[44px] w-full min-w-0 border border-border bg-transparent px-3" /></div>
           <div><label htmlFor="solicitud-email" className="text-[13px]">{texto.email}</label>
             <input id="solicitud-email" type="email" maxLength={254} required autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-2 min-h-[44px] w-full border border-border bg-transparent px-3" /></div>
-          <label className="flex items-start gap-3 text-[13px]"><input type="checkbox" checked={acepta} onChange={e => setAcepta(e.target.checked)} className="mt-1 accent-current" /><span>{texto.consentimiento}{" "}<Link to="/privacidad" className="text-primary underline">Privacidad</Link></span></label>
+          <label className="flex items-start gap-3 text-[13px]"><input type="checkbox" checked={acepta} onChange={e => setAcepta(e.target.checked)} className="mt-1 accent-current" /><span>{texto.consentimiento}{" "}<Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-primary underline">Privacidad</Link></span></label>
           {error && <p role="alert" className="text-[13px]">{texto.error}</p>}
           <Button type="submit" disabled={!datos.success || !acepta || estado === "enviando"} className="min-h-[44px] rounded-none shadow-none">{estado === "enviando" ? texto.enviando : texto.enviar}</Button>
         </form>}

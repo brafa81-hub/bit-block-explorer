@@ -299,8 +299,9 @@ function SimuladorMineria() {
                 En la red real se exigen muchísimos más ceros, y todas las máquinas del mundo
                 compiten por el mismo bloque. Se puede minar en solitario, pero encontrar un bloque
                 así es muy poco probable. Por eso la mayoría de mineros se une a un pool, que cuenta
-                sus shares y les paga en proporción. Es exactamente como trabaja la potencia que
-                compras.
+                sus shares y les paga en proporción. Así trabaja la potencia en modo Compartido. En
+                Solitario, tu potencia busca el bloque entero por su cuenta, y en Híbrido hace las
+                dos cosas: 12 horas de cada.
               </p>
               <a
                 href="#escala-real"

@@ -326,7 +326,7 @@ function AvisoComprar({
               />
               <span>
                 Acepto que guardéis mi email y mis respuestas para avisarme de la apertura.{" "}
-                <Link to="/privacidad" className="text-primary underline underline-offset-4">
+                <Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">
                   Privacidad
                 </Link>
               </span>
@@ -538,12 +538,6 @@ function Minar() {
           <Pregunta titulo="¿Cuándo se puede comprar?">
             Estamos preparando la apertura. Déjanos tu email y te avisamos en cuanto abramos.
           </Pregunta>
-        </div>
-
-        <div className="mt-10 border-t border-border pt-6">
-          <Link to="/simulador" className="text-[15px] text-primary underline underline-offset-4">
-            Volver al simulador
-          </Link>
         </div>
       </section>
 
