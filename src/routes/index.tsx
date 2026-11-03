@@ -56,11 +56,11 @@ const CONFIANZA = [
   {
     titulo: "Sin compromisos ni permanencia",
     texto:
-      "Son 24 horas sueltas, a precio claro. Sin cuotas, sin renovaciones y sin promesas de rentabilidad.",
+      "Un único pago por 24 horas de potencia, a precio claro. Sin cuotas ni suscripciones.",
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que recibes en sats (fracciones de bitcoin: 100 millones de sats son 1 BTC) depende del modo y de la red, y no está garantizado.",
+    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Los sats que genere van directos a tu wallet; la cantidad depende del modo y de la red.",
   },
 ];
 
@@ -133,7 +133,8 @@ function Inicio() {
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
             005 / qué compras y qué recibes
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <h2 className="mt-3 text-2xl sm:text-3xl">Lo que compras, sin letra pequeña</h2>
+          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
             {CONFIANZA.map((c) => (
               <div key={c.titulo}>
                 <p className="text-[17px]">{c.titulo}</p>
