@@ -67,7 +67,7 @@ function textoSats(th: number, modo: ModoId): string | null {
   const sats = formatearEntero(s);
   if (modo === "mixto")
     return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en Solitario, lo normal es no recibir nada (probabilidad aproximada de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}).`;
-  return `Unos ${sats} sats aproximados`;
+  return `Unos ${sats} sats (aprox.)`;
 }
 
 function SelectorModo({
@@ -453,8 +453,8 @@ function Minar() {
         </article>
 
         <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
-          Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En las
-          horas en Solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
+          Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En
+          modo Solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
           recibirías la recompensa completa, y la probabilidad es muy baja. Ningún resultado está garantizado. Si en algún momento llega menos potencia, el
           tiempo se alarga hasta completar la potencia de tu pedido.{" "}
           <Link to="/simulador" className="underline underline-offset-4">

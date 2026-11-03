@@ -53,7 +53,7 @@ const CONFIANZA = [
       "Los pagos van directos a la dirección de tu wallet. No necesitamos tus claves ni tu frase de recuperación, y no guardamos tus bitcoins.",
   },
   {
-    titulo: "Sin contratos ni permanencia",
+    titulo: "Sin compromisos ni permanencia",
     texto:
       "Son 24 horas sueltas, a precio claro. Sin cuotas, sin renovaciones y sin promesas de rentabilidad.",
   },
