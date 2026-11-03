@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as MinarRouteImport } from './routes/minar'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as SimuladorRouteImport } from './routes/simulador'
@@ -23,6 +24,11 @@ import { Route as DiccionarioSlugRouteImport } from './routes/diccionario.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MinarRoute = MinarRouteImport.update({
@@ -73,6 +79,7 @@ const DiccionarioSlugRoute = DiccionarioSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
   '/simulador': typeof SimuladorRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
   '/simulador': typeof SimuladorRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/minar': typeof MinarRoute
   '/privacidad': typeof PrivacidadRoute
   '/simulador': typeof SimuladorRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/aviso-legal'
     | '/minar'
     | '/privacidad'
     | '/simulador'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aviso-legal'
     | '/minar'
     | '/privacidad'
     | '/simulador'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/aviso-legal'
     | '/minar'
     | '/privacidad'
     | '/simulador'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
   MinarRoute: typeof MinarRoute
   PrivacidadRoute: typeof PrivacidadRoute
   SimuladorRoute: typeof SimuladorRoute
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/minar': {
@@ -237,6 +257,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
   MinarRoute: MinarRoute,
   PrivacidadRoute: PrivacidadRoute,
   SimuladorRoute: SimuladorRoute,

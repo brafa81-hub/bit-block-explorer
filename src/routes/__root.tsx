@@ -145,6 +145,15 @@ function RootComponent() {
         <Link to="/minar" className="text-foreground underline underline-offset-4">
           Apúntate a la lista de espera
         </Link>
+        <p className="mt-4 text-[13px] text-muted-foreground">
+          <Link to="/aviso-legal" className="underline underline-offset-4">
+            Aviso legal
+          </Link>
+          {" · "}
+          <Link to="/privacidad" className="underline underline-offset-4">
+            Privacidad
+          </Link>
+        </p>
       </footer>
     </QueryClientProvider>
   );
