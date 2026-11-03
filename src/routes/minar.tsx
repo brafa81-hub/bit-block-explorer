@@ -459,16 +459,22 @@ function Minar() {
           </div>
         </article>
 
-        <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
-          Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En
-          modo Solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
-          recibirías la recompensa completa, y la probabilidad es muy baja. Ningún resultado está garantizado. Si en algún momento llega menos potencia, el
-          tiempo se alarga hasta completar la potencia de tu pedido.{" "}
-          <Link to="/simulador" className="underline underline-offset-4">
-            Pruébalo antes en el simulador
-          </Link>
-          .
-        </p>
+        <div className="mt-8 space-y-3 text-[14px] leading-relaxed text-muted-foreground">
+          <p>
+            <strong className="font-medium text-foreground">Qué obtienes:</strong> potencia de minería durante 24 horas, minando Bitcoin en la red real. Los
+            sats que genere tu potencia son bitcoin recién creado, sin historial previo, y llegan directos a tu wallet, sin pasar por ningún exchange.
+          </p>
+          <p>
+            <strong className="font-medium text-foreground">Lo que debes saber:</strong> no es una inversión. En Compartido, lo normal es recibir en sats
+            menos de lo que pagas. En Solitario se mina a por el bloque entero: lo normal es no recibir nada, pero si tu potencia lo encuentra, la
+            recompensa completa es tuya. Si en algún momento te llega menos potencia de la elegida, alargamos el tiempo hasta compensarlo.
+          </p>
+          <p>
+            <Link to="/simulador" className="underline underline-offset-4">
+              Pruébalo antes en el simulador
+            </Link>
+          </p>
+        </div>
       </section>
 
       {/* 003 / regalos */}
