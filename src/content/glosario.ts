@@ -477,7 +477,7 @@ export const GLOSARIO: TerminoGlosario[] = [
 
   // Compra de hashrate
   {
-    slug: "hashrate-alquilado",
+    slug: "comprar-potencia-de-mineria",
     termino: "Potencia de minería por horas",
     categoria: "Potencia por horas",
     esencial: true,

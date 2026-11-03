@@ -52,7 +52,7 @@ export const SERVICIO = {
   walletRecomendada: null,
   /** Página pública de pagos: todavía no existe. */
   webPublicaPagos: false,
-  variacionPotencia: "la potencia puede variar algo durante la sesión",
+  variacionPotencia: "la potencia puede variar algo durante las 24 horas",
   transparencia: "Lo que recibirás en sats es menor que lo que pagas",
   resultado: "No es una inversión ni garantiza un resultado.",
   /** Certificado del test final. Sin descuento: mismo precio para todos (modelo v9.3.2). */

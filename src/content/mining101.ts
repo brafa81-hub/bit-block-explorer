@@ -544,7 +544,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
   },
   {
-    slug: "alquilar-hashrate",
+    slug: "comprar-potencia-de-mineria",
     titulo: "Potencia de minería por horas",
     pregunta: "¿Se puede participar en la minería real sin montar tu propio equipo?",
     descripcion: `Qué es la potencia de minería por horas, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
@@ -582,7 +582,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, no eliges una máquina concreta: eliges una cantidad de potencia durante un tiempo, que puede salir de varios equipos.",
-    terminos: ["hashrate-alquilado", "pool-de-destino"],
+    terminos: ["comprar-potencia-de-mineria", "pool-de-destino"],
     cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el test.",
     quiz: [
       {
@@ -684,35 +684,35 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     explicacion: `Compras potencia, ${potencia}, durante 24 h. No compras bitcoin ni equipos.`,
   },
   {
-    pregunta: "¿Qué significa 1 PH/s en tu sesión?",
+    pregunta: "¿Qué significa 1 PH/s durante tus 24 horas?",
     opciones: ["La potencia de cálculo que trabaja para ti", "Los sats que recibirás", "Un bitcoin por hora"],
     correcta: 0,
     explicacion: "Es potencia, no una cantidad de bitcoin. Lo que genera esa potencia no es fijo.",
   },
   {
-    pregunta: "Durante la sesión, la potencia…",
-    opciones: ["Es exactamente igual cada segundo", `Es la contratada, aunque ${SERVICIO.variacionPotencia.replace(/^la potencia /, "")}`, "Va aumentando sola"],
+    pregunta: "Durante las 24 horas, la potencia…",
+    opciones: ["Es exactamente igual cada segundo", `Es la que eliges, aunque ${SERVICIO.variacionPotencia.replace(/^la potencia /, "")}`, "Va aumentando sola"],
     correcta: 1,
-    explicacion: `Trabajas con la potencia contratada, pero ${SERVICIO.variacionPotencia}.`,
+    explicacion: `Trabajas con la potencia que eliges, pero ${SERVICIO.variacionPotencia}.`,
   },
   {
     pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
     opciones: ["Mayor", "Igual", "Menor"],
     correcta: 2,
-    explicacion: "Lo normal es recibir en sats menos de lo que pagas (y en modo Solitario, normalmente nada). Lo que obtienes es potencia de minería real durante el tiempo contratado, no un rendimiento.",
+    explicacion: "Lo normal es recibir en sats menos de lo que pagas (y en modo Solitario, normalmente nada). Lo que obtienes es potencia de minería real durante las 24 horas, no un rendimiento.",
   },
   {
     pregunta: "¿Es una inversión?",
     opciones: [
       "Sí, con rentabilidad asegurada",
       "No: es un servicio de potencia de minería sin resultado garantizado",
-      "Solo si eliges la sesión más larga",
+      "Solo si eliges más potencia",
     ],
     correcta: 1,
     explicacion: SERVICIO.resultado,
   },
   {
-    pregunta: "¿Quién guarda los bitcoin que genera tu sesión?",
+    pregunta: "¿Quién guarda los bitcoin que genera tu potencia?",
     opciones: [`${SERVICIO.marca}, en una cuenta interna`, "Tú, en tu propia wallet", "Nadie hasta que los reclames"],
     correcta: 1,
     explicacion: `Solo nos das tu dirección. ${SERVICIO.marca} nunca pide tu frase de recuperación ni guarda tus fondos.`,
