@@ -59,7 +59,7 @@ const MODOS: { id: ModoId; nombre: string }[] = [
 
 function textoModo(modo: ModoId): string {
   if (modo === "estable")
-    return "Recibes cada día pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.";
+    return "Recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.";
   if (modo === "solitario")
     return "Tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
   return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
@@ -341,7 +341,7 @@ function AvisoComprar({
                 disabled={!valido || estado === "enviando"}
                 className="min-h-[44px] rounded-none bg-primary px-5 text-[15px] text-primary-foreground shadow-none disabled:opacity-40"
               >
-                {estado === "enviando" ? "Enviando" : seleccion?.producto === "regalos" ? REGALOS.boton : "Avisadme"}
+                {estado === "enviando" ? "Enviando" : "Avisadme"}
               </Button>
               <p className="text-[12px] text-muted-foreground">Sin pagos ni datos de tarjeta.</p>
             </div>
@@ -384,8 +384,8 @@ function Minar() {
         <div className="index-label">001 / minar</div>
         <h1 className="mt-3 text-3xl sm:text-4xl">Minería de Bitcoin a tu medida</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
-          Eliges la potencia y el modo, indicas tu wallet y durante 24 horas mina en la red real de
-          Bitcoin. Un único pago, sin renovaciones.
+          Eliges la potencia y el modo, indicas tu wallet y tu potencia mina durante 24 horas en la
+          red real de Bitcoin. Un único pago, sin renovaciones.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
           Todavía no se puede comprar: déjanos tu email y te avisamos en cuanto abramos.
@@ -428,7 +428,6 @@ function Minar() {
             </div>
           </div>
 
-          <SolicitudPotencia />
           <SelectorModo modo={modo} onCambio={cambiarModo} />
 
           <div className="pt-4">
@@ -456,6 +455,7 @@ function Minar() {
             >
               Apuntarme a la lista de espera
             </button>
+            <SolicitudPotencia />
           </div>
         </article>
 
@@ -471,7 +471,7 @@ function Minar() {
           </p>
           <p>
             <Link to="/simulador" className="underline underline-offset-4">
-              Pruébalo antes en el simulador
+              Mira cómo se mina un bloque en el simulador
             </Link>
           </p>
         </div>
@@ -517,7 +517,7 @@ function Minar() {
             recibes lo que genera tu potencia.
           </Pregunta>
           <Pregunta titulo="¿Qué modo elijo?">
-            Compartido, si quieres recibir sats cada día por el trabajo entregado. Solitario, si
+            Compartido, si quieres recibir sats por el trabajo que hace tu potencia. Solitario, si
             prefieres que tu potencia mine sola: lo normal es no recibir nada, pero si encuentra un
             bloque entero, va directo a tu wallet. Híbrido reparte las 24 horas: 12 en Compartido y 12
             en Solitario.
@@ -532,8 +532,10 @@ function Minar() {
             nos encargamos nosotros.
           </Pregunta>
           <Pregunta titulo="¿Se puede regalar?">
-            Sí. Cuando te apuntes, indica que es para regalar y te avisaremos de cómo hacerlo al
-            abrir.
+            Sí, con códigos regalo: uno por persona, y cada uno lo activa con su propia wallet.{" "}
+            <Link to="/minar" hash="regalos" className="text-primary underline underline-offset-4">
+              Ver regalos
+            </Link>
           </Pregunta>
           <Pregunta titulo="¿Cuándo se puede comprar?">
             Estamos preparando la apertura. Déjanos tu email y te avisamos en cuanto abramos.

@@ -7,7 +7,7 @@ export const REGALOS = {
     "Para equipos, clientes o eventos.",
     "Factura a nombre de la empresa si la necesitas.",
   ],
-  boton: "Apúntate",
+  boton: "Apuntarme a la lista de espera",
 } as const;
 
 export const SOLICITUD_POTENCIA = {
