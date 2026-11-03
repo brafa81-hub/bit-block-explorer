@@ -290,7 +290,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Cuánto es 1 PH/s",
         parrafos: [
           "1 PH/s son 1.000 TH/s: la potencia de unas cinco máquinas modernas trabajando a la vez.",
-          "Es mucho más de lo que nadie puede tener en casa, pero una parte muy pequeña de toda la red, que suma cientos de miles de PH/s.",
+          "Es mucho más de lo que nadie puede tener en casa, pero una parte muy pequeña de toda la red, que suma alrededor de un millón de PH/s.",
         ],
       },
     ],
@@ -658,7 +658,7 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     pregunta: "¿Cuántos TH/s hay en 1 PH/s?",
     opciones: ["100", "1.000", "1.000.000"],
     correcta: 1,
-    explicacion: "1 PH/s son 1.000 TH/s: la potencia de varias decenas de máquinas profesionales.",
+    explicacion: "1 PH/s son 1.000 TH/s: la potencia de unas cinco máquinas modernas.",
   },
   {
     pregunta: "Si entran muchas máquinas nuevas en la red, la dificultad…",
