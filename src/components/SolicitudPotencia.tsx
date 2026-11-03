@@ -35,9 +35,9 @@ export function SolicitudPotencia() {
   }
 
   return <>
-    <p className="mt-3 text-[12px] text-muted-foreground">
+    <p className="mt-4 text-[15px] text-muted-foreground">
       {texto.pregunta}{" "}
-      <Button variant="link" className="h-auto rounded-none p-0 text-[12px]" onClick={() => { setEstado("listo"); setError(false); setAbierto(true); }}>{texto.enlace}</Button>
+      <Button variant="link" className="h-auto rounded-none p-0 text-[15px] font-semibold text-primary underline underline-offset-4" onClick={() => { setEstado("listo"); setError(false); setAbierto(true); }}>{texto.enlace}</Button>
     </p>
     <Dialog open={abierto} onOpenChange={setAbierto}>
       <DialogContent className="max-h-[90dvh] w-[calc(100%-32px)] overflow-y-auto rounded-none border-border p-6">
