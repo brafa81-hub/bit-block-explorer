@@ -148,13 +148,13 @@ function Inicio() {
       {/* 006 / aprende */}
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div className="index-label">006 / antes de empezar</div>
-        <h2 className="mt-3 text-2xl sm:text-3xl">Entiende lo que haces</h2>
+        <h2 className="mt-3 text-2xl sm:text-3xl">Entiende la minería antes de empezar</h2>
         <ul className="mt-6">
           <li className="border-t border-border">
             <Link to="/simulador" className="block py-5 hover:opacity-80">
               <span className="block text-xl">Simulador</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">
-                Simula en tu navegador cómo se mina un bloque y mira la prueba de trabajo en directo.
+                Mira en tu navegador cómo se mina un bloque de Bitcoin, paso a paso y en directo.
               </span>
             </Link>
           </li>
