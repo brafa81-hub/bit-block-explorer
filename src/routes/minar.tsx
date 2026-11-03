@@ -67,13 +67,13 @@ function textoModo(modo: ModoId): string {
 
 function textoSats(th: number, modo: ModoId): string | null {
   if (modo === "solitario")
-    return `Lo normal es no recibir nada. Probabilidad aproximada de encontrar un bloque en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
+    return `Lo normal es no recibir nada. Probabilidad de encontrar un bloque en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
   const s = satsAprox(th, modo);
   if (s === null) return null;
   const sats = formatearEntero(s);
   if (modo === "mixto")
-    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en Solitario, lo normal es no recibir nada (probabilidad aproximada de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}).`;
-  return `Unos ${sats} sats (aprox.)`;
+    return `Compartido (12 h): unos ${sats} sats. Solitario (12 h): lo normal es no recibir nada. Probabilidad de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}.`;
+  return `Unos ${sats} sats`;
 }
 
 function SelectorModo({
