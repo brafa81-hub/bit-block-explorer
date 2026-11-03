@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { GLOSARIO } from "@/content/glosario";
 import { CAPITULOS } from "@/content/mining101";
 import { SERVICIO, urlPublica } from "@/content/servicio";
-import { DESDE_EUROS_APROX } from "@/lib/catalogo";
+import { useState } from "react";
+import { MAX_TH, MIN_TH, PASO_TH, formatearEntero, formatearEuros, precioPedido } from "@/lib/catalogo";
 
 const URL = urlPublica("/");
 const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin durante 24 horas`;
@@ -93,20 +94,7 @@ function Inicio() {
         <h2 className="mt-3 text-2xl sm:text-3xl">
           Potencia profesional, al alcance de cualquiera
         </h2>
-        <Link to="/minar" hash="potencia" className="mt-6 block border-2 border-primary p-6 hover:border-foreground">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="text-xl">Elige tu potencia</h3>
-            <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
-              PRÓXIMAMENTE
-            </span>
-          </div>
-          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas</p>
-          <div className="mt-4 h-1 w-full bg-border" aria-hidden="true">
-            <div className="h-1 w-3/4 bg-primary" />
-          </div>
-          <p className="mt-4 text-[17px]">Desde unos {DESDE_EUROS_APROX}, IVA incluido</p>
-          <span className={`${botonPrimario} mt-5`}>Ver potencia</span>
-        </Link>
+        <TarjetaPotencia />
       </section>
 
       {/* 003 / cómo funciona */}
@@ -204,5 +192,45 @@ function Inicio() {
         </div>
       </section>
     </main>
+  );
+}
+
+/* Tarjeta 002: elige la potencia aquí y continúa en /minar con ella ya puesta. */
+function TarjetaPotencia() {
+  const [th, setTh] = useState<number>(MIN_TH);
+  return (
+    <div className="mt-6 border-2 border-primary p-6">
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-xl">Elige tu potencia</h3>
+        <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
+          PRÓXIMAMENTE
+        </span>
+      </div>
+      <p className="hash-text mt-2 text-[13px] text-muted-foreground">
+        <span className="text-foreground">{formatearEntero(th)} TH/s</span> durante 24 horas
+      </p>
+      <label htmlFor="portada-th" className="sr-only">
+        Potencia (TH/s)
+      </label>
+      <input
+        id="portada-th"
+        type="range"
+        min={MIN_TH}
+        max={MAX_TH}
+        step={PASO_TH}
+        value={th}
+        onChange={(e) => setTh(Number(e.target.value))}
+        className="mt-4 w-full accent-[var(--primary)]"
+      />
+      <div className="hash-text mt-1 flex justify-between text-[12px] text-muted-foreground">
+        <span>{formatearEntero(MIN_TH)} TH/s</span>
+        <span>1 PH/s</span>
+      </div>
+      <p className="hash-text mt-4 text-2xl">{formatearEuros(precioPedido(th, "estable"))}</p>
+      <p className="mt-1 text-[13px] text-muted-foreground">Precio orientativo, IVA incluido.</p>
+      <Link to="/minar" search={{ th }} hash="potencia" className={`${botonPrimario} mt-5`}>
+        Continuar con {formatearEntero(th)} TH/s
+      </Link>
+    </div>
   );
 }

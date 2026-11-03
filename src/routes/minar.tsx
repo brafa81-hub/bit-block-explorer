@@ -40,6 +40,12 @@ export const Route = createFileRoute("/minar")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (search: Record<string, unknown>): { th?: number } => {
+    const n = Number(search["th"]);
+    if (!Number.isFinite(n)) return {};
+    const th = Math.min(MAX_TH, Math.max(MIN_TH, Math.round(n / PASO_TH) * PASO_TH));
+    return { th };
+  },
   component: Minar,
 });
 
@@ -349,7 +355,8 @@ function AvisoComprar({
 /* ───────────── Página ───────────── */
 
 function Minar() {
-  const [th, setTh] = useState<number>(MIN_TH);
+  const { th: thInicial } = Route.useSearch();
+  const [th, setTh] = useState<number>(thInicial ?? MIN_TH);
   const [modo, setModo] = useState<ModoId>("estable");
   const [seleccion, setSeleccion] = useState<Seleccion | null>(null);
 
