@@ -169,7 +169,7 @@ export function DibujoPool() {
 }
 
 /** 10 · Comprar potencia de minería (modo Compartido, sin cifras) */
-export function DibujoCompra({ marca }: { marca: string }) {
+export function DibujoCompra({ marca, solitario = false }: { marca: string; solitario?: boolean }) {
   const pasos: { y: number; alto: number; lineas: string[] }[] = [
     { y: 26, alto: 56, lineas: ["Tú eliges la potencia", "y das tu wallet (cartera digital)."] },
     { y: 96, alto: 72, lineas: [`${marca} compra la potencia`, "durante 24 horas y la envía", "a un pool (grupo de mineros)."] },
@@ -178,9 +178,9 @@ export function DibujoCompra({ marca }: { marca: string }) {
   return (
     <Lienzo
       id="dib-compra"
-      alto={350}
+      alto={solitario ? 392 : 350}
       titulo="Quién hace qué en tus 24 horas"
-      desc={`En modo Compartido: tú eliges la potencia y das tu wallet; ${marca} compra esa potencia durante 24 horas y la envía a un pool; el pool paga en sats directamente a tu wallet. Los sats no pasan por ${marca}. Lo normal es recibir en sats menos de lo que pagas.`}
+      desc={`En modo Compartido: tú eliges la potencia y das tu wallet; ${marca} compra esa potencia durante 24 horas y la envía a un pool; el pool paga en sats directamente a tu wallet. Los sats no pasan por ${marca}. Lo normal es recibir en sats menos de lo que pagas.${solitario ? " En Solitario, lo normal es no recibir nada." : ""}`}
     >
       <text x="160" y="17" textAnchor="middle" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={SUAVE}>MODO COMPARTIDO</text>
       {pasos.map((p, k) => {
@@ -200,14 +200,137 @@ export function DibujoCompra({ marca }: { marca: string }) {
       <text x="160" y="301" textAnchor="middle" fontSize="12.5" fontWeight="500">van directos a ti.</text>
       <text x="160" y="326" textAnchor="middle" fontSize="11.5" fill={SUAVE}>Lo normal es recibir en sats</text>
       <text x="160" y="342" textAnchor="middle" fontSize="11.5" fill={SUAVE}>menos de lo que pagas.</text>
+      {solitario && (
+        <>
+          <line x1="18" y1="358" x2="302" y2="358" {...linea} strokeOpacity={0.4} strokeDasharray="2 3" />
+          <text x="160" y="381" textAnchor="middle" fontSize="12">En Solitario, lo normal es no recibir nada.</text>
+        </>
+      )}
+    </Lienzo>
+  );
+}
+
+/** 1 · Cada bloque apunta al anterior */
+export function DibujoCadena() {
+  const xs = [16, 92, 168, 244];
+  const fila = (y: number, cambiado: boolean) =>
+    xs.map((x, k) => {
+      const roto = cambiado && k >= 2;
+      const acento = cambiado && k === 1;
+      const etiqueta = !cambiado || k === 0 ? "bloque" : acento ? "cambiado" : "rehacer";
+      return (
+        <g key={k}>
+          <rect
+            x={x} y={y} width="56" height="44" rx="3" fill="none"
+            stroke={acento ? ACENTO : "currentColor"} strokeWidth={acento ? 1.4 : 1}
+            strokeDasharray={roto ? "3 3" : undefined} strokeOpacity={roto ? 0.7 : 1}
+          />
+          <text x={x + 28} y={y + 18} textAnchor="middle" fontSize={acento ? 10.5 : 11} fill={acento ? ACENTO : SUAVE}>{etiqueta}</text>
+          <text x={x + 28} y={y + 35} textAnchor="middle" fontFamily={MONO} fontSize="13" fill={acento ? ACENTO : undefined}>{k + 1}</text>
+          {k > 0 &&
+            (roto ? (
+              <line x1={x} y1={y + 22} x2={x - 20} y2={y + 22} {...linea} strokeDasharray="2 3" strokeOpacity={0.7} />
+            ) : (
+              <Flecha x1={x} y1={y + 22} x2={x - 20} y2={y + 22} />
+            ))}
+        </g>
+      );
+    });
+  return (
+    <Lienzo
+      id="dib-cadena"
+      alto={262}
+      titulo="Cada bloque apunta al anterior"
+      desc="Cuatro bloques en fila; cada uno apunta al anterior y juntos forman una cadena. Si alguien cambia el bloque 2, el 3 y el 4 dejan de encajar: para cambiar uno habría que rehacer todos los siguientes."
+    >
+      <text x="160" y="17" textAnchor="middle" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={SUAVE}>CADA BLOQUE APUNTA AL ANTERIOR</text>
+      {fila(32, false)}
+      <text x="160" y="96" textAnchor="middle" fontSize="11.5">Juntos forman una cadena.</text>
+      <line x1="16" y1="114" x2="304" y2="114" {...linea} strokeOpacity={0.4} strokeDasharray="2 3" />
+      <text x="160" y="136" textAnchor="middle" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={SUAVE}>SI ALGUIEN CAMBIA EL BLOQUE 2</text>
+      {fila(150, true)}
+      <text x="160" y="226" textAnchor="middle" fontSize="12.5" fontWeight="500">Para cambiar uno, habría que rehacer</text>
+      <text x="160" y="243" textAnchor="middle" fontSize="12.5" fontWeight="500">todos los siguientes.</text>
+    </Lienzo>
+  );
+}
+
+/** 3 · El termostato: la dificultad devuelve el ritmo a unos 10 minutos (sin ceros ni hashes) */
+export function DibujoTermostato() {
+  return (
+    <Lienzo
+      id="dib-termostato"
+      alto={236}
+      titulo="El termostato de Bitcoin"
+      desc="Una barra del tiempo entre bloques, con unos 10 minutos en el centro. Si los bloques salen más rápido, la dificultad sube; si salen más lento, baja. En los dos casos el ritmo vuelve a unos 10 minutos. La red lo revisa cada 2016 bloques, unas dos semanas."
+    >
+      <text x="160" y="17" textAnchor="middle" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={SUAVE}>TIEMPO ENTRE BLOQUES</text>
+      <text x="160" y="46" textAnchor="middle" fontFamily={MONO} fontSize="12" fill={ACENTO}>≈ 10 min</text>
+      <g {...linea}>
+        <line x1="24" y1="66" x2="296" y2="66" />
+        <line x1="24" y1="60" x2="24" y2="72" />
+        <line x1="296" y1="60" x2="296" y2="72" />
+      </g>
+      <line x1="160" y1="54" x2="160" y2="78" stroke={ACENTO} strokeWidth="1.4" />
+      <text x="24" y="92" fontSize="11.5">más rápido</text>
+      <text x="296" y="92" textAnchor="end" fontSize="11.5">más lento</text>
+      <Flecha x1={40} y1={112} x2={148} y2={112} />
+      <Flecha x1={280} y1={112} x2={172} y2={112} />
+      <text x="88" y="136" textAnchor="middle" fontSize="11.5" fill={SUAVE}>Si van más rápido,</text>
+      <text x="88" y="153" textAnchor="middle" fontSize="12.5" fontWeight="500">sube la dificultad</text>
+      <text x="232" y="136" textAnchor="middle" fontSize="11.5" fill={SUAVE}>Si van más lento,</text>
+      <text x="232" y="153" textAnchor="middle" fontSize="12.5" fontWeight="500">baja la dificultad</text>
+      <text x="160" y="186" textAnchor="middle" fontSize="12.5" fontWeight="500">El ritmo vuelve a unos 10 minutos.</text>
+      <text x="160" y="210" textAnchor="middle" fontSize="11" fill={SUAVE}>
+        La red lo revisa cada <tspan fontFamily={MONO}>2016</tspan> bloques,
+      </text>
+      <text x="160" y="225" textAnchor="middle" fontSize="11" fill={SUAVE}>unas dos semanas.</text>
+    </Lienzo>
+  );
+}
+
+/** 9 · Qué compartes y qué nunca */
+export function DibujoWallet() {
+  const huecos = [0, 1, 2, 3, 4, 5];
+  return (
+    <Lienzo
+      id="dib-wallet"
+      alto={300}
+      titulo="Qué compartes y qué nunca"
+      desc="La dirección se puede compartir: es como tu número de cuenta y sirve para que te envíen bitcoins. La frase de recuperación y la clave privada nunca se comparten: quien las tiene controla tus fondos. Nadie legítimo te las pedirá."
+    >
+      <rect x="18" y="12" width="284" height="92" rx="3" fill="none" stroke={ACENTO} strokeWidth="1.2" />
+      <text x="34" y="34" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={ACENTO}>PUEDES COMPARTIR</text>
+      <text x="34" y="56" fontSize="13" fontWeight="500">Tu dirección</text>
+      <text x="34" y="74" fontSize="11.5">Como tu número de cuenta:</text>
+      <text x="34" y="90" fontSize="11.5">sirve para que te envíen bitcoins.</text>
+      <rect x="18" y="118" width="284" height="140" rx="3" {...linea} />
+      <text x="34" y="140" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={SUAVE}>NUNCA COMPARTES</text>
+      <text x="34" y="162" fontSize="13" fontWeight="500">Frase de recuperación y clave privada</text>
+      {huecos.map((k) => {
+        const x = 34 + (k % 3) * 88;
+        const y = 186 + Math.floor(k / 3) * 20;
+        return (
+          <g key={k}>
+            <text x={x} y={y} fontFamily={MONO} fontSize="10.5" fill={SUAVE}>{k + 1}</text>
+            <line x1={x + 12} y1={y} x2={x + 72} y2={y} {...linea} strokeOpacity={0.5} />
+          </g>
+        );
+      })}
+      <text x="34" y="222" fontSize="11" fill={SUAVE}>… y el resto de palabras</text>
+      <text x="34" y="244" fontSize="11.5">Quien las tiene controla tus fondos.</text>
+      <text x="160" y="284" textAnchor="middle" fontSize="12.5" fontWeight="500">Nadie legítimo te las pedirá.</text>
     </Lienzo>
   );
 }
 
 /** Dónde va cada dibujo: slug del capítulo → título de la sección tras la que aparece. */
 export const DIBUJOS: Record<string, { trasSeccion: string; Dibujo: ComponentType<{ marca: string }> }> = {
+  "que-es-minar": { trasSeccion: "Escribir cuesta trabajo", Dibujo: DibujoCadena },
   "dentro-de-un-bloque": { trasSeccion: "Qué lleva un bloque", Dibujo: DibujoBloque },
   "hash-y-prueba-de-trabajo": { trasSeccion: "La huella dactilar de los datos", Dibujo: DibujoHash },
+  "hashrate-y-dificultad": { trasSeccion: "El termostato de Bitcoin", Dibujo: DibujoTermostato },
   "pools-y-pagos-proporcionales": { trasSeccion: "Pagos proporcionales", Dibujo: DibujoPool },
+  "tu-primera-wallet": { trasSeccion: "Pasos generales", Dibujo: DibujoWallet },
   "comprar-potencia-de-mineria": { trasSeccion: "Cómo funciona", Dibujo: DibujoCompra },
 };

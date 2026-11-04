@@ -6,6 +6,7 @@ import { SERVICIO, urlPublica } from "@/content/servicio";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SolicitudPotencia } from "@/components/SolicitudPotencia";
+import { DibujoCompra } from "@/components/Dibujos";
 import { REGALOS } from "@/content/minar";
 import { emailSolicitud, interesRegalos } from "@/lib/solicitudes";
 import {
@@ -469,6 +470,7 @@ function Minar() {
             menos de lo que pagas. En Solitario se mina a por el bloque entero: lo normal es no recibir nada, pero si tu potencia lo encuentra, la
             recompensa completa es tuya. Si en algún momento te llega menos potencia de la elegida, alargamos el tiempo hasta compensarlo.
           </p>
+          <DibujoCompra marca={SERVICIO.marca} solitario />
           <p>
             <Link to="/simulador" className="underline underline-offset-4">
               Mira cómo se mina un bloque en el simulador
