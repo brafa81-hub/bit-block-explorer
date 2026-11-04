@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           cantidad: number | null
           created_at: string
+          detalle: string | null
           id: string
           modo: string | null
           producto: string | null
@@ -32,6 +33,7 @@ export type Database = {
         Insert: {
           cantidad?: number | null
           created_at?: string
+          detalle?: string | null
           id?: string
           modo?: string | null
           producto?: string | null
@@ -46,6 +48,7 @@ export type Database = {
         Update: {
           cantidad?: number | null
           created_at?: string
+          detalle?: string | null
           id?: string
           modo?: string | null
           producto?: string | null
