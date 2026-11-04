@@ -7,13 +7,13 @@ export const Route = createFileRoute("/privacidad")({
       {
         name: "description",
         content:
-          "Cómo tratamos tu email cuando te apuntas al aviso de apertura de la venta de potencia de minería.",
+          "Cómo tratamos tus datos cuando usas la web y te apuntas al aviso de apertura de la venta de potencia de minería.",
       },
       { property: "og:title", content: "Privacidad" },
       {
         property: "og:description",
         content:
-          "Cómo tratamos tu email cuando te apuntas al aviso de apertura de la venta de potencia de minería.",
+          "Cómo tratamos tus datos cuando usas la web y te apuntas al aviso de apertura de la venta de potencia de minería.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,19 +39,28 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Qué guardamos</h2>
           <p className="mt-2 text-muted-foreground">
-            Tu email, el producto y el modo que te interesan, si es para ti o para regalar, para
-            cuándo lo querrías y, si escribes desde una empresa, la potencia que nos indicas, junto
-            con la fecha en que nos lo envías y la web o campaña desde la que llegaste. Además
-            contamos de forma anónima las visitas y los clics en la página de compra, sin cookies ni
-            datos que te identifiquen.
+            Tu email (también si lo dejas al aprobar el test de Aprende), el producto y el modo que
+            te interesan, si es para ti o para regalar, para cuándo lo querrías y, si escribes desde
+            una empresa, la potencia que nos indicas, junto con la fecha en que nos lo envías y la
+            web o campaña desde la que llegaste. Además contamos de forma anónima las visitas y los
+            clics en la web, los capítulos de Aprende que se abren y el resultado del test, sin
+            cookies ni datos que te identifiquen.
           </p>
         </section>
 
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Para qué</h2>
           <p className="mt-2 text-muted-foreground">
-            Solo para avisarte de la apertura y responderte si nos consultas por un pedido. No lo
-            usamos para nada más ni se lo cedemos a terceros.
+            Solo para avisarte de la apertura, responderte si nos consultas por un pedido y saber
+            qué partes de la web se usan. No lo usamos para nada más ni se lo cedemos a terceros.
+          </p>
+        </section>
+
+        <section className="border-t border-border pt-6">
+          <h2 className="text-xl">Servicios de terceros</h2>
+          <p className="mt-2 text-muted-foreground">
+            El simulador consulta mempool.space para mostrar la potencia de la red en directo. Al
+            hacerlo, mempool.space puede ver tu dirección IP. No les enviamos ningún otro dato.
           </p>
         </section>
 
