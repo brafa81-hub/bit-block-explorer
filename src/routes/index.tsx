@@ -60,7 +60,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. No es una inversión: lo normal es recibir menos de lo que pagas. Lo que genere depende del modo y de la red.",
+    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que genere depende del modo y de la red.",
   },
 ];
 
