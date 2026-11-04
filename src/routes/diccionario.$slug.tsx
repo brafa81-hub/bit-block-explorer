@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
-import { getTermino, idx, indiceDe } from "@/content/glosario";
+import { getTermino, idx, indiceDe, pasoDeRuta, RUTA } from "@/content/glosario";
 import { capituloDeTermino } from "@/content/mining101";
 
 const BASE = "https://bloque170.com/diccionario";
@@ -116,6 +116,8 @@ function Ficha() {
         </section>
       )}
 
+      {pasoDeRuta(t.slug) > 0 && <PasoRuta slug={t.slug} />}
+
       {rel.length > 0 && (
         <section className="mt-10 border-t border-border pt-6">
           <h2 className="text-xl">Relacionados</h2>
@@ -143,6 +145,36 @@ function Ficha() {
 
       <p className="index-label mt-12">Revisado en {t.revisado}</p>
     </main>
+  );
+}
+
+/** Caja de la ruta «Empezar aquí»: en qué paso estás y cuál viene después. */
+function PasoRuta({ slug }: { slug: string }) {
+  const paso = pasoDeRuta(slug);
+  const siguiente = RUTA[paso] ? getTermino(RUTA[paso]) : undefined;
+  return (
+    <section className="mt-10 border border-border p-5">
+      <p className="index-label">
+        empezar aquí · paso {paso} de {RUTA.length}
+      </p>
+      {siguiente ? (
+        <Link
+          to="/diccionario/$slug"
+          params={{ slug: siguiente.slug }}
+          className="mt-3 inline-flex min-h-[44px] items-center border border-foreground px-4 text-[15px] hover:bg-foreground hover:text-background"
+        >
+          Siguiente: {siguiente.termino} →
+        </Link>
+      ) : (
+        <p className="mt-2 text-[15px]">
+          Has terminado la ruta. Si quieres verlo en marcha, prueba el{" "}
+          <Link to="/simulador" className="underline underline-offset-4">
+            simulador
+          </Link>
+          .
+        </p>
+      )}
+    </section>
   );
 }
 

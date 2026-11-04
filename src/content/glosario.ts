@@ -10,16 +10,31 @@ export type CategoriaGlosario =
   | "Wallets y seguridad"
   | "Comprar potencia";
 
-export const CATEGORIAS: CategoriaGlosario[] = [
-  "Fundamentos",
-  "Transacciones",
-  "Prueba de trabajo",
-  "Potencia y red",
-  "Máquinas",
-  "Pools",
-  "Wallets y seguridad",
-  "Comprar potencia",
+/** El índice se divide en dos bloques: primero minería, después Bitcoin en general. */
+export const BLOQUES: { titulo: string; categorias: CategoriaGlosario[] }[] = [
+  {
+    titulo: "Minería",
+    categorias: ["Prueba de trabajo", "Potencia y red", "Máquinas", "Pools", "Comprar potencia"],
+  },
+  {
+    titulo: "Bitcoin: conceptos básicos",
+    categorias: ["Fundamentos", "Transacciones", "Wallets y seguridad"],
+  },
 ];
+
+export const CATEGORIAS: CategoriaGlosario[] = BLOQUES.flatMap((b) => b.categorias);
+
+/** Ruta «Empezar aquí»: lo mínimo para entender tus 24 horas de potencia, en orden. */
+export const RUTA = [
+  "hash",
+  "hashrate",
+  "dificultad",
+  "pool",
+  "mineria-en-solitario",
+  "comprar-potencia-de-mineria",
+];
+
+export const pasoDeRuta = (slug: string) => RUTA.indexOf(slug) + 1;
 
 export interface TerminoGlosario {
   slug: string;
@@ -1097,7 +1112,7 @@ export const GLOSARIO_ALFABETICO = [...GLOSARIO].sort((a, b) =>
   a.termino.localeCompare(b.termino, "es", { sensitivity: "base" }),
 );
 
-/** Orden de referencia: por categoría (como en Aprende) y, dentro de cada una, alfabético en español. */
+/** Orden de referencia: por bloque y categoría y, dentro de cada una, alfabético en español. */
 export const GLOSARIO_POR_CATEGORIA = CATEGORIAS.flatMap((c) =>
   GLOSARIO_ALFABETICO.filter((t) => t.categoria === c),
 );
