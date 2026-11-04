@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { AvisoApertura } from "@/components/AvisoApertura";
 import { SERVICIO } from "@/content/servicio";
 
 const { notaMinima } = SERVICIO.certificado;
@@ -127,6 +128,7 @@ export function Certificado({
           Repetir el test
         </button>
       </div>
+      <AvisoApertura />
     </div>
   );
 }

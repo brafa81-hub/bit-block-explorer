@@ -1,4 +1,4 @@
-import { DESDE_EUROS_APROX } from "@/lib/catalogo";
+import { DESDE_EUROS_APROX, formatearEuros } from "@/lib/catalogo";
 import { SERVICIO } from "./servicio";
 
 export interface PreguntaQuiz {
@@ -521,7 +521,7 @@ export const CAPITULOS: Capitulo[] = [
     enRealidad:
       "En realidad, tus bitcoins no están dentro de la app: están registrados en la blockchain. La wallet solo guarda las llaves para moverlos.",
     terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo", "wallet-sin-custodia", "custodia", "wallet-fria", "wallet-caliente", "hardware-wallet", "copia-de-seguridad", "phishing", "doble-factor", "segwit", "taproot", "lightning"],
-    cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar con potencia de minería durante unas horas.",
+    cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar con potencia de minería durante 24 horas.",
     quiz: [
       {
         pregunta: "¿Qué puedes compartir sin problema?",
@@ -545,30 +545,39 @@ export const CAPITULOS: Capitulo[] = [
   },
   {
     slug: "comprar-potencia-de-mineria",
-    titulo: "Potencia de minería por horas",
+    titulo: "Comprar potencia de minería",
     pregunta: "¿Se puede participar en la minería real sin montar tu propio equipo?",
-    descripcion: `Qué es la potencia de minería por horas, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
+    descripcion: `Qué es comprar potencia de minería, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
     secciones: [
       {
-        titulo: "Potencia por horas",
+        titulo: "Qué es comprar potencia",
         parrafos: [
-          "Comprar potencia de minería por horas es acceder durante un tiempo concreto a potencia de minería industrial, sin montar tu propio equipo. Tú eliges cuánta potencia y durante cuánto tiempo.",
+          "Comprar potencia de minería es acceder durante 24 horas a potencia de minería industrial, sin montar tu propio equipo. Tú eliges cuánta potencia; el tiempo son siempre 24 horas.",
           `Con ${SERVICIO.marca} eliges tu potencia, ${potencia}, durante 24 h, desde unos ${DESDE_EUROS_APROX} con IVA.`,
         ],
       },
       {
         titulo: "Cómo funciona",
         parrafos: [
-          `Eliges la potencia y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos.`,
-          `${SERVICIO.marca} lanza la potencia a un pool. En modo Compartido, el pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}. En Solitario, solo recibes si tu potencia encuentra un bloque.`,
-          `Ten en cuenta que ${SERVICIO.variacionPotencia}.`,
+          `Eliges la potencia y el modo (Compartido, Solitario o Híbrido) y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos.`,
+          `${SERVICIO.marca} lanza la potencia a un pool. En modo Compartido, el pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
+          "Si en algún momento te llega menos potencia de la elegida, alargamos el tiempo hasta compensarlo.",
           ...pagos,
+        ],
+      },
+      {
+        titulo: "Qué modo elegir",
+        parrafos: [
+          "Compartido: recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.",
+          "Solitario: tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.",
+          `Híbrido: 12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`,
+          "En la página [Minar](/minar) ves los sats aproximados y la probabilidad de encontrar un bloque para la potencia que elijas.",
         ],
       },
       {
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
-          "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats.",
+          "Vamos a ser claros, porque es lo más importante de esta página: lo normal es que recibas en sats menos de lo que pagas.",
           "Mira el [simulador](/simulador): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
           "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool.",
         ],
@@ -598,7 +607,7 @@ export const CAPITULOS: Capitulo[] = [
         explicacion: `Eliges la potencia, ${potencia} durante 24 h, y nos das tu dirección. Lo técnico corre de nuestra parte.`,
       },
       {
-        pregunta: "¿Quién te paga los sats?",
+        pregunta: "En modo Compartido, ¿quién te paga los sats?",
         opciones: [`${SERVICIO.marca}, de su cuenta`, "El pool, de forma proporcional", "Un banco"],
         correcta: 1,
         explicacion: `El pool paga directamente a tu dirección según lo aportado. ${SERVICIO.marca} no recibe ni custodia fondos.`,
@@ -691,9 +700,9 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
   },
   {
     pregunta: "Durante las 24 horas, la potencia…",
-    opciones: ["Es exactamente igual cada segundo", `Es la que eliges, aunque ${SERVICIO.variacionPotencia.replace(/^la potencia /, "")}`, "Va aumentando sola"],
+    opciones: ["Es exactamente igual cada segundo", "Es la que eliges; si llega menos, se alarga el tiempo para compensarlo", "Va aumentando sola"],
     correcta: 1,
-    explicacion: `Trabajas con la potencia que eliges, pero ${SERVICIO.variacionPotencia}.`,
+    explicacion: "Trabajas con la potencia que eliges. Si en algún momento llega menos, alargamos el tiempo hasta compensarlo.",
   },
   {
     pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
@@ -722,3 +731,9 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
 export const getCapitulo = (slug: string) => CAPITULOS.find((c) => c.slug === slug);
 export const indiceCapitulo = (slug: string) => CAPITULOS.findIndex((c) => c.slug === slug);
 export const capituloDeTermino = (slug: string) => CAPITULOS.find((c) => c.terminos.includes(slug));
+
+/** Minutos de lectura aproximados (200 palabras por minuto), como mínimo 1. */
+export const minutosLectura = (c: Capitulo) => {
+  const texto = [...c.secciones.flatMap((s) => s.parrafos), c.enRealidad].join(" ");
+  return Math.max(1, Math.round(texto.split(/\s+/).length / 200));
+};

@@ -7,7 +7,7 @@ import { SERVICIO } from "@/content/servicio";
 import { QUIZ_FINAL } from "@/content/mining101";
 
 const URL = "https://bloque170.com/aprende/test";
-const TITULO = "Test de minería de Bitcoin | Minería de Bitcoin";
+const TITULO = `Test de minería de Bitcoin | ${SERVICIO.marca}`;
 const DESC = "Quince preguntas para comprobar si entiendes Bitcoin, la minería y qué incluye nuestro servicio, con la explicación de cada respuesta.";
 
 export const Route = createFileRoute("/aprende/test")({
@@ -29,7 +29,7 @@ function TestFinal() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <Link to="/aprende" className="index-label hover:text-foreground">← aprende</Link>
-      <h1 className="mt-6 text-3xl sm:text-4xl">Test</h1>
+      <h1 className="mt-6 text-3xl sm:text-4xl">Test final</h1>
       <p className="mt-4 text-[17px]">Quince preguntas sobre Bitcoin, la minería y nuestro servicio. Sin prisa. Con {SERVICIO.certificado.notaMinima} aciertos o más, te llevas un certificado en PDF.</p>
       <div className="mt-10">
         <Quiz

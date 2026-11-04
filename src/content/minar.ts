@@ -10,6 +10,18 @@ export const REGALOS = {
   boton: "Apuntarme a la lista de espera",
 } as const;
 
+/** Aviso de apertura que se ofrece a quien aprueba el test de Aprende. */
+export const AVISO_APERTURA = {
+  titulo: "¿Te avisamos cuando abramos?",
+  descripcion: "Todavía no se puede comprar. Déjanos tu email y te avisamos en cuanto abramos.",
+  email: "Tu email",
+  consentimiento: "Acepto que guardéis mi email para avisarme de la apertura.",
+  boton: "Avisadme",
+  enviando: "Enviando",
+  hecho: "Hecho. Te avisaremos en cuanto abramos.",
+  error: "No hemos podido guardar tu email. Inténtalo otra vez en un momento.",
+} as const;
+
 export const SOLICITUD_POTENCIA = {
   pregunta: "¿Necesitas más de 1 PH/s?",
   enlace: "Escríbenos",
