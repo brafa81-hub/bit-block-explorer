@@ -58,6 +58,7 @@ export const CAPITULOS: Capitulo[] = [
         parrafos: [
           "Bitcoin lo resuelve así: para añadir una página hay que demostrar que has hecho mucho trabajo de cálculo.",
           "Esas páginas se llaman bloques. Quien hace ese trabajo es un minero, y se encuentra un bloque cada 10 minutos de media.",
+          "Cada bloque apunta al anterior. Para cambiar uno habría que rehacer el trabajo de ese bloque y de todos los siguientes; por eso nadie puede reescribir el cuaderno a escondidas.",
         ],
       },
       {
