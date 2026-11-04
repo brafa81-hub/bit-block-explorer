@@ -60,6 +60,7 @@ export interface TerminoGlosario {
 
 const R = "septiembre 2026";
 const R2 = "octubre 2026";
+const R3 = "noviembre 2026";
 
 export const GLOSARIO: TerminoGlosario[] = [
   // Fundamentos
@@ -565,8 +566,25 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
     enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Lo normal es recibir en sats menos de lo que pagas: no es una inversión ni garantiza un resultado.`,
-    relacionados: ["pool-de-destino", "pool", "mineria-en-solitario", "hashrate"],
+    relacionados: ["pool-de-destino", "pool", "mineria-en-solitario", "hashrate", "mineria-en-la-nube"],
     revisado: R,
+  },
+  {
+    slug: "mineria-en-la-nube",
+    termino: "Minería en la nube",
+    categoria: "Comprar potencia",
+    esencial: true,
+    alias: ["cloud mining", "minería cloud"],
+    definicion:
+      "Contratos para minar a distancia, a menudo durante meses o años, en los que la empresa suele prometer pagos periódicos y guardar lo generado.",
+    explicacion: [
+      "Es como pagar hoy por la cosecha de un huerto que no vas a ver durante años. Dependes de que el dueño lo cuide, de lo que diga el contrato y de que siga ahí cuando quieras recoger.",
+      "Hay servicios serios, pero también muchas estafas. Desconfía si prometen una ganancia fija o diaria, si pagan más por traer a otras personas, si no explican dónde están las máquinas ni a qué pool va la potencia, o si guardan tus ganancias y ponen trabas para retirarlas.",
+      "En realidad, nadie puede garantizar lo que dará la minería: depende de la dificultad, del precio de bitcoin y de la suerte. Si alguien lo garantiza, es una señal de alarma.",
+    ],
+    enLaPractica: `${SERVICIO.marca} no vende contratos largos ni promete pagos. Compras potencia durante ${SERVICIO.catalogo.horas} horas y lo que se genere llega directamente a tu wallet, sin que lo guardemos. Lo normal es recibir en sats menos de lo que pagas: no es una inversión.`,
+    relacionados: ["comprar-potencia-de-mineria", "custodia", "mineria-en-solitario", "phishing"],
+    revisado: R3,
   },
 
 
