@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { LaRedAhora } from "@/components/LaRedAhora";
 import { useRed } from "@/hooks/useRed";
 import { cifraEnPalabras, doubleSha256, formatInt, formatSeconds } from "@/lib/mining";
 
@@ -328,6 +329,8 @@ function SimuladorMineria() {
             </Desplegable>
           </div>
         </section>
+
+        <LaRedAhora indice="004" />
       </div>
 
       {/* Cierre bitono: ancho completo */}
@@ -351,7 +354,7 @@ function SimuladorMineria() {
 
         <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-16">
           <div className="index-label" style={{ color: "var(--instrument-dark)" }}>
-            004 / escala real
+            005 / escala real
           </div>
 
           <h2 className="mt-3 max-w-2xl text-2xl sm:text-3xl" style={{ color: "var(--on-dark)" }}>
