@@ -478,7 +478,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   // Compra de hashrate
   {
     slug: "comprar-potencia-de-mineria",
-    termino: "Potencia de minería por horas",
+    termino: "Comprar potencia de minería",
     categoria: "Potencia por horas",
     esencial: true,
     definicion: "Potencia de minería que usas durante un tiempo concreto, sin montar tu propio equipo. El pool se encarga de repartir los pagos.",
