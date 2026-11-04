@@ -85,6 +85,16 @@ export function validarDatosRed(x: unknown): DatosRed | null {
   };
 }
 
+/** Intentos de media para encontrar un bloque entre todos los mineros (dificultad × 2^32). */
+export function intentosPorBloque(d: DatosRed): number {
+  return d.dificultad * DOS_A_LA_32;
+}
+
+/** Texto corto de procedencia: «dato en directo» o «dato aproximado, oct. 2026». */
+export function procedenciaRed(d: DatosRed): string {
+  return d.origen === "directo" ? "dato en directo" : `dato aproximado, ${d.fechaRespaldo}`;
+}
+
 /* ----------------------------- Solo servidor ----------------------------- */
 
 const MEMPOOL = "https://mempool.space/api";

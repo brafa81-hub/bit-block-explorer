@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useRed } from "@/hooks/useRed";
 import { cifraEnPalabras, doubleSha256, formatInt, formatSeconds } from "@/lib/mining";
 
 export const Route = createFileRoute("/simulador")({
@@ -98,23 +99,10 @@ function SimuladorMineria() {
     };
   }, []);
 
-  /** Hashrate de la red: se lee en directo de mempool.space; si falla, se usa el valor de respaldo. */
-  const [redEhs, setRedEhs] = useState<number>(RED_EHS_RESPALDO);
-  const [redEnDirecto, setRedEnDirecto] = useState(false);
-  useEffect(() => {
-    const ctrl = new AbortController();
-    fetch("https://mempool.space/api/v1/mining/hashrate/3d", { signal: ctrl.signal })
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((d: { currentHashrate?: number }) => {
-        const ehs = (d.currentHashrate ?? 0) / 1e18;
-        if (ehs > 100 && ehs < 100_000) {
-          setRedEhs(Math.round(ehs));
-          setRedEnDirecto(true);
-        }
-      })
-      .catch(() => {});
-    return () => ctrl.abort();
-  }, []);
+  /** Hashrate de la red: fuente única (/api/red → caché → respaldo de servicio.ts). */
+  const red = useRed();
+  const redEhs = Math.round(red.hashrateTH / 1e6);
+  const redEnDirecto = red.origen === "directo";
 
   const minar = useCallback(() => {
     const id = ++runId.current;
@@ -408,7 +396,7 @@ function SimuladorMineria() {
               nota={
                 redEnDirecto
                   ? "Todas las máquinas del mundo sumadas (dato en directo, media de los últimos días)."
-                  : `Todas las máquinas del mundo sumadas (dato aproximado, ${RED_FECHA_RESPALDO}).`
+                  : `Todas las máquinas del mundo sumadas (dato aproximado, ${red.fechaRespaldo}).`
               }
             />
           </dl>
@@ -463,10 +451,6 @@ function Metrica({ etiqueta, valor }: { etiqueta: string; valor: string }) {
     </div>
   );
 }
-
-/** Valor de respaldo si no se puede leer el dato en directo. */
-const RED_EHS_RESPALDO = 940;
-const RED_FECHA_RESPALDO = "julio de 2026";
 
 function Comparativa({
   etiqueta,

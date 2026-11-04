@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import { SERVICIO } from "@/content/servicio";
+import { useRed } from "@/hooks/useRed";
 import { formatInt } from "@/lib/mining";
 
 import { Demo } from "./Demo";
 
 const c = SERVICIO.catalogo;
-const RED_TH = c.redHashrateTH;
 const TH_POR_MAQUINA = c.maxTH / SERVICIO.maquinasEquivalentes;
 const ZOOM = 1000;
 
@@ -43,6 +43,8 @@ function Barra({ titulo, valor, pct, nota }: { titulo: string; valor: string; pc
 
 export function DemoRed() {
   const [th, setTh] = useState<number>(c.minTH);
+  const red = useRed();
+  const RED_TH = red.hashrateTH;
 
   const nivel2 = RED_TH / ZOOM;
   const nivel3 = nivel2 / ZOOM;
@@ -51,7 +53,7 @@ export function DemoRed() {
   return (
     <Demo
       titulo="hashrate de la red"
-      aviso={`La potencia de la red es un dato aproximado (${c.fechaEstimacion}) y cambia cada día. Esto no indica lo que recibirás: lo normal es recibir en sats menos de lo que pagas y, en Solitario, lo normal es no recibir nada. No es una inversión.`}
+      aviso={`La potencia de la red es ${red.origen === "directo" ? "un dato en directo de mempool.space" : `un dato aproximado (${red.fechaRespaldo})`} y cambia cada día. Esto no indica lo que recibirás: lo normal es recibir en sats menos de lo que pagas y, en Solitario, lo normal es no recibir nada. No es una inversión.`}
     >
       <label htmlFor="demo-red-th" className="block text-[13px] text-muted-foreground">
         Tu potencia

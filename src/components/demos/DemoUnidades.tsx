@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { SERVICIO } from "@/content/servicio";
+import { useRed } from "@/hooks/useRed";
 
 import { BotonDemo, Demo } from "./Demo";
 
@@ -13,12 +14,12 @@ const UNIDADES = [
 ] as const;
 type UnidadId = (typeof UNIDADES)[number]["id"];
 
-/** Atajos con cifras de servicio.ts. */
-const ATAJOS: { etiqueta: string; th: number }[] = [
+/** Atajos con cifras de servicio.ts; la red, de la fuente única (/api/red o respaldo). */
+const atajos = (redTH: number): { etiqueta: string; th: number }[] => [
   { etiqueta: "Una máquina", th: c.maxTH / SERVICIO.maquinasEquivalentes },
   { etiqueta: `${c.minTH} TH/s`, th: c.minTH },
   { etiqueta: "1 PH/s", th: c.maxTH },
-  { etiqueta: "La red", th: c.redHashrateTH },
+  { etiqueta: "La red", th: redTH },
 ];
 
 const fmt = (x: number) =>
@@ -60,6 +61,7 @@ function enPalabras(hashes: number): string {
 export function DemoUnidades() {
   const [texto, setTexto] = useState("1");
   const [unidad, setUnidad] = useState<UnidadId>("PH");
+  const red = useRed();
 
   const valor = leer(texto);
   const enTH = valor === null ? null : valor * (UNIDADES.find((u) => u.id === unidad)?.enTH ?? 1);
@@ -95,7 +97,7 @@ export function DemoUnidades() {
 
       <p className="mt-4 text-[13px] text-muted-foreground">O prueba con:</p>
       <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {ATAJOS.map((a) => (
+        {atajos(red.hashrateTH).map((a) => (
           <BotonDemo key={a.etiqueta} onClick={() => usarAtajo(a.th)} className="text-[14px]">
             {a.etiqueta}
           </BotonDemo>

@@ -1,20 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-import { SERVICIO } from "@/content/servicio";
+import { useRed } from "@/hooks/useRed";
 import { cifraEnPalabras, doubleSha256, formatInt, leadingZeros } from "@/lib/mining";
+import { intentosPorBloque } from "@/lib/red";
 
 import { BotonDemo, Demo } from "./Demo";
 
 const CEROS = [1, 2, 3, 4, 5, 6] as const;
 /** Hasta aquí se puede probar en directo sin que el móvil tarde demasiado. */
 const MAX_PRUEBA = 4;
-/** Un bloque cada 10 minutos de media. */
-const SEGUNDOS_POR_BLOQUE = 600;
-
-/** Intentos de media para la red real: hashes por segundo de toda la red × 10 minutos. */
-const INTENTOS_RED = SERVICIO.catalogo.redHashrateTH * 1e12 * SEGUNDOS_POR_BLOQUE;
-/** Ceros equivalentes (cada carácter hexadecimal divide entre 16). */
-const CEROS_RED = Math.floor(Math.log(INTENTOS_RED) / Math.log(16));
 
 type Prueba = { estado: "probando" | "hecho"; intentos: number; hash: string };
 
@@ -22,6 +16,10 @@ export function DemoDificultad() {
   const [ceros, setCeros] = useState<number>(3);
   const [prueba, setPrueba] = useState<Prueba | null>(null);
   const run = useRef(0);
+  /** Intentos de media para la red real, según su dificultad (fuente única: /api/red o respaldo). */
+  const INTENTOS_RED = intentosPorBloque(useRed());
+  /** Ceros equivalentes (cada carácter hexadecimal divide entre 16). */
+  const CEROS_RED = Math.floor(Math.log(INTENTOS_RED) / Math.log(16));
 
   useEffect(
     () => () => {
