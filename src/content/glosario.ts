@@ -8,7 +8,7 @@ export type CategoriaGlosario =
   | "Máquinas"
   | "Pools"
   | "Wallets y seguridad"
-  | "Potencia por horas";
+  | "Comprar potencia";
 
 export const CATEGORIAS: CategoriaGlosario[] = [
   "Fundamentos",
@@ -18,7 +18,7 @@ export const CATEGORIAS: CategoriaGlosario[] = [
   "Máquinas",
   "Pools",
   "Wallets y seguridad",
-  "Potencia por horas",
+  "Comprar potencia",
 ];
 
 export interface TerminoGlosario {
@@ -479,15 +479,15 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "comprar-potencia-de-mineria",
     termino: "Comprar potencia de minería",
-    categoria: "Potencia por horas",
+    categoria: "Comprar potencia",
     esencial: true,
-    definicion: "Potencia de minería que usas durante un tiempo concreto, sin montar tu propio equipo. El pool se encarga de repartir los pagos.",
+    definicion: "Potencia de minería que usas durante 24 horas, sin montar tu propio equipo. El pool se encarga de repartir los pagos.",
     explicacion: [
-      "Es como reservar una pista de pádel por horas. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
-      "Durante ese tiempo, tu potencia trabaja en un pool igual que la de un minero profesional.",
+      "Es como reservar una pista de pádel. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
+      "Durante esas 24 horas, tu potencia trabaja en un pool igual que la de un minero profesional.",
       "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
-    enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Lo que pagas es más de lo que recibirás en sats: no es una inversión ni garantiza un resultado.`,
+    enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Lo normal es recibir en sats menos de lo que pagas: no es una inversión ni garantiza un resultado.`,
     relacionados: ["pool-de-destino"],
     revisado: R,
   },
@@ -496,7 +496,7 @@ export const GLOSARIO: TerminoGlosario[] = [
   {
     slug: "pool-de-destino",
     termino: "Pool de destino",
-    categoria: "Potencia por horas",
+    categoria: "Comprar potencia",
     esencial: false,
     definicion: "El pool al que se envía la potencia que has comprado. Allí se registran tus shares y tus pagos.",
     explicacion: [
@@ -519,7 +519,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, cada generación nueva de ASIC mejora esta cifra. Los equipos antiguos acaban retirándose porque gastan demasiado.",
     ],
     enLaPractica:
-      "Cuando compras potencia por horas no pagas tú la luz ni eliges la máquina. La eficiencia es cosa de quien opera los equipos.",
+      "Cuando compras potencia no pagas tú la luz ni eliges la máquina. La eficiencia es cosa de quien opera los equipos.",
     relacionados: ["asic", "hashrate"],
     revisado: R,
   },
