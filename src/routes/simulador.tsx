@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { doubleSha256, formatInt, formatSeconds } from "@/lib/mining";
+import { cifraEnPalabras, doubleSha256, formatInt, formatSeconds } from "@/lib/mining";
 
 export const Route = createFileRoute("/simulador")({
   head: () => ({
@@ -26,26 +26,6 @@ export const Route = createFileRoute("/simulador")({
 });
 
 const HASH_ANTERIOR = "00000000000000000002a7c4c1e48d76c5a37902165a270156b7a8d72728a054";
-/** Cifra grande con palabras de escala (billones, trillones…). */
-function cifraEnPalabras(x: number): string {
-  if (!isFinite(x) || x <= 0) return "0";
-  const escalas: [number, string][] = [
-    [1e18, "trillones"],
-    [1e15, "mil billones"],
-    [1e12, "billones"],
-    [1e9, "mil millones"],
-    [1e6, "millones"],
-  ];
-  for (const [v, nombre] of escalas) {
-    if (x >= v) {
-      const n = x / v;
-      const mag = Math.pow(10, Math.max(0, Math.floor(Math.log10(n)) - 1));
-      return `${formatInt(Math.round(n / mag) * mag)} ${nombre}`;
-    }
-  }
-  return formatInt(Math.round(x));
-}
-
 const MERKLE = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b";
 
 function generarTexturaHex(filas: number, cols: number): string {

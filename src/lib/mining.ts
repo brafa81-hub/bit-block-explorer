@@ -41,3 +41,23 @@ export function formatSeconds(ms: number): string {
   const rest = s - m * 60;
   return `${formatInt(m)} min ${formatDecimal(rest, 0)} s`;
 }
+
+/** Cifra grande con palabras de escala (billones, trillones…). */
+export function cifraEnPalabras(x: number): string {
+  if (!isFinite(x) || x <= 0) return "0";
+  const escalas: [number, string][] = [
+    [1e18, "trillones"],
+    [1e15, "mil billones"],
+    [1e12, "billones"],
+    [1e9, "mil millones"],
+    [1e6, "millones"],
+  ];
+  for (const [v, nombre] of escalas) {
+    if (x >= v) {
+      const n = x / v;
+      const mag = Math.pow(10, Math.max(0, Math.floor(Math.log10(n)) - 1));
+      return `${formatInt(Math.round(n / mag) * mag)} ${nombre}`;
+    }
+  }
+  return formatInt(Math.round(x));
+}
