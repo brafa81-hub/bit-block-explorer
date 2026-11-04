@@ -103,7 +103,6 @@ function SimuladorMineria() {
   /** Hashrate de la red: fuente única (/api/red → caché → respaldo de servicio.ts). */
   const red = useRed();
   const redEhs = Math.round(red.hashrateTH / 1e6);
-  const redEnDirecto = red.origen === "directo";
 
   const minar = useCallback(() => {
     const id = ++runId.current;
@@ -362,8 +361,7 @@ function SimuladorMineria() {
           </h2>
           <p className="mt-4 max-w-2xl text-[16px]" style={{ color: "var(--on-dark-muted)" }}>
             Un ordenador normal prueba unas decenas de miles de combinaciones por segundo. Un
-            Antminer S21, unos 200 billones: diez mil millones de veces más. La diferencia no es de
-            grado, es de escala.
+            Antminer S21, unos 200 billones: diez mil millones de veces más.
           </p>
           <p className="mt-4 max-w-2xl text-[16px]" style={{ color: "var(--on-dark)" }}>
             Lo que 1 PH/s hace en un segundo, a un ordenador normal le llevaría más de 1.500 años.
@@ -397,18 +395,19 @@ function SimuladorMineria() {
               valor={`≈ ${formatInt(redEhs)} EH/s`}
               cifraCompleta={`Unos ${formatInt(redEhs)} trillones de hashes por segundo`}
               nota={
-                redEnDirecto
-                  ? "Todas las máquinas del mundo sumadas (dato en directo, media de los últimos días)."
-                  : `Todas las máquinas del mundo sumadas (dato aproximado, ${red.fechaRespaldo}).`
+                red.origen === "directo"
+                  ? "Todas las máquinas del mundo sumadas (el dato de arriba, en directo)."
+                  : `Todas las máquinas del mundo sumadas (el dato de arriba, aproximado, ${red.fechaRespaldo}).`
               }
             />
           </dl>
 
           <p className="mt-8 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
-            Frente a la red entera, 1 PH/s es una parte pequeña: más o menos una entre{" "}
-            {formatInt(redEhs * 1000)}. Le pasa lo mismo a cualquier minero, incluso a granjas con
-            cientos de máquinas. Por eso la mayoría se une a pools: cada participante recibe en
-            proporción a lo que aporta, sea grande o pequeño.
+            Frente a la red entera, 1 PH/s es más o menos una millonésima. Le pasa lo mismo a
+            cualquier minero, incluso a granjas con cientos de máquinas. Por eso la mayoría se une
+            a pools: cada participante recibe en proporción a lo que aporta, sea grande o pequeño.
+            En Solitario no se reparte: o se encuentra un bloque entero o no se recibe nada, y lo
+            normal es no recibir nada.
           </p>
           <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
             Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
