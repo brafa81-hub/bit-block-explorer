@@ -4,6 +4,7 @@ import { SERVICIO } from "@/content/servicio";
 import { registrar } from "@/lib/medicion";
 
 import { Quiz } from "@/components/Quiz";
+import { DIBUJOS } from "@/components/Dibujos";
 import { CAPITULOS, getCapitulo, indiceCapitulo } from "@/content/mining101";
 import { getTermino, idx } from "@/content/glosario";
 
@@ -57,6 +58,7 @@ function CapituloPagina() {
   const i = indiceCapitulo(c.slug);
   const siguiente = CAPITULOS[i + 1];
   const anterior = i > 0 ? CAPITULOS[i - 1] : undefined;
+  const dibujo = DIBUJOS[c.slug];
 
   useEffect(() => {
     registrar({ tipo: "lectura_capitulo", detalle: c.slug });
@@ -75,6 +77,7 @@ function CapituloPagina() {
           <div className="mt-3 space-y-4 text-[16px]">
             {s.parrafos.map((p, k) => <Parrafo key={k} texto={p} />)}
           </div>
+          {dibujo?.trasSeccion === s.titulo && <dibujo.Dibujo marca={SERVICIO.marca} />}
         </section>
       ))}
 
