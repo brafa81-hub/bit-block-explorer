@@ -59,8 +59,9 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Servicios de terceros</h2>
           <p className="mt-2 text-muted-foreground">
-            El simulador consulta mempool.space para mostrar la potencia de la red en directo. Al
-            hacerlo, mempool.space puede ver tu dirección IP. No les enviamos ningún otro dato.
+            Para mostrar datos de la red de Bitcoin en directo (en el simulador y en algunas fichas
+            del Diccionario), nuestro servidor los consulta en mempool.space. Tu navegador no se
+            conecta con mempool.space, así que no ven tu dirección IP ni ningún dato tuyo.
           </p>
         </section>
 
