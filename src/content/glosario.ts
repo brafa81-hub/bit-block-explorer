@@ -26,6 +26,8 @@ export interface TerminoGlosario {
   termino: string;
   categoria: CategoriaGlosario;
   esencial: boolean;
+  /** Otras formas de llamarlo; el buscador también las mira. */
+  alias?: string[];
   /** El nombre va en plural («Qué son…» en el título de la ficha). */
   plural?: boolean;
   /** Máximo 25 palabras. */
@@ -65,7 +67,8 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Satoshi",
     categoria: "Fundamentos",
     esencial: false,
-    definicion: "La unidad más pequeña de Bitcoin. Un bitcoin se divide en cien millones de satoshis.",
+    alias: ["sats", "sat"],
+    definicion: "La unidad más pequeña de Bitcoin, también llamada «sat». Un bitcoin se divide en cien millones de satoshis (sats).",
     explicacion: [
       "Igual que un euro se parte en céntimos, un bitcoin se parte en satoshis. La diferencia es que aquí las partes son muchísimo más pequeñas.",
       "Gracias a eso puedes manejar cantidades diminutas sin necesidad de tener un bitcoin entero: tener unos pocos satoshis ya es tener Bitcoin.",
@@ -95,6 +98,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Blockchain",
     categoria: "Fundamentos",
     esencial: false,
+    alias: ["cadena de bloques"],
     definicion: "La cadena de todos los bloques desde el primero. Es el registro completo e histórico de Bitcoin.",
     explicacion: [
       "Si cada bloque es una página, la blockchain es el libro entero, cosido página a página.",
@@ -241,6 +245,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Comisión de transacción",
     categoria: "Transacciones",
     esencial: false,
+    alias: ["fee", "tarifa"],
     definicion: "Lo que paga quien envía bitcoin para que un minero incluya su transacción en un bloque.",
     explicacion: [
       "Es como el sello de una carta. Si hay muchas cartas esperando, las que llevan mejor sello salen antes.",
@@ -257,6 +262,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Hashrate",
     categoria: "Potencia y red",
     esencial: true,
+    alias: ["tasa de hash", "potencia de minería"],
     definicion: "Cuántos hashes por segundo calcula una máquina o la red entera. Es la medida de la potencia de minería.",
     explicacion: [
       "Es como los kilómetros por hora de un coche, pero contando intentos por segundo.",
@@ -273,6 +279,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     plural: true,
     categoria: "Potencia y red",
     esencial: false,
+    alias: ["TH/s", "PH/s", "EH/s", "terahash", "petahash", "exahash"],
     definicion: "Escalas para medir el hashrate. Cada una es mil veces la anterior: terahash, petahash y exahash por segundo.",
     explicacion: [
       "Igual que decimos gramos, kilos y toneladas, aquí se habla de TH, PH y EH para no escribir números con muchísimos ceros.",
@@ -317,6 +324,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Halving",
     categoria: "Potencia y red",
     esencial: true,
+    alias: ["halvening", "reducción a la mitad"],
     definicion: "El momento, cada 210.000 bloques, en que el subsidio por bloque se reduce a la mitad.",
     explicacion: [
       "Imagina un grifo que cada cuatro años suelta la mitad de agua. Nunca se cierra de golpe, pero cada vez gotea menos.",
@@ -347,6 +355,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "ASIC",
     categoria: "Máquinas",
     esencial: true,
+    alias: ["minero ASIC", "máquina de minería"],
     definicion: "Una máquina diseñada solo para calcular hashes SHA-256 lo más rápido posible. Es el equipo de minería profesional.",
     explicacion: [
       "Un ordenador es una navaja suiza: hace de todo. Un ASIC es un martillo neumático: solo sirve para una cosa, pero la hace brutalmente bien.",
@@ -364,13 +373,14 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Pool",
     categoria: "Pools",
     esencial: true,
+    alias: ["pool de minería", "grupo de minería"],
     definicion: "Un grupo de mineros que suman su potencia y se reparten las recompensas según lo que aporta cada uno.",
     explicacion: [
       "Es como una cooperativa: cada socio aporta trabajo y lo que se obtiene se reparte según lo aportado.",
       "Un minero pequeño en solitario podría pasar muchísimo tiempo sin encontrar un bloque. En un pool recibe pagos pequeños y frecuentes.",
       "En realidad, el pool no cambia la probabilidad total. Solo reduce la variabilidad para que los pagos sean más regulares.",
     ],
-    relacionados: ["share", "esquemas-de-pago", "stratum"],
+    relacionados: ["share", "esquemas-de-pago", "stratum", "mineria-en-solitario", "comprar-potencia-de-mineria"],
     revisado: R,
   },
   {
@@ -406,6 +416,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Wallet",
     categoria: "Wallets y seguridad",
     esencial: true,
+    alias: ["monedero", "cartera", "billetera"],
     definicion: "Una aplicación o dispositivo que guarda tus claves y te permite recibir y enviar bitcoin.",
     explicacion: [
       "Se traduce como «monedero», pero se parece más a un llavero: lo que guarda son las llaves de tu dinero.",
@@ -420,6 +431,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Dirección",
     categoria: "Wallets y seguridad",
     esencial: false,
+    alias: ["dirección bitcoin", "address"],
     definicion: "Una cadena de letras y números que compartes para que te envíen bitcoin. Es pública, como un número de cuenta.",
     explicacion: [
       "Es como tu buzón: cualquiera puede echar cartas, pero solo tú tienes la llave para abrirlo.",
@@ -448,6 +460,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Frase de recuperación",
     categoria: "Wallets y seguridad",
     esencial: false,
+    alias: ["semilla", "seed", "frase semilla", "12 palabras", "24 palabras"],
     definicion: "Una lista de palabras que sirve para recuperar tu wallet entera si pierdes el móvil o el dispositivo.",
     explicacion: [
       "Es la copia maestra de todas tus llaves, escrita en palabras normales para que puedas apuntarla en papel.",
@@ -464,6 +477,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     plural: true,
     categoria: "Pools",
     esencial: false,
+    alias: ["FPPS", "PPLNS", "PPS"],
     definicion: "Las reglas con las que un pool reparte lo que gana entre sus mineros. Los más comunes son FPPS y PPLNS.",
     explicacion: [
       "Hay pools que pagan una cantidad fija por cada parte de trabajo aportada y otros que reparten cuando encuentran un bloque.",
@@ -481,6 +495,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Comprar potencia de minería",
     categoria: "Comprar potencia",
     esencial: true,
+    alias: ["comprar hashrate"],
     definicion: "Potencia de minería que usas durante 24 horas, sin montar tu propio equipo. El pool se encarga de repartir los pagos.",
     explicacion: [
       "Es como reservar una pista de pádel. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
@@ -488,7 +503,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
     enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Lo normal es recibir en sats menos de lo que pagas: no es una inversión ni garantiza un resultado.`,
-    relacionados: ["pool-de-destino"],
+    relacionados: ["pool-de-destino", "pool", "mineria-en-solitario", "hashrate"],
     revisado: R,
   },
 
@@ -504,7 +519,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, las recompensas no las pagamos nosotros: las paga el pool según su esquema de pago.",
     ],
     enLaPractica: `Con ${SERVICIO.marca} no configuras ningún pool: eliges la potencia, dejas la dirección de tu wallet y ${SERVICIO.marca} dirige la potencia por ti, de modo que los pagos llegan a tu wallet.`,
-    relacionados: ["pool", "stratum", "esquemas-de-pago"],
+    relacionados: ["pool", "stratum", "esquemas-de-pago", "comprar-potencia-de-mineria"],
     revisado: R,
   },
   {
@@ -520,7 +535,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     ],
     enLaPractica:
       "Cuando compras potencia no pagas tú la luz ni eliges la máquina. La eficiencia es cosa de quien opera los equipos.",
-    relacionados: ["asic", "hashrate"],
+    relacionados: ["asic", "hashrate", "comprar-potencia-de-mineria"],
     revisado: R,
   },
   // Tanda 2 · Red y fundamentos
@@ -645,6 +660,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Bloque huérfano",
     categoria: "Potencia y red",
     esencial: false,
+    alias: ["bloque obsoleto", "stale"],
     definicion: "Un bloque válido que llegó casi a la vez que otro y acabó fuera de la cadena principal porque la red siguió por el otro.",
     explicacion: [
       "Imagina que dos vecinos escriben a la vez la misma página del cuaderno. Solo puede quedar una, y la otra se descarta.",
@@ -659,6 +675,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Bifurcación (fork)",
     categoria: "Potencia y red",
     esencial: false,
+    alias: ["fork"],
     definicion: "Un momento en que la cadena se divide en dos ramas, por una coincidencia entre mineros o por un cambio de reglas.",
     explicacion: [
       "Es como un camino que se divide en dos. Durante un rato conviven ambas ramas, hasta que la red elige una.",
@@ -701,6 +718,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Ataque del 51 %",
     categoria: "Potencia y red",
     esencial: false,
+    alias: ["51%", "51 por ciento"],
     definicion: "Situación teórica en la que alguien con más de la mitad de la potencia de la red podría reescribir los últimos bloques.",
     explicacion: [
       "Es como una votación a mano alzada: quien controla más de la mitad de las manos decide el recuento. En Bitcoin, las manos son hashrate.",
@@ -715,6 +733,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Suministro máximo",
     categoria: "Fundamentos",
     esencial: false,
+    alias: ["21 millones", "límite de bitcoins"],
     definicion: "El límite de unos 21 millones de bitcoins que llegarán a existir, escrito en las reglas desde el principio.",
     explicacion: [
       "Es como una edición limitada de monedas conmemorativas: se acuñan poco a poco y, cuando se alcanza el tope, no se hacen más.",
@@ -730,6 +749,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Transacción coinbase",
     categoria: "Prueba de trabajo",
     esencial: false,
+    alias: ["coinbase"],
     definicion: "La primera transacción de cada bloque: la crea el minero y es la que genera los bitcoins nuevos y cobra la recompensa.",
     explicacion: [
       "Es como el primer apunte de cada página del cuaderno: no sale de ninguna cuenta anterior, porque es el único movimiento que crea moneda nueva.",
@@ -744,6 +764,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Objetivo de dificultad (target)",
     categoria: "Prueba de trabajo",
     esencial: false,
+    alias: ["target"],
     definicion: "El número máximo que puede tener el hash de un bloque para ser válido. Cuanto más bajo, más difícil resulta encontrarlo.",
     explicacion: [
       "Piensa en una raya dibujada en la pared: solo valen los resultados que quedan por debajo. Cuanto más baja la raya, menos hashes la cumplen.",
@@ -758,6 +779,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Granja de minería",
     categoria: "Máquinas",
     esencial: false,
+    alias: ["mining farm"],
     definicion: "Instalación con muchas máquinas de minería funcionando juntas, con electricidad, refrigeración y conexión a internet preparadas para ello.",
     explicacion: [
       "Es una nave industrial para máquinas de cálculo: filas de ASIC, cables gruesos, ventilación potente y una conexión estable.",
@@ -772,13 +794,15 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Minería en solitario",
     categoria: "Pools",
     esencial: false,
+    alias: ["solo mining", "solitario", "minería solo"],
     definicion: "Minar sin pool: la máquina intenta encontrar un bloque por su cuenta, y solo cobra si lo encuentra.",
     explicacion: [
       "Es lo contrario de la cooperativa del pool. No hay reparto: la recompensa del bloque, entera, va para quien lo encuentra.",
       "Funciona igual que cualquier otra minería: se prueban hashes sin parar. Lo que cambia es que no hay pagos pequeños y regulares, sino uno grande que llega muy de tarde en tarde.",
       "En realidad, cada intento tiene la misma probabilidad para todos; lo que cambia es cuántos intentos haces. Con poca potencia, encontrar un bloque es muy poco probable, por eso casi toda la minería se hace en pools.",
     ],
-    relacionados: ["pool", "esquemas-de-pago", "recompensa-de-bloque", "hashrate"],
+    enLaPractica: `En el modo Solitario de ${SERVICIO.marca}, tu potencia mina por su cuenta durante 24 horas. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. No es una inversión.`,
+    relacionados: ["pool", "esquemas-de-pago", "recompensa-de-bloque", "hashrate", "comprar-potencia-de-mineria"],
     revisado: R2,
   },
   {
@@ -815,6 +839,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Tiempo de actividad (uptime)",
     categoria: "Máquinas",
     esencial: false,
+    alias: ["uptime"],
     definicion: "El porcentaje de tiempo que una máquina o servicio funciona de verdad. Cada minuto parado es trabajo que no se cuenta.",
     explicacion: [
       "Es como las horas que una tienda está realmente abierta: no cuentan las que tiene la luz encendida con la puerta cerrada.",
@@ -875,6 +900,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Wallet fría",
     categoria: "Wallets y seguridad",
     esencial: false,
+    alias: ["cold wallet", "almacenamiento en frío"],
     definicion: "Una wallet que guarda las claves sin conexión a internet, por ejemplo en un dispositivo dedicado o apuntadas en papel.",
     explicacion: [
       "Es la caja fuerte de casa, frente a la cartera que llevas en el bolsillo. Está pensada para guardar lo que no vas a usar a diario.",
@@ -889,6 +915,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Wallet caliente",
     categoria: "Wallets y seguridad",
     esencial: false,
+    alias: ["hot wallet"],
     definicion: "Una wallet conectada a internet, como una app de móvil o de ordenador. Cómoda para el día a día, pero más expuesta.",
     explicacion: [
       "Es la cartera del bolsillo: la tienes a mano para pagar, pero no meterías en ella todos tus ahorros.",
@@ -903,6 +930,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Hardware wallet",
     categoria: "Wallets y seguridad",
     esencial: false,
+    alias: ["monedero físico", "cartera física"],
     definicion: "Un dispositivo pequeño y dedicado que guarda tus claves privadas y firma las transacciones sin que las claves salgan de él.",
     explicacion: [
       "Es como un sello que firma por ti sin entregar nunca el sello. Lo conectas al ordenador o al móvil, confirmas el pago en su pantalla y la firma sale, pero la clave se queda dentro.",
@@ -974,6 +1002,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Doble factor (2FA)",
     categoria: "Wallets y seguridad",
     esencial: false,
+    alias: ["2FA", "autenticación en dos pasos"],
     definicion: "Una segunda comprobación, además de la contraseña, para entrar en una cuenta: un código temporal o una llave física.",
     explicacion: [
       "Es una puerta con dos cerraduras. Aunque alguien consiga la primera llave, la contraseña, le falta la segunda.",
@@ -1017,6 +1046,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Lightning",
     categoria: "Transacciones",
     esencial: false,
+    alias: ["Lightning Network", "red relámpago"],
     definicion: "Una red construida sobre Bitcoin para hacer pagos rápidos y muy baratos, sin escribir cada uno en la cadena de bloques.",
     explicacion: [
       "Es como abrir una cuenta en un bar: vas apuntando consumiciones durante la noche y solo pagas la cuenta final al salir.",
@@ -1031,6 +1061,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "Reemplazo por comisión (RBF)",
     categoria: "Transacciones",
     esencial: false,
+    alias: ["RBF", "replace-by-fee", "acelerar transacción"],
     definicion: "La posibilidad de sustituir una transacción que aún no se ha confirmado por otra igual con una comisión más alta.",
     explicacion: [
       "Es como mandar una carta urgente cuando la normal se está retrasando: mientras no se haya entregado, la sustituyes por otra con mejor franqueo.",
@@ -1045,6 +1076,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     termino: "sat/vB",
     categoria: "Transacciones",
     esencial: false,
+    alias: ["sat/vbyte", "satoshis por byte"],
     definicion: "Satoshis por byte virtual: la unidad en que se expresa cuánto paga una transacción por cada unidad de espacio que ocupa.",
     explicacion: [
       "Es como el precio por kilo en el envío de un paquete: lo que pagas depende de lo que pesa, no de lo que vale lo que hay dentro.",

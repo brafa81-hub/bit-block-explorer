@@ -68,7 +68,7 @@ function GlosarioIndice() {
       ({ t }) =>
         (!soloEsenciales || t.esencial) &&
         (!cat || t.categoria === cat) &&
-        (!n || normalizar(t.termino + " " + t.definicion).includes(n)),
+        (!n || normalizar([t.termino, t.definicion, ...(t.alias ?? [])].join(" ")).includes(n)),
     );
   }, [q, cat, soloEsenciales]);
 

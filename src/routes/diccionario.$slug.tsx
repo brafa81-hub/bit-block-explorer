@@ -76,6 +76,9 @@ function Ficha() {
       </div>
       <h1 className="mt-2 text-3xl sm:text-4xl">{t.termino}</h1>
       <p className="mt-4 text-[18px] leading-relaxed">{t.definicion}</p>
+      {t.alias && t.alias.length > 0 && (
+        <p className="mt-3 text-[14px] text-muted-foreground">También se dice: {t.alias.join(", ")}</p>
+      )}
 
       <section className="mt-10 border-t border-border pt-6">
         <h2 className="text-xl">Explicación</h2>
@@ -101,6 +104,15 @@ function Ficha() {
         <section className="mt-10 border-t border-border pt-6">
           <h2 className="text-xl">En la práctica</h2>
           <p className="mt-3 text-[16px]">{t.enLaPractica}</p>
+          {t.slug === "comprar-potencia-de-mineria" && (
+            <Link
+              to="/minar"
+              hash="potencia"
+              className="mt-5 inline-flex min-h-[44px] items-center border border-foreground bg-foreground px-5 text-[15px] text-background hover:opacity-90"
+            >
+              Ver cómo comprar potencia
+            </Link>
+          )}
         </section>
       )}
 
