@@ -1,4 +1,4 @@
-import { SERVICIO } from "./servicio";
+import { SERVICIO, conMayuscula } from "./servicio";
 
 export type CategoriaGlosario =
   | "Fundamentos"
@@ -565,7 +565,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Durante esas 24 horas, tu potencia trabaja en un pool igual que la de un minero profesional.",
       "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
-    enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. Recibirás sats, pero casi siempre por menos valor del que pagas: no es una inversión ni garantiza un resultado.`,
+    enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. ${conMayuscula(SERVICIO.frases.compartido)}: no es una inversión ni garantiza un resultado.`,
     relacionados: ["pool-de-destino", "pool", "mineria-en-solitario", "hashrate", "mineria-en-la-nube"],
     revisado: R,
   },
@@ -582,7 +582,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Hay servicios serios, pero también muchas estafas. Desconfía si prometen una ganancia fija o diaria, si pagan más por traer a otras personas, si no explican dónde están las máquinas ni a qué pool va la potencia, o si guardan tus ganancias y ponen trabas para retirarlas.",
       "En realidad, nadie puede garantizar lo que dará la minería: depende de la dificultad, del precio de bitcoin y de la suerte. Si alguien lo garantiza, es una señal de alarma.",
     ],
-    enLaPractica: `${SERVICIO.marca} no vende contratos largos ni promete pagos. Compras potencia durante ${SERVICIO.catalogo.horas} horas y lo que se genere llega directamente a tu wallet, sin que lo guardemos. Recibirás sats, pero casi siempre por menos valor del que pagas: no es una inversión.`,
+    enLaPractica: `${SERVICIO.marca} no vende contratos largos ni promete pagos. Compras potencia durante ${SERVICIO.catalogo.horas} horas y lo que se genere llega directamente a tu wallet, sin que lo guardemos. ${conMayuscula(SERVICIO.frases.compartido)}: no es una inversión.`,
     relacionados: ["comprar-potencia-de-mineria", "custodia", "mineria-en-solitario", "phishing"],
     revisado: R3,
   },
@@ -881,7 +881,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Funciona igual que cualquier otra minería: se prueban hashes sin parar. Lo que cambia es que no hay pagos pequeños y regulares, sino uno grande que llega muy de tarde en tarde.",
       "En realidad, cada intento tiene la misma probabilidad para todos; lo que cambia es cuántos intentos haces. Con poca potencia, encontrar un bloque es muy poco probable, por eso casi toda la minería se hace en pools.",
     ],
-    enLaPractica: `En el modo Solitario de ${SERVICIO.marca}, tu potencia mina por su cuenta durante 24 horas. No hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual. Si lo encuentra, la recompensa completa va a tu wallet. No es una inversión.`,
+    enLaPractica: `En el modo Solitario de ${SERVICIO.marca}, tu potencia mina por su cuenta durante 24 horas. No hay reparto: ${SERVICIO.frases.solitario}. Si lo encuentra, la recompensa completa va a tu wallet. No es una inversión.`,
     loVerasEn: {
       texto: "En Minar, modo Solitario: junto a la potencia ves la probabilidad aproximada de encontrar un bloque.",
       to: "/minar", hash: "potencia",

@@ -1,5 +1,5 @@
 import { DESDE_EUROS_APROX, formatearEuros } from "@/lib/catalogo";
-import { SERVICIO } from "./servicio";
+import { SERVICIO, conMayuscula } from "./servicio";
 
 export interface PreguntaQuiz {
   pregunta: string;
@@ -570,15 +570,15 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Qué modo elegir",
         parrafos: [
           "Compartido: recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.",
-          "Solitario: tu potencia mina por su cuenta durante 24 horas. A diferencia de Compartido, aquí no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual. Si lo encuentra, la recompensa completa va a tu wallet. Mismo precio que el Compartido.",
-          `Híbrido: 12 h en Compartido (recibirás sats, pero casi siempre por menos valor del que pagas) y 12 h en Solitario (si no encuentras un bloque, no recibes nada, y es lo más habitual). Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`,
+          "Solitario: tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.",
+          `Híbrido: 12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`,
           "En la página [Minar](/minar) ves los sats aproximados y la probabilidad de encontrar un bloque para la potencia que elijas.",
         ],
       },
       {
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
-          "Vamos a ser claros, porque es lo más importante de esta página: recibirás sats, pero casi siempre por menos valor del que pagas.",
+          `Vamos a ser claros, porque es lo más importante de esta página: en Compartido, ${SERVICIO.frases.compartido}. En Solitario no hay reparto: ${SERVICIO.frases.solitario}. En Híbrido, cada mitad sigue su regla.`,
           "Mira el [simulador](/simulador): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
           "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool.",
         ],
@@ -709,7 +709,7 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
     opciones: ["Mayor", "Igual", "Menor"],
     correcta: 2,
-    explicacion: "Recibirás sats, pero casi siempre por menos valor del que pagas (y en Solitario, si no encuentras un bloque, no recibes nada, y es lo más habitual). Lo que obtienes es potencia de minería real durante las 24 horas, no un rendimiento.",
+    explicacion: `${conMayuscula(SERVICIO.frases.compartido)} (y en Solitario, ${SERVICIO.frases.solitario}). Lo que obtienes es potencia de minería real durante las 24 horas, no un rendimiento.`,
   },
   {
     pregunta: "¿Es una inversión?",

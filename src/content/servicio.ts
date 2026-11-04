@@ -4,7 +4,22 @@
  * Los textos leen de aquí; no se repiten estos datos a mano.
  */
 
+const MENOS_VALOR = "casi siempre por menos valor del que pagas";
+
+/** Pone la primera letra en mayúscula (las frases de aviso se guardan en minúscula para encajar en una oración). */
+export const conMayuscula = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
 export const SERVICIO = {
+  /**
+   * Frases de aviso (sin mayúscula inicial ni punto final). Se cambian solo aquí.
+   * Dos sitios las llevan a mano y no leen de aquí: el Aviso legal (lo revisa el abogado)
+   * y el texto dibujado dentro de Dibujos.tsx.
+   */
+  frases: {
+    menosValor: MENOS_VALOR,
+    compartido: `recibirás sats, pero ${MENOS_VALOR}`,
+    solitario: "si no encuentras un bloque, no recibes nada, y es lo más habitual",
+  },
   /** Nombre de marca: se cambia solo aquí. */
   marca: "BLOQUE170.COM",
   /** Dominio público de la web (canonical, og:url, PDF). */

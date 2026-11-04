@@ -53,7 +53,7 @@ export function DemoRed() {
   return (
     <Demo
       titulo="hashrate de la red"
-      aviso={`La potencia de la red es ${red.origen === "directo" ? "un dato en directo de mempool.space" : `un dato aproximado (${red.fechaRespaldo})`} y cambia cada día. Esto no indica lo que recibirás. En Compartido, recibirás sats, pero casi siempre por menos valor del que pagas. En Solitario no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual. No es una inversión.`}
+      aviso={`La potencia de la red es ${red.origen === "directo" ? "un dato en directo de mempool.space" : `un dato aproximado (${red.fechaRespaldo})`} y cambia cada día. Esto no indica lo que recibirás. En Compartido, ${SERVICIO.frases.compartido}. En Solitario no hay reparto: ${SERVICIO.frases.solitario}. No es una inversión.`}
     >
       <label htmlFor="demo-red-th" className="block text-[13px] text-muted-foreground">
         Tu potencia

@@ -1,4 +1,5 @@
 import type { ComponentType, ReactNode } from "react";
+import { SERVICIO, conMayuscula } from "@/content/servicio";
 
 /**
  * Dibujos de la sección Aprende. SVG en línea, 320 de ancho (columna de texto a 360 px).
@@ -169,7 +170,7 @@ export function DibujoPool() {
 }
 
 /** 10 · Comprar potencia de minería (modo Compartido, sin cifras) */
-export function DibujoCompra({ marca, solitario = false }: { marca: string; solitario?: boolean }) {
+export function DibujoCompra({ marca }: { marca: string }) {
   const pasos: { y: number; alto: number; lineas: string[] }[] = [
     { y: 26, alto: 56, lineas: ["Tú eliges la potencia", "y das tu wallet (cartera digital)."] },
     { y: 96, alto: 72, lineas: [`${marca} compra la potencia`, "durante 24 horas y la envía", "a un pool (grupo de mineros)."] },
@@ -178,9 +179,9 @@ export function DibujoCompra({ marca, solitario = false }: { marca: string; soli
   return (
     <Lienzo
       id="dib-compra"
-      alto={solitario ? 410 : 350}
+      alto={350}
       titulo="Quién hace qué en tus 24 horas"
-      desc={`En modo Compartido: tú eliges la potencia y das tu wallet; ${marca} compra esa potencia durante 24 horas y la envía a un pool; el pool paga en sats directamente a tu wallet. Los sats no pasan por ${marca}. Recibirás sats, pero casi siempre por menos valor del que pagas.${solitario ? " En Solitario no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual." : ""}`}
+      desc={`En modo Compartido: tú eliges la potencia y das tu wallet; ${marca} compra esa potencia durante 24 horas y la envía a un pool; el pool paga en sats directamente a tu wallet. Los sats no pasan por ${marca}. ${conMayuscula(SERVICIO.frases.compartido)}.`}
     >
       <text x="160" y="17" textAnchor="middle" fontFamily={MONO} fontSize="10.5" letterSpacing="0.6" fill={SUAVE}>MODO COMPARTIDO</text>
       {pasos.map((p, k) => {
@@ -200,13 +201,6 @@ export function DibujoCompra({ marca, solitario = false }: { marca: string; soli
       <text x="160" y="301" textAnchor="middle" fontSize="12.5" fontWeight="500">van directos a ti.</text>
       <text x="160" y="326" textAnchor="middle" fontSize="11.5" fill={SUAVE}>Recibirás sats, pero casi siempre</text>
       <text x="160" y="342" textAnchor="middle" fontSize="11.5" fill={SUAVE}>por menos valor del que pagas.</text>
-      {solitario && (
-        <>
-          <line x1="18" y1="358" x2="302" y2="358" {...linea} strokeOpacity={0.4} strokeDasharray="2 3" />
-          <text x="160" y="381" textAnchor="middle" fontSize="11.5">En Solitario no hay reparto: si no encuentras</text>
-          <text x="160" y="398" textAnchor="middle" fontSize="11.5">un bloque, no recibes nada, y es lo más habitual.</text>
-        </>
-      )}
     </Lienzo>
   );
 }
