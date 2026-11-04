@@ -41,7 +41,7 @@ const PASOS = [
       "Compartido, Solitario o Híbrido, según cómo quieras recibir lo que genere tu potencia.",
   },
   {
-    titulo: "Indicas tu wallet y mina",
+    titulo: "Indicas tu wallet",
     texto:
       "Solo la dirección donde quieres recibir. Durante 24 horas, tu potencia mina en la red real de Bitcoin.",
   },
@@ -60,7 +60,7 @@ const CONFIANZA = [
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que genere depende del modo y de la red.",
+    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. No es una inversión: lo normal es recibir menos de lo que pagas. Lo que genere depende del modo y de la red.",
   },
 ];
 
@@ -228,7 +228,7 @@ function TarjetaPotencia() {
         <span>1 PH/s</span>
       </div>
       <p className="hash-text mt-4 text-2xl">{formatearEuros(precioPedido(th, "estable"))}</p>
-      <p className="mt-1 text-[13px] text-muted-foreground">Precio orientativo, IVA incluido.</p>
+      <p className="mt-1 text-[13px] text-muted-foreground">Precio orientativo, IVA incluido. Puede cambiar antes de abrir la venta.</p>
       <Link to="/minar" search={{ th }} hash="potencia" className={`${botonPrimario} mt-5`}>
         Continuar con {formatearEntero(th)} TH/s
       </Link>
