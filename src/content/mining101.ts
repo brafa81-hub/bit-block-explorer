@@ -110,7 +110,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Qué lleva un bloque",
         parrafos: [
           "Un bloque es una página del registro. Lleva unos pocos miles de pagos y una cabecera con un resumen de todos ellos y la referencia al bloque anterior.",
-          "El primer pago de cada bloque es especial: lo crea el propio minero para cobrarse la recompensa. Es la transacción coinbase.",
+          "El primer pago de cada bloque es especial: lo crea el propio minero para cobrarse la recompensa. Se llama transacción coinbase, y no tiene nada que ver con la empresa Coinbase.",
         ],
       },
       {
