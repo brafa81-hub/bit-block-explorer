@@ -51,6 +51,8 @@ export interface TerminoGlosario {
   explicacion: string[];
   ejemplo?: string;
   enLaPractica?: string;
+  /** Dónde aparece este concepto en la web, con enlace. Solo en fichas donde aporta. */
+  loVerasEn?: { texto: string; to: "/simulador" | "/minar"; hash?: string; enlace: string };
   relacionados: string[];
   capitulo?: { slug: string; titulo: string };
   revisado: string;
@@ -90,6 +92,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, el sistema cuenta todo en satoshis por dentro. Hablar de «bitcoins» es solo una forma cómoda de agruparlos.",
     ],
     ejemplo: "1 BTC = 100.000.000 satoshis.",
+    loVerasEn: {
+      texto: "En Minar: al elegir la potencia ves los sats aproximados que suele generar en modo Compartido.",
+      to: "/minar", hash: "potencia",
+      enlace: "Ver los sats en Minar",
+    },
     relacionados: ["bitcoin", "recompensa-de-bloque"],
     revisado: R,
   },
@@ -194,6 +201,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, no se puede predecir el resultado. Por eso los mineros solo pueden probar combinaciones hasta dar con un hash que empiece por suficientes ceros.",
     ],
     ejemplo: "Un hash de Bitcoin tiene 64 caracteres hexadecimales, es decir, 256 bits.",
+    loVerasEn: {
+      texto: "En el simulador: cada intento muestra su hash, y verás cómo cambia entero con solo cambiar un número.",
+      to: "/simulador",
+      enlace: "Probar el simulador",
+    },
     relacionados: ["sha-256", "nonce", "prueba-de-trabajo"],
     revisado: R,
   },
@@ -223,6 +235,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, el nonce se queda corto para las máquinas actuales. Los mineros también varían otros datos del bloque para tener más combinaciones.",
     ],
     ejemplo: "El nonce ocupa 32 bits: unos 4.300 millones de valores posibles.",
+    loVerasEn: {
+      texto: "En el simulador: el contador de intentos es el nonce que va cambiando hasta dar con un hash válido.",
+      to: "/simulador",
+      enlace: "Probar el simulador",
+    },
     relacionados: ["hash", "bloque", "prueba-de-trabajo"],
     revisado: R,
   },
@@ -285,6 +302,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, no garantiza nada en un bloque concreto. Es una cuestión de probabilidad que se nota cuando pasan muchos bloques.",
     ],
     ejemplo: "Un ASIC moderno ronda los 100-300 TH/s.",
+    loVerasEn: {
+      texto: "En Minar: eliges tu potencia en TH/s. En el simulador se compara con un ordenador, una máquina de minería y la red entera.",
+      to: "/minar", hash: "potencia",
+      enlace: "Ver la potencia en Minar",
+    },
     relacionados: ["unidades-de-hashrate", "asic", "dificultad"],
     revisado: R,
   },
@@ -302,6 +324,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, el orden de magnitud importa más que la cifra exacta. La red mueve cantidades que un ordenador doméstico no alcanzaría nunca.",
     ],
     ejemplo: "1 TH/s = 10^12 hashes/s · 1 PH/s = 1.000 TH/s · 1 EH/s = 1.000 PH/s.",
+    loVerasEn: {
+      texto: "En Minar: la potencia va de 250 TH/s a 1 PH/s. En el simulador ves cuántos hashes por segundo es cada una.",
+      to: "/minar", hash: "potencia",
+      enlace: "Ver la potencia en Minar",
+    },
     relacionados: ["hashrate", "asic"],
     revisado: R,
   },
@@ -316,6 +343,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En el simulador lo ves como el número de ceros al principio del hash. En la red real, la diana es muchísimo más pequeña.",
       "En realidad, no se mide en ceros sino con un número objetivo: el hash tiene que quedar por debajo de él.",
     ],
+    loVerasEn: {
+      texto: "En el simulador: se exigen tres ceros al principio del hash. En la red real son muchísimos más.",
+      to: "/simulador",
+      enlace: "Probar el simulador",
+    },
     relacionados: ["ajuste-de-dificultad", "prueba-de-trabajo", "hashrate"],
     revisado: R,
   },
@@ -395,6 +427,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Un minero pequeño en solitario podría pasar muchísimo tiempo sin encontrar un bloque. En un pool recibe pagos pequeños y frecuentes.",
       "En realidad, el pool no cambia la probabilidad total. Solo reduce la variabilidad para que los pagos sean más regulares.",
     ],
+    loVerasEn: {
+      texto: "En Minar, modo Compartido: tu potencia trabaja en un pool y recibes sats según el trabajo que hace.",
+      to: "/minar", hash: "potencia",
+      enlace: "Ver los modos en Minar",
+    },
     relacionados: ["share", "esquemas-de-pago", "stratum", "mineria-en-solitario", "comprar-potencia-de-mineria"],
     revisado: R,
   },
@@ -409,6 +446,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "El pool pide hashes más fáciles que el de la red. Contando cuántos le envías, calcula tu potencia real.",
       "En realidad, de vez en cuando una share también cumple la dificultad de la red. Ese es el bloque que el pool gana.",
     ],
+    loVerasEn: {
+      texto: "En el simulador: los hashes que empiezan por dos ceros son shares. No cierran el bloque, pero demuestran trabajo.",
+      to: "/simulador",
+      enlace: "Probar el simulador",
+    },
     relacionados: ["pool", "dificultad"],
     revisado: R,
   },
@@ -438,6 +480,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Desde la wallet generas direcciones para recibir y firmas los envíos. Con tu propia wallet, el control de tus bitcoins es solo tuyo.",
       "En realidad, los bitcoins no están dentro de la wallet. Están en la blockchain; la wallet solo guarda las claves para moverlos.",
     ],
+    loVerasEn: {
+      texto: "En Minar: lo único que te pedimos es la dirección de tu wallet, para que lo que recibas llegue directamente a ella.",
+      to: "/minar", hash: "potencia",
+      enlace: "Ir a Minar",
+    },
     relacionados: ["direccion", "clave-privada", "frase-de-recuperacion"],
     revisado: R,
   },
@@ -511,7 +558,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     categoria: "Comprar potencia",
     esencial: true,
     alias: ["comprar hashrate"],
-    definicion: "Potencia de minería que usas durante 24 horas, sin montar tu propio equipo. El pool se encarga de repartir los pagos.",
+    definicion: "Potencia de minería que usas durante 24 horas, sin montar tu propio equipo. Lo que recibas llega directamente a tu wallet.",
     explicacion: [
       "Es como reservar una pista de pádel. No compras el club ni te ocupas del mantenimiento: llegas y juegas.",
       "Durante esas 24 horas, tu potencia trabaja en un pool igual que la de un minero profesional.",
@@ -817,6 +864,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, cada intento tiene la misma probabilidad para todos; lo que cambia es cuántos intentos haces. Con poca potencia, encontrar un bloque es muy poco probable, por eso casi toda la minería se hace en pools.",
     ],
     enLaPractica: `En el modo Solitario de ${SERVICIO.marca}, tu potencia mina por su cuenta durante 24 horas. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. No es una inversión.`,
+    loVerasEn: {
+      texto: "En Minar, modo Solitario: junto a la potencia ves la probabilidad aproximada de encontrar un bloque.",
+      to: "/minar", hash: "potencia",
+      enlace: "Ver los modos en Minar",
+    },
     relacionados: ["pool", "esquemas-de-pago", "recompensa-de-bloque", "hashrate", "comprar-potencia-de-mineria"],
     revisado: R2,
   },
@@ -906,6 +958,11 @@ export const GLOSARIO: TerminoGlosario[] = [
       "En realidad, no es un dato exacto sino una estimación. Cada web la calcula con una ventana de tiempo distinta, y por eso las cifras difieren un poco.",
     ],
     ejemplo: "En 2026 ronda los 1.000 EH/s. 1 PH/s es aproximadamente una millonésima parte de esa cifra.",
+    loVerasEn: {
+      texto: "En el simulador: la comparación final pone 1 PH/s junto a la potencia de toda la red. Ahí se ve lo pequeña que es esa parte.",
+      to: "/simulador",
+      enlace: "Probar el simulador",
+    },
     relacionados: ["hashrate", "unidades-de-hashrate", "dificultad", "ataque-del-51"],
     revisado: R2,
   },

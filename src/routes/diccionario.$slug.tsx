@@ -116,6 +116,20 @@ function Ficha() {
         </section>
       )}
 
+      {t.loVerasEn && (
+        <section className="mt-10 border-t border-border pt-6">
+          <h2 className="text-xl">Lo verás en</h2>
+          <p className="mt-3 text-[16px]">{t.loVerasEn.texto}</p>
+          <Link
+            to={t.loVerasEn.to}
+            {...(t.loVerasEn.hash ? { hash: t.loVerasEn.hash } : {})}
+            className="mt-4 inline-flex min-h-[44px] items-center text-[15px] underline underline-offset-4"
+          >
+            {t.loVerasEn.enlace} →
+          </Link>
+        </section>
+      )}
+
       {pasoDeRuta(t.slug) > 0 && <PasoRuta slug={t.slug} />}
 
       {rel.length > 0 && (
