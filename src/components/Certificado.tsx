@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AvisoApertura } from "@/components/AvisoApertura";
 import { SERVICIO } from "@/content/servicio";
+import { registrar } from "@/lib/medicion";
 
 const { notaMinima } = SERVICIO.certificado;
 
@@ -22,6 +23,13 @@ export function Certificado({
   const [nombre, setNombre] = useState("");
   const [generando, setGenerando] = useState(false);
   const aprobado = aciertos >= notaMinima;
+
+  // Se monta una vez por intento completo del test.
+  useEffect(() => {
+    const detalle = `${aciertos}/${total}`;
+    registrar({ tipo: "test_terminado", detalle });
+    if (aprobado) registrar({ tipo: "test_aprobado", detalle });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   async function descargar() {

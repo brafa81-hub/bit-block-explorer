@@ -1,5 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { SERVICIO } from "@/content/servicio";
+import { registrar } from "@/lib/medicion";
 
 import { Quiz } from "@/components/Quiz";
 import { CAPITULOS, getCapitulo, indiceCapitulo } from "@/content/mining101";
@@ -55,6 +57,10 @@ function CapituloPagina() {
   const i = indiceCapitulo(c.slug);
   const siguiente = CAPITULOS[i + 1];
   const anterior = i > 0 ? CAPITULOS[i - 1] : undefined;
+
+  useEffect(() => {
+    registrar({ tipo: "lectura_capitulo", detalle: c.slug });
+  }, [c.slug]);
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">

@@ -63,24 +63,32 @@ export function origen(): Origen {
 type Evento =
   | { tipo: "visita" }
   | { tipo: "clic_comprar"; producto: ProductoId; modo: ModoId | null; cantidad: number }
-  | { tipo: "cambio_modo"; producto: ProductoId; modo: ModoId };
+  | { tipo: "cambio_modo"; producto: ProductoId; modo: ModoId }
+  /** Apertura de un capítulo de Aprende; detalle = slug del capítulo. */
+  | { tipo: "lectura_capitulo"; detalle: string }
+  /** Test final respondido entero; detalle = "aciertos/total". */
+  | { tipo: "test_terminado"; detalle: string }
+  | { tipo: "test_aprobado"; detalle: string };
 
-let ultimaVisita = 0;
+const ultimos = new Map<string, number>();
 
 /** Registra un evento sin bloquear la página; si falla, no pasa nada. */
 export function registrar(evento: Evento): void {
   if (typeof window === "undefined") return;
-  // Evita contar dos veces la misma visita (React puede montar la página dos veces seguidas).
-  if (evento.tipo === "visita") {
+  const detalle = "detalle" in evento ? evento.detalle.slice(0, 60) : null;
+  // Evita contar dos veces lo mismo seguido (React puede montar la página dos veces).
+  if (evento.tipo === "visita" || detalle !== null) {
+    const clave = `${evento.tipo}:${detalle ?? ""}`;
     const ahora = Date.now();
-    if (ahora - ultimaVisita < 2000) return;
-    ultimaVisita = ahora;
+    if (ahora - (ultimos.get(clave) ?? 0) < 2000) return;
+    ultimos.set(clave, ahora);
   }
   const fila = {
     tipo: evento.tipo,
     producto: "producto" in evento ? evento.producto : null,
     modo: "modo" in evento ? evento.modo : null,
     cantidad: "cantidad" in evento ? evento.cantidad : null,
+    detalle,
     ...origen(),
   };
   void supabase
