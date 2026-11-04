@@ -16,11 +16,13 @@ export const Route = createFileRoute("/simulador")({
       {
         property: "og:description",
         content:
-          "Mira en tu navegador cómo se mina un bloque de Bitcoin, paso a paso. Gratis y sin instalar nada.",
+          "Una simulación real de prueba de trabajo con SHA-256 doble, ejecutada en tu navegador. Sin jerga y sin instalar nada.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://bloque170.com/simulador" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://bloque170.com/simulador" }],
   }),
   component: SimuladorMineria,
 });
@@ -299,9 +301,8 @@ function SimuladorMineria() {
                 En la red real se exigen muchísimos más ceros, y todas las máquinas del mundo
                 compiten por el mismo bloque. Se puede minar en solitario, pero encontrar un bloque
                 así es muy poco probable. Por eso la mayoría de mineros se une a un pool, que cuenta
-                sus shares y les paga en proporción. Así trabaja la potencia en modo Compartido. En
-                Solitario, tu potencia busca el bloque entero por su cuenta, y en Híbrido hace las
-                dos cosas: 12 horas de cada.
+                sus shares y les paga en proporción. Es exactamente como trabaja la potencia que
+                compras.
               </p>
               <a
                 href="#escala-real"
@@ -315,7 +316,7 @@ function SimuladorMineria() {
 
         {/* Cómo funciona */}
         <section className="mt-12 lg:mt-16">
-          <div className="index-label">003 / cómo funciona</div>
+          <div className="index-label">005 / cómo funciona</div>
           <div className="mt-3">
             <Desplegable titulo="Cómo funciona">
               <div className="max-w-3xl space-y-6">
@@ -353,9 +354,6 @@ function SimuladorMineria() {
                   solitario las probabilidades de acertar son mínimas, y podrías no encontrar nada
                   nunca.
                 </Explica>
-                <Link to="/diccionario" className="inline-flex min-h-[44px] items-center text-[15px] underline underline-offset-4">
-                  Ver en el Diccionario
-                </Link>
               </div>
             </Desplegable>
           </div>
@@ -383,7 +381,7 @@ function SimuladorMineria() {
 
         <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-16">
           <div className="index-label" style={{ color: "var(--instrument-dark)" }}>
-            004 / escala real
+            006 / escala real
           </div>
 
           <h2 className="mt-3 max-w-2xl text-2xl sm:text-3xl" style={{ color: "var(--on-dark)" }}>
@@ -443,27 +441,16 @@ function SimuladorMineria() {
             Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
             euros cada una, consumen tanta electricidad como unas 40 viviendas, hacen ruido día y
             noche y se quedan anticuadas en pocos años. Con 1 PH/s usas esa misma potencia
-            durante 24 horas, sin montar tu propio equipo.
+            durante unas horas, sin montar tu propio equipo.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8">
             <Link
-              to="/minar"
-              hash="potencia"
+              to="/aprende"
               className="inline-flex min-h-[44px] items-center px-5 text-[15px]"
               style={{
                 backgroundColor: "var(--instrument-dark)",
                 color: "var(--ink)",
-              }}
-            >
-              Ver potencia
-            </Link>
-            <Link
-              to="/aprende"
-              className="inline-flex min-h-[44px] items-center border px-5 text-[15px]"
-              style={{
-                borderColor: "var(--instrument-dark)",
-                color: "var(--instrument-dark)",
               }}
             >
               Sigue aprendiendo sobre minería

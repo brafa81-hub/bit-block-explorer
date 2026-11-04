@@ -3,13 +3,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { GLOSARIO } from "@/content/glosario";
 import { CAPITULOS } from "@/content/mining101";
 import { SERVICIO, urlPublica } from "@/content/servicio";
-import { useState } from "react";
-import { MAX_TH, MIN_TH, PASO_TH, formatearEntero, formatearEuros, precioPedido } from "@/lib/catalogo";
+import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 
 const URL = urlPublica("/");
-const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin durante 24 horas`;
+const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin, por 24 horas`;
 const DESC =
-  "Elige entre 250 TH/s y 1 PH/s y mina Bitcoin durante 24 horas en la red real. Lo que se genere va directo a tu wallet.";
+  "Compra potencia de minería de Bitcoin por 24 horas, en euros y en español. Tú eliges la potencia y la apuntas a tu wallet. Sin contratos ni permanencia.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,8 +18,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITULO },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: URL }],
   }),
   component: Inicio,
 });
@@ -33,17 +34,16 @@ const botonSecundario =
 const PASOS = [
   {
     titulo: "Eliges tu potencia",
-    texto: "De 250 TH/s a 1 PH/s. Con más potencia haces más intentos en la red, y cada TH/s sale más barato.",
+    texto: "Eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas.",
   },
   {
-    titulo: "Eliges tu modo",
+    titulo: "Pones tu wallet",
     texto:
-      "Compartido, Solitario o Híbrido, según cómo quieras recibir lo que genere tu potencia.",
+      "Solo la dirección (en modo Pool propio, también el pool que quieras usar). Ni pool, ni configuración, ni datos técnicos: de eso nos encargamos nosotros.",
   },
   {
-    titulo: "Indicas tu wallet",
-    texto:
-      "Solo la dirección donde quieres recibir. Durante 24 horas, tu potencia mina en la red real de Bitcoin.",
+    titulo: "Tu potencia mina",
+    texto: "Durante 24 horas, tu potencia mina en la red real de Bitcoin.",
   },
 ];
 
@@ -51,16 +51,16 @@ const CONFIANZA = [
   {
     titulo: "Tu wallet, tus fondos",
     texto:
-      "Los pagos van directos a la dirección de tu wallet. No necesitamos tus claves ni tu frase de recuperación, y no guardamos tus bitcoins.",
+      "Nunca te pedimos la frase de recuperación ni guardamos tus bitcoins. Solo necesitas una dirección para recibir.",
   },
   {
-    titulo: "Sin compromisos ni permanencia",
+    titulo: "Sin contratos ni permanencia",
     texto:
-      "Un único pago por 24 horas de potencia, a precio claro. Sin cuotas ni suscripciones.",
+      "Son 24 horas sueltas, a precio claro. Sin cuotas, sin renovaciones y sin promesas de rentabilidad.",
   },
   {
     titulo: "Claridad desde el principio",
-    texto: "Pagas por 24 horas de potencia de minería, no por una cantidad de bitcoin. Lo que genere depende del modo y de la red.",
+    texto: "Lo normal es recibir en sats menos de lo que pagas, o nada, y no está garantizado. Lo que compras es potencia de minería real durante 24 horas, no un producto financiero.",
   },
 ];
 
@@ -70,17 +70,17 @@ function Inicio() {
       {/* 001 / portada */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-14 sm:px-8 sm:pt-24">
         <div className="index-label">001 / BLOQUE170.COM</div>
-        <p className="mt-3 text-[17px] text-primary">{SERVICIO.lema}</p>
+        <p className="mt-3 text-[15px] text-primary">{SERVICIO.lema}</p>
         <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">
-          Potencia de minería durante 24 horas.
+          Potencia de minería, por 24 horas.
         </h1>
         <p className="mt-5 max-w-2xl text-[17px] text-muted-foreground">
-          Eliges la potencia y el modo, indicas tu wallet y tu potencia mina en la red real de Bitcoin.
-          Lo que genere va directo a ti, sin pasar por nosotros.
+          Eliges la potencia, la apuntas a tu wallet y mina en la red real de Bitcoin. Sin contratos,
+          sin permanencia y sin promesas de rentabilidad.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link to="/minar" className={botonPrimario}>
-            Ver potencia
+            Ver la potencia
           </Link>
           <Link to="/simulador" className={botonSecundario}>
             Prueba el simulador
@@ -94,7 +94,20 @@ function Inicio() {
         <h2 className="mt-3 text-2xl sm:text-3xl">
           Potencia profesional, al alcance de cualquiera
         </h2>
-        <TarjetaPotencia />
+        <Link to="/minar" hash="potencia" className="mt-6 block border-2 border-primary p-6 hover:border-foreground">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-xl">Elige tu potencia</h3>
+            <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
+              PRÓXIMAMENTE
+            </span>
+          </div>
+          <p className="hash-text mt-2 text-[13px] text-muted-foreground">De 250 TH/s a 1 PH/s, durante 24 horas</p>
+          <div className="mt-4 h-1 w-full bg-border" aria-hidden="true">
+            <div className="h-1 w-3/4 bg-primary" />
+          </div>
+          <p className="mt-4 text-[17px]">Desde unos {DESDE_EUROS_APROX}, IVA incluido</p>
+          <span className={`${botonPrimario} mt-5`}>Ver la potencia</span>
+        </Link>
       </section>
 
       {/* 003 / cómo funciona */}
@@ -122,8 +135,8 @@ function Inicio() {
           entre dos personas: Satoshi Nakamoto envió 10 bitcoins a Hal Finney.
         </p>
         <p className="mt-3 text-[17px] text-muted-foreground">
-          Ese día Bitcoin empezó a moverse entre personas. <span className="font-medium text-primary">Nosotros llevamos la minería profesional
-          a las personas.</span> Tú eliges cuánta potencia y cómo usarla.
+          Ese día Bitcoin empezó a moverse entre personas. Nosotros llevamos la minería profesional
+          a las personas. Tú eliges cómo usar la potencia; el resultado depende del modo y de lo que ocurra en la red.
         </p>
       </section>
 
@@ -131,10 +144,9 @@ function Inicio() {
       <section className="bg-[var(--ink)] text-[var(--on-dark)]">
         <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
           <div className="hash-text text-[11px] tracking-[0.08em] text-[var(--on-dark-muted)]">
-            005 / qué compras y qué recibes
+            005 / por qué fiarte
           </div>
-          <h2 className="mt-3 text-2xl sm:text-3xl">Lo que compras, sin letra pequeña</h2>
-          <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-3">
             {CONFIANZA.map((c) => (
               <div key={c.titulo}>
                 <p className="text-[17px]">{c.titulo}</p>
@@ -148,13 +160,13 @@ function Inicio() {
       {/* 006 / aprende */}
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div className="index-label">006 / antes de empezar</div>
-        <h2 className="mt-3 text-2xl sm:text-3xl">Entiende la minería antes de empezar</h2>
+        <h2 className="mt-3 text-2xl sm:text-3xl">Entiende lo que haces</h2>
         <ul className="mt-6">
           <li className="border-t border-border">
             <Link to="/simulador" className="block py-5 hover:opacity-80">
               <span className="block text-xl">Simulador</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">
-                Mira en tu navegador cómo se mina un bloque de Bitcoin, paso a paso y en directo.
+                Mina un bloque en tu navegador y mira la prueba de trabajo en directo.
               </span>
             </Link>
           </li>
@@ -163,7 +175,8 @@ function Inicio() {
               <span className="block text-xl">Aprende</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">
                 {CAPITULOS.length} capítulos cortos y un test final. Si lo apruebas, te llevas un
-                certificado en PDF.
+                certificado con un {SERVICIO.certificado.descuentoPct} % de descuento de
+                lanzamiento.
               </span>
             </Link>
           </li>
@@ -193,45 +206,5 @@ function Inicio() {
         </div>
       </section>
     </main>
-  );
-}
-
-/* Tarjeta 002: elige la potencia aquí y continúa en /minar con ella ya puesta. */
-function TarjetaPotencia() {
-  const [th, setTh] = useState<number>(MIN_TH);
-  return (
-    <div className="mt-6 border-2 border-primary p-6">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-xl">Elige tu potencia</h3>
-        <span className="hash-text border border-border px-2 py-0.5 text-[11px] tracking-[0.06em] text-muted-foreground">
-          PRÓXIMAMENTE
-        </span>
-      </div>
-      <p className="hash-text mt-2 text-[13px] text-muted-foreground">
-        <span className="text-foreground">{formatearEntero(th)} TH/s</span> durante 24 horas
-      </p>
-      <label htmlFor="portada-th" className="sr-only">
-        Potencia (TH/s)
-      </label>
-      <input
-        id="portada-th"
-        type="range"
-        min={MIN_TH}
-        max={MAX_TH}
-        step={PASO_TH}
-        value={th}
-        onChange={(e) => setTh(Number(e.target.value))}
-        className="mt-4 w-full accent-[var(--primary)]"
-      />
-      <div className="hash-text mt-1 flex justify-between text-[12px] text-muted-foreground">
-        <span>{formatearEntero(MIN_TH)} TH/s</span>
-        <span>1 PH/s</span>
-      </div>
-      <p className="hash-text mt-4 text-2xl">{formatearEuros(precioPedido(th, "estable"))}</p>
-      <p className="mt-1 text-[13px] text-muted-foreground">Precio orientativo, IVA incluido. Puede cambiar antes de abrir la venta.</p>
-      <Link to="/minar" search={{ th }} hash="potencia" className={`${botonPrimario} mt-5`}>
-        Continuar con {formatearEntero(th)} TH/s
-      </Link>
-    </div>
   );
 }

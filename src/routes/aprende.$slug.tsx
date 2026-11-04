@@ -24,8 +24,10 @@ export const Route = createFileRoute("/aprende/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: c.descripcion },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   notFoundComponent: CapituloNoEncontrado,
@@ -54,7 +56,6 @@ function CapituloPagina() {
   const c = Route.useLoaderData();
   const i = indiceCapitulo(c.slug);
   const siguiente = CAPITULOS[i + 1];
-  const anterior = i > 0 ? CAPITULOS[i - 1] : undefined;
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
@@ -75,7 +76,7 @@ function CapituloPagina() {
       <p className="mt-10 border-l-2 border-primary pl-4 text-[16px]">{c.enRealidad}</p>
 
       <section className="mt-10 border-t border-border pt-6">
-        <h2 className="text-xl">En el Diccionario</h2>
+        <h2 className="text-xl">En el diccionario</h2>
         <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
           {c.terminos.map((t) => (
             <li key={t}><Link to="/diccionario/$slug" params={{ slug: t }} className="underline underline-offset-4">{getTermino(t)?.termino ?? t}</Link></li>
@@ -93,11 +94,6 @@ function CapituloPagina() {
       <section className="mt-12 border-t border-border pt-6">
         <p className="text-[17px]">{c.cierre}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          {anterior && (
-            <Link to="/aprende/$slug" params={{ slug: anterior.slug }} className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
-              Anterior: {idx(i)} / {anterior.titulo}
-            </Link>
-          )}
           {siguiente ? (
             <Link to="/aprende/$slug" params={{ slug: siguiente.slug }} className="inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
               Siguiente: {idx(i + 2)} / {siguiente.titulo}

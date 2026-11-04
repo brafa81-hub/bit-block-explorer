@@ -7,7 +7,7 @@ import { SERVICIO } from "@/content/servicio";
 import { QUIZ_FINAL } from "@/content/mining101";
 
 const URL = "https://bloque170.com/aprende/test";
-const TITULO = `Test de minería de Bitcoin | ${SERVICIO.marca}`;
+const TITULO = "Test de minería de Bitcoin | Minería de Bitcoin";
 const DESC = "Quince preguntas para comprobar si entiendes Bitcoin, la minería y qué incluye nuestro servicio, con la explicación de cada respuesta.";
 
 export const Route = createFileRoute("/aprende/test")({
@@ -18,8 +18,10 @@ export const Route = createFileRoute("/aprende/test")({
       { property: "og:title", content: TITULO },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: URL }],
   }),
   component: TestFinal,
 });
@@ -29,8 +31,8 @@ function TestFinal() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <Link to="/aprende" className="index-label hover:text-foreground">← aprende</Link>
-      <h1 className="mt-6 text-3xl sm:text-4xl">Test final</h1>
-      <p className="mt-4 text-[17px]">Quince preguntas sobre Bitcoin, la minería y nuestro servicio. Sin prisa. Con {SERVICIO.certificado.notaMinima} aciertos o más, te llevas un certificado en PDF.</p>
+      <h1 className="mt-6 text-3xl sm:text-4xl">Test</h1>
+      <p className="mt-4 text-[17px]">Quince preguntas sobre Bitcoin, la minería y nuestro servicio. Sin prisa. Con {SERVICIO.certificado.notaMinima} aciertos o más, te llevas un certificado en PDF y un descuento del {SERVICIO.certificado.descuentoPct} %.</p>
       <div className="mt-10">
         <Quiz
           key={intento}

@@ -6,7 +6,7 @@
 
 export const SERVICIO = {
   /** Nombre de marca: se cambia solo aquí. */
-  marca: "BLOQUE170.COM",
+  marca: "Bloque 170",
   /** Dominio público de la web (canonical, og:url, PDF). */
   dominio: "bloque170.com",
   /** Lema de marca. */
@@ -44,6 +44,8 @@ export const SERVICIO = {
   },
   regalos: {
     caducidadDias: 30,
+    /** Los descuentos (certificado...) no se suman entre sí. */
+    descuentosAcumulables: false,
   },
   /** Equivalencia de 1 PH/s en máquinas profesionales (unos 200 TH/s cada una). */
   maquinasEquivalentes: 5,
@@ -52,12 +54,15 @@ export const SERVICIO = {
   walletRecomendada: null,
   /** Página pública de pagos: todavía no existe. */
   webPublicaPagos: false,
-  variacionPotencia: "la potencia puede variar algo durante las 24 horas",
+  variacionPotencia: "la potencia puede variar algo durante la sesión",
   transparencia: "Lo que recibirás en sats es menor que lo que pagas",
   resultado: "No es una inversión ni garantiza un resultado.",
-  /** Certificado del test final. Sin descuento: mismo precio para todos (modelo v9.3.2). */
+  /** Certificado del test final: nota mínima y descuento de lanzamiento. */
   certificado: {
     notaMinima: 12,
+    descuentoPct: 10,
+    /** Fecha de caducidad del descuento: sin decidir (null = "se comunicará"). */
+    caducidad: null as string | null,
   },
 } as const;
 

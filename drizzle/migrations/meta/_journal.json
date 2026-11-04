@@ -40,8 +40,15 @@
     {
       "idx": 5,
       "version": "7",
-      "when": 1793056501282,
+      "when": 1793781064864,
       "tag": "0005_origen_solicitudes_potencia",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793781076093,
+      "tag": "0006_eventos_aprende",
       "breakpoints": true
     }
   ]

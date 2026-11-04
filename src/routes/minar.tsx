@@ -19,14 +19,14 @@ import {
   maquinasDe,
   precioPedido,
   satsAprox,
-  unoEntreBloque,
+  unoEntreBloque12h,
   type ModoId,
   type ProductoId,
 } from "@/lib/catalogo";
 import { origen, registrar } from "@/lib/medicion";
 
 const URL = urlPublica("/minar");
-const TITULO = `Minería de Bitcoin a tu medida, durante 24 horas | ${SERVICIO.marca}`;
+const TITULO = "Vive 24 h como minero de Bitcoin | Minar";
 const DESC = `De 250 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde unos ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
 
 export const Route = createFileRoute("/minar")({
@@ -37,15 +37,11 @@ export const Route = createFileRoute("/minar")({
       { property: "og:title", content: "Vive 24 h como minero de Bitcoin" },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: URL }],
   }),
-  validateSearch: (search: Record<string, unknown>): { th?: number } => {
-    const n = Number(search["th"]);
-    if (!Number.isFinite(n)) return {};
-    const th = Math.min(MAX_TH, Math.max(MIN_TH, Math.round(n / PASO_TH) * PASO_TH));
-    return { th };
-  },
   component: Minar,
 });
 
@@ -53,27 +49,25 @@ export const Route = createFileRoute("/minar")({
 
 const MODOS: { id: ModoId; nombre: string }[] = [
   { id: "estable", nombre: "Compartido" },
-  { id: "solitario", nombre: "Solitario" },
-  { id: "mixto", nombre: "Híbrido" },
+  { id: "mixto", nombre: "Combinado" },
+  { id: "solitario", nombre: "Pool propio" },
 ];
 
 function textoModo(modo: ModoId): string {
   if (modo === "estable")
-    return "Recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.";
+    return "Cobras cada día por el trabajo entregado, en cantidades pequeñas.";
   if (modo === "solitario")
-    return "Tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
-  return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
+    return "Para quien ya sabe de minería: tú pones el pool donde quieres que trabaje la potencia. Mismo precio que el Compartido. Lo que recibas depende del pool que elijas, así que no damos estimación.";
+  return `12 h en modo Compartido y 12 h en solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
 }
 
 function textoSats(th: number, modo: ModoId): string | null {
-  if (modo === "solitario")
-    return `Lo normal es no recibir nada. Probabilidad de encontrar un bloque en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
   const s = satsAprox(th, modo);
   if (s === null) return null;
   const sats = formatearEntero(s);
   if (modo === "mixto")
-    return `Compartido (12 h): unos ${sats} sats. Solitario (12 h): lo normal es no recibir nada. Probabilidad de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}.`;
-  return `Unos ${sats} sats`;
+    return `Unos ${sats} sats aproximados en las 12 h en modo Compartido. En las 12 h en solitario, lo normal es nada; si tu potencia encuentra un bloque, unos ${formatearEntero(SERVICIO.catalogo.recompensaBloqueSats)} sats (3,125 BTC más comisiones). Probabilidad aproximada: 1 entre ${formatearEntero(unoEntreBloque12h(th))}.`;
+  return `Unos ${sats} sats aproximados`;
 }
 
 function SelectorModo({
@@ -326,7 +320,7 @@ function AvisoComprar({
               />
               <span>
                 Acepto que guardéis mi email y mis respuestas para avisarme de la apertura.{" "}
-                <Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">
+                <Link to="/privacidad" className="text-primary underline underline-offset-4">
                   Privacidad
                 </Link>
               </span>
@@ -341,7 +335,7 @@ function AvisoComprar({
                 disabled={!valido || estado === "enviando"}
                 className="min-h-[44px] rounded-none bg-primary px-5 text-[15px] text-primary-foreground shadow-none disabled:opacity-40"
               >
-                {estado === "enviando" ? "Enviando" : "Avisadme"}
+                {estado === "enviando" ? "Enviando" : seleccion?.producto === "regalos" ? REGALOS.boton : "Avisadme"}
               </Button>
               <p className="text-[12px] text-muted-foreground">Sin pagos ni datos de tarjeta.</p>
             </div>
@@ -355,8 +349,7 @@ function AvisoComprar({
 /* ───────────── Página ───────────── */
 
 function Minar() {
-  const { th: thInicial } = Route.useSearch();
-  const [th, setTh] = useState<number>(thInicial ?? MIN_TH);
+  const [th, setTh] = useState<number>(MIN_TH);
   const [modo, setModo] = useState<ModoId>("estable");
   const [seleccion, setSeleccion] = useState<Seleccion | null>(null);
 
@@ -382,10 +375,10 @@ function Minar() {
       {/* 001 / minar */}
       <section className="mx-auto max-w-3xl px-5 pt-16 pb-12 sm:px-8">
         <div className="index-label">001 / minar</div>
-        <h1 className="mt-3 text-3xl sm:text-4xl">Minería de Bitcoin a tu medida</h1>
+        <h1 className="mt-3 text-3xl sm:text-4xl">Potencia verificable</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
-          Eliges la potencia y el modo, indicas tu wallet y tu potencia mina durante 24 horas en la
-          red real de Bitcoin. Un único pago, sin renovaciones.
+          Eliges la potencia y durante 24 horas mina en la red real de Bitcoin. Sin contratos, sin
+          permanencia y sin promesas de rentabilidad. De lo técnico nos encargamos nosotros.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
           Todavía no se puede comprar: déjanos tu email y te avisamos en cuanto abramos.
@@ -428,11 +421,12 @@ function Minar() {
             </div>
           </div>
 
+          <SolicitudPotencia />
           <SelectorModo modo={modo} onCambio={cambiarModo} />
 
           <div className="pt-4">
             <p className="hash-text text-2xl">{formatearEuros(precioPedido(th, modo))}</p>
-            <p className="mt-1 text-[13px] text-muted-foreground">Precio orientativo, IVA incluido. Puede cambiar antes de abrir la venta.</p>
+            <p className="mt-1 text-[13px] text-muted-foreground">IVA incluido, sin cuotas aparte</p>
             {sats && (
               <>
                 <p className="hash-text mt-4 text-[14px]">{sats}</p>
@@ -455,26 +449,21 @@ function Minar() {
             >
               Apuntarme a la lista de espera
             </button>
-            <SolicitudPotencia />
           </div>
         </article>
 
-        <div className="mt-8 space-y-3 text-[14px] leading-relaxed text-muted-foreground">
-          <p>
-            <strong className="font-medium text-foreground">Qué obtienes:</strong> potencia de minería durante 24 horas, minando Bitcoin en la red real. Los
-            sats que genere tu potencia son bitcoin recién creado, sin historial previo, y llegan directos a tu wallet, sin pasar por ningún exchange.
-          </p>
-          <p>
-            <strong className="font-medium text-foreground">Lo que debes saber:</strong> no es una inversión. En Compartido, lo normal es recibir en sats
-            menos de lo que pagas. En Solitario se mina a por el bloque entero: lo normal es no recibir nada, pero si tu potencia lo encuentra, la
-            recompensa completa es tuya. Si en algún momento te llega menos potencia de la elegida, alargamos el tiempo hasta compensarlo.
-          </p>
-          <p>
-            <Link to="/simulador" className="underline underline-offset-4">
-              Mira cómo se mina un bloque en el simulador
-            </Link>
-          </p>
-        </div>
+        <p className="mt-8 text-[14px] leading-relaxed text-muted-foreground">
+          No es un producto financiero ni una inversión: compras potencia de minería real durante
+          24 horas. En modo Compartido, lo normal es recibir en sats menos de lo que pagas. En las
+          horas en solitario, lo normal es no recibir nada; solo si tu potencia encuentra un bloque
+          recibirías la recompensa completa, y la probabilidad es muy baja. En Pool propio depende de
+          tu pool. Ningún resultado está garantizado. Si en algún momento llega menos potencia, la
+          sesión se alarga hasta entregar toda la contratada.{" "}
+          <Link to="/simulador" className="underline underline-offset-4">
+            Pruébalo antes en el simulador
+          </Link>
+          .
+        </p>
       </section>
 
       {/* 003 / regalos */}
@@ -509,37 +498,31 @@ function Minar() {
         <div className="index-label">004 / preguntas</div>
         <div className="mt-6">
           <Pregunta titulo="¿Qué es 250 TH/s?">
-            250 billones de intentos por segundo, algo más de lo que hace una máquina de minería
-            profesional actual. Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
-          </Pregunta>
-          <Pregunta titulo="¿Qué son los sats?">
-            Pequeñas fracciones de bitcoin: 100 millones de sats son 1 BTC. Es la unidad en la que
-            recibes lo que genera tu potencia.
+            250 billones de intentos por segundo: la potencia de un minero profesional actual.
+            Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
           </Pregunta>
           <Pregunta titulo="¿Qué modo elijo?">
-            Compartido, si quieres recibir sats por el trabajo que hace tu potencia. Solitario, si
-            prefieres que tu potencia mine sola: lo normal es no recibir nada, pero si encuentra un
-            bloque entero, va directo a tu wallet. Híbrido reparte las 24 horas: 12 en Compartido y 12
-            en Solitario.
-          </Pregunta>
-          <Pregunta titulo="¿Qué pasa si en Solitario se encuentra un bloque?">
-            Recibes en tu wallet la recompensa completa del bloque: hoy, 3,125 BTC más las comisiones
-            de los pagos que incluye. Es muy poco probable; la probabilidad aproximada aparece junto
-            al precio.
+            Compartido, si quieres recibir sats cada día por el trabajo entregado. Combinado reparte las 24
+            horas entre el modo Compartido y el solitario. Pool propio, si ya sabes de minería y quieres
+            elegir tú el pool donde trabaja la potencia.
           </Pregunta>
           <Pregunta titulo="¿Qué necesito?">
             Una wallet de Bitcoin para recibir. Te guiamos paso a paso para configurarla; del resto
             nos encargamos nosotros.
           </Pregunta>
           <Pregunta titulo="¿Se puede regalar?">
-            Sí, con códigos regalo: uno por persona, y cada uno lo activa con su propia wallet.{" "}
-            <Link to="/minar" hash="regalos" className="text-primary underline underline-offset-4">
-              Ver regalos
-            </Link>
+            Sí. Cuando te apuntes, indica que es para regalar y te avisaremos de cómo hacerlo al
+            abrir.
           </Pregunta>
           <Pregunta titulo="¿Cuándo se puede comprar?">
             Estamos preparando la apertura. Déjanos tu email y te avisamos en cuanto abramos.
           </Pregunta>
+        </div>
+
+        <div className="mt-10 border-t border-border pt-6">
+          <Link to="/simulador" className="text-[15px] text-primary underline underline-offset-4">
+            Volver al simulador
+          </Link>
         </div>
       </section>
 

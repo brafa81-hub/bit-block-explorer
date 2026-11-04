@@ -1,4 +1,4 @@
-import { DESDE_EUROS_APROX, formatearEuros } from "@/lib/catalogo";
+import { DESDE_EUROS_APROX } from "@/lib/catalogo";
 import { SERVICIO } from "./servicio";
 
 export interface PreguntaQuiz {
@@ -290,7 +290,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Cuánto es 1 PH/s",
         parrafos: [
           "1 PH/s son 1.000 TH/s: la potencia de unas cinco máquinas modernas trabajando a la vez.",
-          "Es mucho más de lo que nadie puede tener en casa, pero una parte muy pequeña de toda la red, que suma alrededor de un millón de PH/s.",
+          "Es mucho más de lo que nadie puede tener en casa, pero una parte muy pequeña de toda la red, que suma cientos de miles de PH/s.",
         ],
       },
     ],
@@ -521,7 +521,7 @@ export const CAPITULOS: Capitulo[] = [
     enRealidad:
       "En realidad, tus bitcoins no están dentro de la app: están registrados en la blockchain. La wallet solo guarda las llaves para moverlos.",
     terminos: ["wallet", "direccion", "clave-privada", "frase-de-recuperacion", "clave-publica", "firma-digital", "utxo", "wallet-sin-custodia", "custodia", "wallet-fria", "wallet-caliente", "hardware-wallet", "copia-de-seguridad", "phishing", "doble-factor", "segwit", "taproot", "lightning"],
-    cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar con potencia de minería durante 24 horas.",
+    cierre: "Ya tienes dónde recibir. Solo queda ver cómo participar con potencia de minería durante unas horas.",
     quiz: [
       {
         pregunta: "¿Qué puedes compartir sin problema?",
@@ -544,40 +544,31 @@ export const CAPITULOS: Capitulo[] = [
     ],
   },
   {
-    slug: "comprar-potencia-de-mineria",
-    titulo: "Comprar potencia de minería",
+    slug: "alquilar-hashrate",
+    titulo: "Potencia de minería por horas",
     pregunta: "¿Se puede participar en la minería real sin montar tu propio equipo?",
-    descripcion: `Qué es comprar potencia de minería, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
+    descripcion: `Qué es la potencia de minería por horas, cómo funciona con ${SERVICIO.marca} y qué puedes esperar, con total transparencia.`,
     secciones: [
       {
-        titulo: "Qué es comprar potencia",
+        titulo: "Potencia por horas",
         parrafos: [
-          "Comprar potencia de minería es acceder durante 24 horas a potencia de minería industrial, sin montar tu propio equipo. Tú eliges cuánta potencia; el tiempo son siempre 24 horas.",
+          "Comprar potencia de minería por horas es acceder durante un tiempo concreto a potencia de minería industrial, sin montar tu propio equipo. Tú eliges cuánta potencia y durante cuánto tiempo.",
           `Con ${SERVICIO.marca} eliges tu potencia, ${potencia}, durante 24 h, desde unos ${DESDE_EUROS_APROX} con IVA.`,
         ],
       },
       {
         titulo: "Cómo funciona",
         parrafos: [
-          `Eliges la potencia y el modo (Compartido, Solitario o Híbrido) y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos.`,
-          `${SERVICIO.marca} lanza la potencia a un pool. En modo Compartido, el pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
-          "Si en algún momento te llega menos potencia de la elegida, alargamos el tiempo hasta compensarlo.",
+          `Eliges la potencia y nos das la dirección de tu wallet. Nada más: ni pool ni datos técnicos (salvo en modo Pool propio, si quieres elegir tú el pool).`,
+          `${SERVICIO.marca} lanza la potencia a un pool. El pool paga de forma proporcional a tu dirección, ${SERVICIO.plazoPago}.`,
+          `Ten en cuenta que ${SERVICIO.variacionPotencia}.`,
           ...pagos,
-        ],
-      },
-      {
-        titulo: "Qué modo elegir",
-        parrafos: [
-          "Compartido: recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.",
-          "Solitario: tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.",
-          `Híbrido: 12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`,
-          "En la página [Minar](/minar) ves los sats aproximados y la probabilidad de encontrar un bloque para la potencia que elijas.",
         ],
       },
       {
         titulo: "Lo que pagas y lo que recibes",
         parrafos: [
-          "Vamos a ser claros, porque es lo más importante de esta página: lo normal es que recibas en sats menos de lo que pagas.",
+          "Vamos a ser claros, porque es lo más importante de esta página: lo que pagas es mayor que lo que recibirás en sats.",
           "Mira el [simulador](/simulador): 1 PH/s es mucho frente a un ordenador, pero una parte muy pequeña de la red.",
           "No es una inversión y no hay resultado garantizado. Lo que obtienes es minar Bitcoin de verdad: los sats que genere tu potencia son bitcoin recién creado por la red, sin historial previo, y llegan directamente a tu wallet sin pasar por ningún exchange. La cantidad no es fija: depende de la red y del pool.",
         ],
@@ -591,7 +582,7 @@ export const CAPITULOS: Capitulo[] = [
     ],
     enRealidad:
       "En realidad, no eliges una máquina concreta: eliges una cantidad de potencia durante un tiempo, que puede salir de varios equipos.",
-    terminos: ["comprar-potencia-de-mineria", "pool-de-destino"],
+    terminos: ["hashrate-alquilado", "pool-de-destino"],
     cierre: "Has recorrido la minería de principio a fin: ya entiendes algo que la mayoría de la gente nunca llega a ver por dentro. Ahora puedes dar el paso o comprobar lo aprendido con el test.",
     quiz: [
       {
@@ -607,7 +598,7 @@ export const CAPITULOS: Capitulo[] = [
         explicacion: `Eliges la potencia, ${potencia} durante 24 h, y nos das tu dirección. Lo técnico corre de nuestra parte.`,
       },
       {
-        pregunta: "En modo Compartido, ¿quién te paga los sats?",
+        pregunta: "¿Quién te paga los sats?",
         opciones: [`${SERVICIO.marca}, de su cuenta`, "El pool, de forma proporcional", "Un banco"],
         correcta: 1,
         explicacion: `El pool paga directamente a tu dirección según lo aportado. ${SERVICIO.marca} no recibe ni custodia fondos.`,
@@ -667,7 +658,7 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     pregunta: "¿Cuántos TH/s hay en 1 PH/s?",
     opciones: ["100", "1.000", "1.000.000"],
     correcta: 1,
-    explicacion: "1 PH/s son 1.000 TH/s: la potencia de unas cinco máquinas modernas.",
+    explicacion: "1 PH/s son 1.000 TH/s: la potencia de varias decenas de máquinas profesionales.",
   },
   {
     pregunta: "Si entran muchas máquinas nuevas en la red, la dificultad…",
@@ -693,35 +684,35 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
     explicacion: `Compras potencia, ${potencia}, durante 24 h. No compras bitcoin ni equipos.`,
   },
   {
-    pregunta: "¿Qué significa 1 PH/s durante tus 24 horas?",
+    pregunta: "¿Qué significa 1 PH/s en tu sesión?",
     opciones: ["La potencia de cálculo que trabaja para ti", "Los sats que recibirás", "Un bitcoin por hora"],
     correcta: 0,
     explicacion: "Es potencia, no una cantidad de bitcoin. Lo que genera esa potencia no es fijo.",
   },
   {
-    pregunta: "Durante las 24 horas, la potencia…",
-    opciones: ["Es exactamente igual cada segundo", "Es la que eliges; si llega menos, se alarga el tiempo para compensarlo", "Va aumentando sola"],
+    pregunta: "Durante la sesión, la potencia…",
+    opciones: ["Es exactamente igual cada segundo", `Es la contratada, aunque ${SERVICIO.variacionPotencia.replace(/^la potencia /, "")}`, "Va aumentando sola"],
     correcta: 1,
-    explicacion: "Trabajas con la potencia que eliges. Si en algún momento llega menos, alargamos el tiempo hasta compensarlo.",
+    explicacion: `Trabajas con la potencia contratada, pero ${SERVICIO.variacionPotencia}.`,
   },
   {
     pregunta: "Comparado con lo que pagas, lo que recibes en sats es…",
     opciones: ["Mayor", "Igual", "Menor"],
     correcta: 2,
-    explicacion: "Lo normal es recibir en sats menos de lo que pagas (y en modo Solitario, normalmente nada). Lo que obtienes es potencia de minería real durante las 24 horas, no un rendimiento.",
+    explicacion: "Lo normal es recibir en sats menos de lo que pagas, o nada. Lo que obtienes es potencia de minería real durante el tiempo contratado, no un rendimiento.",
   },
   {
     pregunta: "¿Es una inversión?",
     opciones: [
       "Sí, con rentabilidad asegurada",
       "No: es un servicio de potencia de minería sin resultado garantizado",
-      "Solo si eliges más potencia",
+      "Solo si eliges la sesión más larga",
     ],
     correcta: 1,
     explicacion: SERVICIO.resultado,
   },
   {
-    pregunta: "¿Quién guarda los bitcoin que genera tu potencia?",
+    pregunta: "¿Quién guarda los bitcoin que genera tu sesión?",
     opciones: [`${SERVICIO.marca}, en una cuenta interna`, "Tú, en tu propia wallet", "Nadie hasta que los reclames"],
     correcta: 1,
     explicacion: `Solo nos das tu dirección. ${SERVICIO.marca} nunca pide tu frase de recuperación ni guarda tus fondos.`,
@@ -731,9 +722,3 @@ export const QUIZ_FINAL: PreguntaQuiz[] = [
 export const getCapitulo = (slug: string) => CAPITULOS.find((c) => c.slug === slug);
 export const indiceCapitulo = (slug: string) => CAPITULOS.findIndex((c) => c.slug === slug);
 export const capituloDeTermino = (slug: string) => CAPITULOS.find((c) => c.terminos.includes(slug));
-
-/** Minutos de lectura aproximados (200 palabras por minuto), como mínimo 1. */
-export const minutosLectura = (c: Capitulo) => {
-  const texto = [...c.secciones.flatMap((s) => s.parrafos), c.enRealidad].join(" ");
-  return Math.max(1, Math.round(texto.split(/\s+/).length / 200));
-};

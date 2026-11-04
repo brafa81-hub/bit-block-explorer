@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { CAPITULOS, minutosLectura } from "@/content/mining101";
+import { CAPITULOS } from "@/content/mining101";
 import { idx } from "@/content/glosario";
 
 const URL = "https://bloque170.com/aprende";
 const TITULO = "Aprende minería de Bitcoin desde cero";
 const DESC =
-  "Diez capítulos cortos para entender qué es minar Bitcoin: bloques, hash, dificultad, máquinas, pools, costes, energía, tu primera wallet y cómo comprar potencia de minería.";
+  "Diez capítulos cortos para entender qué es minar Bitcoin: bloques, hash, dificultad, máquinas, pools, costes, energía, tu primera wallet y la potencia de minería por horas.";
 
 export const Route = createFileRoute("/aprende/")({
   head: () => ({
@@ -16,8 +16,10 @@ export const Route = createFileRoute("/aprende/")({
       { property: "og:title", content: TITULO },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: URL }],
   }),
   component: Indice,
 });
@@ -32,7 +34,7 @@ function Indice() {
         {CAPITULOS.map((c, i) => (
           <li key={c.slug} className="border-t border-border">
             <Link to="/aprende/$slug" params={{ slug: c.slug }} className="block py-5 hover:opacity-80">
-              <span className="index-label">{idx(i + 1)} / · {minutosLectura(c)} min</span>
+              <span className="index-label">{idx(i + 1)} /</span>
               <span className="mt-1 block text-xl">{c.titulo}</span>
               <span className="mt-1 block text-[15px] text-muted-foreground">{c.pregunta}</span>
             </Link>
@@ -40,7 +42,7 @@ function Indice() {
         ))}
       </ol>
       <Link to="/aprende/test" className="mt-8 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
-        Test final y certificado
+        Test (opcional)
       </Link>
     </main>
   );

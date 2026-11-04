@@ -22,8 +22,10 @@ export const Route = createFileRoute("/diccionario/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: t.definicion },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: [{ rel: "canonical", href: url }],
       scripts: [
         {
           type: "application/ld+json",
