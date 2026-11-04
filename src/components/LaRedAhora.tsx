@@ -62,8 +62,8 @@ export function LaRedAhora({ indice }: { indice: string }) {
       </dl>
 
       <p className="mt-4 max-w-2xl text-[13px] text-muted-foreground">
-        Datos orientativos{directo ? " de mempool.space" : ""}. No indican lo que recibirás: lo normal
-        es recibir en sats menos de lo que pagas y, en Solitario, lo normal es no recibir nada. No es
+        Datos orientativos{directo ? " de mempool.space" : ""}. No indican lo que recibirás. En Compartido,
+        recibirás sats, pero casi siempre por menos valor del que pagas. En Solitario no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual. No es
         una inversión.
       </p>
 

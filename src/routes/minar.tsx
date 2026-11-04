@@ -62,18 +62,18 @@ function textoModo(modo: ModoId): string {
   if (modo === "estable")
     return "Recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.";
   if (modo === "solitario")
-    return "Tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Lo normal es no recibir nada; si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
+    return "Tu potencia mina por su cuenta durante 24 horas. A diferencia de Compartido, aquí no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual. Si lo encuentra, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
   return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
 }
 
 function textoSats(th: number, modo: ModoId): string | null {
   if (modo === "solitario")
-    return `Lo normal es no recibir nada. Probabilidad de encontrar un bloque en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
+    return `Si no encuentras un bloque, no recibes nada, y es lo más habitual. Probabilidad de encontrar un bloque en 24 h: 1 entre ${formatearEntero(unoEntreBloque(th, 24))}.`;
   const s = satsAprox(th, modo);
   if (s === null) return null;
   const sats = formatearEntero(s);
   if (modo === "mixto")
-    return `Compartido (12 h): unos ${sats} sats. Solitario (12 h): lo normal es no recibir nada. Probabilidad de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}.`;
+    return `12 h en Compartido: unos ${sats} sats, casi siempre por menos valor del que pagas. 12 h en Solitario: si no encuentras un bloque, no recibes nada, y es lo más habitual. Probabilidad de encontrar un bloque: 1 entre ${formatearEntero(unoEntreBloque(th, 12))}.`;
   return `Unos ${sats} sats`;
 }
 
@@ -466,8 +466,8 @@ function Minar() {
             sats que genere tu potencia son bitcoin recién creado, sin historial previo, y llegan directos a tu wallet, sin pasar por ningún exchange.
           </p>
           <p>
-            <strong className="font-medium text-foreground">Lo que debes saber:</strong> no es una inversión. En Compartido, lo normal es recibir en sats
-            menos de lo que pagas. En Solitario se mina a por el bloque entero: lo normal es no recibir nada, pero si tu potencia lo encuentra, la
+            <strong className="font-medium text-foreground">Lo que debes saber:</strong> no es una inversión. En Compartido, recibirás sats, pero casi siempre por menos valor del que pagas.
+            En Solitario no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual; si tu potencia lo encuentra, la
             recompensa completa es tuya. Si en algún momento te llega menos potencia de la elegida, alargamos el tiempo hasta compensarlo.
           </p>
           <DibujoCompra marca={SERVICIO.marca} solitario />
@@ -520,7 +520,7 @@ function Minar() {
           </Pregunta>
           <Pregunta titulo="¿Qué modo elijo?">
             Compartido, si quieres recibir sats por el trabajo que hace tu potencia. Solitario, si
-            prefieres que tu potencia mine sola: lo normal es no recibir nada, pero si encuentra un
+            prefieres que tu potencia mine sola: no hay reparto, así que si no encuentras un bloque, no recibes nada, y es lo más habitual; si encuentra un
             bloque entero, va directo a tu wallet. Híbrido reparte las 24 horas: 12 en Compartido y 12
             en Solitario.
           </Pregunta>

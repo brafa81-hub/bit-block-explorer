@@ -406,8 +406,7 @@ function SimuladorMineria() {
             Frente a la red entera, 1 PH/s es más o menos una millonésima. Le pasa lo mismo a
             cualquier minero, incluso a granjas con cientos de máquinas. Por eso la mayoría se une
             a pools: cada participante recibe en proporción a lo que aporta, sea grande o pequeño.
-            En Solitario no se reparte: o se encuentra un bloque entero o no se recibe nada, y lo
-            normal es no recibir nada.
+            En Solitario no hay reparto: si no encuentras un bloque, no recibes nada, y es lo más habitual.
           </p>
           <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
             Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
