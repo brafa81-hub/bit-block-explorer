@@ -16,7 +16,7 @@ export const Route = createFileRoute("/simulador")({
       {
         property: "og:description",
         content:
-          "Una simulación real de prueba de trabajo con SHA-256 doble, ejecutada en tu navegador. Sin jerga y sin instalar nada.",
+          "Mira en tu navegador cómo se mina un bloque de Bitcoin, paso a paso. Gratis y sin instalar nada.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -315,7 +315,7 @@ function SimuladorMineria() {
 
         {/* Cómo funciona */}
         <section className="mt-12 lg:mt-16">
-          <div className="index-label">005 / cómo funciona</div>
+          <div className="index-label">003 / cómo funciona</div>
           <div className="mt-3">
             <Desplegable titulo="Cómo funciona">
               <div className="max-w-3xl space-y-6">
@@ -353,6 +353,9 @@ function SimuladorMineria() {
                   solitario las probabilidades de acertar son mínimas, y podrías no encontrar nada
                   nunca.
                 </Explica>
+                <Link to="/diccionario" className="inline-flex min-h-[44px] items-center text-[15px] underline underline-offset-4">
+                  Ver en el Diccionario
+                </Link>
               </div>
             </Desplegable>
           </div>
@@ -380,7 +383,7 @@ function SimuladorMineria() {
 
         <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-16">
           <div className="index-label" style={{ color: "var(--instrument-dark)" }}>
-            006 / escala real
+            004 / escala real
           </div>
 
           <h2 className="mt-3 max-w-2xl text-2xl sm:text-3xl" style={{ color: "var(--on-dark)" }}>
@@ -440,16 +443,27 @@ function SimuladorMineria() {
             Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
             euros cada una, consumen tanta electricidad como unas 40 viviendas, hacen ruido día y
             noche y se quedan anticuadas en pocos años. Con 1 PH/s usas esa misma potencia
-            durante unas horas, sin montar tu propio equipo.
+            durante 24 horas, sin montar tu propio equipo.
           </p>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              to="/aprende"
+              to="/minar"
+              hash="potencia"
               className="inline-flex min-h-[44px] items-center px-5 text-[15px]"
               style={{
                 backgroundColor: "var(--instrument-dark)",
                 color: "var(--ink)",
+              }}
+            >
+              Ver potencia
+            </Link>
+            <Link
+              to="/aprende"
+              className="inline-flex min-h-[44px] items-center border px-5 text-[15px]"
+              style={{
+                borderColor: "var(--instrument-dark)",
+                color: "var(--instrument-dark)",
               }}
             >
               Sigue aprendiendo sobre minería
