@@ -284,9 +284,9 @@ function SimuladorMineria() {
 
         {/* Cómo funciona */}
         <section className="mt-12 lg:mt-16">
-          <div className="index-label">003 / cómo funciona</div>
+          <div className="index-label">003 / términos del simulador</div>
           <div className="mt-3">
-            <Desplegable titulo="Cómo funciona">
+            <Desplegable titulo="Explicación de términos">
               <div className="max-w-3xl space-y-6">
                 <Explica titulo="Qué es un hash">
                   Es una función que convierte cualquier dato en un código de longitud fija. Cambia
