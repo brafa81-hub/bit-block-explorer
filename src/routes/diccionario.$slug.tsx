@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 
+import { DEMOS } from "@/components/demos";
 import { getTermino, idx, indiceDe, pasoDeRuta, RUTA } from "@/content/glosario";
 import { capituloDeTermino } from "@/content/mining101";
 
@@ -65,6 +66,7 @@ function Ficha() {
   const t = Route.useLoaderData();
   const rel = t.relacionados.map(getTermino).filter((x) => !!x);
   const capitulo = capituloDeTermino(t.slug) ?? t.capitulo;
+  const DemoFicha = DEMOS[t.slug];
 
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
@@ -99,6 +101,8 @@ function Ficha() {
           </p>
         </section>
       )}
+
+      {DemoFicha && <DemoFicha />}
 
       {t.enLaPractica && (
         <section className="mt-10 border-t border-border pt-6">
