@@ -18,8 +18,8 @@ const { plazasPotenciaExtra: plazas, potenciaExtraPct: extra } = SERVICIO.certif
 export const AVISO_APERTURA = {
   titulo: `Para los ${plazas} primeros: ${extra} % más de potencia`,
   descripcion:
-    `Si estás entre las ${plazas} primeras personas en aprobar el test y dejar su email, tendrás un ${extra} % más de potencia en cada compra durante el primer año desde que abramos la venta. Te enviaremos tu código por email al abrir.`,
-  condiciones: "Un código por email, por orden de llegada. No se cambia por dinero.",
+    `Un ${extra} % más de potencia en cada compra durante un año desde que abramos la venta. Te enviamos tu código por email al abrir.`,
+  condiciones: "Un código por email, por orden de llegada. No acumulable con otros códigos ni descuentos. No se cambia por dinero.",
   email: "Tu email",
   consentimiento: "Acepto que guardéis mi email para avisarme de la apertura y enviarme mi código.",
   boton: "Quiero mi plaza",

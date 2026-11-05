@@ -41,14 +41,14 @@ export function AvisoApertura() {
 
   if (estado === "hecho") {
     return (
-      <div className="mt-8 border-t border-border pt-5">
+      <div className="mt-5 border-2 border-primary p-5">
         <p role="status" className="text-[16px]">{texto.hecho}</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={enviar} className="mt-8 space-y-4 border-t border-border pt-5">
+    <form onSubmit={enviar} className="mt-5 space-y-4 border-2 border-primary p-5">
       <div>
         <h2 className="text-xl">{texto.titulo}</h2>
         <p className="mt-2 text-[15px] text-muted-foreground">{texto.descripcion}</p>

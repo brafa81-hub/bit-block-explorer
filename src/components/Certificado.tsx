@@ -108,7 +108,8 @@ export function Certificado({
   return (
     <div className="border-t border-border pt-5 text-[16px]">
       <p className="etiqueta">Test superado.</p>
-      <p className="mt-2">
+      <AvisoApertura />
+      <p className="mt-8">
         Descarga tu certificado en PDF.
       </p>
       <label htmlFor="cert-nombre" className="index-label mt-5 block">
@@ -136,7 +137,6 @@ export function Certificado({
           Repetir el test
         </button>
       </div>
-      <AvisoApertura />
     </div>
   );
 }
