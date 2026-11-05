@@ -148,13 +148,6 @@ const PARA_QUIEN = [
   { id: "regalo", texto: "Para regalar" },
 ] as const;
 
-const CUANDO = [
-  { id: "ya", texto: "Lo antes posible" },
-  { id: "este_mes", texto: "Este mes" },
-  { id: "navidad", texto: "Para Navidad" },
-  { id: "sin_prisa", texto: "Sin prisa" },
-] as const;
-
 function Opciones<T extends string>({
   nombre,
   etiqueta,
@@ -210,7 +203,6 @@ function AvisoComprar({
 }) {
   const [email, setEmail] = useState("");
   const [paraQuien, setParaQuien] = useState<"para_mi" | "regalo" | null>(null);
-  const [cuando, setCuando] = useState<(typeof CUANDO)[number]["id"] | null>(null);
   const [acepta, setAcepta] = useState(false);
   const [estado, setEstado] = useState<"listo" | "enviando" | "hecho">("listo");
   const [error, setError] = useState<string | null>(null);
@@ -221,7 +213,6 @@ function AvisoComprar({
       setEstado("listo");
       setError(null);
       setParaQuien(seleccion.producto === "regalos" ? "regalo" : null);
-      setCuando(null);
     }
   }, [seleccion]);
 
@@ -229,8 +220,7 @@ function AvisoComprar({
   const valido =
     emailSolicitud.safeParse(email).success &&
     acepta &&
-    paraQuien !== null &&
-    cuando !== null;
+    paraQuien !== null;
 
   async function enviar() {
     if (!seleccion || !valido || estado === "enviando") return;
@@ -243,7 +233,6 @@ function AvisoComprar({
       cantidad: seleccion.cantidad,
       modo: seleccion.modo,
       para_quien: paraQuien,
-      cuando,
       ...origen(),
       ...(seleccion.producto === "regalos" ? interesRegalos(seleccion.cantidad) : {}),
     });
@@ -309,14 +298,6 @@ function AvisoComprar({
               valor={paraQuien}
               onCambio={setParaQuien}
             />}
-
-            <Opciones
-              nombre="cuando"
-              etiqueta="¿Para cuándo lo querrías?"
-              opciones={CUANDO}
-              valor={cuando}
-              onCambio={setCuando}
-            />
 
             <label className="flex items-start gap-3 text-[13px] leading-relaxed">
               <input

@@ -9,8 +9,8 @@ import { emailSolicitud } from "@/lib/solicitudes";
 
 /**
  * Lista de espera para quien aprueba el test de Aprende.
- * Usa la misma tabla que /minar: aquí no se guarda "para_quien" ni "cuando",
- * así que esas filas se distinguen de las de /minar (que siempre los traen).
+ * Usa la misma tabla que /minar: aquí no se guarda "para_quien",
+ * así que esas filas se distinguen de las de /minar (que siempre lo traen).
  */
 export function AvisoApertura() {
   const [email, setEmail] = useState("");

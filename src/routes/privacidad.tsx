@@ -40,7 +40,7 @@ function Privacidad() {
           <h2 className="text-xl">Qué guardamos</h2>
           <p className="mt-2 text-muted-foreground">
             Tu email (también si lo dejas al aprobar el test de Aprende), el producto y el modo que
-            te interesan, si es para ti o para regalar, para cuándo lo querrías y, si escribes desde
+            te interesan, si es para ti o para regalar y, si escribes desde
             una empresa, la potencia que nos indicas, junto con la fecha en que nos lo envías y la
             web o campaña desde la que llegaste. Además contamos de forma anónima las visitas y los
             clics en la web, los capítulos de Aprende que se abren y el resultado del test, sin
