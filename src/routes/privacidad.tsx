@@ -51,7 +51,8 @@ function Privacidad() {
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Para qué</h2>
           <p className="mt-2 text-muted-foreground">
-            Solo para avisarte de la apertura, responderte si nos consultas por un pedido y saber
+            Solo para avisarte de la apertura, enviarte tu código si apruebas el test y estás entre
+            las primeras plazas, responderte si nos consultas por un pedido y saber
             qué partes de la web se usan. No lo usamos para nada más ni se lo cedemos a terceros.
           </p>
         </section>
@@ -67,7 +68,8 @@ function Privacidad() {
 
         <section className="border-t border-border pt-6">
           <h2 className="text-xl">Cuánto tiempo</h2>
-          <p className="mt-2 text-muted-foreground">Conservamos tu email hasta que se abra la venta o pidas la baja, y como máximo 12 meses.</p>
+          <p className="mt-2 text-muted-foreground">Conservamos tu email hasta que se abra la venta o pidas la baja, y como máximo 12 meses. Si
+            tienes plaza de potencia extra por el test, lo guardamos además mientras dure esa ventaja.</p>
         </section>
 
         <section className="border-t border-border pt-6">

@@ -9,7 +9,7 @@ const { notaMinima } = SERVICIO.certificado;
 /**
  * Certificado del test final. El PDF se genera en el navegador:
  * no se envía ni se guarda nada en ningún servidor.
- * Certificado sin descuento (mismo precio para todos).
+ * Sin descuento de precio; las primeras plazas reciben más potencia (ver AvisoApertura).
  */
 export function Certificado({
   aciertos,

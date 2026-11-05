@@ -8,7 +8,8 @@ import { origen } from "@/lib/medicion";
 import { emailSolicitud } from "@/lib/solicitudes";
 
 /**
- * Lista de espera para quien aprueba el test de Aprende.
+ * Lista de espera para quien aprueba el test de Aprende. Las primeras plazas
+ * (SERVICIO.certificado) reciben más potencia; se asignan al abrir la venta.
  * Usa la misma tabla que /minar: aquí no se guarda "para_quien",
  * así que esas filas se distinguen de las de /minar (que siempre lo traen).
  */
@@ -51,6 +52,7 @@ export function AvisoApertura() {
       <div>
         <h2 className="text-xl">{texto.titulo}</h2>
         <p className="mt-2 text-[15px] text-muted-foreground">{texto.descripcion}</p>
+        <p className="mt-2 text-[13px] text-muted-foreground">{texto.condiciones}</p>
       </div>
       <div>
         <label htmlFor="apertura-email" className="block text-[13px]">{texto.email}</label>

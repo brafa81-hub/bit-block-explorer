@@ -70,9 +70,17 @@ export const SERVICIO = {
   variacionPotencia: "la potencia puede variar algo durante las 24 horas",
   transparencia: "Lo que recibirás en sats es menor que lo que pagas",
   resultado: "No es una inversión ni garantiza un resultado.",
-  /** Certificado del test final. Sin descuento: mismo precio para todos (modelo v9.3.2). */
+  /**
+   * Certificado del test final. Sin descuento de precio; las primeras plazas
+   * que aprueban y dejan su email reciben más potencia en cada compra.
+   * Las plazas se asignan al abrir la venta, por orden de llegada en lista_espera
+   * (filas del test: producto "potencia" y para_quien vacío), un código por email.
+   */
   certificado: {
     notaMinima: 12,
+    plazasPotenciaExtra: 170,
+    potenciaExtraPct: 10,
+    mesesPotenciaExtra: 12,
   },
 } as const;
 
