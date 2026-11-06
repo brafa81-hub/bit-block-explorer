@@ -13,12 +13,12 @@ export const REGALOS = {
 } as const;
 
 /** Aviso de apertura que se ofrece a quien aprueba el test de Aprende. */
-const { plazasPotenciaExtra: plazas, potenciaExtraPct: extra } = SERVICIO.certificado;
+const { plazasPotenciaExtra: plazas, potenciaExtraTH: extra } = SERVICIO.certificado;
 
 export const AVISO_APERTURA = {
-  titulo: `Para los ${plazas} primeros: ${extra} % más de potencia`,
+  titulo: `Para los ${plazas} primeros: ${extra} TH/s más en cada pedido`,
   descripcion:
-    `Un ${extra} % más de potencia en cada compra durante un año desde que abramos la venta. Te enviamos tu código por email al abrir.`,
+    `Como los 21 millones de bitcoin: ${extra} TH/s extra en cada pedido, mientras exista el servicio. Te enviamos tu código por email al abrir.`,
   condiciones: "Un código por email, por orden de llegada. No acumulable con otros códigos ni descuentos. No se cambia por dinero.",
   email: "Tu email",
   consentimiento: "Acepto que guardéis mi email para avisarme de la apertura y enviarme mi código.",

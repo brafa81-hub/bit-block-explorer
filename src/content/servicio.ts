@@ -79,8 +79,8 @@ export const SERVICIO = {
   certificado: {
     notaMinima: 12,
     plazasPotenciaExtra: 170,
-    potenciaExtraPct: 10,
-    mesesPotenciaExtra: 12,
+    /** TH/s extra en cada pedido, mientras exista el servicio (21 como los 21 millones de bitcoin). */
+    potenciaExtraTH: 21,
   },
 } as const;
 
