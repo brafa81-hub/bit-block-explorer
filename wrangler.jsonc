@@ -1,0 +1,4 @@
+{
+  // Nombre del Worker en Cloudflare. Debe coincidir con el nombre del proyecto en Cloudflare.
+  "name": "bloque170"
+}
