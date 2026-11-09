@@ -28,7 +28,7 @@ import { origen, registrar } from "@/lib/medicion";
 
 const URL = urlPublica("/minar");
 const TITULO = `Minería de Bitcoin a tu medida, durante 24 horas | ${SERVICIO.marca}`;
-const DESC = `De 200 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde unos ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
+const DESC = `De 200 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
 
 export const Route = createFileRoute("/minar")({
   head: () => ({

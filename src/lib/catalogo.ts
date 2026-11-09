@@ -80,5 +80,5 @@ export function formatearEntero(n: number): string {
   return formateadorEntero.format(n);
 }
 
-/** "Desde unos 20 €": precio mínimo redondeado a euros. */
-export const DESDE_EUROS_APROX = `${Math.round(precioBase(MIN_TH) / 100)} €`;
+/** "Desde 16,80 €": precio mínimo exacto. */
+export const DESDE_EUROS_APROX = formatearEuros(precioBase(MIN_TH));

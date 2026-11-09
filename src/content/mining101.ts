@@ -554,7 +554,7 @@ export const CAPITULOS: Capitulo[] = [
         titulo: "Qué es comprar potencia",
         parrafos: [
           "Comprar potencia de minería es acceder durante 24 horas a potencia de minería industrial, sin montar tu propio equipo. Tú eliges cuánta potencia; el tiempo son siempre 24 horas.",
-          `Con ${SERVICIO.marca} eliges tu potencia, ${potencia}, durante 24 h, desde unos ${DESDE_EUROS_APROX} con IVA.`,
+          `Con ${SERVICIO.marca} eliges tu potencia, ${potencia}, durante 24 h, desde ${DESDE_EUROS_APROX} con IVA.`,
         ],
       },
       {

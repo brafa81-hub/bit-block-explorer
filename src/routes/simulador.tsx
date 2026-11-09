@@ -417,7 +417,7 @@ function SimuladorMineria() {
             potencia a un Antminer S21, sin montar tu propio equipo.
           </p>
           <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark)" }}>
-            Con 200 TH/s durante 24 h recibes unos 9.000 sats. Es una estimación, no está garantizada.
+            Con 200 TH/s durante 24 h recibes unos 9.200 sats. Es una estimación, no está garantizada.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
