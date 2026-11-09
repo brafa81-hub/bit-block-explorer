@@ -10,6 +10,7 @@
 - [ ] Eliminar Corporate, actualizar regalos y verificar enlaces, formularios y caducidad.
 - [ ] Aplicar el archivo v9.3.2: marca BLOQUE170.COM, URLs actuales, modos y precios orientativos, tipos de lista de espera sin borrar datos y comprobaciones.
 - [x] Añadir detalle y eventos de Aprende, aplicar origen de solicitudes y verificar políticas y tipos sin tocar código web.
-- [ ] Añadir /juego con tres retos fijos, puntuación y tiempo comprobados en el servidor.
-- [ ] Añadir ranking semanal confirmado, compartir resultado y administración restringida.
-- [ ] Conectar medición del recorrido y comprobar juego, privacidad y reglas del ranking.
+- [x] /juego: Bloque del día (tres retos diarios generados en el servidor), cajas visuales, nota desde un mínimo, tarjeta para compartir.
+- [x] Ranking de hoy y semanal por alias (sin email ni premio) y administración restringida.
+- [ ] Fase 2: email confirmado (Brevo), GAME_SEED secreto y bases legales antes de cualquier premio.
+- [x] Medición: inicio, fin, compartir, lista de espera, test. Probar con 5 personas que no sepan de Bitcoin antes de difundir.

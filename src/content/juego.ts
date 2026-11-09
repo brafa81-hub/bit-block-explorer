@@ -1,22 +1,50 @@
+/** Textos del juego «Construye tu bloque». Sin «premio», «suerte» ni lenguaje de azar. */
 export const JUEGO = {
   title: "Construye tu bloque",
-  description: "Elige transacciones, llena tu bloque y compara tu nota en el ranking semanal de Bloque170.",
-  introduction: "Cada bloque de Bitcoin tiene un espacio limitado. Los mineros eligen qué transacciones meter y se quedan con sus comisiones. Tu reto: llenar el bloque con las que más pagan, sin pasarte del espacio.",
-  analogy: "Piensa en una caja: cada envío ocupa sitio y paga una cantidad por entrar.",
-  reality: "En realidad, simplificamos el espacio del bloque. Aquí usamos unidades; Bitcoin también comprueba cada transacción.",
-  challenges: [
-    { name: "Fácil", count: 8, seconds: 60 },
-    { name: "Medio", count: 12, seconds: 75 },
-    { name: "Difícil", count: 16, seconds: 90 },
+  daily: "Bloque del día",
+  description:
+    "Un minijuego de 2 minutos: llena tu bloque de Bitcoin con las transacciones que más pagan. Bloque nuevo cada día.",
+  hook: "Hoy eres el minero. ¿Cuántos sats sacas de tu bloque?",
+  howTo: [
+    "Tu bloque tiene huecos limitados.",
+    "Cada caja es una transacción: ocupa huecos y paga sats al minero.",
+    "Toca las cajas para meterlas. Llénalo con las que más te den.",
   ],
-  strategy: "Prioriza las transacciones que más pagan por cada hueco que ocupan. Compara también las combinaciones que caben.",
-  strategyReality: "En realidad, ordenar por comisión por hueco ayuda, pero no siempre consigue la mejor combinación.",
-  sats: "Los sats son pequeñas partes de un bitcoin: como los céntimos de un euro.",
-  ranking: "El ranking no tiene premio. Es solo para ver quién construye mejor bloques.",
-  week: "De lunes a domingo, hora de Madrid. Mayor nota primero; si hay empate, menor tiempo.",
-  first: "Solo cuenta tu primer juego completo de cada día. Tu email debe estar confirmado.",
-  consent: "Acepto que Bloque170 guarde mi email para el ranking y para enviarme novedades. Puedo darme de baja cuando quiera.",
-  emailUnavailable: "La confirmación por email todavía no está disponible. Puedes jugar y compartir tu nota sin dejar tu email.",
-  results: ["Cada bloque enseña algo nuevo. ¿Pruebas otra combinación?", "Buen bloque. Ya ves qué transacciones aprovechan mejor el espacio.", "Has llenado tu bloque como un minero de verdad."],
-  shareText: "¿Lo haces mejor? bloque170.com/juego",
+  rounds: "3 bloques · menos de 2 minutos · el mismo reto para todo el mundo hoy",
+  legend: "Color más intenso = paga más por cada hueco que ocupa.",
+  sats: "Los sats son las monedas más pequeñas de Bitcoin, como los céntimos de un euro.",
+  noFit: "No cabe. Saca otra caja primero.",
+  playedToday:
+    "Ya has jugado el bloque de hoy. Puedes repetir, pero en el ranking solo cuenta tu primera partida.",
+  /** Lo que se aprende tras cada bloque. */
+  lessons: [
+    "Lo que cuenta no es lo que paga cada caja, sino lo que paga por cada hueco que ocupa.",
+    "Ese truco no siempre basta: a veces conviene cambiar una caja para no dejar huecos vacíos.",
+    "Una caja enorme que paga mucho puede salir cara si te quita sitio para otras mejores.",
+  ],
+  verdicts: [
+    { min: 9.5, text: "Bloque perfecto. Así trabaja un minero de verdad." },
+    { min: 7, text: "Muy buen bloque. Casi nadie lo deja mejor." },
+    { min: 4, text: "Buen bloque. Mañana hay uno nuevo para afinar." },
+    { min: 0, text: "Tu bloque ha dejado sats sobre la mesa. ¿Pruebas mañana?" },
+  ],
+  why170: {
+    title: "¿Por qué Bloque170?",
+    text: "En el bloque 170, el 12 de enero de 2009, viajó el primer pago de Bitcoin entre dos personas: Satoshi Nakamoto envió 10 BTC a Hal Finney. Sin comisión: entonces los bloques iban casi vacíos. Hoy los mineros eligen, como acabas de hacer tú.",
+  },
+  ranking: "El ranking es solo para ver quién construye mejores bloques. No se reparte nada.",
+  rankingRules:
+    "Cuenta tu primera partida de cada día. Hoy: el bloque de hoy. Semana: suma de tus notas de lunes a domingo (hora de Madrid). Si hay empate, gana el menor tiempo.",
+  aliasAsk: "Ponte un alias y entra en el ranking",
+  aliasHelp:
+    "Máximo 20 caracteres. No pedimos email. Lo recordamos en este navegador para los próximos días.",
+  next: {
+    learnTitle: "¿Quieres entender la minería de verdad?",
+    learn: "Haz el test de 15 preguntas →",
+    waitTitle: "Con Bloque170 compras potencia de minería real durante 24 horas.",
+    wait: "Avísame cuando abra la venta →",
+  },
+  shareText: "¿Lo haces mejor?",
 } as const;
+
+export const verdictFor = (score: number) => JUEGO.verdicts.find((v) => score >= v.min)!.text;

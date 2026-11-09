@@ -23,7 +23,6 @@ import { Route as DiccionarioIndexRouteImport } from './routes/diccionario.index
 import { Route as DiccionarioSlugRouteImport } from './routes/diccionario.$slug'
 import { Route as JuegoIndexRouteImport } from './routes/juego.index'
 import { Route as JuegoAdminRouteImport } from './routes/juego.admin'
-import { Route as JuegoConfirmarRouteImport } from './routes/juego.confirmar'
 import { Route as JuegoRankingRouteImport } from './routes/juego.ranking'
 
 const IndexRoute = IndexRouteImport.update({
@@ -96,11 +95,6 @@ const JuegoAdminRoute = JuegoAdminRouteImport.update({
   path: '/juego/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JuegoConfirmarRoute = JuegoConfirmarRouteImport.update({
-  id: '/juego/confirmar',
-  path: '/juego/confirmar',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const JuegoRankingRoute = JuegoRankingRouteImport.update({
   id: '/juego/ranking',
   path: '/juego/ranking',
@@ -119,7 +113,6 @@ export interface FileRoutesByFullPath {
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/juego/admin': typeof JuegoAdminRoute
-  '/juego/confirmar': typeof JuegoConfirmarRoute
   '/juego/ranking': typeof JuegoRankingRoute
   '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
@@ -137,7 +130,6 @@ export interface FileRoutesByTo {
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/juego/admin': typeof JuegoAdminRoute
-  '/juego/confirmar': typeof JuegoConfirmarRoute
   '/juego/ranking': typeof JuegoRankingRoute
   '/aprende': typeof AprendeIndexRoute
   '/diccionario': typeof DiccionarioIndexRoute
@@ -156,7 +148,6 @@ export interface FileRoutesById {
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/juego/admin': typeof JuegoAdminRoute
-  '/juego/confirmar': typeof JuegoConfirmarRoute
   '/juego/ranking': typeof JuegoRankingRoute
   '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
@@ -176,7 +167,6 @@ export interface FileRouteTypes {
     | '/aprende/test'
     | '/diccionario/$slug'
     | '/juego/admin'
-    | '/juego/confirmar'
     | '/juego/ranking'
     | '/aprende/'
     | '/diccionario/'
@@ -194,7 +184,6 @@ export interface FileRouteTypes {
     | '/aprende/test'
     | '/diccionario/$slug'
     | '/juego/admin'
-    | '/juego/confirmar'
     | '/juego/ranking'
     | '/aprende'
     | '/diccionario'
@@ -212,7 +201,6 @@ export interface FileRouteTypes {
     | '/aprende/test'
     | '/diccionario/$slug'
     | '/juego/admin'
-    | '/juego/confirmar'
     | '/juego/ranking'
     | '/aprende/'
     | '/diccionario/'
@@ -231,7 +219,6 @@ export interface RootRouteChildren {
   AprendeTestRoute: typeof AprendeTestRoute
   DiccionarioSlugRoute: typeof DiccionarioSlugRoute
   JuegoAdminRoute: typeof JuegoAdminRoute
-  JuegoConfirmarRoute: typeof JuegoConfirmarRoute
   JuegoRankingRoute: typeof JuegoRankingRoute
   AprendeIndexRoute: typeof AprendeIndexRoute
   DiccionarioIndexRoute: typeof DiccionarioIndexRoute
@@ -338,13 +325,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JuegoAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/juego/confirmar': {
-      id: '/juego/confirmar'
-      path: '/juego/confirmar'
-      fullPath: '/juego/confirmar'
-      preLoaderRoute: typeof JuegoConfirmarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/juego/ranking': {
       id: '/juego/ranking'
       path: '/juego/ranking'
@@ -367,7 +347,6 @@ const rootRouteChildren: RootRouteChildren = {
   AprendeTestRoute: AprendeTestRoute,
   DiccionarioSlugRoute: DiccionarioSlugRoute,
   JuegoAdminRoute: JuegoAdminRoute,
-  JuegoConfirmarRoute: JuegoConfirmarRoute,
   JuegoRankingRoute: JuegoRankingRoute,
   AprendeIndexRoute: AprendeIndexRoute,
   DiccionarioIndexRoute: DiccionarioIndexRoute,
