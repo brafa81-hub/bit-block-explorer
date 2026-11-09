@@ -1,0 +1,22 @@
+export const JUEGO = {
+  title: "Construye tu bloque",
+  description: "Elige transacciones, llena tu bloque y compara tu nota en el ranking semanal de Bloque170.",
+  introduction: "Cada bloque de Bitcoin tiene un espacio limitado. Los mineros eligen qué transacciones meter y se quedan con sus comisiones. Tu reto: llenar el bloque con las que más pagan, sin pasarte del espacio.",
+  analogy: "Piensa en una caja: cada envío ocupa sitio y paga una cantidad por entrar.",
+  reality: "En realidad, simplificamos el espacio del bloque. Aquí usamos unidades; Bitcoin también comprueba cada transacción.",
+  challenges: [
+    { name: "Fácil", count: 8, seconds: 60 },
+    { name: "Medio", count: 12, seconds: 75 },
+    { name: "Difícil", count: 16, seconds: 90 },
+  ],
+  strategy: "Prioriza las transacciones que más pagan por cada hueco que ocupan. Compara también las combinaciones que caben.",
+  strategyReality: "En realidad, ordenar por comisión por hueco ayuda, pero no siempre consigue la mejor combinación.",
+  sats: "Los sats son pequeñas partes de un bitcoin: como los céntimos de un euro.",
+  ranking: "El ranking no tiene premio. Es solo para ver quién construye mejor bloques.",
+  week: "De lunes a domingo, hora de Madrid. Mayor nota primero; si hay empate, menor tiempo.",
+  first: "Solo cuenta tu primer juego completo de cada día. Tu email debe estar confirmado.",
+  consent: "Acepto que Bloque170 guarde mi email para el ranking y para enviarme novedades. Puedo darme de baja cuando quiera.",
+  emailUnavailable: "La confirmación por email todavía no está disponible. Puedes jugar y compartir tu nota sin dejar tu email.",
+  results: ["Cada bloque enseña algo nuevo. ¿Pruebas otra combinación?", "Buen bloque. Ya ves qué transacciones aprovechan mejor el espacio.", "Has llenado tu bloque como un minero de verdad."],
+  shareText: "¿Lo haces mejor? bloque170.com/juego",
+} as const;

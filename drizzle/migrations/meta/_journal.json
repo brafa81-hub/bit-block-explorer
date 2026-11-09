@@ -50,6 +50,13 @@
       "when": 1793781076093,
       "tag": "0006_eventos_aprende",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794257040050,
+      "tag": "0007_game_block_challenges_ranking",
+      "breakpoints": true
     }
   ]
 }

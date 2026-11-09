@@ -21,6 +21,10 @@ import { Route as AprendeQuizRouteImport } from './routes/aprende.quiz'
 import { Route as AprendeTestRouteImport } from './routes/aprende.test'
 import { Route as DiccionarioIndexRouteImport } from './routes/diccionario.index'
 import { Route as DiccionarioSlugRouteImport } from './routes/diccionario.$slug'
+import { Route as JuegoIndexRouteImport } from './routes/juego.index'
+import { Route as JuegoAdminRouteImport } from './routes/juego.admin'
+import { Route as JuegoConfirmarRouteImport } from './routes/juego.confirmar'
+import { Route as JuegoRankingRouteImport } from './routes/juego.ranking'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +86,26 @@ const DiccionarioSlugRoute = DiccionarioSlugRouteImport.update({
   path: '/diccionario/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JuegoIndexRoute = JuegoIndexRouteImport.update({
+  id: '/juego/',
+  path: '/juego/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JuegoAdminRoute = JuegoAdminRouteImport.update({
+  id: '/juego/admin',
+  path: '/juego/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JuegoConfirmarRoute = JuegoConfirmarRouteImport.update({
+  id: '/juego/confirmar',
+  path: '/juego/confirmar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JuegoRankingRoute = JuegoRankingRouteImport.update({
+  id: '/juego/ranking',
+  path: '/juego/ranking',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -94,8 +118,12 @@ export interface FileRoutesByFullPath {
   '/aprende/quiz': typeof AprendeQuizRoute
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
+  '/juego/admin': typeof JuegoAdminRoute
+  '/juego/confirmar': typeof JuegoConfirmarRoute
+  '/juego/ranking': typeof JuegoRankingRoute
   '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
+  '/juego/': typeof JuegoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -108,8 +136,12 @@ export interface FileRoutesByTo {
   '/aprende/quiz': typeof AprendeQuizRoute
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
+  '/juego/admin': typeof JuegoAdminRoute
+  '/juego/confirmar': typeof JuegoConfirmarRoute
+  '/juego/ranking': typeof JuegoRankingRoute
   '/aprende': typeof AprendeIndexRoute
   '/diccionario': typeof DiccionarioIndexRoute
+  '/juego': typeof JuegoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -123,8 +155,12 @@ export interface FileRoutesById {
   '/aprende/quiz': typeof AprendeQuizRoute
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
+  '/juego/admin': typeof JuegoAdminRoute
+  '/juego/confirmar': typeof JuegoConfirmarRoute
+  '/juego/ranking': typeof JuegoRankingRoute
   '/aprende/': typeof AprendeIndexRoute
   '/diccionario/': typeof DiccionarioIndexRoute
+  '/juego/': typeof JuegoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -139,8 +175,12 @@ export interface FileRouteTypes {
     | '/aprende/quiz'
     | '/aprende/test'
     | '/diccionario/$slug'
+    | '/juego/admin'
+    | '/juego/confirmar'
+    | '/juego/ranking'
     | '/aprende/'
     | '/diccionario/'
+    | '/juego/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -153,8 +193,12 @@ export interface FileRouteTypes {
     | '/aprende/quiz'
     | '/aprende/test'
     | '/diccionario/$slug'
+    | '/juego/admin'
+    | '/juego/confirmar'
+    | '/juego/ranking'
     | '/aprende'
     | '/diccionario'
+    | '/juego'
   id:
     | '__root__'
     | '/'
@@ -167,8 +211,12 @@ export interface FileRouteTypes {
     | '/aprende/quiz'
     | '/aprende/test'
     | '/diccionario/$slug'
+    | '/juego/admin'
+    | '/juego/confirmar'
+    | '/juego/ranking'
     | '/aprende/'
     | '/diccionario/'
+    | '/juego/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -182,8 +230,12 @@ export interface RootRouteChildren {
   AprendeQuizRoute: typeof AprendeQuizRoute
   AprendeTestRoute: typeof AprendeTestRoute
   DiccionarioSlugRoute: typeof DiccionarioSlugRoute
+  JuegoAdminRoute: typeof JuegoAdminRoute
+  JuegoConfirmarRoute: typeof JuegoConfirmarRoute
+  JuegoRankingRoute: typeof JuegoRankingRoute
   AprendeIndexRoute: typeof AprendeIndexRoute
   DiccionarioIndexRoute: typeof DiccionarioIndexRoute
+  JuegoIndexRoute: typeof JuegoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +324,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiccionarioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/juego/': {
+      id: '/juego/'
+      path: '/juego'
+      fullPath: '/juego/'
+      preLoaderRoute: typeof JuegoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/juego/admin': {
+      id: '/juego/admin'
+      path: '/juego/admin'
+      fullPath: '/juego/admin'
+      preLoaderRoute: typeof JuegoAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/juego/confirmar': {
+      id: '/juego/confirmar'
+      path: '/juego/confirmar'
+      fullPath: '/juego/confirmar'
+      preLoaderRoute: typeof JuegoConfirmarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/juego/ranking': {
+      id: '/juego/ranking'
+      path: '/juego/ranking'
+      fullPath: '/juego/ranking'
+      preLoaderRoute: typeof JuegoRankingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -286,8 +366,12 @@ const rootRouteChildren: RootRouteChildren = {
   AprendeQuizRoute: AprendeQuizRoute,
   AprendeTestRoute: AprendeTestRoute,
   DiccionarioSlugRoute: DiccionarioSlugRoute,
+  JuegoAdminRoute: JuegoAdminRoute,
+  JuegoConfirmarRoute: JuegoConfirmarRoute,
+  JuegoRankingRoute: JuegoRankingRoute,
   AprendeIndexRoute: AprendeIndexRoute,
   DiccionarioIndexRoute: DiccionarioIndexRoute,
+  JuegoIndexRoute: JuegoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

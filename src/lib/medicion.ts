@@ -5,6 +5,7 @@
  */
 import { supabase } from "@/integrations/supabase/client";
 import type { ModoId, ProductoId } from "@/lib/catalogo";
+import { trackGame } from "@/lib/game-tracking";
 
 export interface Origen {
   utm_source: string | null;
@@ -75,6 +76,8 @@ const ultimos = new Map<string, number>();
 /** Registra un evento sin bloquear la página; si falla, no pasa nada. */
 export function registrar(evento: Evento): void {
   if (typeof window === "undefined") return;
+  if (evento.tipo === "test_terminado") trackGame("test_fin");
+  if (evento.tipo === "test_aprobado") trackGame("test_aprobado");
   const detalle = "detalle" in evento ? evento.detalle.slice(0, 60) : null;
   // Evita contar dos veces lo mismo seguido (React puede montar la página dos veces).
   if (evento.tipo === "visita" || detalle !== null) {

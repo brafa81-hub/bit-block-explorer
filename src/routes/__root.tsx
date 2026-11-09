@@ -134,6 +134,7 @@ function RootComponent() {
         <Link to="/simulador" className="text-foreground hover:underline">Simulador</Link>
         <Link to="/aprende" className="text-foreground hover:underline">Aprende</Link>
         <Link to="/diccionario" className="text-foreground hover:underline">Diccionario</Link>
+        <Link to="/juego" className="text-foreground hover:underline">Juego</Link>
         <Link to="/minar" className="text-foreground hover:underline">Minar</Link>
       </nav>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
