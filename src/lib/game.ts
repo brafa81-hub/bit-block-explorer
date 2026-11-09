@@ -1,6 +1,6 @@
 import { z } from "zod";
+import type { Layout, SnakeResult } from "./snake";
 
-export type Box = { id: string; size: number; fee: number };
 export const credentialsSchema = z.object({ runId: z.string().uuid(), secret: z.string().uuid() });
 export const aliasSchema = z
   .string()
@@ -14,12 +14,16 @@ export const gameEventSchema = credentialsSchema.extend({
     .object({ action: z.enum(["share", "copy", "download", "lista_espera"]).optional() })
     .optional(),
 });
+/** Giros de la partida: [paso, dirección]. 90 s al paso más rápido son 1.125 pasos. */
+export const movesSchema = z
+  .array(z.tuple([z.number().int().min(0).max(1200), z.number().int().min(0).max(3)]))
+  .max(1200);
 
-export function selectionTotal(boxes: Box[], selected: string[]) {
-  return boxes
-    .filter((t) => selected.includes(t.id))
-    .reduce((a, t) => ({ size: a.size + t.size, fee: a.fee + t.fee }), { size: 0, fee: 0 });
-}
+/** Marca de las partidas y entradas del Snake, para no mezclarlas con el juego anterior. */
+export const SNAKE_TAG = "snake";
+/** Intentos de cada día que cuentan para el ranking (cuenta el mejor). */
+export const ATTEMPTS = 3;
+
 export function madridDay(date: Date) {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Madrid",
@@ -37,39 +41,30 @@ export function formatTime(ms: number) {
   const seconds = Math.ceil(ms / 1000);
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
 }
-/** Día 1 del Bloque del día. */
-export const FIRST_DAY = "2026-11-09";
+/** Día 1 de la Cadena del día (Snake minero). */
+export const FIRST_DAY = "2026-11-10";
 export function dayNumber(day: string) {
   return (
     Math.round((Date.parse(`${day}T12:00:00Z`) - Date.parse(`${FIRST_DAY}T12:00:00Z`)) / 86400000) +
     1
   );
 }
-export const formatScore = (n: number) => n.toFixed(1).replace(".", ",");
-/** Cuadradito para la tarjeta de compartir, según la nota del reto. */
-export const scoreSquare = (n: number) => (n >= 10 ? "🟩" : n >= 7 ? "🟨" : n >= 4 ? "🟧" : "⬜");
+/** 1275 → «1.275». */
+export const formatPoints = (n: number) =>
+  String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-export type Challenge = {
+export type SnakeStart = {
   runId: string;
   secret: string;
   day: string;
   dayNumber: number;
-  round: number;
-  capacity: number;
-  boxes: Box[];
-  timeLimit: number;
-  remainingMs: number;
+  attempt: number;
+  layout: Layout;
 };
-export type RoundResult = {
-  round: number;
-  score: number;
-  fee: number;
-  best: number;
-  perfect: string[];
-  elapsedMs: number;
-  finalScore: number | null;
-  totalMs: number | null;
-  complete: boolean;
+export type SnakeOutcome = SnakeResult & {
+  attempt: number;
+  /** Si este intento está entre los que cuentan para el ranking. */
+  counts: boolean;
   betterThan: number | null;
 };
 export type RankingRow = {

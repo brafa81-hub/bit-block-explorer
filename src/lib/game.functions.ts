@@ -1,26 +1,30 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import {
+  ATTEMPTS,
+  SNAKE_TAG,
   aliasSchema,
   credentialsSchema,
+  dayNumber,
   gameEventSchema,
   madridDay,
   madridWeek,
-  type Challenge,
+  movesSchema,
   type Ranking,
   type RankingRow,
-  type RoundResult,
+  type SnakeOutcome,
+  type SnakeStart,
 } from "./game";
+import { makeLayout, simulate, type Move } from "./snake";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-/* El juego vive en estas funciones de servidor: el navegador solo recibe las cajas del reto,
- * nunca la mejor combinación, y la nota y el tiempo se calculan aquí. */
+/* Snake minero: el navegador juega y solo envía los giros. Aquí se repite la partida con el
+ * mismo motor (src/lib/snake.ts) y se calculan los puntos. Sin cambios en la base de datos:
+ * las partidas del Snake se distinguen por extra.juego = "snake" en sus eventos y por
+ * confirmation_hash = "snake" en game_entries. */
 
-const ROUNDS = 3;
 const seed = () => process.env["GAME_SEED"] ?? "";
 const admin = async () => (await import("@/integrations/supabase/client.server")).supabaseAdmin;
-const puzzles = () => import("./game-puzzle");
-
 /** Instante UTC en que empieza un día de Madrid. */
 function dayStart(day: string) {
   for (const hours of [1, 2]) {
@@ -50,244 +54,241 @@ async function loadRun(runId: string, secret: string) {
   return run;
 }
 
+/** Número de intento de una partida (guardado en su evento «inicio»). */
+async function attemptOf(runId: string) {
+  const db = await admin();
+  const { data } = await db
+    .from("game_events")
+    .select("extra")
+    .eq("run_id", runId)
+    .eq("tipo", "inicio")
+    .eq("extra->>juego", SNAKE_TAG)
+    .limit(1);
+  const extra = data?.[0]?.extra as { intento?: number } | undefined;
+  if (!extra) throw new Error("Partida no válida. Empieza una nueva.");
+  return extra.intento ?? ATTEMPTS + 1;
+}
+
 export const startGame = createServerFn({ method: "POST" })
   .inputValidator((input) =>
-    z
-      .object({
-        visitorId: z.string().uuid(),
-        ref: z.string().max(100).nullable(),
-        runId: z.string().uuid().optional(),
-        secret: z.string().uuid().optional(),
-      })
-      .parse(input),
+    z.object({ visitorId: z.string().uuid(), ref: z.string().max(100).nullable() }).parse(input),
   )
-  .handler(async ({ data }): Promise<Challenge> => {
+  .handler(async ({ data }): Promise<SnakeStart> => {
     const db = await admin();
-    const { makePuzzle, dayNumber } = await puzzles();
-    let run;
-    if (data.runId && data.secret) {
-      run = await loadRun(data.runId, data.secret);
-    } else {
-      const { count } = await db
-        .from("game_runs")
-        .select("id", { count: "exact", head: true })
-        .eq("visitor_id", data.visitorId)
-        .gte("started_at", new Date(Date.now() - 3600000).toISOString());
-      if ((count ?? 0) >= 30)
-        throw new Error("Demasiadas partidas seguidas. Vuelve dentro de un rato.");
-      const { data: created, error } = await db
-        .from("game_runs")
-        .insert({ visitor_id: data.visitorId, ref: data.ref?.slice(0, 100) || null })
-        .select("*")
-        .single();
-      if (error || !created) throw new Error("El reto no ha podido empezar. Inténtalo otra vez.");
-      run = created;
-      await db
-        .from("game_events")
-        .insert({ run_id: run.id, visitor_id: run.visitor_id, tipo: "inicio", ref: run.ref });
-    }
-    if (run.completed_at) throw new Error("Esta partida ya ha terminado.");
-    const { count: done } = await db
-      .from("game_rounds")
-      .select("run_id", { count: "exact", head: true })
-      .eq("run_id", run.id)
-      .not("submitted_at", "is", null);
-    const round = (done ?? 0) + 1;
-    await db
-      .from("game_rounds")
-      .upsert(
-        { run_id: run.id, challenge_id: round },
-        { onConflict: "run_id,challenge_id", ignoreDuplicates: true },
-      );
-    const { data: row } = await db
-      .from("game_rounds")
-      .select("started_at")
-      .eq("run_id", run.id)
-      .eq("challenge_id", round)
+    const { count } = await db
+      .from("game_runs")
+      .select("id", { count: "exact", head: true })
+      .eq("visitor_id", data.visitorId)
+      .gte("started_at", new Date(Date.now() - 3600000).toISOString());
+    if ((count ?? 0) >= 30)
+      throw new Error("Demasiadas partidas seguidas. Vuelve dentro de un rato.");
+    const range = dayRange(madridDay(new Date()));
+    const { count: before } = await db
+      .from("game_events")
+      .select("id", { count: "exact", head: true })
+      .eq("visitor_id", data.visitorId)
+      .eq("tipo", "inicio")
+      .eq("extra->>juego", SNAKE_TAG)
+      .gte("fecha", range.from)
+      .lt("fecha", range.to);
+    const { data: run, error } = await db
+      .from("game_runs")
+      .insert({ visitor_id: data.visitorId, ref: data.ref?.slice(0, 100) || null })
+      .select("*")
       .single();
+    if (error || !run) throw new Error("La partida no ha podido empezar. Inténtalo otra vez.");
+    const attempt = (before ?? 0) + 1;
+    await db.from("game_events").insert({
+      run_id: run.id,
+      visitor_id: run.visitor_id,
+      tipo: "inicio",
+      ref: run.ref,
+      extra: { juego: SNAKE_TAG, intento: attempt },
+    });
     const day = madridDay(new Date(run.started_at));
-    const puzzle = makePuzzle(day, round, seed());
-    const elapsed = Date.now() - Date.parse(row?.started_at ?? new Date().toISOString());
     return {
       runId: run.id,
       secret: run.secret,
       day,
       dayNumber: dayNumber(day),
-      round,
-      capacity: puzzle.capacity,
-      boxes: puzzle.boxes,
-      timeLimit: puzzle.timeLimit,
-      remainingMs: Math.max(0, puzzle.timeLimit * 1000 - elapsed),
+      attempt,
+      layout: makeLayout(day, seed()),
     };
   });
+
+type FinExtra = {
+  juego: string;
+  intento: number;
+  puntos: number;
+  bloques: number;
+  tiempo_ms: number;
+  puntos_ms: number;
+  pasos: number;
+  choque: boolean;
+};
+
+async function betterThan(day: string, visitorId: string, points: number) {
+  const db = await admin();
+  const range = dayRange(day);
+  const { data } = await db
+    .from("game_events")
+    .select("visitor_id,puntos:extra->puntos")
+    .eq("tipo", "fin")
+    .eq("extra->>juego", SNAKE_TAG)
+    .gte("fecha", range.from)
+    .lt("fecha", range.to)
+    .neq("visitor_id", visitorId)
+    .limit(5000);
+  // El mejor intento de cada persona.
+  const best = new Map<string, number>();
+  for (const r of (data ?? []) as { visitor_id: string; puntos: unknown }[])
+    best.set(r.visitor_id, Math.max(best.get(r.visitor_id) ?? 0, Number(r.puntos) || 0));
+  if (best.size < 10) return null;
+  const below = [...best.values()].filter((p) => p < points).length;
+  return Math.round((below / best.size) * 100);
+}
 
 export const submitGame = createServerFn({ method: "POST" })
-  .inputValidator((input) =>
-    credentialsSchema
-      .extend({
-        round: z.number().int().min(1).max(ROUNDS),
-        selected: z.array(z.string().max(5)).max(12),
-      })
-      .parse(input),
-  )
-  .handler(async ({ data }): Promise<RoundResult> => {
+  .inputValidator((input) => credentialsSchema.extend({ moves: movesSchema }).parse(input))
+  .handler(async ({ data }): Promise<SnakeOutcome> => {
     const db = await admin();
-    const { makePuzzle, scoreFor, solve } = await puzzles();
     const run = await loadRun(data.runId, data.secret);
+    const attempt = await attemptOf(run.id);
     const day = madridDay(new Date(run.started_at));
-    const puzzle = makePuzzle(day, data.round, seed());
-    const perfect = solve(puzzle.boxes, puzzle.capacity).ids;
-    const { data: row } = await db
-      .from("game_rounds")
-      .select("*")
-      .eq("run_id", run.id)
-      .eq("challenge_id", data.round)
-      .maybeSingle();
-    if (!row) throw new Error("Este reto no ha empezado.");
-    let score: number, elapsedMs: number, fee: number;
-    if (row.submitted_at) {
-      score = Number(row.score);
-      elapsedMs = row.elapsed_ms ?? 0;
-      fee = puzzle.boxes
-        .filter((b) => ((row.selected as string[] | null) ?? []).includes(b.id))
-        .reduce((a, b) => a + b.fee, 0);
-    } else {
-      const now = Date.now();
-      elapsedMs = Math.max(0, now - Date.parse(row.started_at));
-      if (elapsedMs > (puzzle.timeLimit + 5) * 1000)
-        throw new Error("Se ha agotado el tiempo. Empieza una nueva partida.");
-      const ids = [...new Set(data.selected)];
-      if (
-        ids.length !== data.selected.length ||
-        ids.some((id) => !puzzle.boxes.some((b) => b.id === id))
-      )
-        throw new Error("Cajas no válidas.");
-      const chosen = puzzle.boxes.filter((b) => ids.includes(b.id));
-      const size = chosen.reduce((a, b) => a + b.size, 0);
-      fee = chosen.reduce((a, b) => a + b.fee, 0);
-      score = size > puzzle.capacity ? 0 : scoreFor(fee, puzzle);
-      elapsedMs = Math.min(elapsedMs, puzzle.timeLimit * 1000);
-      const { data: updated } = await db
-        .from("game_rounds")
-        .update({
-          submitted_at: new Date(now).toISOString(),
-          selected: ids,
-          score,
-          elapsed_ms: elapsedMs,
-        })
+    const counts = attempt <= ATTEMPTS;
+    if (run.completed_at) {
+      // Reenvío tras un fallo de red: se devuelve lo que ya se guardó.
+      const { data: fin } = await db
+        .from("game_events")
+        .select("extra")
         .eq("run_id", run.id)
-        .eq("challenge_id", data.round)
-        .is("submitted_at", null)
-        .select("run_id");
-      if (!updated?.length) throw new Error("Este reto ya se había enviado. Recarga la página.");
+        .eq("tipo", "fin")
+        .limit(1);
+      const e = fin?.[0]?.extra as FinExtra | undefined;
+      if (!e) throw new Error("Esta partida ya ha terminado.");
+      return {
+        blocks: e.bloques,
+        points: e.puntos,
+        timeMs: e.tiempo_ms,
+        scoreTimeMs: e.puntos_ms,
+        ticks: e.pasos,
+        crashed: e.choque,
+        attempt,
+        counts,
+        betterThan: await betterThan(day, run.visitor_id, e.puntos),
+      };
     }
-    let finalScore: number | null = run.score === null ? null : Number(run.score);
-    let totalMs: number | null = run.total_ms;
-    let betterThan: number | null = null;
-    const { data: rounds } = await db
-      .from("game_rounds")
-      .select("score,elapsed_ms,submitted_at")
-      .eq("run_id", run.id);
-    const submitted = (rounds ?? []).filter((r) => r.submitted_at);
-    if (submitted.length === ROUNDS) {
-      if (!run.completed_at) {
-        finalScore =
-          Math.round((submitted.reduce((a, r) => a + Number(r.score), 0) / ROUNDS) * 10) / 10;
-        totalMs = submitted.reduce((a, r) => a + (r.elapsed_ms ?? 0), 0);
-        const { data: closed } = await db
-          .from("game_runs")
-          .update({ completed_at: new Date().toISOString(), score: finalScore, total_ms: totalMs })
-          .eq("id", run.id)
-          .is("completed_at", null)
-          .select("id");
-        if (closed?.length)
-          await db
-            .from("game_events")
-            .insert({ run_id: run.id, visitor_id: run.visitor_id, tipo: "fin", ref: run.ref });
-      }
-      const range = dayRange(day);
-      const { data: others } = await db
-        .from("game_runs")
-        .select("score")
-        .gte("started_at", range.from)
-        .lt("started_at", range.to)
-        .not("completed_at", "is", null)
-        .neq("id", run.id)
-        .limit(5000);
-      if ((others?.length ?? 0) >= 10 && finalScore !== null) {
-        const below = others!.filter((o) => Number(o.score) < finalScore!).length;
-        betterThan = Math.round((below / others!.length) * 100);
-      }
+    let result;
+    try {
+      result = simulate(makeLayout(day, seed()), data.moves as Move[]);
+    } catch {
+      throw new Error("Partida no válida. Empieza una nueva.");
+    }
+    const real = Date.now() - Date.parse(run.started_at);
+    if (real < result.timeMs - 2000)
+      throw new Error("La partida no cuadra con el tiempo. Empieza una nueva.");
+    if (real > 30 * 60000) throw new Error("La partida ha caducado. Empieza una nueva.");
+    const { data: closed } = await db
+      .from("game_runs")
+      .update({
+        completed_at: new Date().toISOString(),
+        score: result.points,
+        total_ms: result.scoreTimeMs,
+      })
+      .eq("id", run.id)
+      .is("completed_at", null)
+      .select("id");
+    if (closed?.length) {
+      const extra: FinExtra & { giros: Move[] } = {
+        juego: SNAKE_TAG,
+        intento: attempt,
+        puntos: result.points,
+        bloques: result.blocks,
+        tiempo_ms: result.timeMs,
+        puntos_ms: result.scoreTimeMs,
+        pasos: result.ticks,
+        choque: result.crashed,
+        giros: data.moves as Move[],
+      };
+      await db
+        .from("game_events")
+        .insert({ run_id: run.id, visitor_id: run.visitor_id, tipo: "fin", ref: run.ref, extra });
     }
     return {
-      round: data.round,
-      score,
-      fee,
-      best: puzzle.best,
-      perfect,
-      elapsedMs,
-      finalScore,
-      totalMs,
-      complete: submitted.length === ROUNDS,
-      betterThan,
+      ...result,
+      attempt,
+      counts,
+      betterThan: await betterThan(day, run.visitor_id, result.points),
     };
   });
 
-/** Entrar en el ranking con un alias: sin email. Solo cuenta la primera partida terminada del día. */
+/** Entrar en el ranking con un alias, sin email. De los 3 primeros intentos del día cuenta el mejor. */
 export const enterRanking = createServerFn({ method: "POST" })
   .inputValidator((input) => credentialsSchema.extend({ alias: aliasSchema }).parse(input))
   .handler(async ({ data }) => {
     const db = await admin();
     const run = await loadRun(data.runId, data.secret);
-    if (!run.completed_at || run.score === null) throw new Error("Termina los tres retos primero.");
+    if (!run.completed_at || run.score === null) throw new Error("Termina la partida primero.");
+    const attempt = await attemptOf(run.id);
+    if (attempt > ATTEMPTS)
+      return {
+        entered: false,
+        message: `En el ranking cuentan tus ${ATTEMPTS} primeros intentos de cada día. Mañana hay cadena nueva.`,
+      };
     const day = madridDay(new Date(run.started_at));
-    const range = dayRange(day);
-    const { data: first } = await db
-      .from("game_runs")
-      .select("id")
-      .eq("visitor_id", run.visitor_id)
-      .gte("started_at", range.from)
-      .lt("started_at", range.to)
-      .not("completed_at", "is", null)
-      .order("completed_at")
-      .limit(1);
-    if (first?.[0]?.id !== run.id)
-      return {
-        entered: false,
-        message:
-          "En el ranking solo cuenta tu primera partida de cada día. Mañana hay bloque nuevo.",
-      };
-    const { error } = await db.from("game_entries").insert({
+    const email = `visitante:${run.visitor_id}`;
+    const score = Number(run.score);
+    const totalMs = run.total_ms ?? 0;
+    const fields = {
       run_id: run.id,
-      email: `visitante:${run.visitor_id}`,
       alias: data.alias,
-      play_day: day,
       week: madridWeek(new Date(run.started_at)),
-      score: Number(run.score),
-      total_ms: run.total_ms ?? 0,
-      confirmation_hash: "sin-email",
+      score,
+      total_ms: totalMs,
+      confirmation_hash: SNAKE_TAG,
       confirmed_at: new Date().toISOString(),
-    });
-    if (error)
+    };
+    const { data: existing } = await db
+      .from("game_entries")
+      .select("id,score,total_ms,confirmation_hash")
+      .eq("email", email)
+      .eq("play_day", day)
+      .maybeSingle();
+    const fail = { entered: false, message: "No se ha podido guardar. Inténtalo otra vez." };
+    if (!existing) {
+      const { error } = await db.from("game_entries").insert({ ...fields, email, play_day: day });
+      if (error) return fail;
       return {
-        entered: false,
-        message:
-          error.code === "23505"
-            ? "Tu bloque de hoy ya está en el ranking."
-            : "No se ha podido guardar. Inténtalo otra vez.",
+        entered: true,
+        message: `¡Dentro! Cuenta tu mejor intento de hoy: ${score} puntos.`,
       };
-    return { entered: true, message: "¡Dentro! Tu bloque de hoy ya está en el ranking." };
+    }
+    const better =
+      existing.confirmation_hash !== SNAKE_TAG ||
+      score > Number(existing.score) ||
+      (score === Number(existing.score) && totalMs < existing.total_ms);
+    const { error } = await db
+      .from("game_entries")
+      .update(better ? fields : { alias: data.alias })
+      .eq("id", existing.id);
+    if (error) return fail;
+    return better
+      ? { entered: true, message: `¡Mejoras! Ahora cuenta este intento: ${score} puntos.` }
+      : {
+          entered: true,
+          message: `Sigue contando tu mejor intento de hoy: ${Number(existing.score)} puntos.`,
+        };
   });
 
 export const getRanking = createServerFn({ method: "GET" }).handler(async (): Promise<Ranking> => {
   const db = await admin();
-  const { dayNumber } = await puzzles();
   const now = new Date();
   const day = madridDay(now);
   const { data, error } = await db
     .from("game_entries")
     .select("email,alias,score,total_ms,play_day")
     .eq("week", madridWeek(now))
+    .eq("confirmation_hash", SNAKE_TAG)
     .eq("hidden", false)
     .not("confirmed_at", "is", null)
     .limit(5000);
@@ -302,7 +303,7 @@ export const getRanking = createServerFn({ method: "GET" }).handler(async (): Pr
   const people = new Map<string, RankingRow & { last: string }>();
   for (const r of rows) {
     const p = people.get(r.email) ?? { alias: r.alias, score: 0, total_ms: 0, days: 0, last: "" };
-    p.score = Math.round((p.score + Number(r.score)) * 10) / 10;
+    p.score += Number(r.score);
     p.total_ms += r.total_ms;
     p.days = (p.days ?? 0) + 1;
     if (r.play_day >= p.last) {
@@ -330,15 +331,13 @@ export const recordGameEvent = createServerFn({ method: "POST" })
       .eq("tipo", data.type)
       .limit(1);
     if (existing?.length) return { recorded: true };
-    const { error } = await db
-      .from("game_events")
-      .insert({
-        run_id: run.id,
-        visitor_id: run.visitor_id,
-        tipo: data.type,
-        ref: run.ref,
-        extra: data.extra ?? {},
-      });
+    const { error } = await db.from("game_events").insert({
+      run_id: run.id,
+      visitor_id: run.visitor_id,
+      tipo: data.type,
+      ref: run.ref,
+      extra: data.extra ?? {},
+    });
     if (error) throw new Error("No se ha podido registrar el evento");
     return { recorded: true };
   });
@@ -371,6 +370,7 @@ export const gameAdmin = createServerFn({ method: "POST" })
       .from("game_entries")
       .select("id,alias,score,total_ms,reviewed,hidden,play_day")
       .eq("week", madridWeek(new Date()))
+      .eq("confirmation_hash", SNAKE_TAG)
       .not("confirmed_at", "is", null)
       .order("score", { ascending: false })
       .order("total_ms")

@@ -9,8 +9,8 @@ const options = queryOptions({
   queryFn: () => getRanking(),
   staleTime: 30000,
 });
-const title = `Ranking de Construye tu bloque | ${SERVICIO.marca}`;
-const description = "Ranking del Bloque del día y de la semana: alias, nota y tiempo.";
+const title = `Ranking del Snake minero | ${SERVICIO.marca}`;
+const description = "Ranking de la Cadena del día y de la semana: alias, puntos y tiempo.";
 export const Route = createFileRoute("/juego/ranking")({
   loader: ({ context }) => context.queryClient.ensureQueryData(options),
   head: () => ({
@@ -31,7 +31,7 @@ function RankingPage() {
   return (
     <main className="mx-auto max-w-3xl px-5 py-14 sm:px-8">
       <Link to="/juego" className="text-sm underline underline-offset-4">
-        ← Construye tu bloque
+        ← Snake minero
       </Link>
       <h1 className="mt-7 text-4xl tracking-normal">Ranking</h1>
       <div className="mt-8">

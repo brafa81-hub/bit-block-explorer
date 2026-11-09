@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { formatScore, formatTime, type Ranking } from "@/lib/game";
+import { formatPoints, formatTime, type Ranking } from "@/lib/game";
 import { JUEGO } from "@/content/juego";
 
 export function GameRanking({ ranking, compact = false }: { ranking: Ranking; compact?: boolean }) {
@@ -49,7 +49,7 @@ export function GameRanking({ ranking, compact = false }: { ranking: Ranking; co
                   </span>
                 ) : null}
               </span>
-              <span className="font-mono">{formatScore(r.score)}</span>
+              <span className="font-mono">{formatPoints(r.score)}</span>
               <span className="text-right font-mono text-muted-foreground">
                 {formatTime(r.total_ms)}
               </span>

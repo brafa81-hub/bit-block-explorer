@@ -3,7 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { JUEGO } from "@/content/juego";
 import { urlPublica, SERVICIO } from "@/content/servicio";
 import { getRanking } from "@/lib/game.functions";
-import { BlockGame } from "@/components/BlockGame";
+import { SnakeGame } from "@/components/SnakeGame";
 import { GameRanking } from "@/components/GameRanking";
 
 export const rankingOptions = queryOptions({
@@ -34,7 +34,7 @@ function GamePage() {
       <header className="mb-6">
         <h1 className="text-4xl tracking-normal sm:text-5xl">{JUEGO.title}</h1>
       </header>
-      <BlockGame />
+      <SnakeGame />
       <GameRanking ranking={data} compact />
     </main>
   );

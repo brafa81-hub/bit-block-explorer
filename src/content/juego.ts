@@ -1,40 +1,48 @@
-/** Textos del juego «Construye tu bloque». Sin «premio», «suerte» ni lenguaje de azar. */
+/** Textos del juego «Snake minero». Sin sats, sin «premio», «suerte» ni lenguaje de azar. */
 export const JUEGO = {
-  title: "Construye tu bloque",
-  daily: "Bloque del día",
+  title: "Snake minero",
+  daily: "Cadena del día",
   description:
-    "Un minijuego de 2 minutos: llena tu bloque de Bitcoin con las transacciones que más pagan. Bloque nuevo cada día.",
-  hook: "Hoy eres el minero. ¿Cuántos sats sacas de tu bloque?",
+    "Un minijuego de 90 segundos: tu serpiente es una cadena de bloques. Come bloques, esquiva muros y aguanta el halving. Cadena nueva cada día.",
+  hook: "Tu serpiente es una cadena de bloques. ¿Hasta dónde la alargas?",
   howTo: [
-    "Tu bloque tiene huecos limitados.",
-    "Cada caja es una transacción: ocupa huecos y paga sats al minero.",
-    "Toca las cajas para meterlas. Llénalo con las que más te den.",
+    "Desliza el dedo sobre el tablero (o usa las flechas) para girar.",
+    "Cada bloque que comes se engancha a tu cadena y suma puntos.",
+    "No choques con los bordes, los muros ni con tu propia cadena.",
   ],
-  rounds: "3 bloques · menos de 2 minutos · el mismo reto para todo el mundo hoy",
-  legend: "Color más intenso = paga más por cada hueco que ocupa.",
-  sats: "Los sats son las monedas más pequeñas de Bitcoin, como los céntimos de un euro.",
-  noFit: "No cabe. Saca otra caja primero.",
-  playedToday:
-    "Ya has jugado el bloque de hoy. Puedes repetir, pero en el ranking solo cuenta tu primera partida.",
-  /** Lo que se aprende tras cada bloque. */
+  rules: "90 segundos · 3 intentos al día, cuenta el mejor · el mismo mapa para todo el mundo hoy",
+  rewards: [
+    "50 puntos por bloque.",
+    "Cada 21 bloques, halving: los puntos por bloque bajan a la mitad.",
+    "Cada 10 bloques sube la dificultad: la serpiente va más rápida.",
+  ],
+  attemptsLeft: (left: number) =>
+    left > 0
+      ? `Te ${left === 1 ? "queda 1 intento" : `quedan ${left} intentos`} hoy para el ranking.`
+      : "Ya has usado tus 3 intentos de hoy. Puedes seguir jugando, pero ya no cuenta para el ranking.",
+  levelUp: "Sube la dificultad",
+  halving: "¡Halving! Puntos a la mitad",
+  crashed: "Choque",
+  timeUp: "Tiempo",
+  /** Lo que se aprende al terminar. */
   lessons: [
-    "Lo que cuenta no es lo que paga cada caja, sino lo que paga por cada hueco que ocupa.",
-    "Ese truco no siempre basta: a veces conviene cambiar una caja para no dejar huecos vacíos.",
-    "Una caja enorme que paga mucho puede salir cara si te quita sitio para otras mejores.",
+    "Cadena de bloques: cada bloque se engancha al anterior. Por eso Bitcoin se llama así.",
+    "Halving: en Bitcoin, la recompensa por bloque baja a la mitad cada 210.000 bloques, unos 4 años. Aquí, cada 21.",
+    "Dificultad: en Bitcoin se ajusta cada 2.016 bloques para que salga uno cada 10 minutos, haya más o menos mineros. Aquí, cada 10 bloques, todo va más rápido.",
   ],
   verdicts: [
-    { min: 9.5, text: "Bloque perfecto. Así trabaja un minero de verdad." },
-    { min: 7, text: "Muy buen bloque. Casi nadie lo deja mejor." },
-    { min: 4, text: "Buen bloque. Mañana hay uno nuevo para afinar." },
-    { min: 0, text: "Tu bloque ha dejado sats sobre la mesa. ¿Pruebas mañana?" },
+    { min: 42, text: "Has pasado dos halvings. Cadena de minero veterano." },
+    { min: 21, text: "Has llegado al halving: tus bloques ya valen la mitad, como en Bitcoin." },
+    { min: 10, text: "Buena cadena. Ya has notado cómo sube la dificultad." },
+    { min: 0, text: "Cadena corta. Con el siguiente intento la alargas." },
   ],
   why170: {
     title: "¿Por qué Bloque170?",
-    text: "En el bloque 170, el 12 de enero de 2009, viajó el primer pago de Bitcoin entre dos personas: Satoshi Nakamoto envió 10 BTC a Hal Finney. Sin comisión: entonces los bloques iban casi vacíos. Hoy los mineros eligen, como acabas de hacer tú.",
+    text: "En el bloque 170, el 12 de enero de 2009, viajó el primer pago de Bitcoin entre dos personas: Satoshi Nakamoto envió 10 BTC a Hal Finney. Desde entonces, cada bloque se ha enganchado al anterior, como tu serpiente.",
   },
-  ranking: "El ranking es solo para ver quién construye mejores bloques. No se reparte nada.",
+  ranking: "El ranking es solo para ver quién alarga más su cadena. No se reparte nada.",
   rankingRules:
-    "Cuenta tu primera partida de cada día. Hoy: el bloque de hoy. Semana: suma de tus notas de lunes a domingo (hora de Madrid). Si hay empate, gana el menor tiempo.",
+    "Cuenta el mejor de tus 3 primeros intentos de cada día. Hoy: la cadena de hoy. Semana: suma de tus puntos de lunes a domingo (hora de Madrid). Si hay empate, gana quien llegó antes a sus puntos.",
   aliasAsk: "Ponte un alias y entra en el ranking",
   aliasHelp:
     "Máximo 20 caracteres. No pedimos email. Lo recordamos en este navegador para los próximos días.",
@@ -44,7 +52,7 @@ export const JUEGO = {
     waitTitle: "Con Bloque170 compras potencia de minería real durante 24 horas.",
     wait: "Avísame cuando abra la venta →",
   },
-  shareText: "¿Lo haces mejor?",
+  shareText: "¿Llegas más lejos?",
 } as const;
 
-export const verdictFor = (score: number) => JUEGO.verdicts.find((v) => score >= v.min)!.text;
+export const verdictFor = (blocks: number) => JUEGO.verdicts.find((v) => blocks >= v.min)!.text;
