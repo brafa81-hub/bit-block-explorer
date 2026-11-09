@@ -251,37 +251,26 @@ export function SnakeGame() {
   /** Bucle del juego: avanza un paso cada vez que toca, según la velocidad del nivel. */
   useEffect(() => {
     if (phase !== "playing" || !run) return;
-    let frame = 0;
-    let last = performance.now();
-    let acc = 0;
-    let lastHud = 0;
-    const loop = (now: number) => {
+    /* Un reloj normal (setTimeout) marca los pasos. No depende de las animaciones del navegador,
+     * que algunos móviles y vistas previas frenan o detienen. */
+    let timer = 0;
+    const tick = () => {
       const game = engine.current;
       if (!game) return;
-      const dt = Math.min(now - last, 100);
-      last = now;
-      if (!paused.current) {
-        acc += dt;
-        while (acc >= game.tickMs && !game.over) {
-          acc -= game.tickMs;
-          let next: Dir | null = null;
-          while (queue.current.length) {
-            const d = queue.current.shift()!;
-            if (game.canTurn(d)) {
-              next = d;
-              break;
-            }
+      if (!paused.current && !game.over) {
+        let next: Dir | null = null;
+        while (queue.current.length) {
+          const d = queue.current.shift()!;
+          if (game.canTurn(d)) {
+            next = d;
+            break;
           }
-          const event = game.step(next);
-          if (event.ate) vibrate(15);
-          if (event.halving) showFlash(JUEGO.halving);
-          else if (event.levelUp) showFlash(JUEGO.levelUp);
-          if (event.ate || event.dead) lastHud = 0;
         }
+        const event = game.step(next);
+        if (event.ate) vibrate(15);
+        if (event.halving) showFlash(JUEGO.halving);
+        else if (event.levelUp) showFlash(JUEGO.levelUp);
         repaint();
-      }
-      if (now - lastHud > 250) {
-        lastHud = now;
         setHud({
           blocks: game.blocks,
           points: game.points,
@@ -299,9 +288,10 @@ export function SnakeGame() {
         window.setTimeout(() => void finish(run, game), 900);
         return;
       }
-      frame = requestAnimationFrame(loop);
+      // En pausa se comprueba a menudo si ya se puede seguir; jugando, al ritmo del nivel.
+      timer = window.setTimeout(tick, paused.current ? 50 : game.tickMs);
     };
-    frame = requestAnimationFrame(loop);
+    timer = window.setTimeout(tick, 50);
     // Al cambiar de pestaña se pausa; se sigue con el siguiente gesto.
     const onHide = () => {
       if (document.hidden && engine.current && !engine.current.over) {
@@ -318,7 +308,7 @@ export function SnakeGame() {
     document.addEventListener("visibilitychange", onHide);
     window.addEventListener("keydown", onKey);
     return () => {
-      cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
       document.removeEventListener("visibilitychange", onHide);
       window.removeEventListener("keydown", onKey);
     };
