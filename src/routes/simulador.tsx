@@ -1,3 +1,4 @@
+import { SERVICIO } from "@/content/servicio";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -360,8 +361,8 @@ function SimuladorMineria() {
             Lo que acabas de ver, comparado con una máquina de verdad
           </h2>
           <p className="mt-4 max-w-2xl text-[16px]" style={{ color: "var(--on-dark-muted)" }}>
-            Un ordenador normal prueba unas decenas de miles de combinaciones por segundo. Un
-            Antminer S21, unos 200 billones: diez mil millones de veces más.
+            Un ordenador normal, desde el navegador, prueba unas decenas de miles de combinaciones
+            por segundo.
           </p>
           <p className="mt-4 max-w-2xl text-[16px]" style={{ color: "var(--on-dark)" }}>
             Lo que 1 PH/s hace en un segundo, a un ordenador normal le llevaría más de 1.500 años.
@@ -385,10 +386,10 @@ function SimuladorMineria() {
               nota="Un ASIC profesional habitual en la minería real."
             />
             <Comparativa
-              etiqueta="1 PH/s"
-              valor="1.000 TH/s"
-              cifraCompleta="Mil billones de hashes por segundo"
-              nota="Lo que hacen 5 equipos como este trabajando a la vez, sin parar."
+              etiqueta="Tu potencia"
+              valor="200 TH/s – 1 PH/s"
+              cifraCompleta="De 200 TH/s a 1 PH/s"
+              nota="Lo que hacen de 1 a 5 máquinas similares en potencia a un Antminer S21, trabajando 24 h."
             />
             <Comparativa
               etiqueta="La red de Bitcoin"
@@ -409,10 +410,14 @@ function SimuladorMineria() {
             En Solitario no hay reparto: o tu potencia encuentra un bloque entero, o no encuentra ninguno.
           </p>
           <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark-muted)" }}>
-            Y tener esa potencia en casa no es realista: cinco máquinas como el S21 cuestan miles de
-            euros cada una, consumen tanta electricidad como unas 40 viviendas, hacen ruido día y
-            noche y se quedan anticuadas en pocos años. Con 1 PH/s usas esa misma potencia
-            durante 24 horas, sin montar tu propio equipo.
+            Y tener esa potencia en casa no es realista: cinco máquinas similares en potencia a un
+            Antminer S21 cuestan miles de euros cada una, consumen tanta electricidad como unas 40
+            viviendas, hacen ruido día y noche y se quedan anticuadas en pocos años. Con{" "}
+            {SERVICIO.marca} usas durante 24 horas la potencia de una a cinco máquinas similares en
+            potencia a un Antminer S21, sin montar tu propio equipo.
+          </p>
+          <p className="mt-4 max-w-2xl text-[15px]" style={{ color: "var(--on-dark)" }}>
+            Con 200 TH/s durante 24 h recibes unos 9.000 sats. Es una estimación, no está garantizada.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">

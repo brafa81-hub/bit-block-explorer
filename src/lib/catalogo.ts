@@ -1,4 +1,4 @@
-/** Precios del catálogo v9.3 derivados de los datos canónicos del servicio (en céntimos). */
+/** Precios del catálogo v9.4.1 derivados de los datos canónicos del servicio (en céntimos). */
 import { SERVICIO } from "@/content/servicio";
 
 export type ProductoId = "potencia" | "regalos";
@@ -21,7 +21,7 @@ export function precioBase(th: number): number {
   return Math.ceil(centimos / c.redondeoCentimos) * c.redondeoCentimos;
 }
 
-/** Precio de un pedido según la potencia y el modo (el mixto suma un extra por pedido). */
+/** Precio de un pedido según la potencia y el modo (el Híbrido suma el suplemento Híbrido). */
 export function precioPedido(th: number, modo: ModoId): number {
   return precioBase(th) + (modo === "mixto" ? EXTRA_MIXTO : 0);
 }
@@ -42,12 +42,12 @@ export function unoEntreBloque(th: number, horas: number): number {
   return Math.round(n / magnitud) * magnitud;
 }
 
-/** Iconos de máquina: uno por cada 250 TH/s, mínimo 1. */
+/** Iconos de máquina: uno por cada 200 TH/s, mínimo 1. */
 export function maquinasDe(th: number): number {
   return Math.max(1, Math.floor(th / BLOQUE_TH));
 }
 
-/** Ahorro frente a varios pedidos de 250 TH/s, solo si la potencia es múltiplo de 250 y mayor. */
+/** Ahorro frente a varios pedidos de 200 TH/s, solo si la potencia es múltiplo de 200 y mayor. */
 export function ahorroFrenteABloques(
   th: number,
   modo: ModoId,

@@ -9,7 +9,7 @@ import { MAX_TH, MIN_TH, PASO_TH, formatearEntero, formatearEuros, precioPedido 
 const URL = urlPublica("/");
 const TITULO = `${SERVICIO.marca} | Potencia de minería de Bitcoin durante 24 horas`;
 const DESC =
-  "Elige entre 250 TH/s y 1 PH/s y mina Bitcoin durante 24 horas en la red real. Lo que se genere va directo a tu wallet.";
+  "Elige entre 200 TH/s y 1 PH/s y mina Bitcoin durante 24 horas en la red real. Lo que se genere va directo a tu wallet.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,7 +33,7 @@ const botonSecundario =
 const PASOS = [
   {
     titulo: "Eliges tu potencia",
-    texto: "De 250 TH/s a 1 PH/s. Con más potencia haces más intentos en la red, y cada TH/s sale más barato.",
+    texto: "De 200 TH/s a 1 PH/s. Con más potencia haces más intentos en la red, y cada TH/s sale más barato.",
   },
   {
     titulo: "Eliges tu modo",

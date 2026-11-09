@@ -28,7 +28,7 @@ import { origen, registrar } from "@/lib/medicion";
 
 const URL = urlPublica("/minar");
 const TITULO = `Minería de Bitcoin a tu medida, durante 24 horas | ${SERVICIO.marca}`;
-const DESC = `De 250 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde unos ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
+const DESC = `De 200 TH/s a 1 PH/s de potencia de cálculo durante 24 h, desde unos ${DESDE_EUROS_APROX}, IVA incluido. Próximamente.`;
 
 export const Route = createFileRoute("/minar")({
   head: () => ({
@@ -63,7 +63,7 @@ function textoModo(modo: ModoId): string {
     return "Recibes pequeñas cantidades de bitcoin (sats) según el trabajo que hace tu potencia.";
   if (modo === "solitario")
     return "Tu potencia mina por su cuenta durante 24 horas, sin repartir con nadie. Si encuentra un bloque, la recompensa completa va a tu wallet. Mismo precio que el Compartido.";
-  return `12 h en modo Compartido y 12 h en Solitario. Incluye ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)} por el cambio de modo.`;
+  return `12 h en modo Compartido y 12 h en Solitario. Incluye un suplemento Híbrido de ${formatearEuros(SERVICIO.modos.extraMixtoCentimos)}.`;
 }
 
 function textoSats(th: number, modo: ModoId): string | null {
@@ -491,9 +491,9 @@ function Minar() {
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <div className="index-label">004 / preguntas</div>
         <div className="mt-6">
-          <Pregunta titulo="¿Qué es 250 TH/s?">
-            250 billones de intentos por segundo, algo más de lo que hace una máquina de minería
-            profesional actual. Puedes elegir desde 250 TH/s hasta 1 PH/s (1.000 TH/s).
+          <Pregunta titulo="¿Qué es 200 TH/s?">
+            200 billones de intentos por segundo, lo que hace una máquina similar en potencia a un
+            Antminer S21. Puedes elegir desde 200 TH/s hasta 1 PH/s (1.000 TH/s).
           </Pregunta>
           <Pregunta titulo="¿Qué son los sats?">
             Pequeñas fracciones de bitcoin: 100 millones de sats son 1 BTC. Es la unidad en la que

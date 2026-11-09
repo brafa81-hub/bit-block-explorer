@@ -27,22 +27,22 @@ export const SERVICIO = {
   /** Lema de marca. */
   lema: "Democratizamos el acceso a la minería de Bitcoin",
   /**
-   * Catálogo vigente (modelo de negocio v9.3). Potencia a elegir, siempre 24 h.
+   * Catálogo vigente (modelo de negocio v9.4.1). Potencia a elegir, siempre 24 h.
    * Precio con IVA en céntimos = base + porTH × TH/s, redondeado y luego hacia arriba al múltiplo de `redondeo`.
    * Los sats son una estimación orientativa, no garantizada.
    */
   catalogo: {
     horas: 24,
-    minTH: 250,
+    minTH: 200,
     maxTH: 1000,
     pasoTH: 50,
-    /** Potencia de referencia de un pedido pequeño (una máquina profesional). */
-    bloqueTH: 250,
+    /** Potencia de referencia del pedido mínimo (similar a un Antminer S21). */
+    bloqueTH: 200,
     precioBaseCentimos: 257,
     /** Céntimos por TH/s (7,11). */
     precioPorTHCentimos: 7.11,
     redondeoCentimos: 5,
-    /** Sats aproximados por TH/s en modo estable (unos 11.500 por cada 250 TH/s). */
+    /** Sats aproximados por TH/s en modo estable (unos 9.200 por cada 200 TH/s). */
     satsPorTH: 46,
     redondeoSats: 500,
     /** Subsidio por bloque desde el halving de abril de 2024 (3,125 BTC), sin contar comisiones. */
@@ -54,8 +54,8 @@ export const SERVICIO = {
   },
   /** Modos de minado en prueba de demanda. */
   modos: {
-    /** Recargo por pedido del modo mixto, en céntimos. */
-    extraMixtoCentimos: 95,
+    /** Suplemento Híbrido por pedido, en céntimos. */
+    extraMixtoCentimos: 200,
   },
   regalos: {
     caducidadDias: 30,

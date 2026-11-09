@@ -326,7 +326,7 @@ export const GLOSARIO: TerminoGlosario[] = [
     ],
     ejemplo: "1 TH/s = 10^12 hashes/s · 1 PH/s = 1.000 TH/s · 1 EH/s = 1.000 PH/s.",
     loVerasEn: {
-      texto: "En Minar: la potencia va de 250 TH/s a 1 PH/s. En el simulador ves cuántos hashes por segundo es cada una.",
+      texto: "En Minar: la potencia va de 200 TH/s a 1 PH/s. En el simulador ves cuántos hashes por segundo es cada una.",
       to: "/minar", hash: "potencia",
       enlace: "Ver la potencia en Minar",
     },
@@ -565,7 +565,7 @@ export const GLOSARIO: TerminoGlosario[] = [
       "Durante esas 24 horas, tu potencia trabaja en un pool igual que la de un minero profesional.",
       "En realidad, compras cálculo, no bloques. Lo que llega depende de la dificultad, de las comisiones de la red y de las reglas del pool.",
     ],
-    enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 250 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. ${conMayuscula(SERVICIO.frases.compartido)}: no es una inversión ni garantiza un resultado.`,
+    enLaPractica: `En ${SERVICIO.marca} eliges tu potencia, de 200 TH/s a 1 PH/s, durante 24 horas, y solo aportas la dirección de tu wallet: ni pool, ni stratum, ni datos técnicos; de eso se encarga ${SERVICIO.marca}. ${conMayuscula(SERVICIO.frases.compartido)}: no es una inversión ni garantiza un resultado.`,
     relacionados: ["pool-de-destino", "pool", "mineria-en-solitario", "hashrate", "mineria-en-la-nube"],
     revisado: R,
   },

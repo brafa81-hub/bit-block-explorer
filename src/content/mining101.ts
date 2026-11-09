@@ -25,7 +25,7 @@ export interface Capitulo {
 }
 
 const { caducidadDias } = SERVICIO.regalos;
-const potencia = "de 250 TH/s a 1 PH/s";
+const potencia = "de 200 TH/s a 1 PH/s";
 
 const wallet: string[] = SERVICIO.walletRecomendada
   ? [
