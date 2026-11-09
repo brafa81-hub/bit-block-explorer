@@ -44,7 +44,7 @@ export const SERVICIO = {
     redondeoCentimos: 5,
     /** Sats aproximados por TH/s en modo estable (unos 9.200 por cada 200 TH/s). */
     satsPorTH: 46,
-    redondeoSats: 500,
+    redondeoSats: 100,
     /** Subsidio por bloque desde el halving de abril de 2024 (3,125 BTC), sin contar comisiones. */
     recompensaBloqueSats: 312_500_000,
     /** Potencia total de la red en TH/s (unos 1.057 EH/s). Actualizar junto a fechaEstimacion. */
