@@ -150,7 +150,7 @@ export function SnakeGame() {
       // Que el marcador, el tablero y las flechas quepan a la vez en la pantalla del móvil.
       const cellSize = Math.max(
         12,
-        Math.floor(Math.min(Math.min(width, 440) / COLS, (window.innerHeight - 250) / ROWS)),
+        Math.floor(Math.min(Math.min(width, 440) / COLS, (window.innerHeight - 280) / ROWS)),
       );
       const ratio = window.devicePixelRatio || 1;
       canvas.style.width = `${cellSize * COLS}px`;
@@ -325,29 +325,53 @@ export function SnakeGame() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, run]);
 
-  /* Deslizar el dedo sobre el tablero: gira en cuanto el gesto es claro, sin esperar a soltar. */
-  function onTouchStart(e: React.TouchEvent) {
-    const t = e.touches[0];
-    if (t) touch.current = { x: t.clientX, y: t.clientY, moved: false };
-  }
-  function onTouchMove(e: React.TouchEvent) {
-    const t = e.touches[0];
-    const from = touch.current;
-    if (!t || !from) return;
-    const dx = t.clientX - from.x;
-    const dy = t.clientY - from.y;
-    if (Math.max(Math.abs(dx), Math.abs(dy)) < 22) return;
-    turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0);
-    touch.current = { x: t.clientX, y: t.clientY, moved: true };
-  }
-  function onTouchEnd() {
-    // Un toque sin deslizar solo sirve para empezar o seguir tras una pausa.
-    if (touch.current && !touch.current.moved && paused.current && engine.current) {
-      paused.current = false;
-      setWaiting(false);
-    }
-    touch.current = null;
-  }
+  /* Controles táctiles durante la partida:
+   * - Se puede deslizar en cualquier punto de la zona de juego, no solo sobre el tablero.
+   * - La página no se desplaza ni hace zoom mientras se juega.
+   * - El giro se aplica en cuanto el gesto es claro, sin esperar a levantar el dedo. */
+  useEffect(() => {
+    const zone = boardRef.current;
+    if (phase !== "playing" || !zone) return;
+    const html = document.documentElement;
+    const previous = { overflow: html.style.overflow, overscroll: html.style.overscrollBehavior };
+    html.style.overflow = "hidden";
+    html.style.overscrollBehavior = "none";
+    const onStart = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (t) touch.current = { x: t.clientX, y: t.clientY, moved: false };
+    };
+    const onMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      const from = touch.current;
+      if (!t || !from) return;
+      const dx = t.clientX - from.x;
+      const dy = t.clientY - from.y;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 16) return;
+      turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0);
+      touch.current = { x: t.clientX, y: t.clientY, moved: true };
+    };
+    const onEnd = () => {
+      // Un toque sin deslizar solo sirve para empezar o seguir tras una pausa.
+      if (touch.current && !touch.current.moved && paused.current && engine.current) {
+        paused.current = false;
+        setWaiting(false);
+      }
+      touch.current = null;
+    };
+    zone.addEventListener("touchstart", onStart, { passive: true });
+    zone.addEventListener("touchmove", onMove, { passive: false });
+    zone.addEventListener("touchend", onEnd);
+    zone.addEventListener("touchcancel", onEnd);
+    return () => {
+      html.style.overflow = previous.overflow;
+      html.style.overscrollBehavior = previous.overscroll;
+      zone.removeEventListener("touchstart", onStart);
+      zone.removeEventListener("touchmove", onMove);
+      zone.removeEventListener("touchend", onEnd);
+      zone.removeEventListener("touchcancel", onEnd);
+    };
+  }, [phase, turn]);
 
   async function share(action: "share" | "copy" | "download") {
     if (!outcome || !run) return;
@@ -394,10 +418,11 @@ export function SnakeGame() {
         e.preventDefault();
         turn(d);
       }}
-      className="flex size-14 items-center justify-center border border-border bg-background active:bg-instrument/20"
+      onContextMenu={(e) => e.preventDefault()}
+      className="flex h-16 w-20 touch-manipulation select-none items-center justify-center border border-foreground/40 bg-background [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] active:bg-instrument/30"
       style={{ gridArea: area }}
     >
-      <Icon className="size-6" />
+      <Icon className="size-7" />
     </button>
   );
 
@@ -430,7 +455,7 @@ export function SnakeGame() {
       )}
 
       {(phase === "playing" || phase === "sending") && run && (
-        <section ref={boardRef} className="scroll-mt-2 pb-10">
+        <section ref={boardRef} className="touch-none select-none scroll-mt-2 pb-10">
           <div className="mx-auto max-w-[440px]">
             <div className="flex items-end justify-between gap-3 font-mono">
               <div>
@@ -466,9 +491,6 @@ export function SnakeGame() {
                 role="img"
                 aria-label={`Tablero del juego. ${hud.blocks} bloques, ${hud.points} puntos.`}
                 className="block touch-none select-none"
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
                 onClick={() => {
                   if (paused.current && engine.current && !engine.current.over) {
                     paused.current = false;
