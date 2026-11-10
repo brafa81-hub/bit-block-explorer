@@ -57,6 +57,13 @@
       "when": 1794257040050,
       "tag": "0007_game_block_challenges_ranking",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794316264482,
+      "tag": "0008_eliminar_juego",
+      "breakpoints": true
     }
   ]
 }
