@@ -586,7 +586,7 @@ export const CAPITULOS: Capitulo[] = [
       {
         titulo: "Más potencia y regalos",
         parrafos: [
-          `¿Necesitas más de 1 PH/s? Escríbenos desde la página [Minar](/minar). Y si quieres regalar, cada persona recibe un código, pone su propia wallet y elige cuándo empezar, durante ${caducidadDias} días.`,
+          `¿Necesitas un pedido especial? Escríbenos desde la página [Minar](/minar). Y si quieres regalar, cada persona recibe un código, pone su propia wallet y elige cuándo empezar, durante ${caducidadDias} días.`,
         ],
       },
     ],

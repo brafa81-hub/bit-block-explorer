@@ -29,7 +29,7 @@ export const AVISO_APERTURA = {
 } as const;
 
 export const SOLICITUD_POTENCIA = {
-  pregunta: "¿Necesitas más de 1 PH/s?",
+  pregunta: "¿Necesitas un pedido especial?",
   enlace: "Escríbenos",
   titulo: "Solicita más potencia",
   descripcion: "Indica la potencia y la fecha que necesitas.",
