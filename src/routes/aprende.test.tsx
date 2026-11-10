@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { trackGame } from "@/lib/game-tracking";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Certificado } from "@/components/Certificado";
@@ -27,7 +26,6 @@ export const Route = createFileRoute("/aprende/test")({
 
 function TestFinal() {
   const [intento, setIntento] = useState(0);
-  useEffect(() => { trackGame("test_inicio"); }, []);
   return (
     <main className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
       <Link to="/aprende" className="index-label hover:text-foreground">← aprende</Link>

@@ -128,11 +128,3 @@
 }
 
 
-/* Juego «Snake minero»: sacudida al chocar y contador que rebota al sumar puntos. */
-@keyframes game-shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
-@keyframes game-drop { from { transform: translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes game-pop { 0% { transform: scale(1.18); } 100% { transform: scale(1); } }
-.game-shake { animation: game-shake 0.4s ease-in-out; }
-.game-drop { animation: game-drop 0.18s ease-out; }
-.game-pop { display: inline-block; animation: game-pop 0.25s ease-out; }
-@media (prefers-reduced-motion: reduce) { .game-shake, .game-drop, .game-pop { animation: none; } }

@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { trackGame } from "@/lib/game-tracking";
 import { useEffect, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -242,7 +241,6 @@ function AvisoComprar({
       setEstado("listo");
       return;
     }
-    trackGame("email", "lista_espera");
     setEstado("hecho");
   }
 

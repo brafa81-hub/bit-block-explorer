@@ -13,6 +13,6 @@
 - [x] /juego: Bloque del día (tres retos diarios generados en el servidor), cajas visuales, nota desde un mínimo, tarjeta para compartir.
 - [x] Ranking de hoy y semanal por alias (sin email ni premio) y administración restringida.
 - [x] /juego: Snake minero (Cadena del día) en lugar de «Construye tu bloque»: mapa diario igual para todos, halving y dificultad, partida repetida en el servidor, mejor de 3 intentos, compartir y salida a la lista de espera. Sin cambios en la base de datos.
-- [ ] Probar el Snake en móvil con 5 personas y ajustar velocidad y puntos del halving.
+- [x] Juego /juego eliminado (10 nov 2026); siguiente paso: ampliar /aprende con algo más interactivo.
 - [ ] Fase 2: email confirmado (Brevo), GAME_SEED secreto y bases legales antes de cualquier premio.
 - [x] Medición: inicio, fin, compartir, lista de espera, test. Probar con 5 personas que no sepan de Bitcoin antes de difundir.

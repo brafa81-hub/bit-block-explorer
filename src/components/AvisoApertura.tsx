@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { trackGame } from "@/lib/game-tracking";
 import { Link } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +36,6 @@ export function AvisoApertura() {
       setEstado("listo");
       return;
     }
-    trackGame("email", "lista_espera");
     setEstado("hecho");
   }
 
