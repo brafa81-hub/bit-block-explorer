@@ -1,5 +1,5 @@
 -- Bloque170 · Esquema inicial para un proyecto Supabase nuevo
--- Reúne el estado final de drizzle/migrations 0000 a 0006 en un solo archivo.
+-- Reúne el estado final de drizzle/migrations 0000 a 0011 (sin las tablas del juego, ya eliminadas) en un solo archivo.
 -- Uso: Supabase → SQL Editor → New query → pegar todo → Run. Solo una vez, en un proyecto vacío.
 -- La web solo puede AÑADIR filas (nunca leerlas). Los datos se consultan desde el panel de Supabase.
 
@@ -78,12 +78,13 @@ WITH CHECK (
 
 CREATE INDEX eventos_created_at_idx ON public.eventos (created_at);
 
--- 3. Solicitudes de más de 1 PH/s ------------------------------------------
+-- 3. Pedidos especiales (mensaje libre + email) -------------------------------
+-- potencia_ph y fecha son opcionales: solo las traen solicitudes antiguas.
 CREATE TABLE public.solicitudes_potencia (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  potencia_ph NUMERIC NOT NULL,
-  fecha DATE NOT NULL,
+  potencia_ph NUMERIC,
+  fecha DATE,
   email TEXT NOT NULL,
   utm_source TEXT,
   utm_medium TEXT,
@@ -91,9 +92,11 @@ CREATE TABLE public.solicitudes_potencia (
   utm_content TEXT,
   utm_term TEXT,
   referrer TEXT,
+  mensaje TEXT,
   CONSTRAINT solicitudes_potencia_valida CHECK (
-    potencia_ph > 1 AND potencia_ph <= 1000000
+    (potencia_ph IS NULL OR (potencia_ph > 1 AND potencia_ph <= 1000000))
     AND email ~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' AND length(email) <= 254
+    AND (mensaje IS NULL OR length(mensaje) BETWEEN 1 AND 2000)
   )
 );
 
@@ -104,8 +107,9 @@ ALTER TABLE public.solicitudes_potencia ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Enviar solicitud de potencia"
 ON public.solicitudes_potencia FOR INSERT TO anon, authenticated
 WITH CHECK (
-  potencia_ph > 1 AND potencia_ph <= 1000000
+  (potencia_ph IS NULL OR (potencia_ph > 1 AND potencia_ph <= 1000000))
   AND email ~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' AND length(email) <= 254
+  AND (mensaje IS NULL OR length(mensaje) BETWEEN 1 AND 2000)
   AND coalesce(length(utm_source), 0) <= 200 AND coalesce(length(utm_medium), 0) <= 200
   AND coalesce(length(utm_campaign), 0) <= 200 AND coalesce(length(utm_content), 0) <= 200
   AND coalesce(length(utm_term), 0) <= 200 AND coalesce(length(referrer), 0) <= 500
