@@ -6,7 +6,7 @@ export const JUEGO = {
     "Un minijuego de 90 segundos: tu serpiente es una cadena de bloques. Come bloques, esquiva muros y aguanta el halving. Cadena nueva cada día.",
   hook: "Tu serpiente es una cadena de bloques. ¿Hasta dónde la alargas?",
   howTo: [
-    "Desliza el dedo sobre el tablero (o usa las flechas) para girar.",
+    "Para girar, desliza el dedo, toca el tablero hacia donde quieras ir o usa las flechas.",
     "Cada bloque que comes se engancha a tu cadena y suma puntos.",
     "No choques con los bordes, los muros ni con tu propia cadena.",
   ],

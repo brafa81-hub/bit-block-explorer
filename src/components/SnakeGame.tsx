@@ -48,6 +48,7 @@ const KEYS: Record<string, Dir> = {
   s: 2,
   a: 3,
 };
+const NAMES = ["arriba", "derecha", "abajo", "izquierda"];
 type Hud = { blocks: number; points: number; reward: number; left: number; level: number };
 const emptyHud: Hud = { blocks: 0, points: 0, reward: 50, left: LIMIT_MS, level: 0 };
 
@@ -132,10 +133,26 @@ export function SnakeGame() {
   const queue = useRef<Dir[]>([]);
   const paused = useRef(true);
   const flashTimer = useRef(0);
-  const touch = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  /** Un gesto por dedo: si la palma u otro dedo tocan la pantalla, no estropean el que desliza. */
+  const gestures = useRef(new Map<number, { x: number; y: number; moved: boolean; at: number }>());
+  const [pressed, setPressed] = useState<Dir | null>(null);
+  const pressedTimer = useRef(0);
+  /** Diagnóstico: con ?debug=1 en la dirección se ven los gestos que recibe el juego. */
+  const [debug, setDebug] = useState(false);
+  const [debugLog, setDebugLog] = useState<string[]>([]);
+  const note = useCallback((text: string) => {
+    setDebugLog((log) => [text, ...log].slice(0, 8));
+  }, []);
   const today = madridDay(new Date());
 
-  useEffect(() => setAlias(savedAlias()), []);
+  useEffect(() => {
+    setAlias(savedAlias());
+    try {
+      setDebug(new URLSearchParams(location.search).has("debug"));
+    } catch {
+      /* sin diagnóstico */
+    }
+  }, []);
 
   const repaint = useCallback(() => {
     if (canvasRef.current && run) draw(canvasRef.current, engine.current, run.layout);
@@ -171,14 +188,27 @@ export function SnakeGame() {
     flashTimer.current = window.setTimeout(() => setFlash(""), 1400);
   }
 
-  const turn = useCallback((d: Dir) => {
-    if (!engine.current || engine.current.over) return;
-    if (paused.current) {
-      paused.current = false;
-      setWaiting(false);
-    }
-    if (queue.current.length < 2) queue.current.push(d);
-  }, []);
+  /** Apunta un giro. Se ignora si no cambia nada respecto al último giro pendiente. */
+  const turn = useCallback(
+    (d: Dir, source: string) => {
+      const game = engine.current;
+      if (!game || game.over) return;
+      if (paused.current) {
+        paused.current = false;
+        setWaiting(false);
+      }
+      const last = queue.current.at(-1) ?? game.dir;
+      const useful = d !== last && d !== (last + 2) % 4 && queue.current.length < 3;
+      if (useful) queue.current.push(d);
+      note(`${source}: ${NAMES[d]}${useful ? "" : " (sin efecto)"}`);
+      if (useful) {
+        setPressed(d);
+        window.clearTimeout(pressedTimer.current);
+        pressedTimer.current = window.setTimeout(() => setPressed(null), 180);
+      }
+    },
+    [note],
+  );
 
   async function joinRanking(name: string, current: SnakeStart) {
     const parsed = aliasSchema.safeParse(name);
@@ -303,7 +333,7 @@ export function SnakeGame() {
       const d = KEYS[e.key];
       if (d === undefined) return;
       e.preventDefault();
-      turn(d);
+      turn(d, "tecla");
     };
     document.addEventListener("visibilitychange", onHide);
     window.addEventListener("keydown", onKey);
@@ -315,10 +345,11 @@ export function SnakeGame() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, run]);
 
-  /* Controles táctiles durante la partida:
-   * - Se puede deslizar en cualquier punto de la zona de juego, no solo sobre el tablero.
+  /* Controles durante la partida, con eventos de puntero (dedo, ratón o lápiz):
+   * - Deslizar en cualquier punto de la zona de juego gira en cuanto el gesto es claro.
+   * - Tocar el tablero gira hacia ese lado de la cabeza de la serpiente.
    * - La página no se desplaza ni hace zoom mientras se juega.
-   * - El giro se aplica en cuanto el gesto es claro, sin esperar a levantar el dedo. */
+   * Las flechas de pantalla tienen su propio manejador. */
   useEffect(() => {
     const zone = boardRef.current;
     if (phase !== "playing" || !zone) return;
@@ -326,42 +357,82 @@ export function SnakeGame() {
     const previous = { overflow: html.style.overflow, overscroll: html.style.overscrollBehavior };
     html.style.overflow = "hidden";
     html.style.overscrollBehavior = "none";
-    const onStart = (e: TouchEvent) => {
-      const t = e.touches[0];
-      if (t) touch.current = { x: t.clientX, y: t.clientY, moved: false };
+    const active = gestures.current;
+    const onButton = (e: Event) => (e.target as Element | null)?.closest?.("button") != null;
+    const onDown = (e: PointerEvent) => {
+      if (onButton(e) || (e.pointerType === "mouse" && e.button !== 0)) return;
+      gestures.current.set(e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+        moved: false,
+        at: performance.now(),
+      });
+      try {
+        zone.setPointerCapture(e.pointerId);
+      } catch {
+        /* sin captura, el gesto sigue funcionando dentro de la zona */
+      }
     };
-    const onMove = (e: TouchEvent) => {
-      e.preventDefault();
-      const t = e.touches[0];
-      const from = touch.current;
-      if (!t || !from) return;
-      const dx = t.clientX - from.x;
-      const dy = t.clientY - from.y;
-      if (Math.max(Math.abs(dx), Math.abs(dy)) < 16) return;
-      turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0);
-      touch.current = { x: t.clientX, y: t.clientY, moved: true };
+    const onMove = (e: PointerEvent) => {
+      const g = gestures.current.get(e.pointerId);
+      if (!g) return;
+      const dx = e.clientX - g.x;
+      const dy = e.clientY - g.y;
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 14) return;
+      turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0, "desliza");
+      gestures.current.set(e.pointerId, { ...g, x: e.clientX, y: e.clientY, moved: true });
     };
-    const onEnd = () => {
-      // Un toque sin deslizar solo sirve para empezar o seguir tras una pausa.
-      if (touch.current && !touch.current.moved && paused.current && engine.current) {
+    const onUp = (e: PointerEvent) => {
+      const g = gestures.current.get(e.pointerId);
+      if (!g) return;
+      gestures.current.delete(e.pointerId);
+      // Solo cuenta como toque si es corto: una palma que se apoya y se levanta no gira.
+      if (g.moved || performance.now() - g.at > 400) return;
+      // Un toque sin deslizar: sobre el tablero gira hacia ese lado; fuera, solo empieza o sigue.
+      const game = engine.current;
+      const canvas = canvasRef.current;
+      if (!game || game.over || !canvas) return;
+      const r = canvas.getBoundingClientRect();
+      const size = r.width / COLS;
+      const inside =
+        e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      const head = game.body[0]!;
+      const hx = r.left + ((head % COLS) + 0.5) * size;
+      const hy = r.top + (Math.floor(head / COLS) + 0.5) * size;
+      const vertical = game.dir === 0 || game.dir === 2;
+      const offset = vertical ? e.clientX - hx : e.clientY - hy;
+      if (inside && Math.abs(offset) > size / 2)
+        turn(vertical ? (offset > 0 ? 1 : 3) : offset > 0 ? 2 : 0, "toque");
+      else if (paused.current) {
         paused.current = false;
         setWaiting(false);
+        note("toque: empezar");
       }
-      touch.current = null;
     };
-    zone.addEventListener("touchstart", onStart, { passive: true });
-    zone.addEventListener("touchmove", onMove, { passive: false });
-    zone.addEventListener("touchend", onEnd);
-    zone.addEventListener("touchcancel", onEnd);
+    const onCancel = (e: PointerEvent) => {
+      gestures.current.delete(e.pointerId);
+      note("gesto cancelado por el navegador");
+    };
+    // Por si el navegador ignora touch-action: que el dedo no desplace la página.
+    const stopScroll = (e: TouchEvent) => {
+      if (e.cancelable) e.preventDefault();
+    };
+    zone.addEventListener("pointerdown", onDown);
+    zone.addEventListener("pointermove", onMove);
+    zone.addEventListener("pointerup", onUp);
+    zone.addEventListener("pointercancel", onCancel);
+    zone.addEventListener("touchmove", stopScroll, { passive: false });
     return () => {
+      active.clear();
       html.style.overflow = previous.overflow;
       html.style.overscrollBehavior = previous.overscroll;
-      zone.removeEventListener("touchstart", onStart);
-      zone.removeEventListener("touchmove", onMove);
-      zone.removeEventListener("touchend", onEnd);
-      zone.removeEventListener("touchcancel", onEnd);
+      zone.removeEventListener("pointerdown", onDown);
+      zone.removeEventListener("pointermove", onMove);
+      zone.removeEventListener("pointerup", onUp);
+      zone.removeEventListener("pointercancel", onCancel);
+      zone.removeEventListener("touchmove", stopScroll);
     };
-  }, [phase, turn]);
+  }, [phase, turn, note]);
 
   async function share(action: "share" | "copy" | "download") {
     if (!outcome || !run) return;
@@ -406,10 +477,10 @@ export function SnakeGame() {
       aria-label={label}
       onPointerDown={(e) => {
         e.preventDefault();
-        turn(d);
+        turn(d, "flecha");
       }}
       onContextMenu={(e) => e.preventDefault()}
-      className="flex h-16 w-20 touch-manipulation select-none items-center justify-center border border-foreground/40 bg-background [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] active:bg-instrument/30"
+      className={`flex h-16 w-20 touch-manipulation select-none items-center justify-center border border-foreground/40 [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] ${pressed === d ? "bg-instrument/40" : "bg-background"}`}
       style={{ gridArea: area }}
     >
       <Icon className="size-7" />
@@ -481,12 +552,6 @@ export function SnakeGame() {
                 role="img"
                 aria-label={`Tablero del juego. ${hud.blocks} bloques, ${hud.points} puntos.`}
                 className="block touch-none select-none"
-                onClick={() => {
-                  if (paused.current && engine.current && !engine.current.over) {
-                    paused.current = false;
-                    setWaiting(false);
-                  }
-                }}
               />
               {(waiting || flash || phase === "sending") && (
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6 text-center">
@@ -513,6 +578,18 @@ export function SnakeGame() {
               {pad(2, "Abajo", ArrowDown, "down")}
               {pad(1, "Derecha", ArrowRight, "right")}
             </div>
+            {debug && (
+              <ol
+                className="mt-3 border border-border p-2 font-mono text-xs"
+                aria-label="Diagnóstico"
+              >
+                {debugLog.length ? (
+                  debugLog.map((t, i) => <li key={`${i}-${t}`}>{t}</li>)
+                ) : (
+                  <li>Sin gestos todavía</li>
+                )}
+              </ol>
+            )}
           </div>
         </section>
       )}
