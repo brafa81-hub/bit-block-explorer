@@ -367,7 +367,7 @@ function Minar() {
         <h1 className="mt-3 text-3xl sm:text-4xl">Minería de Bitcoin a tu medida</h1>
         <p className="mt-4 text-[17px] text-muted-foreground">
           Eliges la potencia y el modo, indicas tu wallet y tu potencia mina durante 24 horas en la
-          red real de Bitcoin. Un único pago, sin renovaciones.
+          red real de Bitcoin. Un único pago.
         </p>
         <p className="mt-6 border-l-2 border-primary pl-4 text-[15px]">
           Todavía no se puede comprar: déjanos tu email y te avisamos en cuanto abramos.
