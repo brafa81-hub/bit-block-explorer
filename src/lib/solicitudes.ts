@@ -2,11 +2,7 @@ import { z } from "zod";
 
 export const emailSolicitud = z.string().trim().toLowerCase().email().max(254);
 export const solicitudPotenciaSchema = z.object({
-  potencia_ph: z.number().finite().gt(1).max(1_000_000),
-  fecha: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((fecha) => {
-    const date = new Date(`${fecha}T00:00:00Z`);
-    return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === fecha;
-  }),
+  mensaje: z.string().trim().min(1).max(2000),
   email: emailSolicitud,
 });
 

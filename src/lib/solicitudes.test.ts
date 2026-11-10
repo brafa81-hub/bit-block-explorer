@@ -6,12 +6,15 @@ describe("Solicitudes de minar", () => {
   test("El interés de regalos se registra como regalos", () => {
     deepStrictEqual(interesRegalos(1), { producto: "regalos", para_quien: "regalo", cantidad: 1, modo: null });
   });
-  test("Las solicitudes de más de 1 PH/s excluyen 1 PH/s", () => {
-    const datos = { email: "test@example.com", fecha: "2026-11-15" };
-    strictEqual(solicitudPotenciaSchema.safeParse({ ...datos, potencia_ph: 1 }).success, false);
-    strictEqual(solicitudPotenciaSchema.safeParse({ ...datos, potencia_ph: 1.5 }).success, true);
+  test("El pedido especial acepta un mensaje libre y un email", () => {
+    strictEqual(solicitudPotenciaSchema.safeParse({ email: "test@example.com", mensaje: "Necesito 3 días seguidos" }).success, true);
   });
-  test("La fecha y el email deben ser válidos", () => {
-    strictEqual(solicitudPotenciaSchema.safeParse({ email: "no-email", fecha: "2026-02-30", potencia_ph: 2 }).success, false);
+  test("El mensaje no puede estar vacío ni pasar de 2000 caracteres", () => {
+    const email = "test@example.com";
+    strictEqual(solicitudPotenciaSchema.safeParse({ email, mensaje: "   " }).success, false);
+    strictEqual(solicitudPotenciaSchema.safeParse({ email, mensaje: "a".repeat(2001) }).success, false);
+  });
+  test("El email debe ser válido", () => {
+    strictEqual(solicitudPotenciaSchema.safeParse({ email: "no-email", mensaje: "Hola" }).success, false);
   });
 });

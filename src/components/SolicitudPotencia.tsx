@@ -9,13 +9,12 @@ import { origen } from "@/lib/medicion";
 
 export function SolicitudPotencia() {
   const [abierto, setAbierto] = useState(false);
-  const [potencia, setPotencia] = useState("");
-  const [fecha, setFecha] = useState("");
+  const [mensaje, setMensaje] = useState("");
   const [email, setEmail] = useState("");
   const [acepta, setAcepta] = useState(false);
   const [estado, setEstado] = useState<"listo" | "enviando" | "hecho">("listo");
   const [error, setError] = useState(false);
-  const datos = solicitudPotenciaSchema.safeParse({ potencia_ph: Number(potencia), fecha, email });
+  const datos = solicitudPotenciaSchema.safeParse({ mensaje, email });
 
   async function enviar(event: React.FormEvent) {
     event.preventDefault();
@@ -44,10 +43,8 @@ export function SolicitudPotencia() {
         <DialogTitle className="text-xl font-normal">{estado === "hecho" ? texto.hecho : texto.titulo}</DialogTitle>
         <DialogDescription>{estado === "hecho" ? texto.confirmacion : texto.descripcion}</DialogDescription>
         {estado !== "hecho" && <form onSubmit={enviar} className="space-y-4">
-          <div><label htmlFor="solicitud-ph" className="text-[13px]">{texto.potencia}</label>
-            <input id="solicitud-ph" type="number" min="1.001" max="1000000" step="any" required value={potencia} onChange={e => setPotencia(e.target.value)} className="hash-text mt-2 min-h-[44px] w-full border border-border bg-transparent px-3" /></div>
-          <div><label htmlFor="solicitud-fecha" className="text-[13px]">{texto.fecha}</label>
-            <input id="solicitud-fecha" type="date" required value={fecha} onChange={e => setFecha(e.target.value)} className="hash-text mt-2 min-h-[44px] w-full min-w-0 border border-border bg-transparent px-3" /></div>
+          <div><label htmlFor="solicitud-mensaje" className="text-[13px]">{texto.mensaje}</label>
+            <textarea id="solicitud-mensaje" rows={5} maxLength={2000} required value={mensaje} onChange={e => setMensaje(e.target.value)} className="mt-2 w-full border border-border bg-transparent px-3 py-2" /></div>
           <div><label htmlFor="solicitud-email" className="text-[13px]">{texto.email}</label>
             <input id="solicitud-email" type="email" maxLength={254} required autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-2 min-h-[44px] w-full border border-border bg-transparent px-3" /></div>
           <label className="flex items-start gap-3 text-[13px]"><input type="checkbox" checked={acepta} onChange={e => setAcepta(e.target.checked)} className="mt-1 accent-current" /><span>{texto.consentimiento}{" "}<Link to="/privacidad" target="_blank" rel="noopener noreferrer" className="text-primary underline">Privacidad</Link></span></label>

@@ -120,9 +120,10 @@ export type Database = {
         Row: {
           created_at: string
           email: string
-          fecha: string
+          fecha: string | null
           id: string
-          potencia_ph: number
+          mensaje: string | null
+          potencia_ph: number | null
           referrer: string | null
           utm_campaign: string | null
           utm_content: string | null
@@ -133,9 +134,10 @@ export type Database = {
         Insert: {
           created_at?: string
           email: string
-          fecha: string
+          fecha?: string | null
           id?: string
-          potencia_ph: number
+          mensaje?: string | null
+          potencia_ph?: number | null
           referrer?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
@@ -146,9 +148,10 @@ export type Database = {
         Update: {
           created_at?: string
           email?: string
-          fecha?: string
+          fecha?: string | null
           id?: string
-          potencia_ph?: number
+          mensaje?: string | null
+          potencia_ph?: number | null
           referrer?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
