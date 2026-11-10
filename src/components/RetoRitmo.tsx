@@ -168,7 +168,7 @@ export function RetoRitmo() {
         </p>
       </div>
       <p key={evento} className="aparece mt-1 min-h-[3em] text-[17px]" aria-live="polite">
-        {t.eventos[evento].texto}
+        {t.eventos[evento]?.texto}
       </p>
       <div className="mt-1 h-[3px] w-full bg-border">
         <div className="h-full bg-primary" style={{ width: `${(s.seg / DURACION) * 100}%` }} />
