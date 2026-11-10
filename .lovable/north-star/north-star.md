@@ -2,8 +2,8 @@
 
 # Estrella guía
 
-Los principiantes minan Bitcoin real, cobrado en su propia wallet
+Que cualquier persona sin conocimientos entienda cómo funciona la minería de Bitcoin
 
 ## Métrica
 
-Sesiones de minería iniciadas cada mes
+Personas que completan una herramienta de aprendizaje cada mes
