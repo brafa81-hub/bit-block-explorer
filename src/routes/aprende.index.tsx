@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { CAPITULOS, minutosLectura } from "@/content/mining101";
 import { idx } from "@/content/glosario";
+import { RETO } from "@/content/reto";
 
 const URL = "https://bloque170.com/aprende";
 const TITULO = "Aprende minería de Bitcoin desde cero";
@@ -39,6 +40,11 @@ function Indice() {
           </li>
         ))}
       </ol>
+      <Link to="/aprende/reto-10-minutos" className="mt-8 block border border-primary p-5 hover:opacity-90">
+        <span className="index-label">{RETO.enlaceIndice.etiqueta}</span>
+        <span className="mt-1 block text-xl">{RETO.enlaceIndice.titulo}</span>
+        <span className="mt-1 block text-[15px] text-muted-foreground">{RETO.enlaceIndice.texto}</span>
+      </Link>
       <Link to="/aprende/test" className="mt-8 inline-flex min-h-[44px] items-center border border-border px-5 text-[15px] hover:border-foreground">
         Test final y certificado
       </Link>

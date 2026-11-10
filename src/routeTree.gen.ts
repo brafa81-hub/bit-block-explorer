@@ -18,6 +18,7 @@ import { Route as ApiRedRouteImport } from './routes/api/red'
 import { Route as AprendeIndexRouteImport } from './routes/aprende.index'
 import { Route as AprendeSlugRouteImport } from './routes/aprende.$slug'
 import { Route as AprendeQuizRouteImport } from './routes/aprende.quiz'
+import { Route as AprendeReto10MinutosRouteImport } from './routes/aprende.reto-10-minutos'
 import { Route as AprendeTestRouteImport } from './routes/aprende.test'
 import { Route as DiccionarioIndexRouteImport } from './routes/diccionario.index'
 import { Route as DiccionarioSlugRouteImport } from './routes/diccionario.$slug'
@@ -67,6 +68,11 @@ const AprendeQuizRoute = AprendeQuizRouteImport.update({
   path: '/aprende/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AprendeReto10MinutosRoute = AprendeReto10MinutosRouteImport.update({
+  id: '/aprende/reto-10-minutos',
+  path: '/aprende/reto-10-minutos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AprendeTestRoute = AprendeTestRouteImport.update({
   id: '/aprende/test',
   path: '/aprende/test',
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/api/red': typeof ApiRedRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
+  '/aprende/reto-10-minutos': typeof AprendeReto10MinutosRoute
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/aprende/': typeof AprendeIndexRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/api/red': typeof ApiRedRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
+  '/aprende/reto-10-minutos': typeof AprendeReto10MinutosRoute
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/aprende': typeof AprendeIndexRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/api/red': typeof ApiRedRoute
   '/aprende/$slug': typeof AprendeSlugRoute
   '/aprende/quiz': typeof AprendeQuizRoute
+  '/aprende/reto-10-minutos': typeof AprendeReto10MinutosRoute
   '/aprende/test': typeof AprendeTestRoute
   '/diccionario/$slug': typeof DiccionarioSlugRoute
   '/aprende/': typeof AprendeIndexRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/api/red'
     | '/aprende/$slug'
     | '/aprende/quiz'
+    | '/aprende/reto-10-minutos'
     | '/aprende/test'
     | '/diccionario/$slug'
     | '/aprende/'
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/api/red'
     | '/aprende/$slug'
     | '/aprende/quiz'
+    | '/aprende/reto-10-minutos'
     | '/aprende/test'
     | '/diccionario/$slug'
     | '/aprende'
@@ -165,6 +176,7 @@ export interface FileRouteTypes {
     | '/api/red'
     | '/aprende/$slug'
     | '/aprende/quiz'
+    | '/aprende/reto-10-minutos'
     | '/aprende/test'
     | '/diccionario/$slug'
     | '/aprende/'
@@ -180,6 +192,7 @@ export interface RootRouteChildren {
   ApiRedRoute: typeof ApiRedRoute
   AprendeSlugRoute: typeof AprendeSlugRoute
   AprendeQuizRoute: typeof AprendeQuizRoute
+  AprendeReto10MinutosRoute: typeof AprendeReto10MinutosRoute
   AprendeTestRoute: typeof AprendeTestRoute
   DiccionarioSlugRoute: typeof DiccionarioSlugRoute
   AprendeIndexRoute: typeof AprendeIndexRoute
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AprendeQuizRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aprende/reto-10-minutos': {
+      id: '/aprende/reto-10-minutos'
+      path: '/aprende/reto-10-minutos'
+      fullPath: '/aprende/reto-10-minutos'
+      preLoaderRoute: typeof AprendeReto10MinutosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/aprende/test': {
       id: '/aprende/test'
       path: '/aprende/test'
@@ -284,6 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiRedRoute: ApiRedRoute,
   AprendeSlugRoute: AprendeSlugRoute,
   AprendeQuizRoute: AprendeQuizRoute,
+  AprendeReto10MinutosRoute: AprendeReto10MinutosRoute,
   AprendeTestRoute: AprendeTestRoute,
   DiccionarioSlugRoute: DiccionarioSlugRoute,
   AprendeIndexRoute: AprendeIndexRoute,
