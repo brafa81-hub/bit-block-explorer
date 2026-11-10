@@ -38,7 +38,11 @@ function eventoEn(seg: number) {
 /** La suerte de cada bloque, acotada para que el reto dependa de tu pulso y no del azar. */
 const umbral = () => 0.6 + 0.8 * Math.random();
 
-const ritmo = (min: number): Ritmo => (min < BIEN_MIN ? "rapido" : min > BIEN_MAX ? "lento" : "bien");
+/** Se decide con los minutos redondeados, los mismos que ve el jugador. */
+const ritmo = (min: number): Ritmo => {
+  const m = Math.round(min);
+  return m < BIEN_MIN ? "rapido" : m > BIEN_MAX ? "lento" : "bien";
+};
 const bien = (min: number) => ritmo(min) === "bien";
 
 export function RetoRitmo() {
@@ -198,7 +202,7 @@ export function RetoRitmo() {
           <div
             key={b.n}
             className={`caer hash-text flex h-[34px] shrink-0 items-center justify-between border px-3 text-[13px] ${
-              bien(b.min) ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground"
+              bien(b.min) ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/40 bg-muted-foreground/30 text-foreground"
             }`}
           >
             <span>Bloque #{b.n}</span>
