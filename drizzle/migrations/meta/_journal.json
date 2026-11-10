@@ -64,6 +64,13 @@
       "when": 1794316264482,
       "tag": "0008_eliminar_juego",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794317227069,
+      "tag": "0009_aplicar_eliminar_juego_pendiente",
+      "breakpoints": true
     }
   ]
 }

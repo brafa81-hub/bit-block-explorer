@@ -1,0 +1,2 @@
+-- Aplicar la migración pendiente 0008_eliminar_juego.sql del repositorio sin modificar su contenido.
+-- Esta entrada no añade cambios: la eliminación está definida íntegramente en 0008.

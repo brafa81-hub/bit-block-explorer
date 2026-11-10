@@ -62,208 +62,6 @@ export type Database = {
         }
         Relationships: []
       }
-      game_challenges: {
-        Row: {
-          best_fee: number
-          capacity: number
-          id: number
-          name: string
-          time_limit: number
-          transactions: Json
-        }
-        Insert: {
-          best_fee: number
-          capacity: number
-          id: number
-          name: string
-          time_limit: number
-          transactions: Json
-        }
-        Update: {
-          best_fee?: number
-          capacity?: number
-          id?: number
-          name?: string
-          time_limit?: number
-          transactions?: Json
-        }
-        Relationships: []
-      }
-      game_entries: {
-        Row: {
-          alias: string
-          confirmation_hash: string
-          confirmed_at: string | null
-          consent_at: string
-          email: string
-          hidden: boolean
-          id: string
-          play_day: string
-          reviewed: boolean
-          run_id: string
-          score: number
-          total_ms: number
-          week: string
-        }
-        Insert: {
-          alias: string
-          confirmation_hash: string
-          confirmed_at?: string | null
-          consent_at?: string
-          email: string
-          hidden?: boolean
-          id?: string
-          play_day: string
-          reviewed?: boolean
-          run_id: string
-          score: number
-          total_ms: number
-          week: string
-        }
-        Update: {
-          alias?: string
-          confirmation_hash?: string
-          confirmed_at?: string | null
-          consent_at?: string
-          email?: string
-          hidden?: boolean
-          id?: string
-          play_day?: string
-          reviewed?: boolean
-          run_id?: string
-          score?: number
-          total_ms?: number
-          week?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_entries_run_id_fkey"
-            columns: ["run_id"]
-            isOneToOne: true
-            referencedRelation: "game_runs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      game_events: {
-        Row: {
-          email: string | null
-          extra: Json
-          fecha: string
-          id: string
-          ref: string | null
-          run_id: string | null
-          tipo: string
-          visitor_id: string
-        }
-        Insert: {
-          email?: string | null
-          extra?: Json
-          fecha?: string
-          id?: string
-          ref?: string | null
-          run_id?: string | null
-          tipo: string
-          visitor_id: string
-        }
-        Update: {
-          email?: string | null
-          extra?: Json
-          fecha?: string
-          id?: string
-          ref?: string | null
-          run_id?: string | null
-          tipo?: string
-          visitor_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_events_run_id_fkey"
-            columns: ["run_id"]
-            isOneToOne: false
-            referencedRelation: "game_runs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      game_rounds: {
-        Row: {
-          challenge_id: number
-          elapsed_ms: number | null
-          run_id: string
-          score: number | null
-          selected: Json | null
-          started_at: string
-          submitted_at: string | null
-        }
-        Insert: {
-          challenge_id: number
-          elapsed_ms?: number | null
-          run_id: string
-          score?: number | null
-          selected?: Json | null
-          started_at?: string
-          submitted_at?: string | null
-        }
-        Update: {
-          challenge_id?: number
-          elapsed_ms?: number | null
-          run_id?: string
-          score?: number | null
-          selected?: Json | null
-          started_at?: string
-          submitted_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_rounds_challenge_id_fkey"
-            columns: ["challenge_id"]
-            isOneToOne: false
-            referencedRelation: "game_challenges"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "game_rounds_run_id_fkey"
-            columns: ["run_id"]
-            isOneToOne: false
-            referencedRelation: "game_runs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      game_runs: {
-        Row: {
-          completed_at: string | null
-          id: string
-          ref: string | null
-          score: number | null
-          secret: string
-          started_at: string
-          total_ms: number | null
-          visitor_id: string
-        }
-        Insert: {
-          completed_at?: string | null
-          id?: string
-          ref?: string | null
-          score?: number | null
-          secret?: string
-          started_at?: string
-          total_ms?: number | null
-          visitor_id: string
-        }
-        Update: {
-          completed_at?: string | null
-          id?: string
-          ref?: string | null
-          score?: number | null
-          secret?: string
-          started_at?: string
-          total_ms?: number | null
-          visitor_id?: string
-        }
-        Relationships: []
-      }
       lista_espera: {
         Row: {
           cantidad: number
@@ -360,47 +158,8 @@ export type Database = {
         }
         Relationships: []
       }
-      user_roles: {
-        Row: {
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
-      game_ranking: {
-        Row: {
-          alias: string | null
-          score: number | null
-          total_ms: number | null
-          week: string | null
-        }
-        Insert: {
-          alias?: string | null
-          score?: number | null
-          total_ms?: number | null
-          week?: string | null
-        }
-        Update: {
-          alias?: string | null
-          score?: number | null
-          total_ms?: number | null
-          week?: string | null
-        }
-        Relationships: []
-      }
       resumen_diario: {
         Row: {
           clics_comprar: number | null
@@ -442,44 +201,10 @@ export type Database = {
       }
     }
     Functions: {
-      game_enroll: {
-        Args: {
-          _alias: string
-          _email: string
-          _hash: string
-          _run: string
-          _secret: string
-        }
-        Returns: string
-      }
-      game_start: {
-        Args: {
-          _ref: string
-          _run?: string
-          _secret?: string
-          _visitor: string
-        }
-        Returns: Json
-      }
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      submit_game: {
-        Args: {
-          _challenge: number
-          _run: string
-          _secret: string
-          _selected: string[]
-        }
-        Returns: Json
-      }
+      [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "user"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -606,8 +331,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      app_role: ["admin", "user"],
-    },
+    Enums: {},
   },
 } as const
